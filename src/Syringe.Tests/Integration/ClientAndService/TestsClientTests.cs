@@ -205,13 +205,13 @@ namespace Syringe.Tests.Integration.ClientAndService
 			testFile.Tests = new List<Test>();
 
 			// when
-			bool success = client.UpdateTestFile(testFile, ServiceConfig.BranchName);
+			bool success = client.UpdateTestVariables(testFile, ServiceConfig.BranchName);
 
 			// then
 			Assert.True(success);
 
 			TestFile actualTestFile = client.GetTestFile(testFile.Filename, ServiceConfig.BranchName);
-			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(0));
+			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
 		}
 
 		[Test]

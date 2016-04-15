@@ -196,7 +196,6 @@
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\CapturedVariable.cs" />
-    <Compile Include="Xml\Reader\WebInjectFileReader.cs" />
     <Compile Include="Xml\Reader\TestFileReader.cs" />
     <Compile Include="Xml\Writer\ITestFileWriter.cs" />
     <Compile Include="Xml\Writer\Utf8StringWriter.cs" />

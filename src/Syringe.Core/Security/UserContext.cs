@@ -9,7 +9,7 @@ namespace Syringe.Core.Security
 	{
 		public string Id { get; set; }
 		public string FullName { get; set; }
-		public string DefaultBranchName => "master";
+		public string DefaultBranchName => "";
 
 		public static UserContext GetFromFormsAuth(HttpContextBase httpContext)
 		{

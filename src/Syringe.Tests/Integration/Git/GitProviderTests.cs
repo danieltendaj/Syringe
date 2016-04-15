@@ -8,6 +8,7 @@ using Syringe.Core.Git;
 namespace Syringe.Tests.Integration.Git
 {
 	[TestFixture]
+	[Explicit]
 	public class GitProviderTests
 	{
 		private string _basePath;

@@ -63,6 +63,56 @@ namespace Syringe.Service.Parallel
 		}
 
 		/// <summary>
+		/// Hacky, will be fixed later.
+		/// </summary>
+		internal string RunTestFile(string filename)
+		{
+			try
+			{
+				string branchName = "";
+				string xmlFilename = filename;
+				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, xmlFilename);
+				string xml = File.ReadAllText(fullPath);
+
+				using (var stringReader = new StringReader(xml))
+				{
+					var testCaseReader = new TestFileReader();
+					TestFile testFile = testCaseReader.Read(stringReader);
+					testFile.Filename = xmlFilename;
+
+					var httpClient = new HttpClient(new RestClient());
+
+					var runner = new TestFileRunner(httpClient, _repository);
+					Task<TestFileResult> task = runner.RunAsync(testFile);
+					bool success = task.Wait(TimeSpan.FromMinutes(3));
+
+					if (success)
+					{
+						int failCount = runner.CurrentResults.Count(x => x.Success);
+						if (failCount == 0)
+						{
+							return "success";
+						}
+						else
+						{
+							IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
+							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.ShortDescription+ "'"));
+							return $"fail - tests that failed: {names}";
+						}
+					}
+					else
+					{
+						return "fail - the runner timed out or crashed.";
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				return "fail - " + e.ToString();
+			}
+		}
+
+		/// <summary>
 		/// Starts the test file run.
 		/// </summary>
 		internal async Task StartSessionAsync(TestFileRunnerTaskInfo item)
@@ -115,6 +165,7 @@ namespace Syringe.Service.Parallel
 					Username = task.Username,
 					BranchName = task.BranchName,
 					Status = task.CurrentTask.Status.ToString(),
+					IsComplete = task.CurrentTask.IsCompleted,
 					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
 					TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
 				};

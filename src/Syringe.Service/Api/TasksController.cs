@@ -1,11 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Web.Http;
+using RestSharp;
+using Syringe.Core.Http;
+using Syringe.Core.Runner;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
+using Syringe.Core.Tests;
+using Syringe.Core.Xml.Reader;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api
 {
-	// TODO: Tests
 	public class TasksController : ApiController, ITasksService
 	{
 		private readonly ITestFileQueue _fileQueue;
@@ -13,6 +22,14 @@ namespace Syringe.Service.Api
 		public TasksController(ITestFileQueue fileQueue)
 		{
 			_fileQueue = fileQueue;
+		}
+
+		[Route("api/tasks/RunTestFileAndWait")]
+		[HttpGet]
+		public string RunTestFileAndWait(string filename)
+		{
+			string status = ((ParallelTestFileQueue) _fileQueue).RunTestFile(filename);
+			return status;
 		}
 
 		[Route("api/tasks/Start")]

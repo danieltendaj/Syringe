@@ -7,7 +7,7 @@
 <head>
     <title>@ViewBag.Title - Syringe</title>
     <link href="~/Css/Syringe.css?v=@typeof(Startup).Assembly.GetName().Version" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -30,16 +30,10 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">View <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Results</li>
-                            <li><a href="/home/todaysresults">Today's results</a></li>
-                            <li><a href="/home/allresults">All results</a></li>
-                        </ul>
-                    </li>
+                    <li class="@(Request.RawUrl =="/"? "active" :"")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+                    <li class="@(Request.RawUrl.Contains("/home/allresults") ? "active" :"")"><a href="/home/allresults">All results</a></li>
+                    <li class="@(Request.RawUrl.Contains("/home/todaysresults") ? "active" :"")"><a href="/home/todaysresults">Today's results</a></li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -60,8 +54,8 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/material.js"></script>
-	<script src="~/Scripts/ripples.js"></script>
-	<script src="~/Scripts/bootbox.min.js"></script>
+    <script src="~/Scripts/ripples.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
     @Scripts.Render("~/bundles/Syringe")
     <script>
         $.material.init();

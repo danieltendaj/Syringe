@@ -20,7 +20,7 @@
                     @foreach (TestFileResultSummary session in Model)
                     {
                         <tr>
-                            <td>@session.DateRun</td>
+                            <td>@session.DateRun.ToLocalTime()</td>
                             <td>
                                 @session.FileName
 

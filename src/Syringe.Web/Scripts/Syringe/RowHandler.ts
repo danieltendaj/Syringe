@@ -33,6 +33,10 @@
             testRow.$Button.on("click", { test: testRow }, this.addRow);
         }
     }
+
+    public updateElementValue = ($element, iRowNumber, attribute) => {
+        $element.attr(attribute, $element.attr(attribute).replace(/\[\d\]/, "[" + iRowNumber.toString() + "]"));
+    }
 }
 
 

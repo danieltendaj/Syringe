@@ -10,6 +10,7 @@ namespace Syringe.Web.Models
         [Required]
         public string Value { get; set; }
 
+        [Required]
 	    public string Environment { get; set; }
     }
 }

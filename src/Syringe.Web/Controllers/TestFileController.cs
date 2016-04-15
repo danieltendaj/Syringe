@@ -78,7 +78,7 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
 				};
 
-                bool updateTestFile = _testsClient.UpdateTestFile(testFile, _userContext.DefaultBranchName);
+                bool updateTestFile = _testsClient.UpdateTestVariables(testFile, _userContext.DefaultBranchName);
                 if (updateTestFile)
                     return RedirectToAction("Index", "Home");
             }

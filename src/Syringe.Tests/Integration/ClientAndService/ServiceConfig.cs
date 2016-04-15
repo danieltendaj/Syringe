@@ -16,7 +16,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		private static string _xmlDirectoryPath;
 
 		public static string MongodbDatabaseName => "Syringe-Tests";
-		public static string BranchName => "master";
+		public static string BranchName => "";
 		public static IDisposable OwinServer;
 
 		public static string BaseUrl
@@ -39,7 +39,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		}
 
 		/// <summary>
-		/// The full branch path, e.g. ...\bin\debug\integration\master
+		/// The full branch path, e.g. ...\bin\debug\integration\xml
 		/// </summary>
 		public static string XmlDirectoryPath
 		{
@@ -47,8 +47,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			{
 				if (string.IsNullOrEmpty(_xmlDirectoryPath))
 				{
-					string integrationFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration");
-					_xmlDirectoryPath = Path.Combine(integrationFolder, BranchName);
+					_xmlDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Xml");
 				}
 
 				return _xmlDirectoryPath;
@@ -57,12 +56,12 @@ namespace Syringe.Tests.Integration.ClientAndService
 
 		public static void StartSelfHostedOwin()
 		{
-			string integrationFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration");
+			string xmlFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Xml");
 
 			var jsonConfiguration = new JsonConfiguration()
 			{
 				MongoDbDatabaseName = MongodbDatabaseName,
-				TestFilesBaseDirectory = integrationFolder,
+				TestFilesBaseDirectory = xmlFolder,
 				ServiceUrl = BaseUrl
 			};
 

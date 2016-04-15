@@ -48,7 +48,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _tasksClient.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"BranchName\":null,\"Status\":null,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
+            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"BranchName\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
         }
 
         [Test]

@@ -172,7 +172,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void UpdateTestFile_should_return_true_if_file_exists()
         {
             // given + when
-            bool success = _testRepository.UpdateTestFile(new TestFile { Filename = "filePath.xml" }, It.IsAny<string>());
+            bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = "filePath.xml" }, It.IsAny<string>());
 
             // then
             Assert.IsTrue(success);

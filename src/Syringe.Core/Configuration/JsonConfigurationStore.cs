@@ -22,6 +22,11 @@ namespace Syringe.Core.Configuration
 				string json = File.ReadAllText(_configPath);
 				JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);
 
+				if (!string.IsNullOrEmpty(configuration.TestFilesBaseDirectory))
+				{
+					configuration.TestFilesBaseDirectory = Path.GetFullPath(configuration.TestFilesBaseDirectory);
+				}
+
 				_configuration = configuration;
 			}
 

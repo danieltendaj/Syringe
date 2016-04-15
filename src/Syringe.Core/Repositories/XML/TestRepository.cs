@@ -148,7 +148,7 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(filePath, contents);
 		}
 
-		public bool UpdateTestFile(TestFile testFile, string branchName)
+		public bool UpdateTestVariables(TestFile testFile, string branchName)
 		{
 			string fileFullPath = _fileHandler.GetFileFullPath(branchName, testFile.Filename);
 			string xml = _fileHandler.ReadAllText(fileFullPath);
@@ -157,7 +157,6 @@ namespace Syringe.Core.Repositories.XML
 			{
 				TestFile updatedTestFile = _testFileReader.Read(stringReader);
 
-				updatedTestFile.Tests = testFile.Tests;
 				updatedTestFile.Variables = testFile.Variables;
 
 				string contents = _testFileWriter.Write(updatedTestFile);

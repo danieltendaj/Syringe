@@ -11,6 +11,7 @@ namespace Syringe.Core.Tasks
 		public string BranchName { get; set; }
 
 		public string Status { get; set; }
+		public bool IsComplete { get; set; }
 		public int CurrentIndex { get; set; }
 		public int TotalTests { get; set; }
 

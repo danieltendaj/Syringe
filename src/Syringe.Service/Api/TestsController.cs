@@ -75,11 +75,11 @@ namespace Syringe.Service.Api
             return _testRepository.CreateTestFile(testFile, branchName);
         }
 
-        [Route("api/tests/UpdateTestFile")]
+        [Route("api/tests/UpdateTestVariables")]
         [HttpPost]
-        public bool UpdateTestFile([FromBody]TestFile testFile, [FromUri]string branchName)
+        public bool UpdateTestVariables([FromBody]TestFile testFile, [FromUri]string branchName)
         {
-            return _testRepository.UpdateTestFile(testFile, branchName);
+            return _testRepository.UpdateTestVariables(testFile, branchName);
         }
 
         [Route("api/tests/GetSummariesForToday")]

@@ -18,8 +18,9 @@ namespace Syringe.Core.IO
 
         public string GetFileFullPath(string branchName, string fileName)
         {
-            string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
-            if (!File.Exists(fullPath))
+	        string fullPath = CreateFileFullPath(branchName, fileName);
+
+			if (!File.Exists(fullPath))
                 throw new FileNotFoundException("The test file path cannot be found", fileName);
 
             return fullPath;
@@ -27,7 +28,18 @@ namespace Syringe.Core.IO
 
         public string CreateFileFullPath(string branchName, string fileName)
         {
-            return Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
+			string fullPath = "";
+
+			if (!string.IsNullOrEmpty(branchName))
+			{
+				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
+			}
+			else
+			{
+				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, fileName);
+			}
+
+	        return fullPath;
         }
 
         public bool FileExists(string filePath)
@@ -37,7 +49,17 @@ namespace Syringe.Core.IO
 
         public string GetBranchDirectoryFullPath(string branchName)
         {
-            string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName);
+			string fullPath = "";
+
+			if (!string.IsNullOrEmpty(branchName))
+			{
+				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName);
+			}
+			else
+			{
+				fullPath = _configuration.TestFilesBaseDirectory;
+			}
+
             if (!Directory.Exists(fullPath))
                 throw new DirectoryNotFoundException(string.Format("The path '{0}' for branch {0} cannot be found", fullPath, branchName));
 
@@ -58,7 +80,6 @@ namespace Syringe.Core.IO
             }
             catch (Exception exception)
             {
-                //todo log error
                 Log.Error(exception, exception.Message);
             }
 
@@ -98,7 +119,6 @@ namespace Syringe.Core.IO
             }
             catch (Exception exception)
             {
-                //todo log error
                 Log.Error(exception, exception.Message);
             }
 

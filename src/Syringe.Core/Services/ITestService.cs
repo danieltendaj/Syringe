@@ -16,7 +16,7 @@ namespace Syringe.Core.Services
 	    bool CreateTest(Test test, string branchName);
         bool DeleteTest(int position, string fileName, string branchName);
 	    bool CreateTestFile(TestFile testFile, string branchName);
-	    bool UpdateTestFile(TestFile testFile, string branchName);
+	    bool UpdateTestVariables(TestFile testFile, string branchName);
 	    IEnumerable<TestFileResultSummary> GetSummariesForToday();
 	    IEnumerable<TestFileResultSummary> GetSummaries();
         TestFileResult GetResultById(Guid id);

@@ -115,10 +115,10 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-	    public bool UpdateTestFile(TestFile testFile, string branchName)
+	    public bool UpdateTestVariables(TestFile testFile, string branchName)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("UpdateTestFile");
+            IRestRequest request = _restSharpHelper.CreateRequest("UpdateTestVariables");
             request.Method = Method.POST;
             request.AddJsonBody(testFile);
             request.AddQueryParameter("branchName", branchName);

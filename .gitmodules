@@ -1,0 +1,3 @@
+[submodule "Xml-Examples"]
+	path = Xml-Examples
+	url = https://github.com/TotalJobsGroup/Syringe-Examples.git

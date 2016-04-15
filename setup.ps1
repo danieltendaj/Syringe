@@ -8,7 +8,6 @@
 # 3. Copies an example test case XML file to that location
 # ===============================================================================
 $ErrorActionPreference = "Stop"
-$xmlDir     = "D:\syringe\master"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
@@ -35,13 +34,6 @@ Write-Host "Building solution." -ForegroundColor Green
 # Setup IIS
 Write-Host "Running IIS install script." -ForegroundColor Green
 .\src\Syringe.Web\bin\iis.ps1 -websitePath "$websiteDir" -websitePort 1980
-
-# Create c:\syringe\teamname
-Write-Host "Creating $xmlDir and copying example XML file" -ForegroundColor Green
-md $xmlDir -ErrorAction Ignore
-
-# Copy a test file there
-Copy-Item -Path "src\Syringe.Tests\Integration\Xml\XmlExamples\Runner\50-cases.xml" -Destination "$xmlDir\50-cases.xml"  -ErrorAction Ignore
 
 # Done
 Write-Host ""
