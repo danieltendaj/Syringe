@@ -16,6 +16,12 @@ namespace Syringe.Web.ModelBuilders
                 throw new ArgumentNullException(nameof(test));
             }
 
+            MethodType methodType;
+            if (!Enum.TryParse(test.Method, true, out methodType))
+            {
+                methodType = MethodType.GET;
+            }
+
             var model = new TestViewModel
             {
                 Position = test.Position,
@@ -24,7 +30,7 @@ namespace Syringe.Web.ModelBuilders
                 LongDescription = test.LongDescription,
                 CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Description = x.Name, Regex = x.Regex }).ToList(),
                 PostBody = test.PostBody,
-                Method = (MethodType)Enum.Parse(typeof(MethodType), test.Method, true),
+                Method = methodType,
                 VerifyResponseCode = test.VerifyResponseCode,
                 ShortDescription = test.ShortDescription,
                 Url = test.Url,
