@@ -32,7 +32,7 @@ namespace Syringe.Core.Xml.Reader
                 XElement element = elements[i];
                 Test test = GetTest(element, i);
                 test.AvailableVariables = testFile.Variables.Select(x => new Variable { Name = x.Name, Value = x.Value }).ToList();
-                test.AvailableVariables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new Variable { Name = x.Name, Value = x.Regex }));
+                test.AvailableVariables.AddRange(tests.SelectMany(x => x.CapturedVariables).Select(x => new Variable { Name = x.Name, Value = x.Regex }));
                 tests.Add(test);
             }
             testFile.Tests = tests;
