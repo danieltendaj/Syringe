@@ -24,7 +24,7 @@ namespace Syringe.Web.ModelBuilders
                 LongDescription = test.LongDescription,
                 CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Description = x.Name, Regex = x.Regex }).ToList(),
                 PostBody = test.PostBody,
-                PostType = (PostType)Enum.Parse(typeof(PostType), test.PostType),
+                Method = (MethodType)Enum.Parse(typeof(MethodType), test.Method, true),
                 VerifyResponseCode = test.VerifyResponseCode,
                 ShortDescription = test.ShortDescription,
                 Url = test.Url,
@@ -70,7 +70,7 @@ namespace Syringe.Web.ModelBuilders
                 Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
                 ShortDescription = testModel.ShortDescription,
                 Url = testModel.Url,
-                PostType = testModel.PostType.ToString(),
+                Method = testModel.Method.ToString(),
                 VerifyResponseCode = testModel.VerifyResponseCode,
             };
         }

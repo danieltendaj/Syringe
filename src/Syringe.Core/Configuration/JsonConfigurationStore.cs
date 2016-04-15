@@ -24,7 +24,16 @@ namespace Syringe.Core.Configuration
 
 				if (!string.IsNullOrEmpty(configuration.TestFilesBaseDirectory))
 				{
-					configuration.TestFilesBaseDirectory = Path.GetFullPath(configuration.TestFilesBaseDirectory);
+					if (configuration.TestFilesBaseDirectory.StartsWith(".."))
+					{
+						// Convert a relative path
+						string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuration.TestFilesBaseDirectory);
+						configuration.TestFilesBaseDirectory = Path.GetFullPath(fullPath);
+					}
+					else
+					{
+						configuration.TestFilesBaseDirectory = Path.GetFullPath(configuration.TestFilesBaseDirectory);
+					}
 				}
 
 				_configuration = configuration;

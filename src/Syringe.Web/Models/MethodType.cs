@@ -1,6 +1,6 @@
 namespace Syringe.Web.Models
 {
-	public enum PostType
+	public enum MethodType
 	{
 		GET,
 		POST

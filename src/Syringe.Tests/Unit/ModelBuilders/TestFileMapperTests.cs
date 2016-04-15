@@ -29,7 +29,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(2, build.Assertions.Count);
 			Assert.AreEqual(testViewModel.ShortDescription, build.ShortDescription);
 			Assert.AreEqual(testViewModel.Url, build.Url);
-			Assert.AreEqual(testViewModel.PostType.ToString(), build.PostType);
+			Assert.AreEqual(testViewModel.Method.ToString(), build.Method);
 			Assert.AreEqual(testViewModel.VerifyResponseCode, build.VerifyResponseCode);
 		}
 
@@ -104,9 +104,9 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				Url = "http://www.google.com",
 				ErrorMessage = "Error",
 				LongDescription = "Long Description",
-				Method = "Method",
+				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
-				PostType = PostType.GET.ToString(),
+				//PostType = MethodType.GET.ToString(),
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
@@ -125,7 +125,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
 			Assert.AreEqual(test.LongDescription, testViewModel.LongDescription);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
-			Assert.AreEqual(PostType.GET, testViewModel.PostType);
+			Assert.AreEqual(MethodType.GET, testViewModel.Method);
 			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
 			Assert.AreEqual(test.Filename, testViewModel.Filename);
 
@@ -151,7 +151,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 							   new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Positive } },
 					ShortDescription = "short d3escription",
 					Url = "url",
-					PostType = PostType.POST,
+					Method = MethodType.POST,
 					VerifyResponseCode = HttpStatusCode.Accepted,
 				};
 			}

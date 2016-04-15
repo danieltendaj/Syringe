@@ -20,7 +20,14 @@ namespace Syringe.Client
 				return JsonConvert.DeserializeObject<T>(response.Content);
 			}
 
-			throw new ClientException("{0} - {1}", response.StatusCode, response.Content);
+			if (response.StatusCode == 0)
+			{
+				throw new ClientException("REST Client error, status code 0 - {0}.", response.ErrorMessage);
+			}
+			else
+			{
+				throw new ClientException("REST Client error: status code {0} - {1}", response.StatusCode, response.Content);
+			}
 		}
 
 		public IRestRequest CreateRequest(string action)

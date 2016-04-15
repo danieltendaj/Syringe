@@ -29,8 +29,7 @@ namespace Syringe.Web.Models
         public string ErrorMessage { get; set; }
 
         [Required]
-        [Display(Name = "Post Type")]
-        public PostType PostType { get; set; }
+        public MethodType Method { get; set; }
 
         [Display(Name = "Verify Response Code")]
         public HttpStatusCode VerifyResponseCode { get; set; }

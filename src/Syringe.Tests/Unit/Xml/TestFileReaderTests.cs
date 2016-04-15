@@ -345,5 +345,42 @@ namespace Syringe.Tests.Unit.Xml
             Assert.That(test.Assertions[5].Regex, Is.EqualTo("negative 66"));
         }
 
+        [Test]
+        public void Read_should_add_base_variables()
+        {
+            // Arrange
+            string xml = GetFullExample();
+            var stringReader = new StringReader(xml);
+            var testFileReader = GetTestFileReader();
+
+            // Act
+            TestFile testFile = testFileReader.Read(stringReader);
+
+            // Assert
+            Test test = testFile.Tests.First();
+            Assert.That(test.AvailableVariables.Count, Is.EqualTo(4));
+            Assert.That(test.AvailableVariables[0].Name, Is.EqualTo("LOGIN_URL"));
+            Assert.That(test.AvailableVariables[1].Name, Is.EqualTo("LOGIN1"));
+            Assert.That(test.AvailableVariables[2].Name, Is.EqualTo("PASSWD1"));
+            Assert.That(test.AvailableVariables[3].Name, Is.EqualTo("SUCCESSFULL_TEST_TEXT"));
+        }
+
+        [Test]
+        public void Read_should_add_captured_variables()
+        {
+            // Arrange
+            string xml = GetFullExample();
+            var stringReader = new StringReader(xml);
+            var testFileReader = GetTestFileReader();
+
+            // Act
+            TestFile testFile = testFileReader.Read(stringReader);
+
+            // Assert
+            Test test = testFile.Tests.ElementAtOrDefault(1);
+            Assert.That(test.AvailableVariables.Count, Is.EqualTo(5));
+            Assert.That(test.AvailableVariables[4].Name, Is.EqualTo("test"));
+        }
+
     }
 }

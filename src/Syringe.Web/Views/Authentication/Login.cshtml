@@ -1,30 +1,42 @@
-﻿@model AuthenticationViewModel
+﻿@{
+	ViewBag.Title = "Login";
+}
+@model AuthenticationViewModel
 <div class="container">
     <div class="row">
-        <h1>Login</h1>
-        @using (Html.BeginForm())
-        {
-            <input type="hidden" value="@Model.ReturnUrl" />
+	    <h1>Login</h1>
+		@if (Model.IsOAuthConfigEmpty)
+		{
+			<div class="alert alert-warning">
+				<h4>No OAuth2 providers have been configured.</h4>
+				<p>Add a clientid/client secret for one of the providers in the service configuration.json file (inside the bin folder).</p>
+			</div>
+		}
+		else
+		{
+			using (Html.BeginForm())
+			{
+				<input type="hidden" value="@Model.ReturnUrl" />
 
-            if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientSecret))
-            {
-                <button type="submit" name="provider" value="Microsoft" class="btn-microsoft" style="height: 34px;">
-                    <span class="fa fa-windows"></span> Sign in with Microsoft
-                </button>
-            }
-            if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientSecret))
-            {
-                <button type="submit" name="provider" value="Google" class="btn-google" style="height: 34px;">
-                    <span class="fa fa-google"></span> Sign in with Google
-                </button>
-            }
-
-            if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientSecret))
-            {
-                <button type="submit" name="provider" value="GitHub" class="btn-github" style="height: 34px;">
-                    <span class="fa fa-github"></span> Sign in with Github
-                </button>
-            }
-        }
+				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientSecret))
+				{
+					<button type="submit" name="provider" value="Microsoft" class="btn-microsoft" style="height: 34px;">
+						<span class="fa fa-windows"></span> Sign in with Microsoft
+					</button>
+				}
+				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientSecret))
+				{
+					<button type="submit" name="provider" value="Google" class="btn-google" style="height: 34px;">
+						<span class="fa fa-google"></span> Sign in with Google
+					</button>
+				}
+				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientSecret))
+				{
+					<button type="submit" name="provider" value="GitHub" class="btn-github" style="height: 34px;">
+						<span class="fa fa-github"></span> Sign in with Github
+					</button>
+				}
+			}
+		}
     </div>
 </div>

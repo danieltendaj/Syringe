@@ -202,7 +202,7 @@
     <Compile Include="Controllers\JsonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Models\IRunViewModel.cs" />
-    <Compile Include="Models\PostType.cs" />
+    <Compile Include="Models\MethodType.cs" />
     <Compile Include="Models\RunningTestCaseViewModel.cs" />
     <Compile Include="Models\RunViewModel.cs" />
     <Compile Include="Models\TestViewModel.cs" />

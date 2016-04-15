@@ -29,9 +29,9 @@
 					<a href="#" class="btn btn-danger" id="tests-failed-count">
 						@Model.TotalTestsFailed tests failed
 					</a>
-					<a href="#" class="btn btn-info">
+					<div class="btn btn-info" style="cursor: default">
 						Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
-					</a>
+					</div>
 				</div>
 			</div>
 
@@ -57,9 +57,9 @@
 										</ul>
 
 										<p>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View Log</a>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTTP Log</a>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">>View HTML</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
+											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
 										</p>
 
 										@if (!string.IsNullOrEmpty(result.Message))
