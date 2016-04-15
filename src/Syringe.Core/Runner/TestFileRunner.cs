@@ -131,7 +131,9 @@ namespace Syringe.Core.Runner
             foreach (Test test in tests)
             {
                 if (_isStopPending)
+                {
                     break;
+                }
 
                 try
                 {
@@ -139,10 +141,14 @@ namespace Syringe.Core.Runner
                     AddResult(testFileResult, result);
 
                     if (result.ResponseTime < minResponseTime)
+                    {
                         minResponseTime = result.ResponseTime;
+                    }
 
                     if (result.ResponseTime > maxResponseTime)
+                    {
                         maxResponseTime = result.ResponseTime;
+                    }
                 }
                 catch (Exception ex)
                 {
