@@ -1,7 +1,7 @@
 ﻿{
 	"ServiceUrl": "http://*:1981",
 	"WebsiteUrl": "http://localhost:1980",
-	"TestFilesBaseDirectory": "C:\\code\\syringe-test-cases\\",
+	"TestFilesBaseDirectory": "D:\\Syringe\\",
 	"MongoDbDatabaseName": "Syringe",
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
