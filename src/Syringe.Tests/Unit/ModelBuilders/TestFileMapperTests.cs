@@ -104,7 +104,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				Url = "http://www.google.com",
 				ErrorMessage = "Error",
 				LongDescription = "Long Description",
-				Method = MethodType.GET.ToString(),
+				Method = MethodType.POST.ToString(),
 				PostBody = "PostBody",
 				//PostType = MethodType.GET.ToString(),
 				VerifyResponseCode = HttpStatusCode.Accepted,
@@ -125,7 +125,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
 			Assert.AreEqual(test.LongDescription, testViewModel.LongDescription);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
-			Assert.AreEqual(MethodType.GET, testViewModel.Method);
+			Assert.AreEqual(MethodType.POST, testViewModel.Method);
 			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
 			Assert.AreEqual(test.Filename, testViewModel.Filename);
 
@@ -133,6 +133,25 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(1, testViewModel.Assertions.Count);
 			Assert.AreEqual(1, test.Headers.Count);
 		}
+
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("something not valid")]
+        public void should_have_expected_fallback_value_when_method_is_unknown(string methodType)
+	    {
+            // given
+            var fileMapper = new TestFileMapper();
+            var test = new Test
+            {
+                Method =  methodType
+            };
+
+            // when
+            TestViewModel testViewModel = fileMapper.BuildViewModel(test);
+
+            // then
+            Assert.That(testViewModel.Method, Is.EqualTo(MethodType.GET));
+        }
 
 		private TestViewModel testViewModel
 		{
