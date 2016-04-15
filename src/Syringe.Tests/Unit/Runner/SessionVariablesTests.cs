@@ -6,45 +6,81 @@ using Syringe.Core.Tests;
 namespace Syringe.Tests.Unit.Runner
 {
 	public class SessionVariablesTests
-	{
-		[Test]
-		public void AddOrUpdateVariable_should_set_variable()
-		{
-			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+    {
+	    private const string _devEnvironment = "DEV";
+	    private const string _prodEnvironment = "PROD";
 
-			// Act
-			sessionVariables.AddOrUpdateVariable("nano", "leaf");
+        [Test]
+        public void AddOrUpdateVariable_should_set_variable()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+            var variable = new Variable("nano", "leaf", _devEnvironment);
 
-			// Assert
-			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
-		}
+            // Act
+            sessionVariables.AddOrUpdateVariable(variable);
 
-		[Test]
-		public void AddOrUpdateVariable_should_update_variable_when_already_set()
-		{
-			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
+        }
 
-			// Act
-			sessionVariables.AddOrUpdateVariable("nano", "leaf");
-			sessionVariables.AddOrUpdateVariable("nano", "leaf2");
+        [Test]
+        public void AddOrUpdateVariable_should_not_set_variable_when_in_different_environments()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+            var variable = new Variable("nano", "leaf", _prodEnvironment);
 
-			// Assert
-			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
-		}
+            // Act
+            sessionVariables.AddOrUpdateVariable(variable);
 
-		[Test]
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo(string.Empty));
+        }
+
+        [Test]
+        public void AddOrUpdateVariable_should_update_variable_when_already_set()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+            var variable1 = new Variable("nano", "leaf", _devEnvironment);
+            var variable2 = new Variable("nano", "leaf2", _devEnvironment);
+
+            // Act
+            sessionVariables.AddOrUpdateVariable(variable1);
+            sessionVariables.AddOrUpdateVariable(variable2);
+
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
+        }
+
+        [Test]
+        public void AddOrUpdateVariable_should_not_update_variable_when_already_set_and_in_different_environments()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_prodEnvironment);
+            var variable1 = new Variable("nano", "leaf", _prodEnvironment);
+            var variable2 = new Variable("nano", "leaf2", _devEnvironment);
+
+            // Act
+            sessionVariables.AddOrUpdateVariable(variable1);
+            sessionVariables.AddOrUpdateVariable(variable2);
+
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
+        }
+
+        [Test]
 		public void AddOrUpdateVariables_should_set_variable()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider(_devEnvironment);
 
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf", "env1"),
-				new Variable("light", "bulb", "env2")
+				new Variable("nano", "leaf", _devEnvironment),
+				new Variable("light", "bulb", _devEnvironment)
 			});
 
 
@@ -57,18 +93,18 @@ namespace Syringe.Tests.Unit.Runner
 		public void AddOrUpdateVariables_should_update_variable_when_already_set()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider(_devEnvironment);
 
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf", "env1"),
-				new Variable("light", "bulb", "env2"),
+				new Variable("nano", "leaf", _devEnvironment),
+				new Variable("light", "bulb", _devEnvironment),
 			});
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
-				new Variable("nano", "leaf2", "env1"),
-				new Variable("light", "bulb2", "env2")
+				new Variable("nano", "leaf2", _devEnvironment),
+				new Variable("light", "bulb2", _devEnvironment)
 			});
 
 			// Assert
@@ -80,9 +116,9 @@ namespace Syringe.Tests.Unit.Runner
 		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
-			sessionVariables.AddOrUpdateVariable("nano", "leaf");
-			sessionVariables.AddOrUpdateVariable("two", "ten");
+			var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+			sessionVariables.AddOrUpdateVariable(new Variable("nano", "leaf", _devEnvironment));
+			sessionVariables.AddOrUpdateVariable(new Variable("two", "ten", _devEnvironment));
 
 			string template = "{nano} {dummy} {two}";
 			string expectedText = "leaf {dummy} ten";
@@ -98,9 +134,9 @@ namespace Syringe.Tests.Unit.Runner
 		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
-			sessionVariables.AddOrUpdateVariable("nano", "$var leaf");
-			sessionVariables.AddOrUpdateVariable("two", "(.*?) [a-z] ^perlmagic");
+			var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+			sessionVariables.AddOrUpdateVariable(new Variable("nano", "$var leaf", _devEnvironment));
+			sessionVariables.AddOrUpdateVariable(new Variable("two", "(.*?) [a-z] ^perlmagic", _devEnvironment));
 
 			string template = "{nano} {dummy} {two}";
 			string expectedText = @"\$var\ leaf {dummy} \(\.\*\?\)\ \[a-z]\ \^perlmagic";

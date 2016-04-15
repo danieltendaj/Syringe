@@ -112,7 +112,7 @@ namespace Syringe.Core.Runner
             testFileResult.StartTime = DateTime.UtcNow;
 
             // Add all config variables and ones in this <test>
-            var variables = new CapturedVariableProvider();
+            var variables = new CapturedVariableProvider(""); //TODO: Populate
             variables.AddOrUpdateVariables(testFile.Variables);
 
             var verificationsMatcher = new AssertionsMatcher(variables);

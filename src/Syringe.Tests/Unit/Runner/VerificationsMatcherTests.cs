@@ -17,7 +17,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void invalid_regex_should_set_success_to_false()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider("");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -37,7 +37,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void MatchNegative_should_return_veriftype_positives_in_list()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider("");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -59,7 +59,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void MatchPositive_should_match_text_in_content()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider("");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -86,7 +86,7 @@ namespace Syringe.Tests.Unit.Runner
 		public void MatchNegative_should_not_match_text_that_is_not_in_content()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
+			var sessionVariables = new CapturedVariableProvider("");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -113,8 +113,8 @@ namespace Syringe.Tests.Unit.Runner
 		public void should_replace_variables_in_regex()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider();
-			sessionVariables.AddOrUpdateVariable("password", "tedx123");
+			var sessionVariables = new CapturedVariableProvider("dev");
+			sessionVariables.AddOrUpdateVariable(new Variable("password", "tedx123", "dev"));
 
 			var matcher = new AssertionsMatcher(sessionVariables);
 
