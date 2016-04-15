@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Environment;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
@@ -15,19 +16,21 @@ namespace Syringe.Tests.Unit.Web
         private TestFileController _testFileController;
         private Mock<ITestService> _testServiceMock;
         private Mock<IUserContext> _userContextMock;
+        private Mock<IEnvironmentsService> _environmentsService;
 
         [SetUp]
         public void Setup()
         {
             _testServiceMock = new Mock<ITestService>();
             _userContextMock = new Mock<IUserContext>();
+            _environmentsService = new Mock<IEnvironmentsService>();
 
             _userContextMock.Setup(x => x.DefaultBranchName).Returns("master");
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), _userContextMock.Object.DefaultBranchName)).Returns(new TestFile());
             _testServiceMock.Setup(x => x.UpdateTestVariables(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
             _testServiceMock.Setup(x => x.CreateTestFile(It.IsAny<TestFile>(), It.IsAny<string>())).Returns(true);
             _testServiceMock.Setup(x => x.DeleteFile(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-            _testFileController = new TestFileController(_testServiceMock.Object, _userContextMock.Object);
+            _testFileController = new TestFileController(_testServiceMock.Object, _userContextMock.Object, _environmentsService.Object);
         }
 
         [Test]
@@ -143,12 +146,34 @@ namespace Syringe.Tests.Unit.Web
         [Test]
         public void AddHeaderItem_should_return_correct_view_and_model()
         {
-            // given + when
+            // given 
+            var environments = new[]
+            {
+                new Environment { Name = "Env2", Order = 2},
+                new Environment { Name = "Env3", Order = 1},
+            };
+
+            _environmentsService
+                .Setup(x => x.List())
+                .Returns(environments);
+
+            // when
             var viewResult = _testFileController.AddVariableItem() as PartialViewResult;
 
             // then
             Assert.AreEqual("EditorTemplates/VariableViewModel", viewResult.ViewName);
             Assert.IsInstanceOf<VariableViewModel>(viewResult.Model);
+
+            var variableViewModel = viewResult.Model as VariableViewModel;
+            Assert.That(variableViewModel.AvailableEnvironments.Length, Is.EqualTo(2));
+
+            Assert.That(variableViewModel.AvailableEnvironments[0].Text, Is.EqualTo("Env3"));
+            Assert.That(variableViewModel.AvailableEnvironments[0].Value, Is.EqualTo("Env3"));
+            Assert.That(variableViewModel.AvailableEnvironments[0].Disabled, Is.False);
+
+            Assert.That(variableViewModel.AvailableEnvironments[1].Text, Is.EqualTo("Env2"));
+            Assert.That(variableViewModel.AvailableEnvironments[1].Value, Is.EqualTo("Env2"));
+            Assert.That(variableViewModel.AvailableEnvironments[1].Disabled, Is.False);
         }
 
         [Test]

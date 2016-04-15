@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Syringe.Web.Models
 {
@@ -12,5 +13,7 @@ namespace Syringe.Web.Models
 
         [Required]
 	    public string Environment { get; set; }
+        
+        public SelectListItem[] AvailableEnvironments { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Syringe.Core.Environment;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
@@ -8,16 +9,18 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[Authorize]
-	public class TestFileController : Controller
+    [Authorize]
+    public class TestFileController : Controller
     {
         private readonly ITestService _testsClient;
         private readonly IUserContext _userContext;
+        private readonly IEnvironmentsService _environmentsService;
 
-        public TestFileController(ITestService testsClient, IUserContext userContext)
+        public TestFileController(ITestService testsClient, IUserContext userContext, IEnvironmentsService environmentsService)
         {
             _testsClient = testsClient;
             _userContext = userContext;
+            _environmentsService = environmentsService;
         }
 
         public ActionResult Add()
@@ -48,12 +51,22 @@ namespace Syringe.Web.Controllers
         public ActionResult Update(string fileName)
         {
             TestFile testFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
+            SelectListItem[] environments = GetEnvironmentsDropDown();
 
-            TestFileViewModel model = new TestFileViewModel
+            var variables = testFile.Variables
+                .Select(x => new VariableViewModel
+                {
+                    Name = x.Name,
+                    Value = x.Value,
+                    Environment = x.Environment.Name,
+                    AvailableEnvironments = environments
+                })
+                .ToList();
+
+            var model = new TestFileViewModel
             {
                 Filename = fileName,
-                Variables =
-                    testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment.Name}).ToList()
+                Variables = variables
             };
 
             return View("Update", model);
@@ -62,7 +75,7 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Delete(string fileName)
         {
-            _testsClient.DeleteFile(fileName,_userContext.DefaultBranchName);
+            _testsClient.DeleteFile(fileName, _userContext.DefaultBranchName);
 
             return RedirectToAction("Index", "Home");
         }
@@ -76,7 +89,7 @@ namespace Syringe.Web.Controllers
                 {
                     Filename = model.Filename,
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
-				};
+                };
 
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile, _userContext.DefaultBranchName);
                 if (updateTestFile)
@@ -88,7 +101,22 @@ namespace Syringe.Web.Controllers
 
         public ActionResult AddVariableItem()
         {
-            return PartialView("EditorTemplates/VariableViewModel", new VariableViewModel());
+            var model = new VariableViewModel
+            {
+                AvailableEnvironments = GetEnvironmentsDropDown()
+            };
+
+            return PartialView("EditorTemplates/VariableViewModel", model);
         }
-	}
+
+        private SelectListItem[] GetEnvironmentsDropDown()
+        {
+            var environments = _environmentsService.List();
+
+            return environments
+                .OrderBy(x => x.Order)
+                .Select(x => new SelectListItem { Value = x.Name, Text = x.Name })
+                .ToArray();
+        }
+    }
 }
