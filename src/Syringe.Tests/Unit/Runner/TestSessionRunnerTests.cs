@@ -311,10 +311,10 @@ namespace Syringe.Tests.Unit.Runner
 			// Assert
 			var result = session.TestResults.Single();
 			Assert.That(result.Success, Is.True);
-			Assert.That(result.AssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults.Where(x=>x.AssertionType==AssertionType.Positive).Count, Is.EqualTo(1));
 			Assert.That(result.AssertionResults[0].Success, Is.True);
 
-			Assert.That(result.AssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults.Where(x => x.AssertionType == AssertionType.Negative).Count, Is.EqualTo(1));
 			Assert.That(result.AssertionResults[0].Success, Is.True);
 		}
 
