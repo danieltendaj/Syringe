@@ -120,7 +120,7 @@ namespace Syringe.Core.Xml.Writer
                 if (!string.IsNullOrEmpty(item.Regex))
                 {
                     XElement element = new XElement("variable");
-                    element.Add(new XAttribute("description", item.Name));
+                    element.Add(new XAttribute("name", item.Name));
                     element.Value = item.Regex;
 
                     parseresponsesElement.Add(element);

@@ -97,7 +97,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void write_should_add_parseresponses()
+		public void write_should_add_capturedvariables()
 		{
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);

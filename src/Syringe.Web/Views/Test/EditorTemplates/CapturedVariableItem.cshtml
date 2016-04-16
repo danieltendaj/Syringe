@@ -1,13 +1,13 @@
 ﻿@model CapturedVariableItem
 
 <div class="form-group">
-	@Html.LabelFor(x => Model.Description, new { @class = "col-sm-2 control-label" })
+	@Html.LabelFor(x => Model.Name, new { @class = "col-sm-1 control-label" })
 	<div class="col-sm-3">
-		@Html.TextBoxFor(x => Model.Description, new { @class = "form-control", placeholder = "Description" })
+		@Html.TextBoxFor(x => Model.Name, new { @class = "form-control", placeholder = "Description" })
 	</div>
 
-	@Html.LabelFor(x => Model.Regex, new { @class = "col-sm-2 control-label" })
-	<div class="col-xs-4 col-sm-3 col-lg-4">
+	@Html.LabelFor(x => Model.Regex, new { @class = "col-sm-1 control-label" })
+	<div class="col-xs-6 col-sm-5 col-lg-6">
 		@Html.TextBoxFor(x => Model.Regex, new { @class = "form-control", placeholder = "Regex" })
 	</div>
 	<div class="col-xs-1 col-sm-2 col-lg-1">

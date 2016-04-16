@@ -1,13 +1,13 @@
 ﻿@model Syringe.Web.Models.HeaderItem
 
 <div class="form-group">
-	@Html.LabelFor(x => Model.Key, new { @class = "col-sm-2 control-label" })
+	@Html.LabelFor(x => Model.Key, new { @class = "col-sm-1 control-label" })
 	<div class="col-sm-3">
 		@Html.TextBoxFor(x => Model.Key, new { @class = "form-control", placeholder = "Key" })
 	</div>
 
-	@Html.LabelFor(x => Model.Value, new { @class = "col-sm-2 control-label" })
-	<div class="col-xs-4 col-sm-3 col-lg-4">
+	@Html.LabelFor(x => Model.Value, new { @class = "col-sm-1 control-label" })
+	<div class="col-sm-6">
 		@Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
 	</div>
 	<div class="col-xs-1 col-sm-2 col-lg-1">

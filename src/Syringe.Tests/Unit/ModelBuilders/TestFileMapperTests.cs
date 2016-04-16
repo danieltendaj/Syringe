@@ -184,7 +184,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
                     Position = 1,
                     LongDescription = "long description",
                     Filename = "Test.xml",
-                    CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Description = "Description", Regex = "Regex" } },
+                    CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Name = "Description", Regex = "Regex" } },
                     PostBody = "Post Body",
                     Assertions = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
                                new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Positive } },

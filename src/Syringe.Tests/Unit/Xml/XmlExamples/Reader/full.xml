@@ -26,7 +26,7 @@
 		</assertions>
 		
 		<capturedvariables>
-			<variable description="test">/d</variable>
+			<variable name="test">/d</variable>
 		</capturedvariables>
 	</test>
 

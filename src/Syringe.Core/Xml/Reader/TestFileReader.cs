@@ -136,11 +136,11 @@ namespace Syringe.Core.Xml.Reader
 
             foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "variable"))
             {
-                XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
+                XAttribute nameAttribute = element.Attributes("name").FirstOrDefault();
                 string description = "";
 
-                if (descriptionAttribute != null)
-                    description = descriptionAttribute.Value;
+                if (nameAttribute != null)
+                    description = nameAttribute.Value;
 
                 items.Add(new CapturedVariable(description, element.Value));
             }
