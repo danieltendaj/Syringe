@@ -20,6 +20,10 @@
         <div class="col-xs-2"><h2>@Model.FileName</h2></div>
         <div class="col-xs-8">
             <a class="btn btn-primary pull-right" target="_blank" href="@Url.Action("View", "Test", new {filename = Model.FileName})">View Tests</a>
+            @using (Html.BeginForm("Run", "Home"))
+            {
+                <button title="Run" class="btn btn-primary pull-right" type="submit" name="filename" value="@Model.FileName"> Run again </button>
+            }
         </div>
     </div>
     <div class="row">
