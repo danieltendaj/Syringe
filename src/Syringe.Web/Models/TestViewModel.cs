@@ -9,7 +9,7 @@ namespace Syringe.Web.Models
     public class TestViewModel
     {
         [Required]
-        public int  Position { get; set; }
+        public int Position { get; set; }
 
         [Display(Name = "Short Description")]
         [Required]
@@ -48,7 +48,6 @@ namespace Syringe.Web.Models
             CapturedVariables = new List<CapturedVariableItem>();
             Assertions = new List<AssertionViewModel>();
             AvailableVariables = new List<VariableViewModel>();
-
         }
     }
 }

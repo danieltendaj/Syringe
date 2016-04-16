@@ -53,8 +53,10 @@ namespace Syringe.Web.ModelBuilders
             {
                 Position = x.Position,
                 ShortDescription = x.ShortDescription,
-                Url = x.Url
-            });
+                Url = x.Url,
+				Assertions = x.Assertions.Select(y => new AssertionViewModel { Regex = y.Regex, Description = y.Description, AssertionType = y.AssertionType }).ToList(),
+				CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
+			});
         }
 
         public Test BuildCoreModel(TestViewModel testModel)

@@ -47,7 +47,7 @@ namespace Syringe.Web.Controllers
                 Tests = _testFileMapper.BuildTests(tests),
                 Filename = filename,
                 PageNumber = pageNumber,
-                NoOfResults = noOfResults
+                NoOfResults = noOfResults,
             };
 
             return View("View", viewModel);
