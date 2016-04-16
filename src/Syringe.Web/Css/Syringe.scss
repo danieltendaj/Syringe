@@ -58,6 +58,10 @@ h1, h2, h3, h4, h5, div, p {
 }
 
 // Test case results page
+.results-label {
+	display: inline-block;padding: 5px;
+}
+
 #testcase-result {
     .test-passed i {
         background-color: green;
