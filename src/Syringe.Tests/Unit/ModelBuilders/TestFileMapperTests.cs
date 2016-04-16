@@ -22,7 +22,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testViewModel.ErrorMessage, build.ErrorMessage);
 			Assert.AreEqual(testViewModel.Headers.Count, build.Headers.Count);
 			Assert.AreEqual(testViewModel.Position, build.Position);
-			Assert.AreEqual(testViewModel.LongDescription, build.LongDescription);
 			Assert.AreEqual(testViewModel.Filename, build.Filename);
 			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
 			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
@@ -121,7 +120,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				ShortDescription = "Short Description",
 				Url = "http://www.google.com",
 				ErrorMessage = "Error",
-				LongDescription = "Long Description",
 				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
 				//PostType = MethodType.GET.ToString(),
@@ -141,7 +139,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.ShortDescription, testViewModel.ShortDescription);
 			Assert.AreEqual(test.Url, testViewModel.Url);
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
-			Assert.AreEqual(test.LongDescription, testViewModel.LongDescription);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
 			Assert.AreEqual(MethodType.GET, testViewModel.Method);
 			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
@@ -200,7 +197,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					ErrorMessage = "error",
 					Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
 					Position = 1,
-					LongDescription = "long description",
 					Filename = "Test.xml",
 					CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Name = "Description", Regex = "Regex" } },
 					PostBody = "Post Body",

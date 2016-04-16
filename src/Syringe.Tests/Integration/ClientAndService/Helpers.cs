@@ -37,7 +37,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
 				ShortDescription = "short desc 1",
-				LongDescription = "long desc 1",
 				Method = "POST",
 				Url = "url 1"
 			};
@@ -51,7 +50,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
 				ShortDescription = "short desc 2",
-				LongDescription = "long desc 2",
 				Method = "POST",
 				Url = "url 2"
 			};

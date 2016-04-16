@@ -88,7 +88,6 @@ namespace Syringe.Core.Repositories.XML
 				item.ShortDescription = test.ShortDescription;
 				item.ErrorMessage = test.ErrorMessage;
 				item.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
-				item.LongDescription = test.LongDescription;
 				item.Method = test.Method;
 				item.Filename = test.Filename;
 				item.CapturedVariables = test.CapturedVariables;

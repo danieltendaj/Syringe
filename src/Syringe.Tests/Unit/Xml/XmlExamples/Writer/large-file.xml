@@ -1,600 +1,600 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <tests>
-	<test shortdescription="short description0" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description0" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description1" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description1" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description2" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description2" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description3" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description3" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description4" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description4" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description5" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description5" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description6" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description6" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description7" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description7" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description8" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description8" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description9" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description9" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description10" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description10" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description11" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description11" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description12" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description12" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description13" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description13" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description14" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description14" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description15" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description15" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description16" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description16" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description17" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description17" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description18" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description18" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description19" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description19" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description20" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description20" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description21" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description21" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description22" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description22" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description23" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description23" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description24" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description24" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description25" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description25" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description26" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description26" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description27" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description27" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description28" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description28" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description29" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description29" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description30" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description30" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description31" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description31" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description32" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description32" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description33" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description33" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description34" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description34" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description35" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description35" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description36" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description36" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description37" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description37" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description38" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description38" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description39" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description39" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description40" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description40" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description41" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description41" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description42" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description42" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description43" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description43" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description44" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description44" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description45" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description45" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description46" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description46" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description47" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description47" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description48" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description48" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description49" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description49" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description50" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description50" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description51" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description51" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description52" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description52" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description53" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description53" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description54" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description54" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description55" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description55" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description56" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description56" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description57" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description57" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description58" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description58" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description59" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description59" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description60" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description60" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description61" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description61" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description62" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description62" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description63" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description63" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description64" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description64" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description65" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description65" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description66" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description66" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description67" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description67" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description68" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description68" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description69" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description69" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description70" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description70" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description71" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description71" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description72" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description72" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description73" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description73" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description74" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description74" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description75" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description75" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description76" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description76" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description77" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description77" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description78" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description78" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description79" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description79" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description80" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description80" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description81" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description81" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description82" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description82" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description83" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description83" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description84" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description84" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description85" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description85" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description86" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description86" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description87" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description87" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description88" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description88" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description89" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description89" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description90" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description90" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description91" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description91" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description92" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description92" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description93" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description93" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description94" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description94" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description95" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description95" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description96" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description96" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description97" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description97" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description98" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description98" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />
 		<assertions />
 	</test>
-	<test shortdescription="short description99" longdescription="long description" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
+	<test shortdescription="short description99" url="http://myserver" method="post" posttype="text/xml" verifyresponsecode="202" errormessage="my error message">
 		<headers />
 		<postbody />
 		<capturedvariables />

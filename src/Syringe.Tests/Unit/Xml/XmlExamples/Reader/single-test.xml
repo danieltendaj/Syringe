@@ -3,7 +3,6 @@
 	<test
         id="1"
         shortdescription="short description"
-        longdescription="long description"
         url="http://myserver"
         method="post"
         posttype="text/xml"

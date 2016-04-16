@@ -8,7 +8,6 @@ namespace Syringe.Core.Tests
 	{
 		public int Position { get; set; }
 		public string ShortDescription { get; set; }
-		public string LongDescription { get; set; }
 		public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }

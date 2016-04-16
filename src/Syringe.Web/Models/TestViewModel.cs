@@ -15,9 +15,6 @@ namespace Syringe.Web.Models
         [Required]
         public string ShortDescription { get; set; }
 
-        [Display(Name = "Long Description")]
-        public string LongDescription { get; set; }
-
         [Required]
         public string Url { get; set; }
 

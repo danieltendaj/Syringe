@@ -75,7 +75,9 @@ namespace Syringe.Core.Xml.Reader
 
             // Required Properties
             test.Position = position;
-            test.Url = XmlHelper.GetOptionalAttribute(element, "url");
+			test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
+
+			test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
                 throw new TestException("The url parameter is missing for test case {0}", test.Position);
 
@@ -85,14 +87,9 @@ namespace Syringe.Core.Xml.Reader
             test.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
             test.PostType = XmlHelper.GetOptionalAttribute(element, "posttype", "application/x-www-form-urlencoded");
             test.VerifyResponseCode = GetVerifyResponseCode(element);
+
             test.Headers = GetHeaders(element);
-
-            // Descriptions
-            test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
-            test.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
-
             test.CapturedVariables = GetCapturedVariables(element);
-
             test.Assertions = GetAssertions(element);
 
             return test;

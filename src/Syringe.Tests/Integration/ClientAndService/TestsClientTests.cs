@@ -143,7 +143,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 				CapturedVariables = new List<CapturedVariable>(),
 				ErrorMessage = "my error message",
 				Headers = new List<HeaderItem>(),
-				LongDescription = "desc",
 				Method = "POST",
 				Url = "url"
 			};

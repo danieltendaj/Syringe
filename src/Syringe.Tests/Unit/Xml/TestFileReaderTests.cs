@@ -74,7 +74,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_description_attributes()
+		public void Read_should_parse_description_attribute()
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
@@ -88,7 +88,6 @@ namespace Syringe.Tests.Unit.Xml
 			Test test = testFile.Tests.First();
 
 			Assert.That(test.ShortDescription, Is.EqualTo("short description"));
-			Assert.That(test.LongDescription, Is.EqualTo("long description"));
 		}
 
 		[Test]

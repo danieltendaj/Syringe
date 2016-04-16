@@ -41,7 +41,6 @@ namespace Syringe.Tests.Unit.Xml
 			{
 				Position = 1,
 				ShortDescription = "short description",
-				LongDescription = "long description",
 				Url = "http://myserver",
 				Method = "post",
 				PostType = "text/xml",
@@ -157,7 +156,6 @@ namespace Syringe.Tests.Unit.Xml
 				{
                     Position = 0,
 					ShortDescription = "short description" +i,
-					LongDescription = "long description",
 					Url = "http://myserver",
 					Method = "post",
 					PostType = "text/xml",
