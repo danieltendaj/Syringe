@@ -10,7 +10,6 @@
 body {
     background-color: rgb(239,239,239);
     font-family: 'Roboto', sans-serif;
-
 }
 
 h1, h2, h3, h4, h5, div, p {
@@ -36,6 +35,12 @@ h1, h2, h3, h4, h5, div, p {
 
         form {
             display: inline;
+        }
+    }
+
+    .primary-actions{
+        form{
+            display:inline;
         }
     }
 }
@@ -81,6 +86,12 @@ h1, h2, h3, h4, h5, div, p {
         &.error {
             background-color: red !important;
             color: white !important;
+        }
+    }
+
+    .panel-title {
+        a {
+            display: block;
         }
     }
 }
@@ -141,8 +152,8 @@ h1, h2, h3, h4, h5, div, p {
     }
 }
 
-.file-list{
-    form{
-        display:inline;
+.file-list {
+    form {
+        display: inline;
     }
 }
