@@ -10,7 +10,6 @@
 body {
     background-color: rgb(239,239,239);
     font-family: 'Roboto', sans-serif;
-
 }
 
 h1, h2, h3, h4, h5, div, p {
@@ -83,6 +82,12 @@ h1, h2, h3, h4, h5, div, p {
             color: white !important;
         }
     }
+
+    .panel-title {
+        a {
+            display: block;
+        }
+    }
 }
 
 .case-result-exception textarea {
@@ -141,8 +146,8 @@ h1, h2, h3, h4, h5, div, p {
     }
 }
 
-.file-list{
-    form{
-        display:inline;
+.file-list {
+    form {
+        display: inline;
     }
 }
