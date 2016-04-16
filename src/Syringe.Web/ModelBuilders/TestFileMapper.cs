@@ -80,5 +80,18 @@ namespace Syringe.Web.ModelBuilders
                 VerifyResponseCode = testModel.VerifyResponseCode,
             };
         }
+
+        public List<VariableViewModel> BuildVariableViewModel(TestFile testFile)
+        {
+            if (testFile == null)
+            {
+                throw new ArgumentNullException(nameof(testFile));
+            }
+
+            var variables = new List<VariableViewModel>();
+            variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList());
+            variables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new VariableViewModel { Name = x.Name, Value = x.Regex }).ToList());
+            return variables;
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Syringe.Web.ModelBuilders
         TestViewModel BuildViewModel(Test test);
         IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests);
         Test BuildCoreModel(TestViewModel testModel);
+        List<VariableViewModel> BuildVariableViewModel(TestFile test);
     }
 }
