@@ -13,8 +13,7 @@ namespace Syringe.Core.Tests.Results
 		public string ActualUrl { get; set; }
 	    public string Message { get; set; }
 	    public TimeSpan ResponseTime { get; set; }
-        public List<Assertion> PositiveAssertionResults { get; set; }
-		public List<Assertion> NegativeAssertionResults { get; set; }
+        public List<Assertion> AssertionResults { get; set; }
 		public bool ResponseCodeSuccess { get; set; }
 		public HttpResponse HttpResponse { get; set; }
 		public string ExceptionMessage { get; set; }
@@ -25,35 +24,22 @@ namespace Syringe.Core.Tests.Results
 
 		public bool Success
 		{
-			get { return ResponseCodeSuccess && IsPositiveAssertionsSuccess && IsNegativeAssertionsSuccess; }
+			get { return ResponseCodeSuccess && AssertionsSuccess; }
 		}
 		
-		public bool IsPositiveAssertionsSuccess
+		public bool AssertionsSuccess
 		{
 			get
 			{
-				if (PositiveAssertionResults == null || PositiveAssertionResults.Count == 0)
+				if (AssertionResults == null || AssertionResults.Count == 0)
 					return true;
 
-				return PositiveAssertionResults.Count(x => x.Success == false) == 0;
+				return AssertionResults.Count(x => x.Success == false) == 0;
 			}
 		}
-
-		public bool IsNegativeAssertionsSuccess
-		{
-			get
-			{
-				if (NegativeAssertionResults == null || NegativeAssertionResults.Count == 0)
-					return true;
-
-				return NegativeAssertionResults.Count(x => x.Success == false) == 0;
-			}
-		}
-
 		public TestResult()
 		{
-			PositiveAssertionResults = new List<Assertion>();
-			NegativeAssertionResults = new List<Assertion>();
+            AssertionResults = new List<Assertion>();
 		}
 	}
 }

@@ -122,7 +122,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(session.TestResults.Single().PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.Single().AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -190,8 +190,8 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(session.TestResults.ElementAt(1).PositiveAssertionResults[0].Success, Is.True);
-			Assert.That(session.TestResults.ElementAt(2).PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(1).AssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(2).AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -311,11 +311,11 @@ namespace Syringe.Tests.Unit.Runner
 			// Assert
 			var result = session.TestResults.Single();
 			Assert.That(result.Success, Is.True);
-			Assert.That(result.PositiveAssertionResults.Count, Is.EqualTo(1));
-			Assert.That(result.PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(result.AssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults[0].Success, Is.True);
 
-			Assert.That(result.NegativeAssertionResults.Count, Is.EqualTo(1));
-			Assert.That(result.NegativeAssertionResults[0].Success, Is.True);
+			Assert.That(result.AssertionResults.Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]

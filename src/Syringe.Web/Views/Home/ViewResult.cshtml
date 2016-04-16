@@ -81,7 +81,7 @@
 
 										@if (result.ResponseCodeSuccess)
 										{
-											result.NegativeAssertionResults.AddRange(result.PositiveAssertionResults);
+											result.AssertionResults.AddRange(result.AssertionResults);
 
 											<table class="table table-bordered table-striped">
 												<tr>
@@ -90,7 +90,7 @@
 													<td>Regex</td>
 												</tr>
 
-												@foreach (var item in result.NegativeAssertionResults)
+												@foreach (var item in result.AssertionResults)
 												{
 													<tr class="@(item.Success ? "success" : "danger")">
 														<td>

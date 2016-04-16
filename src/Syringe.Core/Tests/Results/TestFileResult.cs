@@ -23,8 +23,7 @@ namespace Syringe.Core.Tests.Results
 		{
 			get
 			{
-				return TestResults.Sum(x => x.PositiveAssertionResults.Count(v => v.Success == true) +
-												x.NegativeAssertionResults.Count(v => v.Success == true));
+				return TestResults.Sum(x => x.AssertionResults.Count(v => v.Success == true));
 			}
 		}
 
@@ -32,8 +31,7 @@ namespace Syringe.Core.Tests.Results
 		{
 			get 
 			{ 
-				return TestResults.Sum(x => x.PositiveAssertionResults.Count(v => v.Success == false) +
-												x.NegativeAssertionResults.Count(v => v.Success == false)); 
+				return TestResults.Sum(x => x.AssertionResults.Count(v => v.Success == false)); 
 			}
 		}
 

@@ -228,38 +228,22 @@ namespace Syringe.Core.Runner
                         logger.WriteLine("(No variables to parse)");
                     }
 
-                    // Verify positives
-                    testResult.PositiveAssertionResults = assertionMatcher.MatchPositive(test.Assertions.Where(x => x.AssertionType == AssertionType.Positive).ToList(), content);
-                    logger.WriteLine("");
-                    logger.WriteLine("Positive verifications");
-                    logger.WriteLine("--------------------------");
-                    if (testResult.PositiveAssertionResults.Count > 0)
-                    {
-                        foreach (Assertion item in testResult.PositiveAssertionResults)
-                        {
-                            logger.Write(item.Log);
-                        }
-                    }
-                    else
-                    {
-                        logger.WriteLine("(No verify positives found)");
-                    }
+                    // Verify assertions
 
-                    // Verify Negatives
-                    testResult.NegativeAssertionResults = assertionMatcher.MatchNegative(test.Assertions.Where(x => x.AssertionType == AssertionType.Negative).ToList(), content);
+                    testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
                     logger.WriteLine("");
-                    logger.WriteLine("Negative verifications");
+                    logger.WriteLine("Assertions");
                     logger.WriteLine("--------------------------");
-                    if (testResult.NegativeAssertionResults.Count > 0)
+                    if (testResult.AssertionResults.Count > 0)
                     {
-                        foreach (Assertion item in testResult.NegativeAssertionResults)
+                        foreach (Assertion item in testResult.AssertionResults)
                         {
                             logger.Write(item.Log);
                         }
                     }
                     else
                     {
-                        logger.WriteLine("(No verify negatives found)");
+                        logger.WriteLine("(No assertions found)");
                     }
 
                     // Store the log
