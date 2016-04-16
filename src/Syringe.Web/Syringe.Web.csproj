@@ -422,8 +422,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Css\Syringe.scss" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="XmlExamples\bing.xml" />
-    <Content Include="XmlExamples\single-case.xml" />
     <Content Include="fonts\Material-Design-Icons.eot" />
     <Content Include="fonts\Material-Design-Icons.ttf" />
     <Content Include="fonts\Material-Design-Icons.woff" />
@@ -435,7 +433,6 @@
     <Content Include="fonts\RobotoDraftMedium.woff2" />
     <Content Include="fonts\RobotoDraftRegular.woff" />
     <Content Include="fonts\RobotoDraftRegular.woff2" />
-    <Content Include="XmlExamples\totaljobs.xml" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
