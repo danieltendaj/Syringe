@@ -26,10 +26,12 @@
 						<div class="col-sm-4">
 							@Html.TextBoxFor(x => x.ShortDescription, new {@class = "form-control", placeholder = "Enter Short Description"})
 						</div>
-						@Html.LabelFor(x => x.Url, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							@Html.TextBoxFor(x => x.Url, new {@class = "form-control", placeholder = "Enter URL" })
-                            
+					</div>
+
+					<div class="form-group">
+						@Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
+						<div class="col-sm-10">
+							@Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
 						</div>
 					</div>
 
@@ -52,16 +54,16 @@
 					</div>
 
 					<div class="form-group">
-						@Html.LabelFor(x => x.ErrorMessage, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							@Html.TextBoxFor(x => x.ErrorMessage, new {@class = "form-control", placeholder = "Enter error message"})
+						@Html.LabelFor(x => x.PostBody, new {@class = "col-sm-2 control-label"})
+						<div class="col-sm-10">
+							@Html.TextBoxFor(x => x.PostBody, new {@class = "form-control", placeholder = "Enter Post Body"})
 						</div>
 					</div>
 
 					<div class="form-group">
-						@Html.LabelFor(x => x.PostBody, new {@class = "col-sm-2 control-label"})
+						@Html.LabelFor(x => x.ErrorMessage, new { @class = "col-sm-2 control-label" })
 						<div class="col-sm-10">
-							@Html.TextBoxFor(x => x.PostBody, new {@class = "form-control", placeholder = "Enter Post Body"})
+							@Html.TextBoxFor(x => x.ErrorMessage, new { @class = "form-control", placeholder = "Enter error message" })
 						</div>
 					</div>
 				</div>
