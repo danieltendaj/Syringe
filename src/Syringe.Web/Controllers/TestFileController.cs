@@ -27,7 +27,8 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(TestFileViewModel model)
+		[ValidateInput(false)]
+		public ActionResult Add(TestFileViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +69,8 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(TestFileViewModel model)
+		[ValidateInput(false)]
+		public ActionResult Update(TestFileViewModel model)
         {
             if (ModelState.IsValid)
             {

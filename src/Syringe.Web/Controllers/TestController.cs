@@ -62,6 +62,7 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
+		[ValidateInput(false)]
         public ActionResult Edit(TestViewModel model)
         {
             if (ModelState.IsValid)
@@ -83,7 +84,8 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(TestViewModel model)
+		[ValidateInput(false)]
+		public ActionResult Add(TestViewModel model)
         {
             if (ModelState.IsValid)
             {
