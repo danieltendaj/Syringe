@@ -1,6 +1,9 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Core.Repositories.MongoDB;
+using Syringe.Core.Repositories.XML;
 
 namespace Syringe.Service.Api
 {
@@ -18,6 +21,23 @@ namespace Syringe.Service.Api
 		public IConfiguration GetConfiguration()
 		{
 			return _configuration;
+		}
+
+		[Route("api/WipeDatabase/")]
+		[HttpGet]
+		public string WipeDatabase()
+		{
+			try
+			{
+				var repository = new TestFileResultRepository(new MongoDbConfiguration(_configuration));
+				repository.Wipe();
+
+				return "done";
+			}
+			catch (Exception ex)
+			{
+				return ex.ToString();
+			}
 		}
 	}
 }
