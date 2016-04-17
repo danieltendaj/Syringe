@@ -323,7 +323,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_populate_assertions()
+		public void Read_should_populate_all_assertions()
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
@@ -336,15 +336,60 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			Test test = testFile.Tests.First();
             Assert.That(test.Assertions.Count, Is.EqualTo(6));
-			Assert.That(test.Assertions[0].Regex, Is.EqualTo("positive 1"));
-			Assert.That(test.Assertions[1].Regex, Is.EqualTo("positive 22"));
-			Assert.That(test.Assertions[2].Regex, Is.EqualTo("positive 99"));
-            Assert.That(test.Assertions[3].Regex, Is.EqualTo("negative 1"));
-            Assert.That(test.Assertions[4].Regex, Is.EqualTo("negative 6"));
-            Assert.That(test.Assertions[5].Regex, Is.EqualTo("negative 66"));
-        }
+			Assert.That(test.Assertions[0].Value, Is.EqualTo("positive 1"));
+			Assert.That(test.Assertions[1].Value, Is.EqualTo("positive 22"));
+			Assert.That(test.Assertions[2].Value, Is.EqualTo("positive 99"));
+            Assert.That(test.Assertions[3].Value, Is.EqualTo("negative 1"));
+            Assert.That(test.Assertions[4].Value, Is.EqualTo("negative 6"));
+            Assert.That(test.Assertions[5].Value, Is.EqualTo("negative 66"));
+		}
 
-        [Test]
+		[Test]
+		public void Read_should_default_to_assertionmethod_regex_when_missing()
+		{
+			// Arrange
+			string xml = GetSingleTestExample();
+			var stringReader = new StringReader(xml);
+			var testFileReader = GetTestFileReader();
+
+			// Act
+			TestFile testFile = testFileReader.Read(stringReader);
+
+			// Assert
+			Test test = testFile.Tests.First();
+
+			Assertion assertion1 = test.Assertions[1];
+			Assert.That(assertion1.AssertionMethod, Is.EqualTo(AssertionMethod.Regex));
+		}
+
+		[Test]
+		public void Read_should_populate_all_assertion_properties()
+		{
+			// Arrange
+			string xml = GetSingleTestExample();
+			var stringReader = new StringReader(xml);
+			var testFileReader = GetTestFileReader();
+
+			// Act
+			TestFile testFile = testFileReader.Read(stringReader);
+
+			// Assert
+			Test test = testFile.Tests.First();
+
+			Assertion assertion1 = test.Assertions[0];
+			Assert.That(assertion1.Value, Is.EqualTo("positive 1"));
+			Assert.That(assertion1.Description, Is.EqualTo("1"));
+			Assert.That(assertion1.AssertionType, Is.EqualTo(AssertionType.Positive));
+			Assert.That(assertion1.AssertionMethod, Is.EqualTo(AssertionMethod.Regex));
+
+			Assertion assertion2 = test.Assertions[3];
+			Assert.That(assertion2.Value, Is.EqualTo("negative 1"));
+			Assert.That(assertion2.Description, Is.EqualTo("1"));
+			Assert.That(assertion2.AssertionType, Is.EqualTo(AssertionType.Negative));
+			Assert.That(assertion2.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
+		}
+
+		[Test]
         public void Read_should_add_base_variables()
         {
             // Arrange
@@ -380,6 +425,5 @@ namespace Syringe.Tests.Unit.Xml
             Assert.That(test.AvailableVariables.Count, Is.EqualTo(5));
             Assert.That(test.AvailableVariables[4].Name, Is.EqualTo("test"));
         }
-
     }
 }

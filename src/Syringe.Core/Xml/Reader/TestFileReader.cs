@@ -166,7 +166,15 @@ namespace Syringe.Core.Xml.Reader
                     Enum.TryParse(verifyTypeAttribute.Value, true, out assertionType);
                 }
 
-                items.Add(new Assertion(description, element.Value, assertionType));
+				XAttribute methodAttribute = element.Attributes("method").FirstOrDefault();
+				AssertionMethod assertionMethod = AssertionMethod.Regex;
+
+				if (methodAttribute != null)
+				{
+					Enum.TryParse(methodAttribute.Value, true, out assertionMethod);
+				}
+
+				items.Add(new Assertion(description, element.Value, assertionType, assertionMethod));
             }
 
             return items;

@@ -24,14 +24,14 @@ namespace Syringe.Core.Runner
                 var simpleLogger = new SimpleLogger();
 
                 LogItem(simpleLogger, item.AssertionType, item);
-                string regex = item.Regex;
+                string regex = item.Value;
 
                 if (!string.IsNullOrEmpty(regex))
                 {
                     regex = _variables.ReplaceVariablesIn(regex);
                     item.TransformedRegex = regex;
 
-                    LogRegex(simpleLogger, item.Regex, regex);
+                    LogRegex(simpleLogger, item.Value, regex);
 
                     try
                     {

@@ -21,7 +21,7 @@ namespace Syringe.Tests.Unit.Runner
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
-			verifications.Add(new Assertion("dodgy regex", "((*)", AssertionType.Positive));
+			verifications.Add(new Assertion("dodgy regex", "((*)", AssertionType.Positive, AssertionMethod.Regex));
 
 			string content = "<p>Some content here</p>";
 
@@ -41,9 +41,9 @@ namespace Syringe.Tests.Unit.Runner
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
-			verifications.Add(new Assertion("p1", "a regex", AssertionType.Positive));
-			verifications.Add(new Assertion("p2", "another regex", AssertionType.Positive));
-			verifications.Add(new Assertion("n1", "one more regex", AssertionType.Negative));
+			verifications.Add(new Assertion("p1", "a regex", AssertionType.Positive, AssertionMethod.Regex));
+			verifications.Add(new Assertion("p2", "another regex", AssertionType.Positive, AssertionMethod.Regex));
+			verifications.Add(new Assertion("n1", "one more regex", AssertionType.Negative, AssertionMethod.Regex));
 
 
 			string content = "<p>whatever</p>";
@@ -63,8 +63,8 @@ namespace Syringe.Tests.Unit.Runner
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
-			verifications.Add(new Assertion("desc1","content here", AssertionType.Positive));
-			verifications.Add(new Assertion("desc2", "bad regex", AssertionType.Positive));
+			verifications.Add(new Assertion("desc1","content here", AssertionType.Positive, AssertionMethod.Regex));
+			verifications.Add(new Assertion("desc2", "bad regex", AssertionType.Positive, AssertionMethod.Regex));
 
 			string content = "<p>Some content here</p>";
 
@@ -75,11 +75,11 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(results.Count, Is.EqualTo(2));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
-			Assert.That(results[0].Regex, Is.EqualTo("content here"));
+			Assert.That(results[0].Value, Is.EqualTo("content here"));
 
 			Assert.That(results[1].Success, Is.False);
 			Assert.That(results[1].Description, Is.EqualTo("desc2"));
-			Assert.That(results[1].Regex, Is.EqualTo("bad regex"));
+			Assert.That(results[1].Value, Is.EqualTo("bad regex"));
 		}
 
 		[Test]
@@ -90,8 +90,8 @@ namespace Syringe.Tests.Unit.Runner
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
-			verifications.Add(new Assertion("desc1", "this isnt in the text", AssertionType.Negative));
-			verifications.Add(new Assertion("desc2", "content here", AssertionType.Negative));
+			verifications.Add(new Assertion("desc1", "this isnt in the text", AssertionType.Negative, AssertionMethod.Regex));
+			verifications.Add(new Assertion("desc2", "content here", AssertionType.Negative, AssertionMethod.Regex));
 
 			string content = "<p>Some content here</p>";
 
@@ -102,11 +102,11 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(results.Count, Is.EqualTo(2));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
-			Assert.That(results[0].Regex, Is.EqualTo("this isnt in the text"));
+			Assert.That(results[0].Value, Is.EqualTo("this isnt in the text"));
 
 			Assert.That(results[1].Success, Is.False);
 			Assert.That(results[1].Description, Is.EqualTo("desc2"));
-			Assert.That(results[1].Regex, Is.EqualTo("content here"));
+			Assert.That(results[1].Value, Is.EqualTo("content here"));
 		}
 
 		[Test]
@@ -119,7 +119,7 @@ namespace Syringe.Tests.Unit.Runner
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
-			verifications.Add(new Assertion("desc1", "({password})", AssertionType.Positive));
+			verifications.Add(new Assertion("desc1", "({password})", AssertionType.Positive, AssertionMethod.Regex));
 
 			string content = "<p>The password is tedx123</p>";
 
@@ -130,7 +130,7 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(results.Count, Is.EqualTo(1));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
-			Assert.That(results[0].Regex, Is.EqualTo("({password})"));
+			Assert.That(results[0].Value, Is.EqualTo("({password})"));
 			Assert.That(results[0].TransformedRegex, Is.EqualTo("(tedx123)"));
 		}
 	}

@@ -17,8 +17,8 @@ namespace Syringe.Tests.Unit.Results
 			// Arrange
 			var testResult = new TestResult();
 			testResult.ResponseCodeSuccess = responseCodeSuccess;
-			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = positiveSuccess });
-			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = negativeSuccess });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = positiveSuccess });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = negativeSuccess });
 
 			// Act
 			bool actualResult = testResult.Success;
@@ -32,7 +32,7 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testResult = new TestResult();
-			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = false });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = false });
 
 			// Act
 			bool actualResult = testResult.AssertionsSuccess;
@@ -46,7 +46,7 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testResult = new TestResult();
-			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = false });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = false });
 
 			// Act
 			bool actualResult = testResult.AssertionsSuccess;

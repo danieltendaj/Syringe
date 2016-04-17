@@ -33,7 +33,7 @@ namespace Syringe.Web.ModelBuilders
                 VerifyResponseCode = test.VerifyResponseCode,
                 Description = test.Description,
                 Url = test.Url,
-                Assertions = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType }).ToList(),
+                Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod}).ToList(),
                 Filename = test.Filename,
                 AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList()
             };
@@ -53,7 +53,7 @@ namespace Syringe.Web.ModelBuilders
                 Position = x.Position,
                 Description = x.Description,
                 Url = x.Url,
-				Assertions = x.Assertions.Select(y => new AssertionViewModel { Regex = y.Regex, Description = y.Description, AssertionType = y.AssertionType }).ToList(),
+				Assertions = x.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
 				CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
 			});
         }
@@ -73,7 +73,7 @@ namespace Syringe.Web.ModelBuilders
                 Filename = testModel.Filename,
                 CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex)).ToList(),
                 PostBody = testModel.PostBody,
-                Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
+                Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Value, x.AssertionType, x.AssertionMethod)).ToList(),
                 Description = testModel.Description,
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
