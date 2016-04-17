@@ -182,7 +182,7 @@
     <Compile Include="Unit\Git\GitProviderTests.cs" />
     <Compile Include="Unit\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Helpers\UrlHelperTests.cs" />
-    <Compile Include="Unit\ModelBuilders\TestFileMapperTests.cs" />
+    <Compile Include="Unit\Web\TestFileMapperTests.cs" />
     <Compile Include="Unit\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\HomeControllerTests.cs" />

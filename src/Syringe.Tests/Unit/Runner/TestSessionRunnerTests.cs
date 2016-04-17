@@ -113,7 +113,7 @@ namespace Syringe.Tests.Unit.Runner
 					},
                     Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive)
+						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
@@ -171,7 +171,7 @@ namespace Syringe.Tests.Unit.Runner
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive)
+						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				},
 				new Test()
@@ -181,7 +181,7 @@ namespace Syringe.Tests.Unit.Runner
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive)
+						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
@@ -299,8 +299,8 @@ namespace Syringe.Tests.Unit.Runner
 					VerifyResponseCode = HttpStatusCode.OK,
                     Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "some content", AssertionType.Positive),
-                        new Assertion("negative-1", "no text like this", AssertionType.Negative)
+						new Assertion("positive-1", "some content", AssertionType.Positive, AssertionMethod.Regex),
+                        new Assertion("negative-1", "no text like this", AssertionType.Negative, AssertionMethod.Regex)
                     }
 				},
 			});

@@ -140,8 +140,9 @@ namespace Syringe.Core.Xml.Writer
                     XElement element = new XElement("assertion");
                     element.Add(new XAttribute("description", verifyItem.Description));
                     element.Add(new XAttribute("type", verifyItem.AssertionType.ToString().ToLower()));
-
-                    AddCDataToElementValue(verifyItem.Regex, element);
+					element.Add(new XAttribute("method", verifyItem.AssertionMethod.ToString().ToLower()));
+					
+					AddCDataToElementValue(verifyItem.Value, element);
 
                     headerElement.Add(element);
                 }

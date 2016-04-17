@@ -13,23 +13,75 @@ namespace Syringe.Tests.Unit.ModelBuilders
 	[TestFixture]
 	public class TestFileMapperTests
 	{
+		private TestViewModel _testViewModel
+		{
+			get
+			{
+				return new TestViewModel
+				{
+					ErrorMessage = "error",
+					Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
+					Position = 1,
+					Filename = "Test.xml",
+					CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Name = "Description", Regex = "Regex" } },
+					PostBody = "Post Body",
+					Assertions = new List<AssertionViewModel>()
+					{
+						new AssertionViewModel { Description = "Description1", Value = "Value1", AssertionType = AssertionType.Negative, AssertionMethod = AssertionMethod.Regex },
+						new AssertionViewModel { Description = "Description2", Value = "Value2", AssertionType = AssertionType.Positive, AssertionMethod = AssertionMethod.CSQuery }
+					},
+					Description = "short d3escription",
+					Url = "url",
+					Method = MethodType.POST,
+					VerifyResponseCode = HttpStatusCode.Accepted,
+				};
+			}
+		}
+
 		[Test]
 		public void Build_should_set_correct_properties_when_model_is_populated()
 		{
+			// given
 			var testFileMapper = new TestFileMapper();
-			var build = testFileMapper.BuildCoreModel(testViewModel);
 
-			Assert.AreEqual(testViewModel.ErrorMessage, build.ErrorMessage);
-			Assert.AreEqual(testViewModel.Headers.Count, build.Headers.Count);
-			Assert.AreEqual(testViewModel.Position, build.Position);
-			Assert.AreEqual(testViewModel.Filename, build.Filename);
-			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
-			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
-			Assert.AreEqual(2, build.Assertions.Count);
-			Assert.AreEqual(testViewModel.Description, build.Description);
-			Assert.AreEqual(testViewModel.Url, build.Url);
-			Assert.AreEqual(testViewModel.Method.ToString(), build.Method);
-			Assert.AreEqual(testViewModel.VerifyResponseCode, build.VerifyResponseCode);
+			// when
+			Test test = testFileMapper.BuildCoreModel(_testViewModel);
+
+			// then
+			Assert.AreEqual(_testViewModel.ErrorMessage, test.ErrorMessage);
+			Assert.AreEqual(_testViewModel.Headers.Count, test.Headers.Count);
+			Assert.AreEqual(_testViewModel.Position, test.Position);
+			Assert.AreEqual(_testViewModel.Filename, test.Filename);
+			Assert.AreEqual(_testViewModel.CapturedVariables.Count, test.CapturedVariables.Count);
+			Assert.AreEqual(_testViewModel.PostBody, test.PostBody);
+			Assert.AreEqual(2, test.Assertions.Count);
+			Assert.AreEqual(_testViewModel.Description, test.Description);
+			Assert.AreEqual(_testViewModel.Url, test.Url);
+			Assert.AreEqual(_testViewModel.Method.ToString(), test.Method);
+			Assert.AreEqual(_testViewModel.VerifyResponseCode, test.VerifyResponseCode);
+		}
+
+		[Test]
+		public void Build_should_set_assertion_properties()
+		{
+			// given
+			var testFileMapper = new TestFileMapper();
+
+			// when
+			Test test = testFileMapper.BuildCoreModel(_testViewModel);
+
+			// then
+			Assertion firstAssertion = test.Assertions.First();
+			Assert.That(firstAssertion.Description, Is.EqualTo("Description1"));
+			Assert.That(firstAssertion.Value, Is.EqualTo("Value1"));
+			Assert.That(firstAssertion.AssertionType, Is.EqualTo(AssertionType.Negative));
+			Assert.That(firstAssertion.AssertionMethod, Is.EqualTo(AssertionMethod.Regex));
+
+			Assertion lastAssertion = test.Assertions.Last();
+			Assert.That(lastAssertion.Description, Is.EqualTo("Description2"));
+			Assert.That(lastAssertion.Value, Is.EqualTo("Value2"));
+			Assert.That(lastAssertion.AssertionType, Is.EqualTo(AssertionType.Positive));
+			Assert.That(lastAssertion.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
 		}
 
 		[Test]
@@ -61,8 +113,8 @@ namespace Syringe.Tests.Unit.ModelBuilders
 		{
 			// given
 			var testFileMapper = new TestFileMapper();
-			var testFileId1 = 1;
-			var testFileId2 = 2;
+			int testFileId1 = 1;
+			int testFileId2 = 2;
 			var testFile = new TestFile
 			{
 				Tests = new List<Test>
@@ -126,7 +178,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
-				Assertions = new List<Assertion> { new Assertion() },
+				Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
 				Filename = "test.xml",
 			};
 
@@ -147,6 +199,12 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
 			Assert.AreEqual(1, testViewModel.Assertions.Count);
 			Assert.AreEqual(1, test.Headers.Count);
+
+			AssertionViewModel assertionViewModel = testViewModel.Assertions.FirstOrDefault();
+			Assert.That(assertionViewModel.Description, Is.EqualTo("Desc"));
+			Assert.That(assertionViewModel.Value, Is.EqualTo("Val"));
+			Assert.That(assertionViewModel.AssertionType, Is.EqualTo(AssertionType.Negative));
+			Assert.That(assertionViewModel.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
 		}
 
 		[Test]
@@ -164,7 +222,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 		{
 			// given
 			var fileMapper = new TestFileMapper();
-
 			var testFile = new TestFile { Variables = new List<Variable> { new Variable { Name = "test", Value = "value" } } };
 
 			// when + then
@@ -186,28 +243,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(1, buildVariableViewModel.Count);
 			Assert.AreEqual("name", buildVariableViewModel[0].Name);
 			Assert.AreEqual("regex", buildVariableViewModel[0].Value);
-		}
-
-		private TestViewModel testViewModel
-		{
-			get
-			{
-				return new TestViewModel
-				{
-					ErrorMessage = "error",
-					Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
-					Position = 1,
-					Filename = "Test.xml",
-					CapturedVariables = new List<CapturedVariableItem>() { new CapturedVariableItem { Name = "Description", Regex = "Regex" } },
-					PostBody = "Post Body",
-					Assertions = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
-							   new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Positive } },
-					Description = "short d3escription",
-					Url = "url",
-					Method = MethodType.POST,
-					VerifyResponseCode = HttpStatusCode.Accepted,
-				};
-			}
 		}
 	}
 }

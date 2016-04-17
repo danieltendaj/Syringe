@@ -32,11 +32,11 @@
 		</capturedvariables>
 
 		<assertions>
-			<assertion type="positive" description="1">positive 1</assertion>
+			<assertion type="positive" description="1" method="regex">positive 1</assertion>
 			<assertion type="PosItiVe" description="2">positive 22</assertion>
 			<assertion type="positive" description="3">positive 99</assertion>
 
-			<assertion type="negative" description="1">negative 1</assertion>
+			<assertion type="negative" description="1" method="csquery">negative 1</assertion>
 			<assertion type="NEGaTiVE" description="2">negative 6</assertion>
 			<assertion type="negative" description="3">negative 66</assertion>
 		</assertions>
