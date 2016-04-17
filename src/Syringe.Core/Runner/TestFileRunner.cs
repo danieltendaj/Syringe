@@ -6,6 +6,7 @@ using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Repositories;
+using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using HttpResponse = Syringe.Core.Http.HttpResponse;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using Syringe.Core.Runner;
+using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 
 namespace Syringe.Tests.Unit.Runner

@@ -155,6 +155,8 @@
     <Compile Include="Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestFileResultRepository.cs" />
     <Compile Include="Repositories\MongoDB\MongoDbConfiguration.cs" />
+    <Compile Include="Runner\Assertions\AssertionLogger.cs" />
+    <Compile Include="Runner\Assertions\RegexMatcher.cs" />
     <Compile Include="Tests\AssertionMethod.cs" />
     <Compile Include="Tests\Results\TestFileResultSummary.cs" />
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
@@ -183,7 +185,7 @@
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="Tests\Assertion.cs" />
-    <Compile Include="Runner\AssertionsMatcher.cs" />
+    <Compile Include="Runner\Assertions\AssertionsMatcher.cs" />
     <Compile Include="Tests\Results\TestResult.cs" />
     <Compile Include="Tests\Results\TestFileResult.cs" />
     <Compile Include="Runner\TestFileRunner.cs" />
