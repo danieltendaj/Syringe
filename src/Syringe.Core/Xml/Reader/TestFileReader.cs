@@ -85,7 +85,7 @@ namespace Syringe.Core.Xml.Reader
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
             test.PostBody = XmlHelper.GetOptionalElementValue(element, "postbody").Trim();
             test.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
-            test.VerifyResponseCode = GetVerifyResponseCode(element);
+            test.ExpectedHttpStatusCode = GetExpectedHttpStatusCode(element);
 
             test.Headers = GetHeaders(element);
             test.CapturedVariables = GetCapturedVariables(element);
@@ -112,9 +112,9 @@ namespace Syringe.Core.Xml.Reader
             return headers;
         }
 
-        private HttpStatusCode GetVerifyResponseCode(XElement testElement)
+        private HttpStatusCode GetExpectedHttpStatusCode(XElement testElement)
         {
-            int attributeValue = XmlHelper.AttributeAsInt(testElement, "verifyresponsecode", 200);
+            int attributeValue = XmlHelper.AttributeAsInt(testElement, "expectedhttpstatuscode", 200);
 
             HttpStatusCode statusCode = HttpStatusCode.OK;
             if (Enum.IsDefined(typeof(HttpStatusCode), attributeValue))

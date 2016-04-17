@@ -202,7 +202,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Test test = testFile.Tests.First();
-			Assert.That(test.VerifyResponseCode, Is.EqualTo(expectedCode));
+			Assert.That(test.ExpectedHttpStatusCode, Is.EqualTo(expectedCode));
 		}
 
 		[Test]
@@ -210,7 +210,7 @@ namespace Syringe.Tests.Unit.Xml
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
-			xml = xml.Replace("verifyresponsecode=\"404\"", "");
+			xml = xml.Replace("expectedhttpstatuscode=\"404\"", "");
 
 			var stringReader = new StringReader(xml);
 			var testFileReader = GetTestFileReader();
@@ -221,15 +221,15 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Test test = testFile.Tests.First();
-			Assert.That(test.VerifyResponseCode, Is.EqualTo(expectedCode));
+			Assert.That(test.ExpectedHttpStatusCode, Is.EqualTo(expectedCode));
 		}
 
 		[Test]
-		public void Read_should_use_default_responsecode_value_when_attribute_is_invalid_code()
+		public void Read_should_use_default_httpcode_value_when_attribute_is_invalid_code()
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
-			xml = xml.Replace("verifyresponsecode=\"404\"", "verifyresponsecode=\"20000000\"");
+			xml = xml.Replace("expectedhttpstatuscode=\"404\"", "expectedhttpstatuscode=\"20000000\"");
 
 			var stringReader = new StringReader(xml);
 			var testFileReader = GetTestFileReader();
@@ -240,7 +240,7 @@ namespace Syringe.Tests.Unit.Xml
 
 			// Assert
 			Test test = testFile.Tests.First();
-			Assert.That(test.VerifyResponseCode, Is.EqualTo(expectedCode));
+			Assert.That(test.ExpectedHttpStatusCode, Is.EqualTo(expectedCode));
 		}
 
 		[Test]

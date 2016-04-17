@@ -5,7 +5,7 @@
         description="description"
         url="http://myserver"
         method="post"
-        verifyresponsecode="404"
+        expectedhttpstatuscode="404"
         errormessage="my error message"
         logrequest="false"
         logresponse="false"

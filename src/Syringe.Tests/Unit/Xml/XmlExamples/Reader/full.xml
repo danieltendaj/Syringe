@@ -12,8 +12,6 @@
 		description="description 1"
 		method="post"
 		url="http://myserver/test/login.jsp"
-		logrequest="true"
-		logresponse="true"
 	>
 		<postbody>
 			<![CDATA[username=corey&password=welcome]]>

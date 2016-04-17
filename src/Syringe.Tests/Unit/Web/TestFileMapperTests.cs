@@ -33,7 +33,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					Description = "short d3escription",
 					Url = "url",
 					Method = MethodType.POST,
-					VerifyResponseCode = HttpStatusCode.Accepted,
+					ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 				};
 			}
 		}
@@ -58,7 +58,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(_testViewModel.Description, test.Description);
 			Assert.AreEqual(_testViewModel.Url, test.Url);
 			Assert.AreEqual(_testViewModel.Method.ToString(), test.Method);
-			Assert.AreEqual(_testViewModel.VerifyResponseCode, test.VerifyResponseCode);
+			Assert.AreEqual(_testViewModel.ExpectedHttpStatusCode, test.ExpectedHttpStatusCode);
 		}
 
 		[Test]
@@ -174,7 +174,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				ErrorMessage = "Error",
 				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
-				VerifyResponseCode = HttpStatusCode.Accepted,
+				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
 				Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
@@ -192,7 +192,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
 			Assert.AreEqual(MethodType.GET, testViewModel.Method);
-			Assert.AreEqual(test.VerifyResponseCode, testViewModel.VerifyResponseCode);
+			Assert.AreEqual(test.ExpectedHttpStatusCode, testViewModel.ExpectedHttpStatusCode);
 			Assert.AreEqual(test.Filename, testViewModel.Filename);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);

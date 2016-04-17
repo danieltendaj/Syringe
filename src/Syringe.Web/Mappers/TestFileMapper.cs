@@ -30,7 +30,7 @@ namespace Syringe.Web.Mappers
                 CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex }).ToList(),
                 PostBody = test.PostBody,
                 Method = methodType,
-                VerifyResponseCode = test.VerifyResponseCode,
+                ExpectedHttpStatusCode = test.ExpectedHttpStatusCode,
                 Description = test.Description,
                 Url = test.Url,
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod}).ToList(),
@@ -77,7 +77,7 @@ namespace Syringe.Web.Mappers
                 Description = testModel.Description,
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
-                VerifyResponseCode = testModel.VerifyResponseCode,
+                ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
             };
         }
 

@@ -28,8 +28,8 @@ namespace Syringe.Web.Models
         [Required]
         public MethodType Method { get; set; }
 
-        [Display(Name = "Verify Response Code")]
-        public HttpStatusCode VerifyResponseCode { get; set; }
+        [Display(Name = "Expected HTTP status code")]
+        public HttpStatusCode ExpectedHttpStatusCode { get; set; }
 
         public List<HeaderItem> Headers { get; set; }
         public List<CapturedVariableItem> CapturedVariables { get; set; }

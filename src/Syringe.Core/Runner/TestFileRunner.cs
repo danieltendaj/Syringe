@@ -214,7 +214,7 @@ namespace Syringe.Core.Runner
                 testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
                 testResult.HttpContent = response.Content;
 
-                if (response.StatusCode == test.VerifyResponseCode)
+                if (response.StatusCode == test.ExpectedHttpStatusCode)
                 {
                     testResult.ResponseCodeSuccess = true;
                     string content = response.ToString();

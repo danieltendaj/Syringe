@@ -10,7 +10,7 @@
 		url="{baseurl}/search?q=cows"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -22,7 +22,7 @@
 		shortdescription="Search for Goats"
 		url="{baseurl}/search?q=goats"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -35,7 +35,7 @@
 		url="{baseurl}/search?q=geese"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -47,7 +47,7 @@
 		shortdescription="Search for Fresh air"
 		url="{baseurl}/search?q=fresh air"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -60,7 +60,7 @@
 		url="{baseurl}/search?q=monkeys"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -72,7 +72,7 @@
 		shortdescription="Search for Web inject"
 		url="{baseurl}/search?q=web inject"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -85,7 +85,7 @@
 		url="{baseurl}/search?q=github"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -97,7 +97,7 @@
 		shortdescription="Search for Anotherchris"
 		url="{baseurl}/search?q=anotherchris"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -110,7 +110,7 @@
 		url="badurl/search?q=avfc"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -122,7 +122,7 @@
 		shortdescription="Search for Duke of cambridge"
 		url="{baseurl}/search?q=duke of cambridge"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -137,7 +137,7 @@
 	url="{baseurl}/search?q=cows"
 	errormessage="Oh shit"
 	method="post"
-	verifyresponsecode="200"
+	expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -149,7 +149,7 @@
 		shortdescription="Search for Goats"
 		url="{baseurl}/search?q=goats"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -162,7 +162,7 @@
 		url="{baseurl}/search?q=geese"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -174,7 +174,7 @@
 		shortdescription="Search for Fresh air"
 		url="{baseurl}/search?q=fresh air"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -187,7 +187,7 @@
 		url="{baseurl}/search?q=monkeys"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -199,7 +199,7 @@
 		shortdescription="Search for Web inject"
 		url="{baseurl}/search?q=web inject"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -212,7 +212,7 @@
 		url="{baseurl}/search?q=github"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -224,7 +224,7 @@
 		shortdescription="Search for Anotherchris"
 		url="{baseurl}/search?q=anotherchris"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -237,7 +237,7 @@
 		url="badurl/search?q=avfc"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -249,7 +249,7 @@
 		shortdescription="Search for Duke of cambridge"
 		url="{baseurl}/search?q=duke of cambridge"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -264,7 +264,7 @@
 	url="{baseurl}/search?q=cows"
 	errormessage="Oh shit"
 	method="post"
-	verifyresponsecode="200"
+	expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -276,7 +276,7 @@
 		shortdescription="Search for Goats"
 		url="{baseurl}/search?q=goats"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -289,7 +289,7 @@
 		url="{baseurl}/search?q=geese"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -301,7 +301,7 @@
 		shortdescription="Search for Fresh air"
 		url="{baseurl}/search?q=fresh air"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -314,7 +314,7 @@
 		url="{baseurl}/search?q=monkeys"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -326,7 +326,7 @@
 		shortdescription="Search for Web inject"
 		url="{baseurl}/search?q=web inject"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -339,7 +339,7 @@
 		url="{baseurl}/search?q=github"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -351,7 +351,7 @@
 		shortdescription="Search for Anotherchris"
 		url="{baseurl}/search?q=anotherchris"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -364,7 +364,7 @@
 		url="badurl/search?q=avfc"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -376,7 +376,7 @@
 		shortdescription="Search for Duke of cambridge"
 		url="{baseurl}/search?q=duke of cambridge"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -391,7 +391,7 @@
 	url="{baseurl}/search?q=cows"
 	errormessage="Oh shit"
 	method="post"
-	verifyresponsecode="200"
+	expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -403,7 +403,7 @@
 		shortdescription="Search for Goats"
 		url="{baseurl}/search?q=goats"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -416,7 +416,7 @@
 		url="{baseurl}/search?q=geese"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -428,7 +428,7 @@
 		shortdescription="Search for Fresh air"
 		url="{baseurl}/search?q=fresh air"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -441,7 +441,7 @@
 		url="{baseurl}/search?q=monkeys"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -453,7 +453,7 @@
 		shortdescription="Search for Web inject"
 		url="{baseurl}/search?q=web inject"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -466,7 +466,7 @@
 		url="{baseurl}/search?q=github"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -478,7 +478,7 @@
 		shortdescription="Search for Anotherchris"
 		url="{baseurl}/search?q=anotherchris"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -491,7 +491,7 @@
 		url="badurl/search?q=avfc"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -503,7 +503,7 @@
 		shortdescription="Search for Duke of cambridge"
 		url="{baseurl}/search?q=duke of cambridge"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -518,7 +518,7 @@
 	url="{baseurl}/search?q=cows"
 	errormessage="Oh shit"
 	method="post"
-	verifyresponsecode="200"
+	expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -530,7 +530,7 @@
 		shortdescription="Search for Goats"
 		url="{baseurl}/search?q=goats"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -543,7 +543,7 @@
 		url="{baseurl}/search?q=geese"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -555,7 +555,7 @@
 		shortdescription="Search for Fresh air"
 		url="{baseurl}/search?q=fresh air"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -568,7 +568,7 @@
 		url="{baseurl}/search?q=monkeys"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -580,7 +580,7 @@
 		shortdescription="Search for Web inject"
 		url="{baseurl}/search?q=web inject"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -593,7 +593,7 @@
 		url="{baseurl}/search?q=github"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -605,7 +605,7 @@
 		shortdescription="Search for Anotherchris"
 		url="{baseurl}/search?q=anotherchris"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -618,7 +618,7 @@
 		url="badurl/search?q=avfc"
 		errormessage="Oh shit"
 		method="post"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>
@@ -630,7 +630,7 @@
 		shortdescription="Search for Duke of cambridge"
 		url="{baseurl}/search?q=duke of cambridge"
 		method="get"
-		verifyresponsecode="200"
+		expectedhttpstatuscode="200"
 	>
 		<assertions>
 			<assertion type="negative" description="Text doesn't exist">Google</assertion>

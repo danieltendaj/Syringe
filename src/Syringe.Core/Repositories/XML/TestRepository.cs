@@ -95,7 +95,7 @@ namespace Syringe.Core.Repositories.XML
 				item.Assertions = test.Assertions;
 				item.Description = test.Description;
 				item.Url = test.Url;
-				item.VerifyResponseCode = test.VerifyResponseCode;
+				item.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
 			}
 
 			string contents = _testFileWriter.Write(collection);

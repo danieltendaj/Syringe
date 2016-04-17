@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Xml
 				Description = "description",
 				Url = "http://myserver",
 				Method = "post",
-				VerifyResponseCode = HttpStatusCode.Accepted,
+				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 				ErrorMessage = "my error message",
 			};
 			TestFile testFile = CreateTestFile(test);
@@ -157,7 +157,7 @@ namespace Syringe.Tests.Unit.Xml
 					Description = "description" +i,
 					Url = "http://myserver",
 					Method = "post",
-					VerifyResponseCode = HttpStatusCode.Accepted,
+					ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 					ErrorMessage = "my error message",
 				};
 

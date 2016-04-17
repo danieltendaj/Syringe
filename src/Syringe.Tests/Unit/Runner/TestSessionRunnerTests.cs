@@ -106,7 +106,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("1", "some content")
@@ -154,7 +154,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("1", @"(SECRET_KEY)")
@@ -163,7 +163,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test2",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("2", @"(SECRET_KEY)")
@@ -177,7 +177,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test3",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
@@ -206,7 +206,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.OK
+					ExpectedHttpStatusCode = HttpStatusCode.OK
 				},
 			});
 
@@ -230,7 +230,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.Ambiguous
+					ExpectedHttpStatusCode = HttpStatusCode.Ambiguous
 				},
 			});
 
@@ -250,7 +250,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			var testFile = CreateTestFile(new[]
 			{
-				new Test() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
+				new Test() { Url = "foo1", ErrorMessage = "It broke", ExpectedHttpStatusCode = HttpStatusCode.Ambiguous},
 			});
 
 			// Act
@@ -296,7 +296,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
                     Assertions = new List<Assertion>()
 					{
 						new Assertion("positive-1", "some content", AssertionType.Positive, AssertionMethod.Regex),
