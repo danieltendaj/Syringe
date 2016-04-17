@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Web
 
             _tasksClient.Setup(x => x.Start(It.IsAny<TaskRequest>())).Returns(10);
             _tasksClient.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns(new TaskDetails());
-            _testsClient.Setup(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>())).Returns(new TestFile());
+            _testsClient.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             jsonController = new JsonController(_tasksClient.Object, _testsClient.Object, _userContext.Object);
         }
 
@@ -48,7 +48,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _tasksClient.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"BranchName\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
+            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Syringe.Tests.Unit.Web
             var actionResult = jsonController.GetTests(It.IsAny<string>()) as ContentResult;
 
             // then
-            _testsClient.Verify(x => x.GetTestFile(It.IsAny<string>(),It.IsAny<string>()), Times.Once);
+            _testsClient.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
             Assert.AreEqual("{\"Tests\":[],\"Filename\":null,\"Variables\":[]}", actionResult.Content);
         }
     }

@@ -36,50 +36,50 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/GetTestFile")]
         [HttpGet]
-        public TestFile GetTestFile(string filename, string branchName)
+        public TestFile GetTestFile(string filename)
         {
-            return _testRepository.GetTestFile(filename, branchName);
+            return _testRepository.GetTestFile(filename);
         }
         [Route("api/tests/GetXml")]
         [HttpGet]
-        public string GetXml(string filename, string branchName)
+        public string GetXml(string filename)
         {
-            return _testRepository.GetXml(filename, branchName);
+            return _testRepository.GetXml(filename);
         }
 
         [Route("api/tests/EditTest")]
         [HttpPost]
-        public bool EditTest([FromBody]Test test, [FromUri]string branchName)
+        public bool EditTest([FromBody]Test test)
         {
-            return _testRepository.SaveTest(test, branchName);
+            return _testRepository.SaveTest(test);
         }
 
         [Route("api/tests/CreateTest")]
         [HttpPost]
-        public bool CreateTest([FromBody]Test test, [FromUri]string branchName)
+        public bool CreateTest([FromBody]Test test)
         {
-            return _testRepository.CreateTest(test, branchName);
+            return _testRepository.CreateTest(test);
         }
 
         [Route("api/tests/DeleteTest")]
         [HttpPost]
-        public bool DeleteTest(int position, string fileName, string branchName)
+        public bool DeleteTest(int position, string fileName)
         {
-            return _testRepository.DeleteTest(position, fileName, branchName);
+            return _testRepository.DeleteTest(position, fileName);
         }
 
         [Route("api/tests/CreateTestFile")]
         [HttpPost]
-        public bool CreateTestFile([FromBody]TestFile testFile, [FromUri]string branchName)
+        public bool CreateTestFile([FromBody]TestFile testFile)
         {
-            return _testRepository.CreateTestFile(testFile, branchName);
+            return _testRepository.CreateTestFile(testFile);
         }
 
         [Route("api/tests/UpdateTestVariables")]
         [HttpPost]
-        public bool UpdateTestVariables([FromBody]TestFile testFile, [FromUri]string branchName)
+        public bool UpdateTestVariables([FromBody]TestFile testFile)
         {
-            return _testRepository.UpdateTestVariables(testFile, branchName);
+            return _testRepository.UpdateTestVariables(testFile);
         }
 
         [Route("api/tests/GetSummariesForToday")]
@@ -112,9 +112,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/DeleteFile")]
         [HttpPost]
-        public bool DeleteFile(string fileName, string branchName)
+        public bool DeleteFile(string fileName)
         {
-            return _testRepository.DeleteFile(fileName,branchName);
+            return _testRepository.DeleteFile(fileName);
         }
     }
 }

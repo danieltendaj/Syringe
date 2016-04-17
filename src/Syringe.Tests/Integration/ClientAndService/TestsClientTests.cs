@@ -37,7 +37,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		}
 
 		[Test]
-		public void ListFilesForBranch_should_list_all_files()
+		public void ListFiles_should_list_all_files()
 		{
 			// given
 			string testFilepath1 = Helpers.GetFullPath(Helpers.GetXmlFilename());
@@ -83,7 +83,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
-			TestFile actualTestFile = client.GetTestFile(testFile.Filename, "branch");
+			TestFile actualTestFile = client.GetTestFile(testFile.Filename);
 
 			// then
 			Assert.That(actualTestFile, Is.Not.Null);
@@ -99,7 +99,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
-			string xml = client.GetXml(testFile.Filename, "branch");
+			string xml = client.GetXml(testFile.Filename);
 
 			// then
 			Assert.That(xml, Is.Not.Null);
@@ -118,7 +118,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			expectedTest.Description = "new description";
 
 			// when
-			bool success = client.EditTest(expectedTest, "branch");
+			bool success = client.EditTest(expectedTest);
 
 			// then
 			Test actualTest = client.GetTest(testFile.Filename, 0);
@@ -133,7 +133,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			// given
 			string filename = Helpers.GetXmlFilename();
 			TestsClient client = Helpers.CreateTestsClient();
-			client.CreateTestFile(new TestFile() { Filename = filename }, "branch");
+			client.CreateTestFile(new TestFile() { Filename = filename });
 
 			var test = new Test()
 			{
@@ -148,7 +148,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			};
 
 			// when
-			bool success = client.CreateTest(test, "branch");
+			bool success = client.CreateTest(test);
 
 			// then
 			string fullPath = Helpers.GetFullPath(filename);
@@ -167,10 +167,10 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestFile expectedTestFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
-			bool success = client.DeleteTest(0, expectedTestFile.Filename, "branch");
+			bool success = client.DeleteTest(0, expectedTestFile.Filename);
 
 			// then
-			TestFile actualTestFile = client.GetTestFile(expectedTestFile.Filename, "branch");
+			TestFile actualTestFile = client.GetTestFile(expectedTestFile.Filename);
 
 			Assert.True(success);
 			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(1));
@@ -184,7 +184,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 
 			// when
-			bool success = client.CreateTestFile(new TestFile() { Filename = filename }, "branch");
+			bool success = client.CreateTestFile(new TestFile() { Filename = filename });
 
 			// then
 			string fullPath = Helpers.GetFullPath(filename);
@@ -204,12 +204,12 @@ namespace Syringe.Tests.Integration.ClientAndService
 			testFile.Tests = new List<Test>();
 
 			// when
-			bool success = client.UpdateTestVariables(testFile, "branch");
+			bool success = client.UpdateTestVariables(testFile);
 
 			// then
 			Assert.True(success);
 
-			TestFile actualTestFile = client.GetTestFile(testFile.Filename, "branch");
+			TestFile actualTestFile = client.GetTestFile(testFile.Filename);
 			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
 		}
 
@@ -362,7 +362,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
-			bool success = client.DeleteFile(testFile.Filename, "branch");
+			bool success = client.DeleteFile(testFile.Filename);
 
 			// then
 			string fullPath = Helpers.GetFullPath(filename);

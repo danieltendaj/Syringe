@@ -43,7 +43,7 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public bool CreateTest(Test test, string branchName)
+		public bool CreateTest(Test test)
 		{
 			if (test == null)
 			{
@@ -67,7 +67,7 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool SaveTest(Test test, string branchName)
+		public bool SaveTest(Test test)
 		{
 			if (test == null)
 			{
@@ -104,7 +104,7 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool DeleteTest(int position, string fileName, string branchName)
+		public bool DeleteTest(int position, string fileName)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(fileName);
 			string xml = _fileHandler.ReadAllText(fullPath);
@@ -130,7 +130,7 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool CreateTestFile(TestFile testFile, string branchName)
+		public bool CreateTestFile(TestFile testFile)
 		{
 			testFile.Filename = _fileHandler.CreateFilename(testFile.Filename);
 
@@ -147,7 +147,7 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(filePath, contents);
 		}
 
-		public bool UpdateTestVariables(TestFile testFile, string branchName)
+		public bool UpdateTestVariables(TestFile testFile)
 		{
 			string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
 			string xml = _fileHandler.ReadAllText(fileFullPath);
@@ -163,7 +163,7 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public TestFile GetTestFile(string filename, string branchName)
+		public TestFile GetTestFile(string filename)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
@@ -177,13 +177,13 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public string GetXml(string filename, string branchName)
+		public string GetXml(string filename)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);
 		}
 
-		public bool DeleteFile(string fileName, string branchName)
+		public bool DeleteFile(string fileName)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(fileName);
 			return _fileHandler.DeleteFile(fullPath);

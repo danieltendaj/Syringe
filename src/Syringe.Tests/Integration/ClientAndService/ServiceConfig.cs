@@ -38,7 +38,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		}
 
 		/// <summary>
-		/// The full branch path, e.g. ...\bin\debug\integration\xml
+		/// The full path, e.g. ...\bin\debug\integration\xml
 		/// </summary>
 		public static string XmlDirectoryPath
 		{

@@ -64,14 +64,14 @@ namespace Syringe.Tests.Unit.Repositories
         public void SaveTest_should_throw_null_reference_exception_when_position_is_invalid()
         {
             // given + when + then
-            Assert.Throws<ArgumentNullException>(() => _testRepository.SaveTest(null, It.IsAny<string>()));
+            Assert.Throws<ArgumentNullException>(() => _testRepository.SaveTest(null));
         }
 
         [Test]
         public void SaveTest_should_return_true_when_testfile_is_saved()
         {
             // given + when
-            bool success = _testRepository.SaveTest(new Test(), It.IsAny<string>());
+            bool success = _testRepository.SaveTest(new Test());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
@@ -84,7 +84,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void CreateTest_should_throw_ArgumentNullException_when_test_is_null()
         {
             // given + when + then
-            Assert.Throws<ArgumentNullException>(() => _testRepository.CreateTest(null, It.IsAny<string>()));
+            Assert.Throws<ArgumentNullException>(() => _testRepository.CreateTest(null));
         }
 
 
@@ -94,7 +94,7 @@ namespace Syringe.Tests.Unit.Repositories
             // given + when
             _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile());
 
-            bool success = _testRepository.CreateTest(new Test(), It.IsAny<string>());
+            bool success = _testRepository.CreateTest(new Test());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
@@ -107,7 +107,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void GetTestFile_should_return_testfile()
         {
             // given + when
-            TestFile testFile = _testRepository.GetTestFile(It.IsAny<string>(), It.IsAny<string>());
+            TestFile testFile = _testRepository.GetTestFile(It.IsAny<string>());
 
             // then
             Assert.NotNull(testFile.Tests);
@@ -118,7 +118,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void DeleteTest_should_return_true_when_test_exists()
         {
             // given + when
-            var success = _testRepository.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>());
+            var success = _testRepository.DeleteTest(It.IsAny<int>(), It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
@@ -148,7 +148,7 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Setup(x=>x.FileExists(It.IsAny<string>())).Returns(true);
 
             // then
-            Assert.Throws<IOException>(()=>_testRepository.CreateTestFile(new TestFile {Filename="filePath.xml"}, It.IsAny<string>()));
+            Assert.Throws<IOException>(()=>_testRepository.CreateTestFile(new TestFile {Filename="filePath.xml"}));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace Syringe.Tests.Unit.Repositories
         {
             // given + when
             _fileHandler.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
-            var testFile = _testRepository.CreateTestFile(new TestFile { Filename = "filePath.xml" }, It.IsAny<string>());
+            var testFile = _testRepository.CreateTestFile(new TestFile { Filename = "filePath.xml" });
 
             // then
             Assert.IsTrue(testFile);
@@ -172,7 +172,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void UpdateTestFile_should_return_true_if_file_exists()
         {
             // given + when
-            bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = "filePath.xml" }, It.IsAny<string>());
+            bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = "filePath.xml" });
 
             // then
             Assert.IsTrue(success);
@@ -188,7 +188,7 @@ namespace Syringe.Tests.Unit.Repositories
         public void GetXml_should_return_correct_xml()
         {
             // given + when
-            var xml = _testRepository.GetXml("filePath.xml", It.IsAny<string>());
+            var xml = _testRepository.GetXml("filePath.xml");
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
@@ -201,7 +201,7 @@ namespace Syringe.Tests.Unit.Repositories
         {
             // given + when
             _fileHandler.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(true);
-            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>(), It.IsAny<string>());
+            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
@@ -214,7 +214,7 @@ namespace Syringe.Tests.Unit.Repositories
         {
             // given + when
             _fileHandler.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(false);
-            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>(), It.IsAny<string>());
+            var deleteFile = _testRepository.DeleteFile(It.IsAny<string>());
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);

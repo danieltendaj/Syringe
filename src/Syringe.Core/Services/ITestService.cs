@@ -10,14 +10,14 @@ namespace Syringe.Core.Services
 	{
 		IEnumerable<string> ListFiles();
 		Test GetTest(string filename, int position);
-		TestFile GetTestFile(string filename, string branchName);
-	    string GetXml(string filename, string branchName);
-        bool EditTest(Test test, string branchName);
-	    bool CreateTest(Test test, string branchName);
-        bool DeleteTest(int position, string fileName, string branchName);
-	    bool DeleteFile(string fileName, string branchName);
-	    bool CreateTestFile(TestFile testFile, string branchName);
-	    bool UpdateTestVariables(TestFile testFile, string branchName);
+		TestFile GetTestFile(string filename);
+	    string GetXml(string filename);
+        bool EditTest(Test test);
+	    bool CreateTest(Test test);
+        bool DeleteTest(int position, string fileName);
+	    bool DeleteFile(string fileName);
+	    bool CreateTestFile(TestFile testFile);
+	    bool UpdateTestVariables(TestFile testFile);
 
 		IEnumerable<TestFileResultSummary> GetSummariesForToday();
 	    IEnumerable<TestFileResultSummary> GetSummaries();

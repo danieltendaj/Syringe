@@ -38,7 +38,7 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
                 };
 
-                bool createdTestFile = _testsClient.CreateTestFile(testFile, _userContext.DefaultBranchName);
+                bool createdTestFile = _testsClient.CreateTestFile(testFile);
                 if (createdTestFile)
                     return RedirectToAction("Index", "Home");
             }
@@ -48,7 +48,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            TestFile testFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(fileName);
 
             TestFileViewModel model = new TestFileViewModel
             {
@@ -63,7 +63,7 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Delete(string fileName)
         {
-            _testsClient.DeleteFile(fileName,_userContext.DefaultBranchName);
+            _testsClient.DeleteFile(fileName);
 
             return RedirectToAction("Index", "Home");
         }
@@ -80,7 +80,7 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
 				};
 
-                bool updateTestFile = _testsClient.UpdateTestVariables(testFile, _userContext.DefaultBranchName);
+                bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
                 if (updateTestFile)
                     return RedirectToAction("Index", "Home");
             }

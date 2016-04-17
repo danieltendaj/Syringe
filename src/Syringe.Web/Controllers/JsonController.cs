@@ -26,9 +26,7 @@ namespace Syringe.Web.Controllers
 			{
 				Filename = filename,
 				Username = _userContext.FullName,
-				BranchName = _userContext.DefaultBranchName,
 			};
-
 			int taskId = _tasksClient.Start(taskRequest);
 
 			return Json(new { taskId = taskId });
@@ -44,7 +42,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetTests(string filename)
 		{
-			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+			TestFile testFile = _testsClient.GetTestFile(filename);
 			return Content(JsonConvert.SerializeObject(testFile), "application/json");
 		}
 	}
