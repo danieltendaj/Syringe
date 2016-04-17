@@ -164,7 +164,6 @@
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ITestService.cs" />
     <Compile Include="Services\ITasksService.cs" />
-    <Compile Include="Services\IUserService.cs" />
     <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
