@@ -22,9 +22,9 @@ namespace Syringe.Core.Repositories.XML
 			_fileHandler = fileHandler;
 		}
 
-		public Test GetTest(string filename, string branchName, int position)
+		public Test GetTest(string filename, int position)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -50,7 +50,7 @@ namespace Syringe.Core.Repositories.XML
 				throw new ArgumentNullException(nameof(test));
 			}
 
-			string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
+			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
@@ -74,7 +74,7 @@ namespace Syringe.Core.Repositories.XML
 				throw new ArgumentNullException(nameof(test));
 			}
 
-			string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
+			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
@@ -106,7 +106,7 @@ namespace Syringe.Core.Repositories.XML
 
 		public bool DeleteTest(int position, string fileName, string branchName)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
+			string fullPath = _fileHandler.GetFileFullPath(fileName);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile testFile;
@@ -134,7 +134,7 @@ namespace Syringe.Core.Repositories.XML
 		{
 			testFile.Filename = _fileHandler.CreateFilename(testFile.Filename);
 
-			string filePath = _fileHandler.CreateFileFullPath(branchName, testFile.Filename);
+			string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
 			bool fileExists = _fileHandler.FileExists(filePath);
 
 			if (fileExists)
@@ -149,7 +149,7 @@ namespace Syringe.Core.Repositories.XML
 
 		public bool UpdateTestVariables(TestFile testFile, string branchName)
 		{
-			string fileFullPath = _fileHandler.GetFileFullPath(branchName, testFile.Filename);
+			string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
 			string xml = _fileHandler.ReadAllText(fileFullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -165,7 +165,7 @@ namespace Syringe.Core.Repositories.XML
 
 		public TestFile GetTestFile(string filename, string branchName)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -179,13 +179,13 @@ namespace Syringe.Core.Repositories.XML
 
 		public string GetXml(string filename, string branchName)
 		{
-			var fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);
 		}
 
 		public bool DeleteFile(string fileName, string branchName)
 		{
-			var fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
+			var fullPath = _fileHandler.GetFileFullPath(fileName);
 			return _fileHandler.DeleteFile(fullPath);
 		}
 

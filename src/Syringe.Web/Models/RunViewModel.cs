@@ -32,7 +32,7 @@ namespace Syringe.Web.Models
         {
             FileName = fileName;
 
-            Test test = _testService.GetTest(fileName, userContext.DefaultBranchName, index);
+            Test test = _testService.GetTest(fileName,  index);
 
             var verifications = new List<Assertion>();
             verifications.AddRange(test.Assertions);

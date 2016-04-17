@@ -14,7 +14,6 @@ namespace Syringe.Tests.Unit.IO
     {
         private Mock<IConfiguration> _configurationMock;
 
-	    private string _teamName = "na";
 		private string _testsFile;
 	    private string _testsDirectory;
 	    private string _testsFileFullPath;
@@ -45,7 +44,13 @@ namespace Syringe.Tests.Unit.IO
             }
         }
 
-        [SetUp]
+		[TestFixtureTearDown]
+		public void TearDownFixture()
+		{
+			Directory.Delete(_testsDirectory, true);
+		}
+
+		[SetUp]
         public void Setup()
         {
             _configurationMock = new Mock<IConfiguration>();
@@ -60,7 +65,7 @@ namespace Syringe.Tests.Unit.IO
             var fileName = "filedoesnotexist.xml";
 
             // when + then
-            Assert.Throws<FileNotFoundException>(() => fileHandler.GetFileFullPath(_teamName, fileName));
+            Assert.Throws<FileNotFoundException>(() => fileHandler.GetFileFullPath(fileName));
         }
         [Test]
         public void GetFileFullPath_should_return_file_path_if_file_exists()
@@ -69,7 +74,7 @@ namespace Syringe.Tests.Unit.IO
             var fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileFullPath = fileHandler.GetFileFullPath(_teamName, _testsFile);
+            var fileFullPath = fileHandler.GetFileFullPath(_testsFile);
 
             // then
             Assert.AreEqual(_testsFileFullPath, fileFullPath);
@@ -82,7 +87,7 @@ namespace Syringe.Tests.Unit.IO
             var fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileFullPath = fileHandler.CreateFileFullPath(_teamName, _testsFile);
+            var fileFullPath = fileHandler.CreateFileFullPath(_testsFile);
 
             // then
             Assert.AreEqual(_testsFileFullPath, fileFullPath);
@@ -215,12 +220,6 @@ namespace Syringe.Tests.Unit.IO
 
             // then
             Assert.IsTrue(allText);
-        }
-
-        [TestFixtureTearDown]
-        public void TearDownFixture()
-        {
-            Directory.Delete(_testsDirectory, true);
         }
     }
 }

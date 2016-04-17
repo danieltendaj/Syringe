@@ -16,7 +16,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 		private static string _xmlDirectoryPath;
 
 		public static string MongodbDatabaseName => "Syringe-Tests";
-		public static string BranchName => "";
 		public static IDisposable OwinServer;
 
 		public static string BaseUrl

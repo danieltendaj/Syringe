@@ -8,7 +8,7 @@ namespace Syringe.Core.Repositories
     {
         IEnumerable<string> ListFiles();
         TestFile GetTestFile(string filename, string branchName);
-        Test GetTest(string filename, string branchName, int position);
+        Test GetTest(string filename, int position);
         bool SaveTest(Test test, string branchName);
         bool CreateTest(Test test, string branchName);
         bool DeleteTest(int position, string fileName, string branchName);

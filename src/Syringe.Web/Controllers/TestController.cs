@@ -55,7 +55,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Edit(string filename, int position)
         {
-            Test test = _testsClient.GetTest(filename, _userContext.DefaultBranchName, position);
+            Test test = _testsClient.GetTest(filename, position);
             TestViewModel model = _testFileMapper.BuildViewModel(test);
 
             return View("Edit", model);

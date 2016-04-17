@@ -29,9 +29,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/GetTest")]
         [HttpGet]
-        public Test GetTest(string filename, string branchName, int position)
+        public Test GetTest(string filename, int position)
         {
-            return _testRepository.GetTest(filename, branchName, position);
+            return _testRepository.GetTest(filename, position);
         }
 
         [Route("api/tests/GetTestFile")]

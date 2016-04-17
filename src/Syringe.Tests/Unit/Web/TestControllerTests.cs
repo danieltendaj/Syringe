@@ -32,7 +32,7 @@ namespace Syringe.Tests.Unit.Web
             ITestFileMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
             ITestFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
             ITestServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>(), IUserContextMock.Object.DefaultBranchName)).Returns(new TestFile());
-            ITestServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
+            ITestServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()));
             ITestServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>()));
             ITestServiceMock.Setup(x => x.EditTest(It.IsAny<Test>(), It.IsAny<string>()));
             ITestServiceMock.Setup(x => x.CreateTest(It.IsAny<Test>(), It.IsAny<string>()));
@@ -60,7 +60,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Edit(It.IsAny<string>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            ITestServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+            ITestServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
             ITestFileMapperMock.Verify(x => x.BuildViewModel(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
