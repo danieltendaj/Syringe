@@ -85,22 +85,26 @@
 
 											<table class="table table-bordered table-striped">
 												<tr>
-													<td>Verify Type</td>
 													<td>Description</td>
-													<td>Regex</td>
+													<td>Value</td>
+													<td>Assertion type</td>
+													<td>Assertion method</td>
 												</tr>
 
 												@foreach (var item in result.AssertionResults)
 												{
 													<tr class="@(item.Success ? "success" : "danger")">
 														<td>
-															@item.AssertionType.ToString()
-														</td>
-														<td>
 															@item.Description
 														</td>
 														<td>
 															@item.Value
+														</td>
+														<td>
+															@item.AssertionType.ToString()
+														</td>
+														<td>
+															@item.AssertionMethod.ToString()
 														</td>
 													</tr>
 												}
