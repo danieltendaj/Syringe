@@ -19,11 +19,10 @@ namespace Syringe.Client
 			_restSharpHelper = new RestSharpHelper("/api/tests");
 		}
 
-		public IEnumerable<string> ListFilesForBranch(string branchName)
+		public IEnumerable<string> ListFiles()
 		{
 			var client = new RestClient(_serviceUrl);
-			IRestRequest request = _restSharpHelper.CreateRequest("ListForTeam");
-			request.AddParameter("branchName", branchName);
+			IRestRequest request = _restSharpHelper.CreateRequest("ListFiles");
 
 			IRestResponse response = client.Execute(request);
 			return _restSharpHelper.DeserializeOrThrow<IEnumerable<string>>(response);

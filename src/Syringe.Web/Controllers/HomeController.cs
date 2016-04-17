@@ -39,10 +39,9 @@ namespace Syringe.Web.Controllers
         public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
         {
             RunHealthChecks();
-
 			ViewBag.Title = "All test files";
 
-			IList<string> files = _testsClient.ListFilesForBranch(_userContext.DefaultBranchName).ToList();
+			IEnumerable<string> files = _testsClient.ListFiles().ToList();
 
             var model = new IndexViewModel
             {

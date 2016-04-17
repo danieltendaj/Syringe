@@ -189,10 +189,9 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.DeleteFile(fullPath);
 		}
 
-		public IEnumerable<string> ListFilesForBranch(string branchName)
+		public IEnumerable<string> ListFiles()
 		{
-			string fullPath = _fileHandler.GetBranchDirectoryFullPath(branchName);
-			return _fileHandler.GetFileNames(fullPath);
+			return _fileHandler.GetFileNames();
 		}
 	}
 }

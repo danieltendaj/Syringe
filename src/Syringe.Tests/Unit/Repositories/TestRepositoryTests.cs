@@ -34,7 +34,7 @@ namespace Syringe.Tests.Unit.Repositories
             _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename="filepath.xml", Tests = new List<Test> { new Test() } });
             _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-            _fileHandler.Setup(x => x.GetFileNames(It.IsAny<string>())).Returns(new List<string> {{"test"}});
+            _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> {{"test"}});
             _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns("<xml></xml>");
         }
 
@@ -130,10 +130,10 @@ namespace Syringe.Tests.Unit.Repositories
         }
 
         [Test]
-        public void ListFilesForBranch_should_return_list_of_file_names()
+        public void ListFilesFor_should_return_list_of_file_names()
         {
             // given + when
-            IEnumerable<string> filenames = _testRepository.ListFilesForBranch(It.IsAny<string>());
+            IEnumerable<string> filenames = _testRepository.ListFiles();
 
             // then
             Assert.NotNull(filenames);

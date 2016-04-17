@@ -47,25 +47,6 @@ namespace Syringe.Core.IO
             return File.Exists(filePath);
         }
 
-        public string GetBranchDirectoryFullPath(string branchName)
-        {
-			string fullPath = "";
-
-			if (!string.IsNullOrEmpty(branchName))
-			{
-				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName);
-			}
-			else
-			{
-				fullPath = _configuration.TestFilesBaseDirectory;
-			}
-
-            if (!Directory.Exists(fullPath))
-                throw new DirectoryNotFoundException(string.Format("The path '{0}' for branch {0} cannot be found", fullPath, branchName));
-
-            return fullPath;
-        }
-
         public string ReadAllText(string path)
         {
             return File.ReadAllText(path);
@@ -86,9 +67,9 @@ namespace Syringe.Core.IO
             return false;
         }
 
-        public IEnumerable<string> GetFileNames(string fullPath)
+        public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(fullPath, "*.xml"))
+            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*.xml"))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;

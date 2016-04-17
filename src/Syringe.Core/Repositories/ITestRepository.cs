@@ -6,7 +6,7 @@ namespace Syringe.Core.Repositories
 {
     public interface ITestRepository
     {
-        IEnumerable<string> ListFilesForBranch(string branchName);
+        IEnumerable<string> ListFiles();
         TestFile GetTestFile(string filename, string branchName);
         Test GetTest(string filename, string branchName, int position);
         bool SaveTest(Test test, string branchName);

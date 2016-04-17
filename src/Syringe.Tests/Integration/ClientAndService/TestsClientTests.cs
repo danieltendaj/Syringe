@@ -49,7 +49,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 
 			// when
-			IEnumerable<string> files = client.ListFilesForBranch(ServiceConfig.BranchName);
+			IEnumerable<string> files = client.ListFiles();
 
 			// then
 			Assert.That(files, Is.Not.Null);

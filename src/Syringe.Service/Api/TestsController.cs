@@ -20,11 +20,11 @@ namespace Syringe.Service.Api
             _testFileResultRepository = testFileResultRepository;
         }
 
-        [Route("api/tests/ListForTeam")]
+        [Route("api/tests/ListFiles")]
         [HttpGet]
-        public IEnumerable<string> ListFilesForBranch(string branchName)
+        public IEnumerable<string> ListFiles()
         {
-            return _testRepository.ListFilesForBranch(branchName);
+            return _testRepository.ListFiles();
         }
 
         [Route("api/tests/GetTest")]
