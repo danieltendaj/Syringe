@@ -377,13 +377,13 @@ namespace Syringe.Tests.Unit.Runner
 			httpClientMock
 				.Setup(
 					c =>
-						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
 							It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
 				.Returns(Task.FromResult(new HttpResponse()));
 
 			// Dispose of the subscription before processing the third request.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
 				.Callback(() => { if (subscription != null) subscription.Dispose(); })
 				.Returns(Task.FromResult(new HttpResponse()));
 
@@ -441,7 +441,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Throw an error.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());

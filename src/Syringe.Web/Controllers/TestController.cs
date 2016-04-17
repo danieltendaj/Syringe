@@ -7,7 +7,7 @@ using Syringe.Core.Extensions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
-using Syringe.Web.ModelBuilders;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
 

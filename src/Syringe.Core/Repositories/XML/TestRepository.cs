@@ -95,7 +95,6 @@ namespace Syringe.Core.Repositories.XML
 				item.Assertions = test.Assertions;
 				item.Description = test.Description;
 				item.Url = test.Url;
-				item.PostType = test.PostType;
 				item.VerifyResponseCode = test.VerifyResponseCode;
 			}
 

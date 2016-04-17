@@ -73,7 +73,6 @@ namespace Syringe.Core.Xml.Writer
             element.Add(new XAttribute("description", test.Description ?? ""));
             element.Add(new XAttribute("url", test.Url ?? ""));
             element.Add(new XAttribute("method", test.Method ?? ""));
-            element.Add(new XAttribute("posttype", test.PostType ?? ""));
             element.Add(new XAttribute("verifyresponsecode", (int)test.VerifyResponseCode));
             element.Add(new XAttribute("errormessage", test.ErrorMessage ?? ""));
 

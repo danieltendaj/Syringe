@@ -189,40 +189,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_posttype_attribute()
-		{
-			// Arrange
-			string xml = GetSingleTestExample();
-			var stringReader = new StringReader(xml);
-			var testFileReader = GetTestFileReader();
-
-			// Act
-			TestFile testFile = testFileReader.Read(stringReader);
-
-			// Assert
-			Test test = testFile.Tests.First();
-			Assert.That(test.PostType, Is.EqualTo("text/xml"));
-		}
-
-		[Test]
-		public void Read_should_use_default_posttype_value_when_attribute_is_empty()
-		{
-			// Arrange
-			string xml = GetSingleTestExample();
-			xml = xml.Replace("posttype=\"text/xml\"", "");
-
-			var stringReader = new StringReader(xml);
-			var testFileReader = GetTestFileReader();
-
-			// Act
-			TestFile testFile = testFileReader.Read(stringReader);
-
-			// Assert
-			Test test = testFile.Tests.First();
-			Assert.That(test.PostType, Is.EqualTo("application/x-www-form-urlencoded"));
-		}
-
-		[Test]
 		public void Read_should_parse_responsecode_attribute()
 		{
 			// Arrange

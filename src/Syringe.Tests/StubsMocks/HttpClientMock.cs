@@ -22,7 +22,7 @@ namespace Syringe.Tests.StubsMocks
 			Response = response;
 		}
 
-		public Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
+		public Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
 		{
 		    if (Responses == null)
 			{

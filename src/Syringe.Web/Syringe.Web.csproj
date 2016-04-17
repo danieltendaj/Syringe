@@ -194,9 +194,9 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
-    <Compile Include="ModelBuilders\ITestFileMapper.cs" />
+    <Compile Include="Mappers\ITestFileMapper.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="ModelBuilders\TestFileMapper.cs" />
+    <Compile Include="Mappers\TestFileMapper.cs" />
     <Compile Include="Models\HeaderItem.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Controllers\JsonController.cs" />

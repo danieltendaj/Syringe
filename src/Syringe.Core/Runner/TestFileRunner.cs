@@ -207,7 +207,8 @@ namespace Syringe.Core.Runner
                 testResult.ActualUrl = resolvedUrl;
 
                 var httpLogWriter = new HttpLogWriter();
-                HttpResponse response = await _httpClient.ExecuteRequestAsync(test.Method, resolvedUrl, test.PostType, test.PostBody, test.Headers, httpLogWriter);
+
+				HttpResponse response = await _httpClient.ExecuteRequestAsync(test.Method, resolvedUrl, test.PostBody, test.Headers, httpLogWriter);
                 testResult.ResponseTime = response.ResponseTime;
                 testResult.HttpResponse = response;
                 testResult.HttpLog = httpLogWriter.StringBuilder.ToString();

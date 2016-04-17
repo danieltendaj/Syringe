@@ -2,7 +2,7 @@
 using Syringe.Core.Tests;
 using Syringe.Web.Models;
 
-namespace Syringe.Web.ModelBuilders
+namespace Syringe.Web.Mappers
 {
     public interface ITestFileMapper
     {

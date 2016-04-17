@@ -5,7 +5,7 @@ using Syringe.Core.Tests;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
 
-namespace Syringe.Web.ModelBuilders
+namespace Syringe.Web.Mappers
 {
     public class TestFileMapper : ITestFileMapper
     {

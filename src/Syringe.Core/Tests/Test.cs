@@ -12,7 +12,6 @@ namespace Syringe.Core.Tests
 		public string Url { get; set; }
 		public string PostBody { get; set; }
 		public string ErrorMessage { get; set; }
-		public string PostType { get; set; }
 		public HttpStatusCode VerifyResponseCode { get; set; }
 		public List<HeaderItem> Headers { get; set; }
 

@@ -43,7 +43,6 @@ namespace Syringe.Tests.Unit.Xml
 				Description = "description",
 				Url = "http://myserver",
 				Method = "post",
-				PostType = "text/xml",
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				ErrorMessage = "my error message",
 			};
@@ -158,7 +157,6 @@ namespace Syringe.Tests.Unit.Xml
 					Description = "description" +i,
 					Url = "http://myserver",
 					Method = "post",
-					PostType = "text/xml",
 					VerifyResponseCode = HttpStatusCode.Accepted,
 					ErrorMessage = "my error message",
 				};

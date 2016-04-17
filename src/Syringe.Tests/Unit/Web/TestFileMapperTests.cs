@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core.Tests;
-using Syringe.Web.ModelBuilders;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
 
@@ -174,7 +174,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				ErrorMessage = "Error",
 				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
-				//PostType = MethodType.GET.ToString(),
 				VerifyResponseCode = HttpStatusCode.Accepted,
 				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },

@@ -7,7 +7,7 @@ using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
-using Syringe.Web.ModelBuilders;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web

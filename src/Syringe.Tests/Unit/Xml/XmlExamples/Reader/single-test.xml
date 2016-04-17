@@ -5,7 +5,6 @@
         description="description"
         url="http://myserver"
         method="post"
-        posttype="text/xml"
         verifyresponsecode="404"
         errormessage="my error message"
         logrequest="false"

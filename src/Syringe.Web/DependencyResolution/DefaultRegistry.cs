@@ -21,7 +21,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Helpers;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
-using Syringe.Web.ModelBuilders;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.DependencyResolution
