@@ -31,7 +31,7 @@ namespace Syringe.Web.ModelBuilders
                 PostBody = test.PostBody,
                 Method = methodType,
                 VerifyResponseCode = test.VerifyResponseCode,
-                ShortDescription = test.ShortDescription,
+                Description = test.Description,
                 Url = test.Url,
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Regex = x.Regex, Description = x.Description, AssertionType = x.AssertionType }).ToList(),
                 Filename = test.Filename,
@@ -51,7 +51,7 @@ namespace Syringe.Web.ModelBuilders
             return tests.Select(x => new TestViewModel()
             {
                 Position = x.Position,
-                ShortDescription = x.ShortDescription,
+                Description = x.Description,
                 Url = x.Url,
 				Assertions = x.Assertions.Select(y => new AssertionViewModel { Regex = y.Regex, Description = y.Description, AssertionType = y.AssertionType }).ToList(),
 				CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
@@ -74,7 +74,7 @@ namespace Syringe.Web.ModelBuilders
                 CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex)).ToList(),
                 PostBody = testModel.PostBody,
                 Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Regex, x.AssertionType)).ToList(),
-                ShortDescription = testModel.ShortDescription,
+                Description = testModel.Description,
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
                 VerifyResponseCode = testModel.VerifyResponseCode,

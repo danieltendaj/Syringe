@@ -196,6 +196,7 @@ namespace Syringe.Core.Runner
         internal async Task<TestResult> RunTestAsync(Test test, CapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
         {
             var testResult = new TestResult();
+	        testResult.Position = test.Position;
             testResult.SessionId = SessionId;
             testResult.Test = test;
 

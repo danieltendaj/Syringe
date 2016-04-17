@@ -70,7 +70,7 @@ namespace Syringe.Core.Xml.Writer
         {
             XElement element = new XElement("test");
 
-            element.Add(new XAttribute("shortdescription", test.ShortDescription ?? ""));
+            element.Add(new XAttribute("description", test.Description ?? ""));
             element.Add(new XAttribute("url", test.Url ?? ""));
             element.Add(new XAttribute("method", test.Method ?? ""));
             element.Add(new XAttribute("posttype", test.PostType ?? ""));

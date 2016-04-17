@@ -11,9 +11,9 @@ namespace Syringe.Web.Models
         [Required]
         public int Position { get; set; }
 
-        [Display(Name = "Short Description")]
+        [Display(Name = "Description")]
         [Required]
-        public string ShortDescription { get; set; }
+        public string Description { get; set; }
 
         [Required]
         public string Url { get; set; }

@@ -40,7 +40,7 @@ namespace Syringe.Tests.Unit.Xml
 			var test = new Test()
 			{
 				Position = 1,
-				ShortDescription = "short description",
+				Description = "description",
 				Url = "http://myserver",
 				Method = "post",
 				PostType = "text/xml",
@@ -155,7 +155,7 @@ namespace Syringe.Tests.Unit.Xml
 				var test = new Test()
 				{
                     Position = 0,
-					ShortDescription = "short description" +i,
+					Description = "description" +i,
 					Url = "http://myserver",
 					Method = "post",
 					PostType = "text/xml",

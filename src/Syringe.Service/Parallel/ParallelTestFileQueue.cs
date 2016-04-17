@@ -96,7 +96,7 @@ namespace Syringe.Service.Parallel
 						else
 						{
 							IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
-							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.ShortDescription+ "'"));
+							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.Description+ "'"));
 							return $"fail - tests that failed: {names}";
 						}
 					}

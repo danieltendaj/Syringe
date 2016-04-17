@@ -72,7 +72,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Assert.That(actualTest, Is.Not.Null);
 			Assert.That(actualTest.Filename, Is.EqualTo(expectedTest.Filename));
 			Assert.That(actualTest.ErrorMessage, Is.EqualTo(expectedTest.ErrorMessage));
-			Assert.That(actualTest.ShortDescription, Is.EqualTo(expectedTest.ShortDescription));
+			Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
 		}
 
 		[Test]
@@ -115,7 +115,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 			Test expectedTest = testFile.Tests.FirstOrDefault();
-			expectedTest.ShortDescription = "new description";
+			expectedTest.Description = "new description";
 
 			// when
 			bool success = client.EditTest(expectedTest, ServiceConfig.BranchName);
@@ -124,7 +124,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Test actualTest = client.GetTest(testFile.Filename, ServiceConfig.BranchName, 0);
 			
 			Assert.True(success);
-			Assert.That(actualTest.ShortDescription, Is.StringContaining("new description"));
+			Assert.That(actualTest.Description, Is.StringContaining("new description"));
 		}
 
 		[Test]

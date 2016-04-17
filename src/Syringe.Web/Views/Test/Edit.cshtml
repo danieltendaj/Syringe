@@ -8,7 +8,7 @@
 	    <ul class="breadcrumb">
 	        <li><a title="View" href="/">Test Files</a></li>
 	        <li><a title="View" href="@Url.Action("View", "Test", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
-	        <li>@(Model.ShortDescription ?? "Add")</li>
+	        <li>@(Model.Description ?? "Add")</li>
 	    </ul>
 
        
@@ -22,9 +22,9 @@
 				</div>
 				<div class="panel-body">
 					<div class="form-group">
-						@Html.LabelFor(x => x.ShortDescription, new {@class = "col-sm-2 control-label"})
+						@Html.LabelFor(x => x.Description, new {@class = "col-sm-2 control-label"})
 						<div class="col-sm-4">
-							@Html.TextBoxFor(x => x.ShortDescription, new {@class = "form-control", placeholder = "Enter Short Description"})
+							@Html.TextBoxFor(x => x.Description, new {@class = "form-control", placeholder = "Enter a description"})
 						</div>
 					</div>
 

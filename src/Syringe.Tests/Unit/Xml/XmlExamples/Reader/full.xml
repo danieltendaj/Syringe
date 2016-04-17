@@ -9,7 +9,7 @@
 
 	<test
 		id="1"
-		shortdescription="short description 1"
+		description="description 1"
 		method="post"
 		url="http://myserver/test/login.jsp"
 		logrequest="true"
@@ -31,7 +31,7 @@
 
 	<test
 		id="300"
-		shortdescription="short description 300"
+		description="description 300"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
@@ -42,7 +42,7 @@
 
 	<test
 		id="20"
-		shortdescription="short description 20"
+		description="description 20"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
@@ -53,7 +53,7 @@
 
 	<test
 		id="9"
-		shortdescription="short description 9"
+		description="description 9"
 		method="post"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>

@@ -59,8 +59,8 @@ namespace Syringe.Tests.Unit.Web
 							c.Tests ==
 							new[]
 							{
-								new Test { Position = test1, ShortDescription = "Desc1"},
-								new Test { Position = test2, ShortDescription = "Desc2"}
+								new Test { Position = test1, Description = "Desc1"},
+								new Test { Position = test2, Description = "Desc2"}
 							});
 
 				var testService =

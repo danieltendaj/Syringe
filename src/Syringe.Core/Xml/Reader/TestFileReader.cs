@@ -75,7 +75,7 @@ namespace Syringe.Core.Xml.Reader
 
             // Required Properties
             test.Position = position;
-			test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
+			test.Description = XmlHelper.GetOptionalAttribute(element, "description");
 
 			test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))

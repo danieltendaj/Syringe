@@ -2,7 +2,7 @@
 <tests>
 	<test
         id="1"
-        shortdescription="short description"
+        description="description"
         url="http://myserver"
         method="post"
         posttype="text/xml"

@@ -36,7 +36,7 @@ namespace Syringe.Web.Models
 
             var verifications = new List<Assertion>();
             verifications.AddRange(test.Assertions);
-            _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
+            _runningTests.Add(new RunningTestViewModel(test.Position, test.Description, verifications));
 
             var taskRequest = new TaskRequest
             {
@@ -60,7 +60,7 @@ namespace Syringe.Web.Models
             {
                 var verifications = new List<Assertion>();
                 verifications.AddRange(test.Assertions);
-                _runningTests.Add(new RunningTestViewModel(test.Position, test.ShortDescription, verifications));
+                _runningTests.Add(new RunningTestViewModel(test.Position, test.Description, verifications));
             }
 
             var taskRequest = new TaskRequest

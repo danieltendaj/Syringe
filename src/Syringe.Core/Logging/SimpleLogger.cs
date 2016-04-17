@@ -33,6 +33,7 @@ namespace Syringe.Core.Logging
                 message += "\n" + ex;
 
             Write(message, args);
+			Write(System.Environment.NewLine);
         }
     }
 }

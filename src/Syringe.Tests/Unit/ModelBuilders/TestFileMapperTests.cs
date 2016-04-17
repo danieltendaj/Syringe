@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(testViewModel.CapturedVariables.Count, build.CapturedVariables.Count);
 			Assert.AreEqual(testViewModel.PostBody, build.PostBody);
 			Assert.AreEqual(2, build.Assertions.Count);
-			Assert.AreEqual(testViewModel.ShortDescription, build.ShortDescription);
+			Assert.AreEqual(testViewModel.Description, build.Description);
 			Assert.AreEqual(testViewModel.Url, build.Url);
 			Assert.AreEqual(testViewModel.Method.ToString(), build.Method);
 			Assert.AreEqual(testViewModel.VerifyResponseCode, build.VerifyResponseCode);
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					new Test
 					{
 						Position = testFileId1,
-						ShortDescription = "Short Description 1",
+						Description = "Description 1",
 						Url = "http://www.google.com",
 						Assertions = new List<Assertion>() { new Assertion(), new Assertion()},
 						CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable() }
@@ -78,7 +78,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					new Test
 					{
 						Position = testFileId2,
-						ShortDescription = "Short Description 2",
+						Description = "Description 2",
 						Url = "http://www.arsenal.com",
 						Assertions = new List<Assertion>() { new Assertion(), new Assertion(), new Assertion()},
 						CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable(), new CapturedVariable() }
@@ -95,7 +95,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			var firstCase = viewModels.First();
 			Assert.AreEqual(testFileId1, firstCase.Position);
-			Assert.AreEqual("Short Description 1", firstCase.ShortDescription);
+			Assert.AreEqual("Description 1", firstCase.Description);
 			Assert.AreEqual("http://www.google.com", firstCase.Url);
 			Assert.AreEqual("http://www.google.com", firstCase.Url);
 			Assert.That(firstCase.Assertions.Count, Is.EqualTo(2));
@@ -103,7 +103,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 
 			var lastCase = viewModels.Last();
 			Assert.AreEqual(testFileId2, lastCase.Position);
-			Assert.AreEqual("Short Description 2", lastCase.ShortDescription);
+			Assert.AreEqual("Description 2", lastCase.Description);
 			Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
 			Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
 		}
@@ -117,7 +117,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			var test = new Test
 			{
 				Position = 1,
-				ShortDescription = "Short Description",
+				Description = "Short Description",
 				Url = "http://www.google.com",
 				ErrorMessage = "Error",
 				Method = MethodType.GET.ToString(),
@@ -136,7 +136,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			// then
 			Assert.NotNull(testViewModel);
 			Assert.AreEqual(test.Position, testViewModel.Position);
-			Assert.AreEqual(test.ShortDescription, testViewModel.ShortDescription);
+			Assert.AreEqual(test.Description, testViewModel.Description);
 			Assert.AreEqual(test.Url, testViewModel.Url);
 			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
@@ -202,7 +202,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 					PostBody = "Post Body",
 					Assertions = new List<AssertionViewModel>() { new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Negative },
 							   new AssertionViewModel { Description = "Description", Regex = "Regex", AssertionType = AssertionType.Positive } },
-					ShortDescription = "short d3escription",
+					Description = "short d3escription",
 					Url = "url",
 					Method = MethodType.POST,
 					VerifyResponseCode = HttpStatusCode.Accepted,

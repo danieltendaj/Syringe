@@ -36,7 +36,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 				CapturedVariables = new List<CapturedVariable>(),
 				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 1",
+				Description = "short desc 1",
 				Method = "POST",
 				Url = "url 1"
 			};
@@ -49,7 +49,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 				CapturedVariables = new List<CapturedVariable>(),
 				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 2",
+				Description = "short desc 2",
 				Method = "POST",
 				Url = "url 2"
 			};

@@ -7,7 +7,7 @@ namespace Syringe.Core.Tests
 	public class Test
 	{
 		public int Position { get; set; }
-		public string ShortDescription { get; set; }
+		public string Description { get; set; }
 		public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }

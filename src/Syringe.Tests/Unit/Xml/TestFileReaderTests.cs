@@ -87,7 +87,7 @@ namespace Syringe.Tests.Unit.Xml
 			// Assert
 			Test test = testFile.Tests.First();
 
-			Assert.That(test.ShortDescription, Is.EqualTo("short description"));
+			Assert.That(test.Description, Is.EqualTo("description"));
 		}
 
 		[Test]
