@@ -19,8 +19,12 @@ namespace Syringe.Core.Logging
 
         public void Write(string message, params object[] args)
         {
-            _stringBuilder.Append(args.Length > 0 ? string.Format(message, args) : message);
-        }
+	        if (!string.IsNullOrEmpty(message))
+	        {
+		        message = (args.Length > 0) ? string.Format(message, args) : message;
+				_stringBuilder.Append(message);
+			}
+		}
 
         public void WriteLine(string message, params object[] args)
         {
@@ -32,8 +36,11 @@ namespace Syringe.Core.Logging
             if (ex != null)
                 message += "\n" + ex;
 
-            Write(message, args);
-			Write(System.Environment.NewLine);
+	        if (!string.IsNullOrEmpty(message))
+	        {
+		        Write(message, args);
+		        Write(System.Environment.NewLine);
+	        }
         }
     }
 }
