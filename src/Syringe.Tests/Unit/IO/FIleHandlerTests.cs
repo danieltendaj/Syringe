@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
@@ -13,88 +14,93 @@ namespace Syringe.Tests.Unit.IO
     {
         private Mock<IConfiguration> _configurationMock;
 
-        private readonly string _testFile = "test.xml";
-        private readonly string _testTeamDirectory = TestContext.CurrentContext.TestDirectory + "\\test";
-        private readonly string _testFileFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\test.xml";
-        private readonly string _testWriteFileFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\testWrite.xml";
-        private readonly string _testFileToDeleteFullPath = TestContext.CurrentContext.TestDirectory + "\\test\\fileToDelete.xml";
-        private readonly string _teamName = "test";
-
+		private string _testsFile;
+	    private string _testsDirectory;
+	    private string _testsFileFullPath;
+	    private string _testsWriteFileFullPath;
+	    private string _testsFileToDeleteFullPath;
 
         [TestFixtureSetUp]
         public void SetupFixture()
         {
-            if (!Directory.Exists(_testTeamDirectory))
-                Directory.CreateDirectory(_testTeamDirectory);
+			_testsFile = "test.xml";
+			_testsDirectory = Path.Combine(TestContext.CurrentContext.TestDirectory, "tests");
 
-            if (!File.Exists(_testFileFullPath))
+	        _testsFileFullPath = Path.Combine(_testsDirectory, _testsFile);
+			_testsWriteFileFullPath = Path.Combine(_testsDirectory, "testsWrite.xml");
+			_testsFileToDeleteFullPath = Path.Combine(_testsDirectory, "fileToDelete.xml");
+
+			if (!Directory.Exists(_testsDirectory))
+                Directory.CreateDirectory(_testsDirectory);
+
+            if (!File.Exists(_testsFileFullPath))
             {
-                using (StreamWriter sw = File.CreateText(_testFileFullPath))
-                {
-                    sw.WriteLine("Test Data");
-                }
+				File.WriteAllText(_testsFileFullPath, "Test Data");
             }
 
-            if (!File.Exists(_testFileToDeleteFullPath))
+            if (!File.Exists(_testsFileToDeleteFullPath))
             {
-                using (StreamWriter sw = File.CreateText(_testFileToDeleteFullPath))
-                {
-                    sw.WriteLine("Delete file");
-                }
+				File.WriteAllText(_testsFileToDeleteFullPath, "Delete file");
             }
         }
 
-        [SetUp]
+		[TestFixtureTearDown]
+		public void TearDownFixture()
+		{
+			Directory.Delete(_testsDirectory, true);
+		}
+
+		[SetUp]
         public void Setup()
         {
             _configurationMock = new Mock<IConfiguration>();
-            _configurationMock.Setup(x => x.TestFilesBaseDirectory).Returns(TestContext.CurrentContext.TestDirectory);
+            _configurationMock.Setup(x => x.TestFilesBaseDirectory).Returns(_testsDirectory);
         }
 
         [Test]
         public void GetFileFullPath_should_throw_FileNotFoundException_if_file_is_missing()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
-            var fileName = "filedoesnotexist.xml";
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
+            string fileName = "filedoesnotexist.xml";
 
             // when + then
-            Assert.Throws<FileNotFoundException>(() => fileHandler.GetFileFullPath(_teamName, fileName));
+            Assert.Throws<FileNotFoundException>(() => fileHandler.GetFileFullPath(fileName));
         }
         [Test]
         public void GetFileFullPath_should_return_file_path_if_file_exists()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileFullPath = fileHandler.GetFileFullPath(_teamName, _testFile);
+            string fileFullPath = fileHandler.GetFileFullPath(_testsFile);
 
             // then
-            Assert.AreEqual(_testFileFullPath, fileFullPath);
+            Assert.AreEqual(_testsFileFullPath, fileFullPath);
         }
 
         [Test]
         public void CreateFileFullPath_should_create_correct_path()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileFullPath = fileHandler.CreateFileFullPath(_teamName, _testFile);
+            string fileFullPath = fileHandler.CreateFileFullPath(_testsFile);
 
             // then
-            Assert.AreEqual(_testFileFullPath, fileFullPath);
+            Assert.AreEqual(_testsFileFullPath, fileFullPath);
         }
 
         [Test]
         public void FileExists_should_return_true_if_file_exists()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileExists = fileHandler.FileExists(_testFileFullPath);
+            bool fileExists = fileHandler.FileExists(_testsFileFullPath);
 
             // then
             Assert.IsTrue(fileExists);
@@ -104,47 +110,23 @@ namespace Syringe.Tests.Unit.IO
         public void FileExists_should_return_false_if_does_not_exist()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var fileExists = fileHandler.FileExists("somefakepath/filedoesnotexist.xml");
+            bool fileExists = fileHandler.FileExists("somefakepath/filedoesnotexist.xml");
 
             // then
             Assert.IsFalse(fileExists);
         }
 
         [Test]
-        public void GetTeamDirectoryFullPath_should_throw_FileNotFoundException_if_file_is_missing()
-        {
-            // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
-            var teamName = "teamdoesnotexist";
-
-            // when + then
-            Assert.Throws<DirectoryNotFoundException>(() => fileHandler.GetBranchDirectoryFullPath(teamName));
-        }
-
-        [Test]
-        public void GetTeamDirectoryFullPath_should_return_file_path_if_file_exists()
-        {
-            // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
-
-            // when
-            var directoryFullPath = fileHandler.GetBranchDirectoryFullPath(_teamName);
-
-            // then
-            Assert.AreEqual(_testTeamDirectory, directoryFullPath);
-        }
-
-        [Test]
         public void ReadAllText_should_return_file_contents()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var allText = fileHandler.ReadAllText(_testFileFullPath);
+            string allText = fileHandler.ReadAllText(_testsFileFullPath);
 
             // then
             Assert.IsTrue(allText.Contains("Test Data"));
@@ -154,10 +136,10 @@ namespace Syringe.Tests.Unit.IO
         public void WriteAllText_should_return_true_when_contents_written()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var allText = fileHandler.WriteAllText(_testWriteFileFullPath, "test");
+            bool allText = fileHandler.WriteAllText(_testsWriteFileFullPath, "test");
 
             // then
             Assert.IsTrue(allText);
@@ -167,15 +149,14 @@ namespace Syringe.Tests.Unit.IO
         public void GetFileNames_should_get_filenames_list()
         {
             // given
-
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var allText = fileHandler.GetFileNames(_testTeamDirectory);
+            IEnumerable<string> files = fileHandler.GetFileNames();
 
             // then
-            Assert.IsTrue(allText.Count() == 1);
-            Assert.IsTrue(allText.First() == _testFile);
+            Assert.IsTrue(files.Count() == 1);
+            Assert.IsTrue(files.First() == _testsFile);
         }
 
         [Test]
@@ -192,10 +173,10 @@ namespace Syringe.Tests.Unit.IO
         public void CreateFilename_should_add_xml_extension_if_it_is_missing(string fileName)
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var createdFileName = fileHandler.CreateFilename(fileName);
+            string createdFileName = fileHandler.CreateFilename(fileName);
 
             // then
             Assert.AreEqual(string.Concat(fileName, ".xml"), createdFileName);
@@ -206,10 +187,10 @@ namespace Syringe.Tests.Unit.IO
         public void CreateFilename_should__return_correct_name_if_passed_in_correctly(string fileName)
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var createdFileName = fileHandler.CreateFilename(fileName);
+            string createdFileName = fileHandler.CreateFilename(fileName);
 
             // then
             Assert.AreEqual(fileName, createdFileName);
@@ -219,10 +200,10 @@ namespace Syringe.Tests.Unit.IO
         public void WriteAllText_should_return_falseu_when_text_failed_to_write()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var allText = fileHandler.WriteAllText("invalidPath%*()", "test");
+            bool allText = fileHandler.WriteAllText("invalidPath%*()", "test");
 
             // then
             Assert.IsFalse(allText);
@@ -232,19 +213,13 @@ namespace Syringe.Tests.Unit.IO
         public void DeleteFile_should_return_true_when_file_is_deleted()
         {
             // given
-            var fileHandler = new FileHandler(_configurationMock.Object);
+            FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            var allText = fileHandler.DeleteFile(_testFileToDeleteFullPath);
+            bool allText = fileHandler.DeleteFile(_testsFileToDeleteFullPath);
 
             // then
             Assert.IsTrue(allText);
-        }
-
-        [TestFixtureTearDown]
-        public void TearDownFixture()
-        {
-            Directory.Delete(_testTeamDirectory, true);
         }
     }
 }

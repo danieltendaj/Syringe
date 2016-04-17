@@ -31,12 +31,8 @@ namespace Syringe.Tests.Unit.Web
 			{
 				// given
 				const string fileName = "Some file";
-				var testService =
-					Mock.Of<ITestService>(
-						s =>
-							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
-
-				var viewModel = GivenARunViewModel(testService: testService);
+				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
+				RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
 				// when
 				viewModel.Run(Mock.Of<IUserContext>(), fileName);
@@ -50,7 +46,6 @@ namespace Syringe.Tests.Unit.Web
 			{
 				// given
 				const string fileName = "Some file";
-				const string branchName = "master";
 			    int test1 = 1;
 			    int test2 = 2;
 				var testFile =
@@ -63,15 +58,11 @@ namespace Syringe.Tests.Unit.Web
 								new Test { Position = test2, Description = "Desc2"}
 							});
 
-				var testService =
-					Mock.Of<ITestService>(
-						s =>
-							s.GetTestFile(fileName, branchName) == testFile);
-
-				var viewModel = GivenARunViewModel(testService: testService);
+				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == testFile);
+				RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(c => c.DefaultBranchName == branchName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(), fileName);
 
 				// then
 				Assert.That(viewModel.Tests, Is.Not.Null);
@@ -88,26 +79,20 @@ namespace Syringe.Tests.Unit.Web
 				// given
 				const string fileName = "MyFile";
 				const string userName = "Me";
-				const string branchName = "mdstertert";
 
-				var testService =
-					Mock.Of<ITestService>(
-						s =>
-							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
-
+				ITestService testService =Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
 				var tasksService = new Mock<ITasksService>();
-
-				var viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+				RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(c => c.DefaultBranchName == branchName && c.FullName == userName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName);
 
 				// then
 				tasksService.Verify(
 					s =>
 						s.Start(
 							It.Is<TaskRequest>(
-								r => r.BranchName == branchName && r.Filename == fileName && r.Username == userName)),
+								r => r.Filename == fileName && r.Username == userName)),
 					"Should have requested for the correct task to start.");
 			}
 
@@ -119,7 +104,7 @@ namespace Syringe.Tests.Unit.Web
 				var testService =
 					Mock.Of<ITestService>(
 						s =>
-							s.GetTestFile(It.IsAny<string>(), It.IsAny<string>()) == Mock.Of<TestFile>());
+							s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
 
 				var tasksService = Mock.Of<ITasksService>(s => s.Start(It.IsAny<TaskRequest>()) == taskId);
 				var viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService);

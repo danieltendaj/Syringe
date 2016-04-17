@@ -38,7 +38,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
         {
-            TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(filename);
             IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 
             TestFileViewModel viewModel = new TestFileViewModel
@@ -55,7 +55,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Edit(string filename, int position)
         {
-            Test test = _testsClient.GetTest(filename, _userContext.DefaultBranchName, position);
+            Test test = _testsClient.GetTest(filename, position);
             TestViewModel model = _testFileMapper.BuildViewModel(test);
 
             return View("Edit", model);
@@ -68,7 +68,7 @@ namespace Syringe.Web.Controllers
             if (ModelState.IsValid)
             {
                 Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.EditTest(test, _userContext.DefaultBranchName);
+                _testsClient.EditTest(test);
                 return RedirectToAction("View", new { filename = model.Filename });
             }
 
@@ -77,7 +77,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Add(string filename)
         {
-            TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(filename);
 
             var model = new TestViewModel { Filename = filename, AvailableVariables = _testFileMapper.BuildVariableViewModel(testFile) };
             return View("Edit", model);
@@ -90,7 +90,7 @@ namespace Syringe.Web.Controllers
             if (ModelState.IsValid)
             {
                 Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.CreateTest(test, _userContext.DefaultBranchName);
+                _testsClient.CreateTest(test);
                 return RedirectToAction("View", new { filename = model.Filename });
             }
 
@@ -100,7 +100,7 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Delete(int position, string fileName)
         {
-            _testsClient.DeleteTest(position, fileName, _userContext.DefaultBranchName);
+            _testsClient.DeleteTest(position, fileName);
 
             return RedirectToAction("View", new { filename = fileName });
         }
@@ -129,7 +129,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult ViewXml(string fileName)
         {
-            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName, _userContext.DefaultBranchName) };
+            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName) };
             return View("ViewXml", model);
         }
     }

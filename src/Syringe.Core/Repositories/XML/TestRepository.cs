@@ -22,9 +22,9 @@ namespace Syringe.Core.Repositories.XML
 			_fileHandler = fileHandler;
 		}
 
-		public Test GetTest(string filename, string branchName, int position)
+		public Test GetTest(string filename, int position)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -43,14 +43,14 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public bool CreateTest(Test test, string branchName)
+		public bool CreateTest(Test test)
 		{
 			if (test == null)
 			{
 				throw new ArgumentNullException(nameof(test));
 			}
 
-			string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
+			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
@@ -67,14 +67,14 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool SaveTest(Test test, string branchName)
+		public bool SaveTest(Test test)
 		{
 			if (test == null)
 			{
 				throw new ArgumentNullException(nameof(test));
 			}
 
-			string fullPath = _fileHandler.GetFileFullPath(branchName, test.Filename);
+			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
@@ -104,9 +104,9 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool DeleteTest(int position, string fileName, string branchName)
+		public bool DeleteTest(int position, string fileName)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
+			string fullPath = _fileHandler.GetFileFullPath(fileName);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			TestFile testFile;
@@ -130,11 +130,11 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool CreateTestFile(TestFile testFile, string branchName)
+		public bool CreateTestFile(TestFile testFile)
 		{
 			testFile.Filename = _fileHandler.CreateFilename(testFile.Filename);
 
-			string filePath = _fileHandler.CreateFileFullPath(branchName, testFile.Filename);
+			string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
 			bool fileExists = _fileHandler.FileExists(filePath);
 
 			if (fileExists)
@@ -147,9 +147,9 @@ namespace Syringe.Core.Repositories.XML
 			return _fileHandler.WriteAllText(filePath, contents);
 		}
 
-		public bool UpdateTestVariables(TestFile testFile, string branchName)
+		public bool UpdateTestVariables(TestFile testFile)
 		{
-			string fileFullPath = _fileHandler.GetFileFullPath(branchName, testFile.Filename);
+			string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
 			string xml = _fileHandler.ReadAllText(fileFullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -163,9 +163,9 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public TestFile GetTestFile(string filename, string branchName)
+		public TestFile GetTestFile(string filename)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string xml = _fileHandler.ReadAllText(fullPath);
 
 			using (var stringReader = new StringReader(xml))
@@ -177,22 +177,21 @@ namespace Syringe.Core.Repositories.XML
 			}
 		}
 
-		public string GetXml(string filename, string branchName)
+		public string GetXml(string filename)
 		{
-			var fullPath = _fileHandler.GetFileFullPath(branchName, filename);
+			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);
 		}
 
-		public bool DeleteFile(string fileName, string branchName)
+		public bool DeleteFile(string fileName)
 		{
-			var fullPath = _fileHandler.GetFileFullPath(branchName, fileName);
+			var fullPath = _fileHandler.GetFileFullPath(fileName);
 			return _fileHandler.DeleteFile(fullPath);
 		}
 
-		public IEnumerable<string> ListFilesForBranch(string branchName)
+		public IEnumerable<string> ListFiles()
 		{
-			string fullPath = _fileHandler.GetBranchDirectoryFullPath(branchName);
-			return _fileHandler.GetFileNames(fullPath);
+			return _fileHandler.GetFileNames();
 		}
 	}
 }

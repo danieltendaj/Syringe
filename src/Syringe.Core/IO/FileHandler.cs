@@ -16,9 +16,9 @@ namespace Syringe.Core.IO
             _configuration = configuration;
         }
 
-        public string GetFileFullPath(string branchName, string fileName)
+        public string GetFileFullPath(string fileName)
         {
-	        string fullPath = CreateFileFullPath(branchName, fileName);
+	        string fullPath = CreateFileFullPath(fileName);
 
 			if (!File.Exists(fullPath))
                 throw new FileNotFoundException("The test file path cannot be found", fileName);
@@ -26,44 +26,14 @@ namespace Syringe.Core.IO
             return fullPath;
         }
 
-        public string CreateFileFullPath(string branchName, string fileName)
+        public string CreateFileFullPath(string fileName)
         {
-			string fullPath = "";
-
-			if (!string.IsNullOrEmpty(branchName))
-			{
-				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, fileName);
-			}
-			else
-			{
-				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, fileName);
-			}
-
-	        return fullPath;
-        }
+			return Path.Combine(_configuration.TestFilesBaseDirectory, fileName);
+		}
 
         public bool FileExists(string filePath)
         {
             return File.Exists(filePath);
-        }
-
-        public string GetBranchDirectoryFullPath(string branchName)
-        {
-			string fullPath = "";
-
-			if (!string.IsNullOrEmpty(branchName))
-			{
-				fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName);
-			}
-			else
-			{
-				fullPath = _configuration.TestFilesBaseDirectory;
-			}
-
-            if (!Directory.Exists(fullPath))
-                throw new DirectoryNotFoundException(string.Format("The path '{0}' for branch {0} cannot be found", fullPath, branchName));
-
-            return fullPath;
         }
 
         public string ReadAllText(string path)
@@ -86,9 +56,9 @@ namespace Syringe.Core.IO
             return false;
         }
 
-        public IEnumerable<string> GetFileNames(string fullPath)
+        public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(fullPath, "*.xml"))
+            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*.xml"))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;

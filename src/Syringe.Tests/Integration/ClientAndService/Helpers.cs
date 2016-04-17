@@ -55,9 +55,9 @@ namespace Syringe.Tests.Integration.ClientAndService
 			};
 
 			var testFile = new TestFile() { Filename = filename };
-			client.CreateTestFile(testFile, ServiceConfig.BranchName);
-			client.CreateTest(test1, ServiceConfig.BranchName);
-			client.CreateTest(test2, ServiceConfig.BranchName);
+			client.CreateTestFile(testFile);
+			client.CreateTest(test1);
+			client.CreateTest(test2);
 
 			var tests = new List<Test>()
 			{
