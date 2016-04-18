@@ -71,7 +71,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 			// then
 			Assert.That(actualTest, Is.Not.Null);
 			Assert.That(actualTest.Filename, Is.EqualTo(expectedTest.Filename));
-			Assert.That(actualTest.ErrorMessage, Is.EqualTo(expectedTest.ErrorMessage));
 			Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
 		}
 
@@ -141,7 +140,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 				Assertions = new List<Assertion>(),
 				AvailableVariables = new List<Variable>(),
 				CapturedVariables = new List<CapturedVariable>(),
-				ErrorMessage = "my error message",
 				Headers = new List<HeaderItem>(),
 				Method = "POST",
 				Url = "url"
@@ -156,7 +154,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Assert.True(success);
 			Assert.True(File.Exists(fullPath));
 			Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
-			Assert.That(File.ReadAllText(fullPath), Is.StringContaining(@"errormessage=""my error message"""));
 		}
 
 		[Test]

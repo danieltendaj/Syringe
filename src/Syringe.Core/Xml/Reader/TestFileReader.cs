@@ -84,7 +84,6 @@ namespace Syringe.Core.Xml.Reader
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
             test.PostBody = XmlHelper.GetOptionalElementValue(element, "postbody").Trim();
-            test.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
             test.ExpectedHttpStatusCode = GetExpectedHttpStatusCode(element);
 
             test.Headers = GetHeaders(element);

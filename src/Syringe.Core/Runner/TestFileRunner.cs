@@ -258,10 +258,6 @@ namespace Syringe.Core.Runner
                     testResult.Log = "No verifications run - the response code did not match the expected response code.";
                 }
 
-                if (testResult.Success == false)
-                {
-                    testResult.Message = test.ErrorMessage;
-                }
             }
             catch (Exception ex)
             {

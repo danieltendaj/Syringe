@@ -8,7 +8,7 @@
 		id="1"
 		shortdescription="Roadkill"
 		url="{baseurl}"
-		errormessage="Oh shit"
+		
 		method="get"
 		expectedhttpstatuscode="200"
 	>

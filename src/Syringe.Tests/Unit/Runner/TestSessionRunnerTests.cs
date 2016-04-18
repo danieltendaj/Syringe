@@ -243,25 +243,6 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public async Task Run_should_set_message_from_test_errormessage_when_httpcode_fails()
-		{
-			// Arrange
-			TestFileRunner runner = CreateRunner();
-
-			var testFile = CreateTestFile(new[]
-			{
-				new Test() { Url = "foo1", ErrorMessage = "It broke", ExpectedHttpStatusCode = HttpStatusCode.Ambiguous},
-			});
-
-			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
-
-			// Assert
-			Assert.That(session.TestResults.Single().Message, Is.EqualTo("It broke"));
-		}
-
-
-		[Test]
 		public async Task Run_should_save_testresults_to_repository()
 		{
 			// Arrange

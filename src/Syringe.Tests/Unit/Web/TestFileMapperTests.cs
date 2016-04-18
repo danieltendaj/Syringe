@@ -19,7 +19,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			{
 				return new TestViewModel
 				{
-					ErrorMessage = "error",
 					Headers = new List<HeaderItem> { new HeaderItem { Key = "Key", Value = "Value" } },
 					Position = 1,
 					Filename = "Test.xml",
@@ -48,7 +47,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Test test = testFileMapper.BuildCoreModel(_testViewModel);
 
 			// then
-			Assert.AreEqual(_testViewModel.ErrorMessage, test.ErrorMessage);
 			Assert.AreEqual(_testViewModel.Headers.Count, test.Headers.Count);
 			Assert.AreEqual(_testViewModel.Position, test.Position);
 			Assert.AreEqual(_testViewModel.Filename, test.Filename);
@@ -171,7 +169,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				Position = 1,
 				Description = "Short Description",
 				Url = "http://www.google.com",
-				ErrorMessage = "Error",
 				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
 				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
@@ -189,7 +186,6 @@ namespace Syringe.Tests.Unit.ModelBuilders
 			Assert.AreEqual(test.Position, testViewModel.Position);
 			Assert.AreEqual(test.Description, testViewModel.Description);
 			Assert.AreEqual(test.Url, testViewModel.Url);
-			Assert.AreEqual(test.ErrorMessage, testViewModel.ErrorMessage);
 			Assert.AreEqual(test.PostBody, testViewModel.PostBody);
 			Assert.AreEqual(MethodType.GET, testViewModel.Method);
 			Assert.AreEqual(test.ExpectedHttpStatusCode, testViewModel.ExpectedHttpStatusCode);

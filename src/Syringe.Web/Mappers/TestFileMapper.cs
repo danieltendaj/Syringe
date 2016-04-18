@@ -25,7 +25,6 @@ namespace Syringe.Web.Mappers
             var model = new TestViewModel
             {
                 Position = test.Position,
-                ErrorMessage = test.ErrorMessage,
                 Headers = test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }).ToList(),
                 CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex }).ToList(),
                 PostBody = test.PostBody,
@@ -68,7 +67,6 @@ namespace Syringe.Web.Mappers
             return new Test
             {
                 Position = testModel.Position,
-                ErrorMessage = testModel.ErrorMessage,
                 Headers = testModel.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
                 Filename = testModel.Filename,
                 CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex)).ToList(),

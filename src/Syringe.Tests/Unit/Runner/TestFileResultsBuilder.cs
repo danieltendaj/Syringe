@@ -56,10 +56,5 @@ namespace Syringe.Tests.Unit.Runner
 			return _testResults;
 		}
 
-		public TestFileResultsBuilder WithMessage(string message)
-		{
-			_currentTestResult.Message = message;
-			return this;
-		}
 	}
 }

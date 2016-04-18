@@ -6,7 +6,7 @@
         url="http://myserver"
         method="post"
         expectedhttpstatuscode="404"
-        errormessage="my error message"
+       
         logrequest="false"
         logresponse="false"
 	    >

@@ -22,10 +22,6 @@ namespace Syringe.Web.Models
         public string PostBody { get; set; }
 
         [Required]
-        [Display(Name = "Error Message")]
-        public string ErrorMessage { get; set; }
-
-        [Required]
         public MethodType Method { get; set; }
 
         [Display(Name = "Expected HTTP status code")]
