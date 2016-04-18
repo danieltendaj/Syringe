@@ -106,14 +106,14 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("1", "some content")
 					},
                     Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive)
+						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
@@ -122,7 +122,7 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(session.TestResults.Single().PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.Single().AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -154,7 +154,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("1", @"(SECRET_KEY)")
@@ -163,7 +163,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "test2",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
 						new CapturedVariable("2", @"(SECRET_KEY)")
@@ -171,17 +171,17 @@ namespace Syringe.Tests.Unit.Runner
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive)
+						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				},
 				new Test()
 				{
 					Url = "test3",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive)
+						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
@@ -190,8 +190,8 @@ namespace Syringe.Tests.Unit.Runner
 			TestFileResult session = await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(session.TestResults.ElementAt(1).PositiveAssertionResults[0].Success, Is.True);
-			Assert.That(session.TestResults.ElementAt(2).PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(1).AssertionResults[0].Success, Is.True);
+			Assert.That(session.TestResults.ElementAt(2).AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -206,7 +206,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.OK
+					ExpectedHttpStatusCode = HttpStatusCode.OK
 				},
 			});
 
@@ -230,7 +230,7 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.Ambiguous
+					ExpectedHttpStatusCode = HttpStatusCode.Ambiguous
 				},
 			});
 
@@ -241,25 +241,6 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(session.TestResults.Single().Success, Is.False);
 			Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
 		}
-
-		[Test]
-		public async Task Run_should_set_message_from_test_errormessage_when_httpcode_fails()
-		{
-			// Arrange
-			TestFileRunner runner = CreateRunner();
-
-			var testFile = CreateTestFile(new[]
-			{
-				new Test() { Url = "foo1", ErrorMessage = "It broke", VerifyResponseCode = HttpStatusCode.Ambiguous},
-			});
-
-			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
-
-			// Assert
-			Assert.That(session.TestResults.Single().Message, Is.EqualTo("It broke"));
-		}
-
 
 		[Test]
 		public async Task Run_should_save_testresults_to_repository()
@@ -296,11 +277,11 @@ namespace Syringe.Tests.Unit.Runner
 				new Test()
 				{
 					Url = "foo1",
-					VerifyResponseCode = HttpStatusCode.OK,
+					ExpectedHttpStatusCode = HttpStatusCode.OK,
                     Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "some content", AssertionType.Positive),
-                        new Assertion("negative-1", "no text like this", AssertionType.Negative)
+						new Assertion("positive-1", "some content", AssertionType.Positive, AssertionMethod.Regex),
+                        new Assertion("negative-1", "no text like this", AssertionType.Negative, AssertionMethod.Regex)
                     }
 				},
 			});
@@ -311,11 +292,11 @@ namespace Syringe.Tests.Unit.Runner
 			// Assert
 			var result = session.TestResults.Single();
 			Assert.That(result.Success, Is.True);
-			Assert.That(result.PositiveAssertionResults.Count, Is.EqualTo(1));
-			Assert.That(result.PositiveAssertionResults[0].Success, Is.True);
+			Assert.That(result.AssertionResults.Where(x=>x.AssertionType==AssertionType.Positive).Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults[0].Success, Is.True);
 
-			Assert.That(result.NegativeAssertionResults.Count, Is.EqualTo(1));
-			Assert.That(result.NegativeAssertionResults[0].Success, Is.True);
+			Assert.That(result.AssertionResults.Where(x => x.AssertionType == AssertionType.Negative).Count, Is.EqualTo(1));
+			Assert.That(result.AssertionResults[0].Success, Is.True);
 		}
 
 		[Test]
@@ -377,13 +358,13 @@ namespace Syringe.Tests.Unit.Runner
 			httpClientMock
 				.Setup(
 					c =>
-						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
 							It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
 				.Returns(Task.FromResult(new HttpResponse()));
 
 			// Dispose of the subscription before processing the third request.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
 				.Callback(() => { if (subscription != null) subscription.Dispose(); })
 				.Returns(Task.FromResult(new HttpResponse()));
 
@@ -441,7 +422,7 @@ namespace Syringe.Tests.Unit.Runner
 
 			// Throw an error.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());

@@ -50,7 +50,6 @@ namespace Syringe.Service.Parallel
 			taskInfo.Request = item;
 			taskInfo.StartTime = DateTime.UtcNow;
 			taskInfo.Username = item.Username;
-			taskInfo.BranchName = item.BranchName;
 			taskInfo.Position = item.Position;
 
 		    Task childTask = StartSessionAsync(taskInfo);
@@ -69,9 +68,8 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				string branchName = "";
 				string xmlFilename = filename;
-				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, xmlFilename);
+				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))
@@ -96,7 +94,7 @@ namespace Syringe.Service.Parallel
 						else
 						{
 							IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
-							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.ShortDescription+ "'"));
+							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.Description+ "'"));
 							return $"fail - tests that failed: {names}";
 						}
 					}
@@ -119,11 +117,9 @@ namespace Syringe.Service.Parallel
 		{
 			try
 			{
-				string branchName = item.BranchName;
-
-				// Read in the XML file from the branch folder, e.g. "c:\syringe\master\test1.xml"
+				// Read in the XML file from the folder, e.g. "D:\syringe\test1.xml"
 				string xmlFilename = item.Request.Filename;
-				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, branchName, xmlFilename);
+				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, xmlFilename);
 				string xml = File.ReadAllText(fullPath);
 
 				using (var stringReader = new StringReader(xml))
@@ -163,7 +159,6 @@ namespace Syringe.Service.Parallel
 				{
 					TaskId = task.Id,
 					Username = task.Username,
-					BranchName = task.BranchName,
 					Status = task.CurrentTask.Status.ToString(),
 					IsComplete = task.CurrentTask.IsCompleted,
 					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
@@ -190,7 +185,6 @@ namespace Syringe.Service.Parallel
 			{
 				TaskId = task.Id,
 				Username = task.Username,
-				BranchName = task.BranchName,
 				Status = task.CurrentTask.Status.ToString(),
 				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
 				CurrentIndex = (runner != null) ? runner.TestsRun : 0,

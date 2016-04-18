@@ -10,7 +10,6 @@
 body {
     background-color: rgb(239,239,239);
     font-family: 'Roboto', sans-serif;
-
 }
 
 h1, h2, h3, h4, h5, div, p {
@@ -38,9 +37,15 @@ h1, h2, h3, h4, h5, div, p {
             display: inline;
         }
     }
+
+    .primary-actions{
+        form{
+            display:inline;
+        }
+    }
 }
 
-// Test case edit page
+// Test edit page
 #edit-test {
     .control-label {
         font-weight: normal;
@@ -52,7 +57,11 @@ h1, h2, h3, h4, h5, div, p {
     }
 }
 
-// Test case results page
+// Test results page
+.results-label {
+	display: inline-block;padding: 5px;
+}
+
 #testcase-result {
     .test-passed i {
         background-color: green;
@@ -81,6 +90,12 @@ h1, h2, h3, h4, h5, div, p {
         &.error {
             background-color: red !important;
             color: white !important;
+        }
+    }
+
+    .panel-title {
+        a {
+            display: block;
         }
     }
 }
@@ -141,8 +156,8 @@ h1, h2, h3, h4, h5, div, p {
     }
 }
 
-.file-list{
-    form{
-        display:inline;
+.file-list {
+    form {
+        display: inline;
     }
 }

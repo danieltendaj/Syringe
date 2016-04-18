@@ -9,8 +9,8 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-    [Authorize]
-    public class TestFileController : Controller
+	[Authorize]
+	public class TestFileController : Controller
     {
         private readonly ITestService _testsClient;
         private readonly IUserContext _userContext;
@@ -30,6 +30,7 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
+		[ValidateInput(false)]
         public ActionResult Add(TestFileViewModel model)
         {
             SelectListItem[] environments = GetEnvironmentsDropDown();
@@ -42,11 +43,11 @@ namespace Syringe.Web.Controllers
                     Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
                 };
 
-                bool createdTestFile = _testsClient.CreateTestFile(testFile, _userContext.DefaultBranchName);
+                bool createdTestFile = _testsClient.CreateTestFile(testFile);
                 if (createdTestFile)
                 {
                     return RedirectToAction("Index", "Home");
-                }
+            }
             }
 
             if (model.Variables != null)
@@ -62,7 +63,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult Update(string fileName)
         {
-            TestFile testFile = _testsClient.GetTestFile(fileName, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(fileName);
             SelectListItem[] environments = GetEnvironmentsDropDown();
 
             var variables = testFile.Variables
@@ -87,12 +88,13 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Delete(string fileName)
         {
-            _testsClient.DeleteFile(fileName, _userContext.DefaultBranchName);
+            _testsClient.DeleteFile(fileName);
 
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
+		[ValidateInput(false)]
         public ActionResult Update(TestFileViewModel model)
         {
             if (ModelState.IsValid)
@@ -101,13 +103,13 @@ namespace Syringe.Web.Controllers
                 {
                     Filename = model.Filename,
                     Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
-                };
+				};
 
-                bool updateTestFile = _testsClient.UpdateTestVariables(testFile, _userContext.DefaultBranchName);
+                bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
                 if (updateTestFile)
                 {
                     return RedirectToAction("Index", "Home");
-                }
+            }
             }
 
             return View("Update", model);
@@ -132,5 +134,5 @@ namespace Syringe.Web.Controllers
                 .Select(x => new SelectListItem { Value = x.Name, Text = x.Name })
                 .ToArray();
         }
-    }
+	}
 }

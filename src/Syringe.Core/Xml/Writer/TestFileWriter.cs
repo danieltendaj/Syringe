@@ -70,13 +70,10 @@ namespace Syringe.Core.Xml.Writer
         {
             XElement element = new XElement("test");
 
-            element.Add(new XAttribute("shortdescription", test.ShortDescription ?? ""));
-            element.Add(new XAttribute("longdescription", test.LongDescription ?? ""));
+            element.Add(new XAttribute("description", test.Description ?? ""));
             element.Add(new XAttribute("url", test.Url ?? ""));
             element.Add(new XAttribute("method", test.Method ?? ""));
-            element.Add(new XAttribute("posttype", test.PostType ?? ""));
-            element.Add(new XAttribute("verifyresponsecode", (int)test.VerifyResponseCode));
-            element.Add(new XAttribute("errormessage", test.ErrorMessage ?? ""));
+            element.Add(new XAttribute("expectedhttpstatuscode", (int)test.ExpectedHttpStatusCode));
 
             return element;
         }
@@ -120,7 +117,7 @@ namespace Syringe.Core.Xml.Writer
                 if (!string.IsNullOrEmpty(item.Regex))
                 {
                     XElement element = new XElement("variable");
-                    element.Add(new XAttribute("description", item.Name));
+                    element.Add(new XAttribute("name", item.Name));
                     element.Value = item.Regex;
 
                     parseresponsesElement.Add(element);
@@ -141,8 +138,9 @@ namespace Syringe.Core.Xml.Writer
                     XElement element = new XElement("assertion");
                     element.Add(new XAttribute("description", verifyItem.Description));
                     element.Add(new XAttribute("type", verifyItem.AssertionType.ToString().ToLower()));
-
-                    AddCDataToElementValue(verifyItem.Regex, element);
+					element.Add(new XAttribute("method", verifyItem.AssertionMethod.ToString().ToLower()));
+					
+					AddCDataToElementValue(verifyItem.Value, element);
 
                     headerElement.Add(element);
                 }

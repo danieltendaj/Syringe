@@ -44,7 +44,7 @@
 								<div class="panel-heading" role="tab" id="heading@(result.Position)">
 									<h3 class="panel-title">
 										<a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
-											@result.Test.ShortDescription
+											@result.Test.Description
 										</a>
 									</h3>
 								</div>
@@ -59,16 +59,9 @@
 										<p>
 											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
 											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
-											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
+										    <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Home", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
+                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
 										</p>
-
-										@if (!string.IsNullOrEmpty(result.Message))
-										{
-											<p>
-												<strong>Error Message:</strong><br />
-												@result.Message
-											</p>
-										}
 
 										@if (!string.IsNullOrEmpty(result.ExceptionMessage))
 										{
@@ -80,26 +73,29 @@
 
 										@if (result.ResponseCodeSuccess)
 										{
-											result.NegativeAssertionResults.AddRange(result.PositiveAssertionResults);
 
 											<table class="table table-bordered table-striped">
 												<tr>
-													<td>Verify Type</td>
 													<td>Description</td>
-													<td>Regex</td>
+													<td>Value</td>
+													<td>Assertion type</td>
+													<td>Assertion method</td>
 												</tr>
 
-												@foreach (var item in result.NegativeAssertionResults)
+												@foreach (var item in result.AssertionResults)
 												{
 													<tr class="@(item.Success ? "success" : "danger")">
-														<td>
-															@item.AssertionType.ToString()
-														</td>
 														<td>
 															@item.Description
 														</td>
 														<td>
-															@item.Regex
+															@item.Value
+														</td>
+														<td>
+															@item.AssertionType.ToString()
+														</td>
+														<td>
+															@item.AssertionMethod.ToString()
 														</td>
 													</tr>
 												}

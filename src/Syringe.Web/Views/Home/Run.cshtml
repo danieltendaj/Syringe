@@ -16,73 +16,87 @@
     </script>
 }
 <div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<a class="btn btn-primary pull-right" target="_blank" href="@Url.Action("View", "Test", new {filename = Model.FileName})">View Tests</a>
+			@using (Html.BeginForm("Run", "Home"))
+			{
+				<button title="Run" class="btn btn-primary pull-right" type="submit" name="filename" value="@Model.FileName"> Run again </button>
+			}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Running @Model.FileName</h2>
+		</div>
+	</div>
     <div class="row">
-        <h2>@Model.FileName</h2>
-    </div>
-    <div class="row">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: 0">
-                        <span class="sr-only">0% Complete</span>
-                    </div>
+        <div class="col-xs-12">
+            <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width: 0">
+                    <span class="sr-only">0% Complete</span>
                 </div>
+            </div>
 
-                <div id="running-items">
-                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                        @foreach (RunningTestViewModel test in Model.Tests)
-                        {
-                            <div class="panel" id="test-@test.Position">
-                                <div class="panel-heading" role="tab" id="heading@(test.Position)">
-                                    <h3 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse@(test.Position)" aria-expanded="false" aria-controls="collapse@(test.Position)">
-                                            @test.Description
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
-                                    <div class="panel-body">
-                                        <div>
-                                            <div class="pull-left test-result-url"></div>
-                                            <div class="pull-right">
-                                                <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View HTML</a>
-                                                <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View raw</a>
-                                            </div>
+            <div id="running-items">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    @foreach (RunningTestViewModel test in Model.Tests)
+                    {
+                        <div class="panel" id="test-@test.Position">
+                            <div class="panel-heading" role="tab" id="heading@(test.Position)">
+                                <h3 class="panel-title">
+                                    <a role="button" data-toggle="collapse" href="#collapse@(test.Position)" aria-expanded="false" aria-controls="collapse@(test.Position)">
+                                        @test.Description
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
+                                <div class="panel-body">
+                                    <div>
+                                        <div class="pull-left test-result-url"></div>
+                                        <div class="pull-right">
+                                            <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View HTML</a>
+                                            <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View raw</a>
+                                            <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Edit", "Test", new {filename = Model.FileName, position = test.Position})">Edit</a>
                                         </div>
-                                        <div class="test-result-errors">
-                                            <div class="hidden test-result-exception">
-                                                <h2 class="label label-danger">Error</h2>
-                                                <textarea></textarea>
-                                            </div>
-                                        </div>
-                                        <table class="table table-bordered table-striped">
-                                            <tr>
-                                                <td>Verify Type</td>
-                                                <td>Description</td>
-                                                <td>Regex</td>
-                                            </tr>
-
-                                            @foreach (var item in test.Assertions			)
-                                            {
-                                                <tr class="result-row">
-                                                    <td>
-                                                        @item.AssertionType.ToString()
-                                                    </td>
-                                                    <td>
-                                                        @item.Description
-                                                    </td>
-                                                    <td>
-                                                        @item.Regex
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </table>
-
                                     </div>
+                                    <div class="test-result-errors">
+                                        <div class="hidden test-result-exception">
+                                            <h2 class="label label-danger">Error</h2>
+                                            <textarea></textarea>
+                                        </div>
+                                    </div>
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td>Description</td>
+	                                        <td>Value</td>
+	                                        <td>Assertion type</td>
+											<td>Assertion method</td>
+                                        </tr>
+
+                                        @foreach (var item in test.Assertions)
+                                        {
+                                            <tr class="result-row">
+                                                <td>
+                                                    @item.Description
+                                                </td>
+	                                            <td>
+		                                            @item.Value
+	                                            </td>
+	                                            <td>
+		                                            @item.AssertionType.ToString()
+	                                            </td>
+												<td>
+													@item.AssertionMethod.ToString()
+												</td>
+                                            </tr>
+                                        }
+                                    </table>
+
                                 </div>
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

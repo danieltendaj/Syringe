@@ -17,8 +17,8 @@ namespace Syringe.Tests.Unit.Results
 			// Arrange
 			var testResult = new TestResult();
 			testResult.ResponseCodeSuccess = responseCodeSuccess;
-			testResult.PositiveAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = positiveSuccess });
-			testResult.NegativeAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = negativeSuccess });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = positiveSuccess });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = negativeSuccess });
 
 			// Act
 			bool actualResult = testResult.Success;
@@ -32,10 +32,10 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testResult = new TestResult();
-			testResult.PositiveAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive) { Success = false });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = false });
 
 			// Act
-			bool actualResult = testResult.IsPositiveAssertionsSuccess;
+			bool actualResult = testResult.AssertionsSuccess;
 
 			// Assert
 			Assert.That(actualResult, Is.False);
@@ -46,10 +46,10 @@ namespace Syringe.Tests.Unit.Results
 		{
 			// Arrange
 			var testResult = new TestResult();
-			testResult.NegativeAssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative) { Success = false });
+			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = false });
 
 			// Act
-			bool actualResult = testResult.IsNegativeAssertionsSuccess;
+			bool actualResult = testResult.AssertionsSuccess;
 
 			// Assert
 			Assert.That(actualResult, Is.False);
@@ -62,8 +62,8 @@ namespace Syringe.Tests.Unit.Results
 			var testResult = new TestResult();
 
 			// Act + Assert
-			Assert.That(testResult.IsPositiveAssertionsSuccess, Is.True);
-			Assert.That(testResult.IsNegativeAssertionsSuccess, Is.True);
+			Assert.That(testResult.AssertionsSuccess, Is.True);
+			Assert.That(testResult.AssertionsSuccess, Is.True);
 		}
 	}
 }

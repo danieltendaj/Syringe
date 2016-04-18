@@ -137,7 +137,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.ListFilesForBranch(It.IsAny<string>()), Times.Once);
+            _testsClient.Verify(x => x.ListFiles(), Times.Once);
             Assert.AreEqual("Index", viewResult.ViewName);
 
             var model = viewResult.Model as IndexViewModel;

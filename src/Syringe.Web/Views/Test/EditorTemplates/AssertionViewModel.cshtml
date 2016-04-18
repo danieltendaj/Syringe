@@ -1,22 +1,31 @@
 ﻿@model AssertionViewModel
 
 <div class="form-group">
-	@Html.LabelFor(x => Model.Description, new { @class = "col-sm-2 control-label" })
-	<div class="col-sm-2">
-		@Html.TextBoxFor(x => Model.Description, new { @class = "form-control", placeholder = "Description" })
+	<div class="row">
+		@Html.LabelFor(x => Model.Description, new { @class = "col-sm-1 control-label" })
+		<div class="col-sm-2">
+			@Html.TextBoxFor(x => Model.Description, new { @class = "form-control", placeholder = "Description" })
+		</div>
+
+		@Html.LabelFor(x => Model.Value, new { @class = "col-sm-1 col-md-1 control-label" })
+		<div class="col-sm-7">
+			@Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
+		</div>
 	</div>
 
-	@Html.LabelFor(x => Model.Regex, new { @class = "col-sm-1 col-md-1 control-label" })
-	<div class="col-sm-2">
-		@Html.TextBoxFor(x => Model.Regex, new { @class = "form-control", placeholder = "Regex" })
-	</div>
+	<div class="row">
+		@Html.LabelFor(x => Model.AssertionType, new { @class = "col-sm-1 col-md-1 control-label" })
+		<div class="col-sm-2">
+			@Html.EnumDropDownListFor(x => Model.AssertionType, new { @class = "form-control", placeholder = "Assertion type" })
+		</div>
 
-	@Html.LabelFor(x => Model.AssertionType, new { @class = "col-sm-1 col-md-2 control-label" })
-	<div class="col-sm-2">
-		@Html.EnumDropDownListFor(x => Model.AssertionType, new {@class = "form-control", placeholder = "Verify Type"})
-	</div>
+		@Html.LabelFor(x => Model.AssertionMethod, new { @class = "col-sm-1 col-md-1 control-label" })
+		<div class="col-sm-2">
+			@Html.EnumDropDownListFor(x => Model.AssertionMethod, new { @class = "form-control", placeholder = "Assertion method" })
+		</div>
 
-	<div class="col-sm-1">
-		@Html.Partial("Partials/_RemoveRow")
+		<div class="col-sm-1">
+			@Html.Partial("Partials/_RemoveRow")
+		</div>
 	</div>
 </div>

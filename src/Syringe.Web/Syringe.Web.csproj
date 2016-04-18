@@ -21,7 +21,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
@@ -194,9 +194,9 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
     <Compile Include="DependencyResolution\StructureMapScopeModule.cs" />
-    <Compile Include="ModelBuilders\ITestFileMapper.cs" />
+    <Compile Include="Mappers\ITestFileMapper.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="ModelBuilders\TestFileMapper.cs" />
+    <Compile Include="Mappers\TestFileMapper.cs" />
     <Compile Include="Models\HeaderItem.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Controllers\JsonController.cs" />
@@ -237,6 +237,7 @@
     <Content Include="Css\bootstrap-social\assets\js\jquery.js" />
     <Content Include="Css\font-awesome-4.4.0\css\font-awesome.min.css" />
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-beautify.js" />
@@ -422,8 +423,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Css\Syringe.scss" />
     <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="XmlExamples\bing.xml" />
-    <Content Include="XmlExamples\single-case.xml" />
     <Content Include="fonts\Material-Design-Icons.eot" />
     <Content Include="fonts\Material-Design-Icons.ttf" />
     <Content Include="fonts\Material-Design-Icons.woff" />
@@ -435,7 +434,10 @@
     <Content Include="fonts\RobotoDraftMedium.woff2" />
     <Content Include="fonts\RobotoDraftRegular.woff" />
     <Content Include="fonts\RobotoDraftRegular.woff2" />
-    <Content Include="XmlExamples\totaljobs.xml" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />

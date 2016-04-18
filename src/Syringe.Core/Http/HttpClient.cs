@@ -27,7 +27,7 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string contentType, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
+		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
@@ -43,6 +43,8 @@ namespace Syringe.Core.Http
 			var request = new RestRequest(method);
 			if (method == Method.POST)
 			{
+				const string contentType = "application/x-www-form-urlencoded";
+
 				// From the RestSharp docs:
 				// "The name of the parameter will be used as the Content-Type header for the request."
 				request.AddParameter(contentType, postBody, ParameterType.RequestBody);

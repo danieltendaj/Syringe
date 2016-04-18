@@ -74,24 +74,19 @@ namespace Syringe.Core.Xml.Reader
 
             // Required Properties
             test.Position = position;
-            test.Url = XmlHelper.GetOptionalAttribute(element, "url");
+			test.Description = XmlHelper.GetOptionalAttribute(element, "description");
+
+			test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
                 throw new TestException("The url parameter is missing for test case {0}", test.Position);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
             test.PostBody = XmlHelper.GetOptionalElementValue(element, "postbody").Trim();
-            test.ErrorMessage = XmlHelper.GetOptionalAttribute(element, "errormessage");
-            test.PostType = XmlHelper.GetOptionalAttribute(element, "posttype", "application/x-www-form-urlencoded");
-            test.VerifyResponseCode = GetVerifyResponseCode(element);
+            test.ExpectedHttpStatusCode = GetExpectedHttpStatusCode(element);
+
             test.Headers = GetHeaders(element);
-
-            // Descriptions
-            test.ShortDescription = XmlHelper.GetOptionalAttribute(element, "shortdescription");
-            test.LongDescription = XmlHelper.GetOptionalAttribute(element, "longdescription");
-
             test.CapturedVariables = GetCapturedVariables(element);
-
             test.Assertions = GetAssertions(element);
 
             return test;
@@ -115,9 +110,9 @@ namespace Syringe.Core.Xml.Reader
             return headers;
         }
 
-        private HttpStatusCode GetVerifyResponseCode(XElement testElement)
+        private HttpStatusCode GetExpectedHttpStatusCode(XElement testElement)
         {
-            int attributeValue = XmlHelper.AttributeAsInt(testElement, "verifyresponsecode", 200);
+            int attributeValue = XmlHelper.AttributeAsInt(testElement, "expectedhttpstatuscode", 200);
 
             HttpStatusCode statusCode = HttpStatusCode.OK;
             if (Enum.IsDefined(typeof(HttpStatusCode), attributeValue))
@@ -135,11 +130,11 @@ namespace Syringe.Core.Xml.Reader
 
             foreach (XElement element in parentElement.Elements().Where(x => x.Name.LocalName == "variable"))
             {
-                XAttribute descriptionAttribute = element.Attributes("description").FirstOrDefault();
+                XAttribute nameAttribute = element.Attributes("name").FirstOrDefault();
                 string description = "";
 
-                if (descriptionAttribute != null)
-                    description = descriptionAttribute.Value;
+                if (nameAttribute != null)
+                    description = nameAttribute.Value;
 
                 items.Add(new CapturedVariable(description, element.Value));
             }
@@ -168,7 +163,15 @@ namespace Syringe.Core.Xml.Reader
                     Enum.TryParse(verifyTypeAttribute.Value, true, out assertionType);
                 }
 
-                items.Add(new Assertion(description, element.Value, assertionType));
+				XAttribute methodAttribute = element.Attributes("method").FirstOrDefault();
+				AssertionMethod assertionMethod = AssertionMethod.Regex;
+
+				if (methodAttribute != null)
+				{
+					Enum.TryParse(methodAttribute.Value, true, out assertionMethod);
+				}
+
+				items.Add(new Assertion(description, element.Value, assertionType, assertionMethod));
             }
 
             return items;

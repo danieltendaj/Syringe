@@ -4,6 +4,5 @@
 	{
 		string Id { get; set; }
 		string FullName { get; }
-		string DefaultBranchName { get; }
 	}
 }

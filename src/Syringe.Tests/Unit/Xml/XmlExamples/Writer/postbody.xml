@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
 	<test
-		shortdescription=""
-		longdescription=""
+		description=""
 		url=""
 		method=""
-		posttype=""
-		verifyresponsecode="0"
-		errormessage=""
+		expectedhttpstatuscode="0"
 	>
 
 		<headers/>

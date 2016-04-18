@@ -10,60 +10,54 @@
 
 	<test
 		id="1"
-		shortdescription="short description 1"
-		longdescription="long description"
+		description="description 1"
 		method="post"
 		url="http://myserver/test/login.jsp"
-		logrequest="true"
-		logresponse="true"
 	>
 		<postbody>
 			<![CDATA[username=corey&password=welcome]]>
 		</postbody>
 
 		<assertions>
-			<verify type="positive" description="1">verify this string exists</verify>
-			<verify type="negative" description="1">verify this string does not exist</verify>
+			<verify type="positive" description="1" method="regex">verify this string exists</verify>
+			<verify type="negative" description="1" method="regex">verify this string does not exist</verify>
 		</assertions>
 		
 		<capturedvariables>
-			<variable description="test">/d</variable>
+			<variable name="test">/d</variable>
 		</capturedvariables>
 	</test>
 
 	<test
 		id="300"
-		shortdescription="short description 300"
-		longdescription="long description"
+		description="description 300"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
 		<assertions>
-			<assertion type="positive" id="1">verify this string exists</assertion>
+			<assertion type="positive" id="1" method="regex">verify this string exists</assertion>
 		</assertions>
 	</test>
 
 	<test
 		id="20"
-		shortdescription="short description 20"
-		longdescription="long description"
+		description="description 20"
 		method="get"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
 		<assertions>
-			<assertion type="positive" description="1">verify this string exists</assertion>
+			<assertion type="positive" description="1" method="regex">verify this string exists</assertion>
 		</assertions>
 	</test>
 
 	<test
 		id="9"
-		shortdescription="short description 9"
-		longdescription="long description 9"
+		description="description 9"
 		method="post"
 		url="http://myserver/test/send.jsp?value={TIMESTAMP}"
 	>
 		<assertions>
-			<assertion type="positive" description="1">verify this string exists</assertion>
+			<assertion type="positive" description="1" method="regex">verify this string exists</assertion>
 		</assertions>
 	</test>
 </tests>

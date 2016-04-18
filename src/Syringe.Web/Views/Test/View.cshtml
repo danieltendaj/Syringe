@@ -12,13 +12,19 @@
         </div>
     </div>
     <div class="row">
-        <nav class="col-xs-8">
+        <nav class="col-xs-7">
             @Html.Partial("Partials/_TestPager")
         </nav>
-        <div class="col-xs-4 text-right">
+        <div class="col-xs-5 text-right primary-actions">
             <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Add</a>
 	        <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Variables</a>
 			<a class="btn btn-sm btn-primary" href="@Url.Action("ViewXml", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View XML</a>
+            @using (Html.BeginForm("Run", "Home"))
+            {
+                <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@Model.Filename">
+                    Run all tests
+                </button>
+            }
         </div>
     </div>
 
@@ -39,7 +45,10 @@
                 {
                     <tr>
                         <td class="description">
-                            <p>@test.ShortDescription</p> <h6>@test.Url</h6>
+	                        <p>
+		                        <strong>@test.Description</strong>
+	                        </p>
+	                        <h6>@test.Url</h6>
                         </td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">

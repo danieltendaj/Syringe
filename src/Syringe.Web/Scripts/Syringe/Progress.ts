@@ -38,7 +38,7 @@ module Syringe.Web {
 
                 // Url
                 var $urlSelector = $(".test-result-url", $selector);
-                $urlSelector.text(taskInfo.ActualUrl);
+                $urlSelector.html("<a target='_blank' href='" + taskInfo.ActualUrl + "'>" + taskInfo.ActualUrl + "</a>");
 
                 // Change background color
                 var resultClass = taskInfo.Success ? "panel-success" : "panel-danger";
@@ -62,7 +62,7 @@ module Syringe.Web {
                     }
                 }
 
-               
+
 
                 $selector.addClass(resultClass);
             };

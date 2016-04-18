@@ -1,22 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
 	<test
-		shortdescription=""
-		longdescription=""
+		description=""
 		url=""
 		method=""
-		posttype=""
-		verifyresponsecode="0"
-		errormessage=""
+		expectedhttpstatuscode="0"
 	>
 
 		<headers/>
 		<postbody/>
 
 		<capturedvariables>
-            <variable description="1">here is (.*?) regex</variable>
-            <variable description="2">plain text</variable>
-            <variable description="3">This is encoded &lt;test&gt; &amp;.</variable>
+            <variable name="1">here is (.*?) regex</variable>
+            <variable name="2">plain text</variable>
+            <variable name="3">This is encoded &lt;test&gt; &amp;.</variable>
         </capturedvariables>
 
 		<assertions />

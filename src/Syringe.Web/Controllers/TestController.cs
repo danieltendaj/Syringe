@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
-using Syringe.Web.ModelBuilders;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
 
@@ -20,7 +21,7 @@ namespace Syringe.Web.Controllers
 		private readonly ITestFileMapper _testFileMapper;
 	    private readonly IEnvironmentsService _environmentsService;
 
-	    public TestController(
+		public TestController(
 			ITestService testsClient,
 			IUserContext userContext,
 			ITestFileMapper testFileMapper,
@@ -40,7 +41,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
 		{
-			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
+            TestFile testFile = _testsClient.GetTestFile(filename);
 			IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 
 			var viewModel = new TestFileViewModel
@@ -58,19 +59,20 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Edit(string filename, int position)
 		{
-			Test test = _testsClient.GetTest(filename, _userContext.DefaultBranchName, position);
+            Test test = _testsClient.GetTest(filename, position);
 			TestViewModel model = _testFileMapper.BuildViewModel(test);
 
 			return View("Edit", model);
 		}
 
 		[HttpPost]
+		[ValidateInput(false)]
 		public ActionResult Edit(TestViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				Test test = _testFileMapper.BuildCoreModel(model);
-				_testsClient.EditTest(test, _userContext.DefaultBranchName);
+                _testsClient.EditTest(test);
 				return RedirectToAction("View", new { filename = model.Filename });
 			}
 
@@ -79,17 +81,20 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult Add(string filename)
 		{
-			var model = new TestViewModel { Filename = filename };
+            TestFile testFile = _testsClient.GetTestFile(filename);
+
+            var model = new TestViewModel { Filename = filename, AvailableVariables = _testFileMapper.BuildVariableViewModel(testFile) };
 			return View("Edit", model);
 		}
 
 		[HttpPost]
+		[ValidateInput(false)]
 		public ActionResult Add(TestViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.CreateTest(test, _userContext.DefaultBranchName);
+                _testsClient.CreateTest(test);
 				return RedirectToAction("View", new { filename = model.Filename });
 			}
 
@@ -99,7 +104,7 @@ namespace Syringe.Web.Controllers
 		[HttpPost]
 		public ActionResult Delete(int position, string fileName)
 		{
-			_testsClient.DeleteTest(position, fileName, _userContext.DefaultBranchName);
+            _testsClient.DeleteTest(position, fileName);
 
 			return RedirectToAction("View", new { filename = fileName });
 		}
@@ -128,7 +133,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ViewXml(string fileName)
 		{
-			var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName,_userContext.DefaultBranchName)};
+            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName) };
 			return View("ViewXml", model);
 		}
 	}

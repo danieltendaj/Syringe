@@ -214,7 +214,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\packages\SignalrTypescriptGenerator.1.0.8\tools\SignalrTypescriptGenerator.exe "$(TargetPath)" &gt; "$(SolutionDir)src\Syringe.Web\Scripts\typings\Hubs.d.ts"</PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)\packages\SignalrTypescriptGenerator.1.0.11\tools\SignalrTypescriptGenerator.exe -a "$(TargetPath)"  -o "$(SolutionDir)src\Syringe.Web\Scripts\typings\Hubs.d.ts"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

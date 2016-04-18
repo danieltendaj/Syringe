@@ -1,13 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
 	<test
-		shortdescription=""
-		longdescription=""
+		description=""
 		url=""
 		method=""
-		posttype=""
-		verifyresponsecode="0"
-		errormessage=""
+		expectedhttpstatuscode="0"
 	>
 
 		<headers/>
@@ -15,13 +12,13 @@
 		<capturedvariables />
 
 		<assertions>
-			<assertion type="positive" description="p90-1">regex1</assertion>
-			<assertion type="positive" description="p90-2">regex2</assertion>
-			<assertion type="positive" description="p90-3"><![CDATA[this 3rd positive needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
+			<assertion type="positive" description="p90-1" method="regex">regex1</assertion>
+			<assertion type="positive" description="p90-2" method="regex">regex2</assertion>
+			<assertion type="positive" description="p90-3" method="regex"><![CDATA[this 3rd positive needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
 
-			<assertion type="negative" description="negev1">regex1</assertion>
-			<assertion type="negative" description="negev2">regex2</assertion>
-			<assertion type="negative" description="negev3"><![CDATA[this 3rd negative needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
+			<assertion type="negative" description="negev1" method="csquery">csquery1</assertion>
+			<assertion type="negative" description="negev2" method="csquery">csquery2</assertion>
+			<assertion type="negative" description="negev3" method="csquery"><![CDATA[this 3rd negative needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
 		</assertions>
 	</test>
 </tests>

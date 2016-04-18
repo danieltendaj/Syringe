@@ -40,13 +40,10 @@ namespace Syringe.Tests.Unit.Xml
 			var test = new Test()
 			{
 				Position = 1,
-				ShortDescription = "short description",
-				LongDescription = "long description",
+				Description = "description",
 				Url = "http://myserver",
 				Method = "post",
-				PostType = "text/xml",
-				VerifyResponseCode = HttpStatusCode.Accepted,
-				ErrorMessage = "my error message",
+				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 			};
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
@@ -97,7 +94,7 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void write_should_add_parseresponses()
+		public void write_should_add_capturedvariables()
 		{
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);
@@ -124,13 +121,13 @@ namespace Syringe.Tests.Unit.Xml
 			string expectedXml = TestHelpers.ReadEmbeddedFile("assertions.xml", XmlExamplesFolder);
 
 			var test = new Test() { Position = 0 };
-            test.Assertions.Add(new Assertion("p90-1", "regex1", AssertionType.Positive));
-            test.Assertions.Add(new Assertion("p90-2", "regex2", AssertionType.Positive));
-            test.Assertions.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive));
+            test.Assertions.Add(new Assertion("p90-1", "regex1", AssertionType.Positive, AssertionMethod.Regex));
+            test.Assertions.Add(new Assertion("p90-2", "regex2", AssertionType.Positive, AssertionMethod.Regex));
+            test.Assertions.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive, AssertionMethod.Regex));
 
-			test.Assertions.Add(new Assertion("negev1", "regex1", AssertionType.Negative));
-			test.Assertions.Add(new Assertion("negev2", "regex2", AssertionType.Negative));
-			test.Assertions.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative));
+			test.Assertions.Add(new Assertion("negev1", "csquery1", AssertionType.Negative, AssertionMethod.CSQuery));
+			test.Assertions.Add(new Assertion("negev2", "csquery2", AssertionType.Negative, AssertionMethod.CSQuery));
+			test.Assertions.Add(new Assertion("negev3", "this 3rd negative needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Negative, AssertionMethod.CSQuery));
 
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
@@ -156,13 +153,10 @@ namespace Syringe.Tests.Unit.Xml
 				var test = new Test()
 				{
                     Position = 0,
-					ShortDescription = "short description" +i,
-					LongDescription = "long description",
+					Description = "description" +i,
 					Url = "http://myserver",
 					Method = "post",
-					PostType = "text/xml",
-					VerifyResponseCode = HttpStatusCode.Accepted,
-					ErrorMessage = "my error message",
+					ExpectedHttpStatusCode = HttpStatusCode.Accepted,
 				};
 
 				list.Add(test);

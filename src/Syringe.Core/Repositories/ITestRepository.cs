@@ -6,15 +6,15 @@ namespace Syringe.Core.Repositories
 {
     public interface ITestRepository
     {
-        IEnumerable<string> ListFilesForBranch(string branchName);
-        TestFile GetTestFile(string filename, string branchName);
-        Test GetTest(string filename, string branchName, int position);
-        bool SaveTest(Test test, string branchName);
-        bool CreateTest(Test test, string branchName);
-        bool DeleteTest(int position, string fileName, string branchName);
-        bool CreateTestFile(TestFile testFile, string branchName);
-        bool UpdateTestVariables(TestFile testFile, string branchName);
-        string GetXml(string filename, string branchName);
-        bool DeleteFile(string fileName, string branchName);
+        IEnumerable<string> ListFiles();
+        TestFile GetTestFile(string filename);
+        Test GetTest(string filename, int position);
+        bool SaveTest(Test test);
+        bool CreateTest(Test test);
+        bool DeleteTest(int position, string fileName);
+        bool CreateTestFile(TestFile testFile);
+        bool UpdateTestVariables(TestFile testFile);
+        string GetXml(string filename);
+        bool DeleteFile(string fileName);
     }
 }

@@ -1,45 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
-    <test
+	<test
         id="1"
-        shortdescription="short description"
-        longdescription="long description"
+        description="description"
         url="http://myserver"
         method="post"
-        posttype="text/xml"
-        verifyresponsecode="404"
-        errormessage="my error message"
+        expectedhttpstatuscode="404"
+       
         logrequest="false"
         logresponse="false"
 	    >
 
-        <headers>
-            <header name="mykey">12345</header>
-            <header name="bar">foo</header>
-            <header name="emptyvalue"></header>
-            <header name="Cookie">referer=harrispilton.com</header>
-        </headers>
+		<headers>
+			<header name="mykey">12345</header>
+			<header name="bar">foo</header>
+			<header name="emptyvalue"></header>
+			<header name="Cookie">referer=harrispilton.com</header>
+		</headers>
 
-        <postbody>
-            <![CDATA[
+		<postbody>
+			<![CDATA[
             username=corey&password=welcome
             ]]>
-        </postbody>
+		</postbody>
 
-        <capturedvariables>
-            <variable description="1">parse 1</variable>
-            <variable description="2">parse 11</variable>
-            <variable description="3">parse 99</variable>
-        </capturedvariables>
+		<capturedvariables>
+			<variable name="1">parse 1</variable>
+			<variable name="2">parse 11</variable>
+			<variable name="3">parse 99</variable>
+		</capturedvariables>
 
 		<assertions>
-			<assertion type="positive" description="1">positive 1</assertion>
-      <assertion type="PosItiVe" description="2">positive 22</assertion>
-      <assertion type="positive" description="3">positive 99</assertion>
+			<assertion type="positive" description="1" method="regex">positive 1</assertion>
+			<assertion type="PosItiVe" description="2">positive 22</assertion>
+			<assertion type="positive" description="3">positive 99</assertion>
 
-      <assertion type="negative" description="1">negative 1</assertion>
-      <assertion type="NEGaTiVE" description="2">negative 6</assertion>
-      <assertion type="negative" description="3">negative 66</assertion>
-        </assertions>
-    </test>
+			<assertion type="negative" description="1" method="csquery">negative 1</assertion>
+			<assertion type="NEGaTiVE" description="2">negative 6</assertion>
+			<assertion type="negative" description="3">negative 66</assertion>
+		</assertions>
+	</test>
 </tests>

@@ -8,7 +8,6 @@ namespace Syringe.Core.Tasks
 		public int TaskId { get; set; }
 		public string Filename { get; set; }
 		public string Username { get; set; }
-		public string BranchName { get; set; }
 
 		public string Status { get; set; }
 		public bool IsComplete { get; set; }

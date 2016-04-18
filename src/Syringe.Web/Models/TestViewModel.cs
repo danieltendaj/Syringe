@@ -9,14 +9,11 @@ namespace Syringe.Web.Models
     public class TestViewModel
     {
         [Required]
-        public int  Position { get; set; }
+        public int Position { get; set; }
 
-        [Display(Name = "Short Description")]
+        [Display(Name = "Description")]
         [Required]
-        public string ShortDescription { get; set; }
-
-        [Display(Name = "Long Description")]
-        public string LongDescription { get; set; }
+        public string Description { get; set; }
 
         [Required]
         public string Url { get; set; }
@@ -25,14 +22,10 @@ namespace Syringe.Web.Models
         public string PostBody { get; set; }
 
         [Required]
-        [Display(Name = "Error Message")]
-        public string ErrorMessage { get; set; }
-
-        [Required]
         public MethodType Method { get; set; }
 
-        [Display(Name = "Verify Response Code")]
-        public HttpStatusCode VerifyResponseCode { get; set; }
+        [Display(Name = "Expected HTTP status code")]
+        public HttpStatusCode ExpectedHttpStatusCode { get; set; }
 
         public List<HeaderItem> Headers { get; set; }
         public List<CapturedVariableItem> CapturedVariables { get; set; }
@@ -48,7 +41,6 @@ namespace Syringe.Web.Models
             CapturedVariables = new List<CapturedVariableItem>();
             Assertions = new List<AssertionViewModel>();
             AvailableVariables = new List<VariableViewModel>();
-
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
     <test
-        shortdescription="short description"
-        longdescription="long description"
+        description="description"
         url="http://myserver"
         method="post"
-        posttype="text/xml"
-        verifyresponsecode="202"
-        errormessage="my error message"
+        expectedhttpstatuscode="202"
+       
 	    >
 
 		<headers/>

@@ -7,14 +7,11 @@ namespace Syringe.Core.Tests
 	public class Test
 	{
 		public int Position { get; set; }
-		public string ShortDescription { get; set; }
-		public string LongDescription { get; set; }
+		public string Description { get; set; }
 		public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }
-		public string ErrorMessage { get; set; }
-		public string PostType { get; set; }
-		public HttpStatusCode VerifyResponseCode { get; set; }
+	    public HttpStatusCode ExpectedHttpStatusCode { get; set; }
 		public List<HeaderItem> Headers { get; set; }
 
 		public List<CapturedVariable> CapturedVariables { get; set; }

@@ -33,7 +33,6 @@ namespace Syringe.Tests.Unit.Http
 			string url = "invalid url";
 
 			string method = "get";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
@@ -41,7 +40,7 @@ namespace Syringe.Tests.Unit.Http
 
 			try
 			{
-				await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+				await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 				Assert.Fail("Should have thrown an exception.");
 			}
 			catch (ArgumentException)
@@ -63,12 +62,11 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "get";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Assert.NotNull(response);
@@ -84,19 +82,18 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "get";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Assert.IsNotNull(response);
 		}
 
 		[Test]
-		public async Task should_add_postbody_and_contenttype_to_request_when_method_is_post()
+		public async Task should_add_postbody_and_x_form_to_request_when_method_is_post()
 		{
 			// Arrange
 			var httpLogWriter = GetHttpLogWriter();
@@ -104,16 +101,15 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "post";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "keywords=foo&location=london";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Parameter parameter = _restClientMock.RestRequest.Parameters.First();
-			Assert.AreEqual(contentType, parameter.Name);
+			Assert.AreEqual("application/x-www-form-urlencoded", parameter.Name);
 			Assert.AreEqual(postBody, parameter.Value);
 			Assert.AreEqual(ParameterType.RequestBody, parameter.Type);
 		}
@@ -127,12 +123,11 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "snort";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Assert.AreEqual(Method.GET, _restClientMock.RestRequest.Method);
@@ -147,7 +142,6 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "get";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>()
 			{
@@ -156,7 +150,7 @@ namespace Syringe.Tests.Unit.Http
 			};
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			var parameters = _restClientMock.RestRequest.Parameters;
@@ -182,41 +176,16 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "get";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
 			Assert.AreEqual(restResponseStub.Content, response.Content);
 			Assert.AreEqual(restResponseStub.Headers.Count, response.Headers.Count);
-		}
-
-		// TODO: should_convert_headers
-		[Test]
-		public void should_convert_headers()
-		{
-			// Arrange
-			var httpLogWriter = GetHttpLogWriter();
-
-			// Act
-
-			// Assert
-		}
-
-		// TODO: should_record_last_response
-		[Test]
-		public void should_record_last_response()
-		{
-			// Arrange
-			var httpLogWriter = GetHttpLogWriter();
-
-			// Act
-
-			// Assert
 		}
 
 		[Test]
@@ -229,12 +198,11 @@ namespace Syringe.Tests.Unit.Http
 
 			string method = "get";
 			string url = "http://www.example.com";
-			string contentType = "text/html";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, contentType, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
 
 			// Assert
 			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));

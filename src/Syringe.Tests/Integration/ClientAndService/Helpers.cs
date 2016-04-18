@@ -34,10 +34,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 				Assertions = new List<Assertion>(),
 				AvailableVariables = new List<Variable>(),
 				CapturedVariables = new List<CapturedVariable>(),
-				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 1",
-				LongDescription = "long desc 1",
+				Description = "short desc 1",
 				Method = "POST",
 				Url = "url 1"
 			};
@@ -48,18 +46,16 @@ namespace Syringe.Tests.Integration.ClientAndService
 				Assertions = new List<Assertion>(),
 				AvailableVariables = new List<Variable>(),
 				CapturedVariables = new List<CapturedVariable>(),
-				ErrorMessage = "my error message 2",
 				Headers = new List<HeaderItem>(),
-				ShortDescription = "short desc 2",
-				LongDescription = "long desc 2",
+				Description = "short desc 2",
 				Method = "POST",
 				Url = "url 2"
 			};
 
 			var testFile = new TestFile() { Filename = filename };
-			client.CreateTestFile(testFile, ServiceConfig.BranchName);
-			client.CreateTest(test1, ServiceConfig.BranchName);
-			client.CreateTest(test2, ServiceConfig.BranchName);
+			client.CreateTestFile(testFile);
+			client.CreateTest(test1);
+			client.CreateTest(test2);
 
 			var tests = new List<Test>()
 			{
