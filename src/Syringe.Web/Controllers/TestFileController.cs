@@ -32,17 +32,29 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult Add(TestFileViewModel model)
         {
+            SelectListItem[] environments = GetEnvironmentsDropDown();
+
             if (ModelState.IsValid)
             {
                 var testFile = new TestFile
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
+                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
                 };
 
                 bool createdTestFile = _testsClient.CreateTestFile(testFile, _userContext.DefaultBranchName);
                 if (createdTestFile)
+                {
                     return RedirectToAction("Index", "Home");
+                }
+            }
+
+            if (model.Variables != null)
+            {
+                foreach (VariableViewModel variable in model.Variables)
+                {
+                    variable.AvailableEnvironments = environments;
+                }
             }
 
             return View("Add", model);
@@ -88,12 +100,14 @@ namespace Syringe.Web.Controllers
                 var testFile = new TestFile
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables != null ? model.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() : new List<Variable>()
+                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
                 };
 
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile, _userContext.DefaultBranchName);
                 if (updateTestFile)
+                {
                     return RedirectToAction("Index", "Home");
+                }
             }
 
             return View("Update", model);

@@ -168,6 +168,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
     <Compile Include="Integration\ClientAndService\Helpers.cs" />
     <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />

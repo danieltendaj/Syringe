@@ -25,5 +25,21 @@ namespace Syringe.Core.Tests
 	        bool matched = string.IsNullOrEmpty(thisEnvironment) || environmentToTest.Equals(thisEnvironment, StringComparison.InvariantCultureIgnoreCase);
 	        return matched;
 	    }
+
+	    public bool MatchesNameAndEnvironment(Variable variableToTest)
+	    {
+	        bool matched = false;
+
+	        if (variableToTest != null)
+	        {
+	            matched = Name.Equals(variableToTest.Name, StringComparison.InvariantCultureIgnoreCase);
+	            if (matched)
+	            {
+	                matched = Environment.Name.Equals(variableToTest.Environment.Name, StringComparison.InvariantCultureIgnoreCase);
+	            }
+	        }
+
+	        return matched;
+	    }
 	}
 }

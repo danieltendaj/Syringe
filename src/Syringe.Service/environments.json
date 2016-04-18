@@ -2,5 +2,17 @@
 	{
 		"Name": "Development",
 		"Order": 1
+	},
+	{
+		"Name": "PAT",
+		"Order": 2
+	},
+	{
+		"Name": "LIVE - Farm A",
+		"Order": 3
+	},
+	{
+		"Name": "LIVE - Farm B",
+		"Order": 4
 	}
 ]
