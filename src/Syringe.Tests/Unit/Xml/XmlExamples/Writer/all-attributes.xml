@@ -5,7 +5,7 @@
         url="http://myserver"
         method="post"
         expectedhttpstatuscode="202"
-        errormessage="my error message"
+       
 	    >
 
 		<headers/>

@@ -74,7 +74,6 @@ namespace Syringe.Core.Xml.Writer
             element.Add(new XAttribute("url", test.Url ?? ""));
             element.Add(new XAttribute("method", test.Method ?? ""));
             element.Add(new XAttribute("expectedhttpstatuscode", (int)test.ExpectedHttpStatusCode));
-            element.Add(new XAttribute("errormessage", test.ErrorMessage ?? ""));
 
             return element;
         }

@@ -173,22 +173,6 @@ namespace Syringe.Tests.Unit.Xml
 		}
 
 		[Test]
-		public void Read_should_parse_errormessage_attribute()
-		{
-			// Arrange
-			string xml = GetSingleTestExample();
-			var stringReader = new StringReader(xml);
-			var testFileReader = GetTestFileReader();
-
-			// Act
-			TestFile testFile = testFileReader.Read(stringReader);
-
-			// Assert
-			Test test = testFile.Tests.First();
-			Assert.That(test.ErrorMessage, Is.EqualTo("my error message"));
-		}
-
-		[Test]
 		public void Read_should_parse_responsecode_attribute()
 		{
 			// Arrange

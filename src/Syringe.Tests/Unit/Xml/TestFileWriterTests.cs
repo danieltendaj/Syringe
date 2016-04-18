@@ -44,7 +44,6 @@ namespace Syringe.Tests.Unit.Xml
 				Url = "http://myserver",
 				Method = "post",
 				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-				ErrorMessage = "my error message",
 			};
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
@@ -158,7 +157,6 @@ namespace Syringe.Tests.Unit.Xml
 					Url = "http://myserver",
 					Method = "post",
 					ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-					ErrorMessage = "my error message",
 				};
 
 				list.Add(test);

@@ -63,14 +63,6 @@
                                             <a class="btn btn-primary" target="_blank" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
 										</p>
 
-										@if (!string.IsNullOrEmpty(result.Message))
-										{
-											<p>
-												<strong>Error Message:</strong><br />
-												@result.Message
-											</p>
-										}
-
 										@if (!string.IsNullOrEmpty(result.ExceptionMessage))
 										{
 											<p>

@@ -11,8 +11,7 @@ namespace Syringe.Core.Tests
 		public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }
-		public string ErrorMessage { get; set; }
-		public HttpStatusCode ExpectedHttpStatusCode { get; set; }
+	    public HttpStatusCode ExpectedHttpStatusCode { get; set; }
 		public List<HeaderItem> Headers { get; set; }
 
 		public List<CapturedVariable> CapturedVariables { get; set; }

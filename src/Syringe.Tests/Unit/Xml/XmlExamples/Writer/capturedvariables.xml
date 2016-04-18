@@ -5,7 +5,6 @@
 		url=""
 		method=""
 		expectedhttpstatuscode="0"
-		errormessage=""
 	>
 
 		<headers/>
