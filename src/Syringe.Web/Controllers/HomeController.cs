@@ -21,19 +21,22 @@ namespace Syringe.Web.Controllers
         private readonly Func<IRunViewModel> _runViewModelFactory;
 		private readonly IHealthCheck _healthCheck;
 	    private readonly IUrlHelper _urlHelper;
+	    private readonly IEnvironmentsService _environmentsService;
 
 	    public HomeController(
             ITestService testsClient,
             IUserContext userContext,
             Func<IRunViewModel> runViewModelFactory,
 			IHealthCheck healthCheck, 
-            IUrlHelper urlHelper)
+            IUrlHelper urlHelper,
+            IEnvironmentsService environmentsService)
         {
             _testsClient = testsClient;
             _userContext = userContext;
             _runViewModelFactory = runViewModelFactory;
 			_healthCheck = healthCheck;
 	        _urlHelper = urlHelper;
+	        _environmentsService = environmentsService;
         }
 
         public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
@@ -49,7 +52,8 @@ namespace Syringe.Web.Controllers
                 PageNumber = pageNumber,
                 NoOfResults = noOfResults,
                 PageNumbers = files.GetPageNumbersToShow(noOfResults),
-                Files = files.GetPaged(noOfResults, pageNumber)
+                Files = files.GetPaged(noOfResults, pageNumber),
+                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
             };
 
             return View("Index", model);
