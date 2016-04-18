@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;
@@ -17,15 +18,18 @@ namespace Syringe.Web.Controllers
 		private readonly ITestService _testsClient;
 		private readonly IUserContext _userContext;
 		private readonly ITestFileMapper _testFileMapper;
+	    private readonly IEnvironmentsService _environmentsService;
 
-		public TestController(
+	    public TestController(
 			ITestService testsClient,
 			IUserContext userContext,
-			ITestFileMapper testFileMapper)
+			ITestFileMapper testFileMapper,
+            IEnvironmentsService environmentsService)
 		{
 			_testsClient = testsClient;
 			_userContext = userContext;
 			_testFileMapper = testFileMapper;
+	        _environmentsService = environmentsService;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -39,13 +43,14 @@ namespace Syringe.Web.Controllers
 			TestFile testFile = _testsClient.GetTestFile(filename, _userContext.DefaultBranchName);
 			IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 
-			TestFileViewModel viewModel = new TestFileViewModel
+			var viewModel = new TestFileViewModel
 			{
 				PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
 				Tests = _testFileMapper.BuildTests(tests),
 				Filename = filename,
 				PageNumber = pageNumber,
-				NoOfResults = noOfResults
+				NoOfResults = noOfResults,
+                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
 			};
 
 			return View("View", viewModel);

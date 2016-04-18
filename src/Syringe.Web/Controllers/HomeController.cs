@@ -60,7 +60,7 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Run(string filename)
+        public ActionResult Run(string filename, string environment)
         {
 			UserContext context = UserContext.GetFromFormsAuth(HttpContext);
 
@@ -68,10 +68,9 @@ namespace Syringe.Web.Controllers
             runViewModel.Run(context, filename);
             return View("Run", runViewModel);
         }
-
-
+        
         [HttpPost]
-        public ActionResult RunTest(string filename, int position)
+        public ActionResult RunTest(string filename, int position, string environment)
         {
             UserContext context = UserContext.GetFromFormsAuth(HttpContext);
 

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<string>
+
+<div class="btn-group environment-selection">
+    @Html.Hidden("environment")
+
+    <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+        <i class="material-icons">play_arrow</i>
+    </a>
+    <ul class="dropdown-menu">
+        @foreach (string environment in Model)
+        {
+            <li>
+                <a href="#" class="environment-option" role="button" data-value="@Html.AttributeEncode(environment)">
+                    @environment
+                </a>
+            </li>
+        }
+    </ul>
+</div>

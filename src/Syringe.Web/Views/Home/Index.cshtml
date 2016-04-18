@@ -40,9 +40,8 @@
                         </a>
                         @using (Html.BeginForm("Run", "Home"))
                         {
-                            <button title="Run" class="btn btn-sm btn-success" type="submit" name="filename" value="@filename">
-                                <i class="material-icons">play_arrow</i>
-                            </button>
+                            @Html.Hidden("filename", filename)
+                            @Html.Partial("Partials/_RunTest", Model.Environments)
                         }
                         @using (Html.BeginForm("Delete", "TestFile"))
                         {
