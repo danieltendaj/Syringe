@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Syringe.Core.Tests.Results
 {
+    [BsonIgnoreExtraElements]
     public class TestFileResult
     {
 	    public Guid Id { get; set; }

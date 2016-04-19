@@ -111,7 +111,7 @@ namespace Syringe.Tests.Unit.Runner
 		}
 
 		[Test]
-		public void MatchVerifications_should_replace_variables_in_regex()
+		public void MatchVerifications_should_replace_variables_in_value()
 		{
 			// Arrange
 			var sessionVariables = new CapturedVariableProvider("dev");
@@ -132,7 +132,7 @@ namespace Syringe.Tests.Unit.Runner
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
 			Assert.That(results[0].Value, Is.EqualTo("({password})"));
-			Assert.That(results[0].TransformedRegex, Is.EqualTo("(tedx123)"));
+			Assert.That(results[0].TransformedValue, Is.EqualTo("(tedx123)"));
 		}
 	}
 }
