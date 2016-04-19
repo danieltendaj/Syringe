@@ -86,8 +86,6 @@ namespace Syringe.Core.Runner
 
 			foreach (CapturedVariable regexItem in capturedVariables)
 			{
-				simpleLogger.WriteLine("");
-				simpleLogger.WriteLine("---------------------------");
 				simpleLogger.WriteLine("Testing {{capturedvariable{0}}}", regexItem.Name);
 				simpleLogger.WriteLine(" - Regex: {0}", regexItem.Regex);
 
@@ -98,12 +96,17 @@ namespace Syringe.Core.Runner
 					if (regex.IsMatch(content))
 					{
 						MatchCollection matches = regex.Matches(content);
+						int matchCount = 0;
 						foreach (Match match in matches)
 						{
 							if (match.Groups.Count > 1)
 							{
 								capturedValue += match.Groups[1];
-								Log.Information(" - Found: {0}", capturedValue);
+								simpleLogger.WriteLine(" - {0}. '{1}' matched, updated variable to '{2}'", ++matchCount, regexItem.Regex, capturedValue);
+							}
+							else
+							{
+								simpleLogger.WriteLine(" - {0}. '{1}' matched, but the regex has no capture groups so the variable value wasn't updated.", ++matchCount, regexItem.Regex);
 							}
 						}
 					}
@@ -118,6 +121,8 @@ namespace Syringe.Core.Runner
 				}
 
 				variables.Add(new Variable("capturedvariable" + regexItem.Name, capturedValue, ""));
+				simpleLogger.WriteLine("");
+
 			}
 
 			return variables;

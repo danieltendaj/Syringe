@@ -221,8 +221,8 @@ namespace Syringe.Core.Runner
 
                     // Put the parseresponse regex values in the current variable set
                     var logger = new SimpleLogger();
-                    logger.WriteLine("");
-                    logger.WriteLine("Parsing variables");
+					logger.WriteLine("--------------------------");
+					logger.WriteLine("Parsing variables");
                     logger.WriteLine("--------------------------");
                     List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
                     variables.AddOrUpdateVariables(parsedVariables);
@@ -234,8 +234,8 @@ namespace Syringe.Core.Runner
                     // Verify assertions
 
                     testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
-                    logger.WriteLine("");
-                    logger.WriteLine("Assertions");
+					logger.WriteLine("--------------------------");
+					logger.WriteLine("Assertions");
                     logger.WriteLine("--------------------------");
                     if (testResult.AssertionResults.Count > 0)
                     {

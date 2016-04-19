@@ -17,16 +17,16 @@ namespace Syringe.Core.Runner.Assertions
 			_assertionLogger = assertionLogger;
 		}
 
-		public void DoIt(Assertion item, string httpContent)
+		public void Match(Assertion item, string httpContent)
 		{
 			string regex = item.Value;
 
 			if (!string.IsNullOrEmpty(regex))
 			{
 				regex = _variableProvider.ReplaceVariablesIn(regex);
-				item.TransformedRegex = regex;
+				item.TransformedValue = regex;
 
-				_assertionLogger.LogRegex(item.Value, regex);
+				_assertionLogger.LogValue(item.Value, regex);
 
 				try
 				{
@@ -36,23 +36,23 @@ namespace Syringe.Core.Runner.Assertions
 					if (item.AssertionType == AssertionType.Positive && isMatch == false)
 					{
 						item.Success = false;
-						_assertionLogger.LogFail(item.AssertionType, regex);
+						_assertionLogger.LogFail(item.AssertionType, regex, AssertionMethod.Regex);
 					}
 					else if (item.AssertionType == AssertionType.Negative && isMatch == true)
 					{
 						item.Success = false;
-						_assertionLogger.LogFail(item.AssertionType, regex);
+						_assertionLogger.LogFail(item.AssertionType, regex, AssertionMethod.Regex);
 					}
 					else
 					{
-						_assertionLogger.LogSuccess(item.AssertionType, regex);
+						_assertionLogger.LogSuccess(item.AssertionType, regex, AssertionMethod.Regex);
 					}
 				}
 				catch (ArgumentException e)
 				{
 					// Invalid regex - ignore.
 					item.Success = false;
-					_assertionLogger.LogException(e);
+					_assertionLogger.LogException(AssertionMethod.Regex, e);
 				}
 			}
 			else

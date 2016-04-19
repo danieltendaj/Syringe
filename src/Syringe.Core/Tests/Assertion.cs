@@ -5,7 +5,7 @@ namespace Syringe.Core.Tests
 		public string Description { get; set; }
 		public AssertionMethod AssertionMethod { get; set; }
 		public string Value { get; set; }
-		public string TransformedRegex { get; set; }
+		public string TransformedValue { get; set; }
 		public bool Success { get; set; }
 		public AssertionType AssertionType { get; set; }
 		public string Log { get; set; }
@@ -24,7 +24,7 @@ namespace Syringe.Core.Tests
 
 		public override string ToString()
 		{
-			return string.Format("{0} - {1}", Description, TransformedRegex);
+			return string.Format("{0} - {1}", Description, TransformedValue);
 		}
 	}
 }

@@ -24,30 +24,30 @@ namespace Syringe.Core.Runner.Assertions
 			_logger.WriteLine("Verifying {0} item \"{1}\"", assertionType, item.Description);
 		}
 
-		public void LogRegex(string originalRegex, string transformedRegex)
+		public void LogValue(string originalValue, string transformedValue)
 		{
-			_logger.WriteLine("  - Original regex: {0}", originalRegex);
-			_logger.WriteLine("  - Regex with variables transformed: {0}", transformedRegex);
+			_logger.WriteLine("  - Original assertion value: {0}", originalValue);
+			_logger.WriteLine("  - Assertion value with variables transformed: {0}", transformedValue);
 		}
 
-		public void LogSuccess(AssertionType assertionType, string verifyRegex)
+		public void LogSuccess(AssertionType assertionType, string value, AssertionMethod method)
 		{
-			_logger.WriteLine("  - {0} verification successful: the regex \"{1}\" matched.", assertionType, verifyRegex);
+			_logger.WriteLine("  - {0} verification successful: the {1} \"{2}\" matched.", assertionType, method, value);
 		}
 
-		public void LogFail(AssertionType assertionType, string verifyRegex)
+		public void LogFail(AssertionType assertionType, string value, AssertionMethod method)
 		{
-			_logger.WriteLine("  - {0} verification failed: the regex \"{1}\" did not match.", assertionType, verifyRegex);
+			_logger.WriteLine("  - {0} verification failed: the {1} \"{2}\" did not match.", assertionType, method, value);
 		}
 
-		public void LogException(Exception e)
+		public void LogException(AssertionMethod method, Exception e)
 		{
-			_logger.WriteLine(" - Invalid regex: {0}", e.Message);
+			_logger.WriteLine("  - Invalid {0}: {1}", method, e.Message);
 		}
 
 		public void LogEmpty()
 		{
-			_logger.WriteLine("  - Skipping as the regex was empty.");
+			_logger.WriteLine("  - Skipping as the value was empty.");
 		}
 	}
 }

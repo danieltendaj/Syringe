@@ -27,12 +27,14 @@ namespace Syringe.Core.Runner.Assertions
 	            switch (item.AssertionMethod)
 	            {
 		            case AssertionMethod.CSQuery:
-			            break;
+						var cqMatcher = new CsQueryMatcher(_variableProvider, assertionLogger);
+						cqMatcher.Match(item, httpContent);
+						break;
 
 					case AssertionMethod.Regex:
 					default:
 						var regexMatcher = new RegexMatcher(_variableProvider, assertionLogger);
-						regexMatcher.DoIt(item, httpContent);
+						regexMatcher.Match(item, httpContent);
 			            break;
 	            }
 
