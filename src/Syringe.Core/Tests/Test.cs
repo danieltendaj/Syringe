@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Syringe.Core.Tests
 {
-	public class Test
+    [BsonIgnoreExtraElements]
+    public class Test
 	{
 		public int Position { get; set; }
 		public string Description { get; set; }
-		public string Method { get; set; }
+        public string Method { get; set; }
 		public string Url { get; set; }
 		public string PostBody { get; set; }
 	    public HttpStatusCode ExpectedHttpStatusCode { get; set; }

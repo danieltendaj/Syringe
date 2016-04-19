@@ -1,6 +1,9 @@
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Syringe.Core.Tests
 {
-	public class Assertion
+    [BsonIgnoreExtraElements]
+    public class Assertion
 	{
 		public string Description { get; set; }
 		public AssertionMethod AssertionMethod { get; set; }
