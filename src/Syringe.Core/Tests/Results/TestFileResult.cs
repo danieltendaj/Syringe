@@ -10,6 +10,7 @@ namespace Syringe.Core.Tests.Results
     {
 	    public Guid Id { get; set; }
 	    public string Filename { get; set; }
+        public string Environment { get; set; }
         public DateTime StartTime { get; set; }
 		public DateTime EndTime { get; set; }
         public TimeSpan TotalRunTime { get; set; }

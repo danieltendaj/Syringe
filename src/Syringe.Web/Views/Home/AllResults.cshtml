@@ -12,6 +12,7 @@
                     <tr>
                         <th>Date</th>
                         <td>Name</td>
+                        <td>Environment</td>
                         <td>Result</td>
                         <td></td>
                     </tr>
@@ -23,17 +24,19 @@
                             <td>@session.DateRun.ToLocalTime()</td>
                             <td>
                                 @session.FileName
-
-                        </td>
-                        <td>
-                            <span class="label label-success results-label">Total Passed: @session.TotalPassed</span>
-                            <span class="label label-danger results-label">Total Failed: @session.TotalFailed</span>
-                            <span class="label label-info results-label">Run Time: @session.TotalRunTime.MinutesAndSecondsFormat()</span>
-                        </td>
-                        <td>
-                            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Home", new {id = session.Id})">View</a>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                <span class="label label-material-indigo">@session.Environment</span>
+                            </td>
+                            <td>
+                                <span class="label label-success results-label">Total Passed: @session.TotalPassed</span>
+                                <span class="label label-danger results-label">Total Failed: @session.TotalFailed</span>
+                                <span class="label label-info results-label">Run Time: @session.TotalRunTime.MinutesAndSecondsFormat()</span>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Home", new {id = session.Id})">View</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

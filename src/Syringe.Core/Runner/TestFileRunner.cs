@@ -111,7 +111,8 @@ namespace Syringe.Core.Runner
             var testFileResult = new TestFileResult
             {
                 Filename = testFile.Filename,
-                StartTime = DateTime.UtcNow
+                StartTime = DateTime.UtcNow,
+                Environment = testFile.Environment
             };
 
             // Add all config variables and ones in this <test>

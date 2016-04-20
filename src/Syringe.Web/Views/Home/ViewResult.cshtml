@@ -29,9 +29,12 @@
 					<a href="#" class="btn btn-danger" id="tests-failed-count">
 						@Model.TotalTestsFailed tests failed
 					</a>
-					<div class="btn btn-info" style="cursor: default">
-						Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
-					</div>
+                    <div class="btn btn-info" style="cursor: default">
+                        Ran for @Model.TotalRunTime.MinutesAndSecondsFormat()
+                    </div>
+                    <div class="btn btn-material-indigo" style="cursor: default" title="Environment: @Html.AttributeEncode(Model.Environment)">
+                        @(Model.Environment ?? "## MISSING ##")
+                    </div>
 				</div>
 			</div>
 
