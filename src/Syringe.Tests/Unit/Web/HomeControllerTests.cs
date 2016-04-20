@@ -12,6 +12,7 @@ using Syringe.Core.Tests.Results;
 using Syringe.Tests.StubsMocks;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
+using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Tests.Unit.Web
 {
@@ -20,28 +21,30 @@ namespace Syringe.Tests.Unit.Web
     {
         private Mock<ITestService> _testsClient;
         private Mock<Func<IRunViewModel>> _runViewModelFactory;
+        private Mock<IEnvironmentsService> _environmentService;
         private HomeController _homeController;
-	    private HealthCheckMock _mockHealthCheck;
+        private HealthCheckMock _mockHealthCheck;
 
         [SetUp]
         public void Setup()
         {
             var userContext = new Mock<IUserContext>();
-			_mockHealthCheck = new HealthCheckMock();
+            _mockHealthCheck = new HealthCheckMock();
+            _environmentService = new Mock<IEnvironmentsService>();
 
             var urlHelper = new Mock<IUrlHelper>();
 
-			var runViewModelMockService = new Mock<IRunViewModel>();
-            runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
-			_runViewModelFactory = new Mock<Func<IRunViewModel>>();
-			_runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
+            var runViewModelMockService = new Mock<IRunViewModel>();
+            runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>(), It.IsAny<string>()));
+            _runViewModelFactory = new Mock<Func<IRunViewModel>>();
+            _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
-			_testsClient = new Mock<ITestService>();
-			_testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
+            _testsClient = new Mock<ITestService>();
+            _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
             _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
             _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
 
-            _homeController = new HomeController(_testsClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object);
+            _homeController = new HomeController(_testsClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object, _environmentService.Object);
         }
 
         [Test]
@@ -97,7 +100,7 @@ namespace Syringe.Tests.Unit.Web
         public void Run_should_call_run_method_and_return_correct_model()
         {
             // given + when
-            var viewResult = _homeController.Run(It.IsAny<string>()) as ViewResult;
+            var viewResult = _homeController.Run(It.IsAny<string>(), It.IsAny<string>()) as ViewResult;
 
             // then
             _runViewModelFactory.Verify(x => x(), Times.Once);
@@ -108,23 +111,38 @@ namespace Syringe.Tests.Unit.Web
         [Test]
         public void Index_should_throw_HealthCheckException_if_healthcheck_fails()
         {
-			// given
-	        _mockHealthCheck.ThrowsException = true;
+            // given
+            _mockHealthCheck.ThrowsException = true;
 
-			// when + then
-	        Assert.Throws<HealthCheckException>(() => _homeController.Index());
+            // when + then
+            Assert.Throws<HealthCheckException>(() => _homeController.Index());
         }
 
         [Test]
         public void Index_should_call_run_method_and_return_correct_model()
         {
-            // given + when
+            // given
+            var environments = new List<Environment>
+            {
+                new Environment { Name = "Middle", Order = 1 },
+                new Environment { Name = "End", Order = 2 },
+                new Environment { Name = "First", Order = 0 },
+            };
+
+            _environmentService
+                .Setup(x => x.List())
+                .Returns(environments);
+
+            // when
             var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
             _testsClient.Verify(x => x.ListFiles(), Times.Once);
             Assert.AreEqual("Index", viewResult.ViewName);
-            Assert.IsInstanceOf<IndexViewModel>(viewResult.Model);
+
+            var model = viewResult.Model as IndexViewModel;
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Environments, Is.EqualTo(new[] { "First", "Middle", "End" }));
         }
     }
 }

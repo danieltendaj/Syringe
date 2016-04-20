@@ -50,6 +50,7 @@ namespace Syringe.Web.DependencyResolution
             For<ITestService>().Use(() => new TestsClient(serviceUrl));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
 	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
+            For<IEnvironmentsService>().Use(() => new EnvironmentsClient(serviceUrl));
         }
     }
 }

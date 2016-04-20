@@ -29,7 +29,7 @@ namespace Syringe.Core.Runner.Assertions
 		            case AssertionMethod.CSQuery:
 						var cqMatcher = new CsQueryMatcher(_variableProvider, assertionLogger);
 						cqMatcher.Match(item, httpContent);
-						break;
+			            break;
 
 					case AssertionMethod.Regex:
 					default:

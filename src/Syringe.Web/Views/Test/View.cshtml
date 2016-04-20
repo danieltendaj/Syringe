@@ -54,23 +54,21 @@
                             <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
                                 <i class="material-icons">mode_edit</i>
                             </a>
+                            @using (Html.BeginForm("RunTest", "Home"))
+                            {
+                                <input type="hidden" name="filename" value="@Model.Filename" />
+                                <input type="hidden" name="position" value="@test.Position"/>
+                                @Html.Partial("Partials/_RunTest", Model.Environments)
+                            }
                             @using (Html.BeginForm("Delete", "Test"))
                             {
-                                <input type="hidden" name="filename" value="@Model.Filename"/>
-                                <input type="hidden" name="position" value="@test.Position"/>
+                                <input type="hidden" name="filename" value="@Model.Filename" />
+                                <input type="hidden" name="position" value="@test.Position" />
                                 <button class="btn btn-sm btn-danger delete-button" type="submit">
                                     <i class="material-icons">delete</i>
                                 </button>
                             }
 
-                            @using (Html.BeginForm("RunTest", "Home"))
-                            {
-                                <input type="hidden" name="filename" value="@Model.Filename" />
-                                <input type="hidden" name="position" value="@test.Position" />
-                                <button class="btn btn-sm btn-success" type="submit">
-                                    <i class="material-icons">play_arrow</i>
-                                </button>
-                            }
                         </td>
                     </tr>
                 }

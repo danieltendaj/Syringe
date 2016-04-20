@@ -8,5 +8,6 @@ namespace Syringe.Web.Models
         public int NoOfResults { get; set; }
         public double PageNumbers { get; set; }
         public IEnumerable<string> Files { get; set; }
+        public string[] Environments { get; set; }
     }
 }

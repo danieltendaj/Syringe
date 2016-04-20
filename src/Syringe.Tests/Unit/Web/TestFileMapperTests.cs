@@ -172,7 +172,7 @@ namespace Syringe.Tests.Unit.ModelBuilders
 				Method = MethodType.GET.ToString(),
 				PostBody = "PostBody",
 				ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-				Headers = new List<Core.Tests.HeaderItem> { new Core.Tests.HeaderItem() },
+				Headers = new List<Syringe.Core.Tests.HeaderItem> {new Syringe.Core.Tests.HeaderItem()},
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
 				Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
 				Filename = "test.xml",

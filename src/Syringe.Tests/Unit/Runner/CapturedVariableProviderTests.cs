@@ -4,6 +4,7 @@ using Syringe.Core.Extensions;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
+using Syringe.Tests.Extensions;
 
 namespace Syringe.Tests.Unit.Runner
 {

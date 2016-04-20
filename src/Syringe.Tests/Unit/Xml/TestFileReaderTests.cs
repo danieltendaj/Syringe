@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Extensions;
 using Syringe.Core.Tests;
 using Syringe.Core.Xml.Reader;
 
@@ -53,24 +52,32 @@ namespace Syringe.Tests.Unit.Xml
 			TestFile testFile = testFileReader.Read(stringReader);
 
 			// Assert
-			Assert.That(testFile.Variables.Count, Is.EqualTo(4));
+            Assert.That(testFile.Variables.Count, Is.EqualTo(5));
 
-			var loginUrlVariable = testFile.Variables.ByName("LOGIN_URL");
-			var loginVariable = testFile.Variables.ByName("LOGIN1");
-			var passwdVariable = testFile.Variables.ByName("PASSWD1");
-			var testTextVariable = testFile.Variables.ByName("SUCCESSFULL_TEST_TEXT");
+            Variable variable = testFile.Variables[0];
+            Assert.That(variable.Name, Is.EqualTo("LOGIN_URL"));
+            Assert.That(variable.Value, Is.EqualTo("http://myserver/login.php"));
+            Assert.That(variable.Environment.Name, Is.EqualTo("DevTeam1"));
 
-			Assert.That(loginUrlVariable.Value, Is.EqualTo("http://myserver/login.php"));
-			Assert.That(loginUrlVariable.Environment.Name, Is.EqualTo("DevTeam1"));
+            variable = testFile.Variables[1];
+            Assert.That(variable.Name, Is.EqualTo("LOGIN_URL"));
+            Assert.That(variable.Value, Is.EqualTo("http://myserver2/login.php"));
+            Assert.That(variable.Environment.Name, Is.EqualTo("DevTeam2"));
 
-			Assert.That(loginVariable.Value, Is.EqualTo("bob"));
-			Assert.That(loginVariable.Environment.Name, Is.EqualTo("DevTeam2"));
+            variable = testFile.Variables[2];
+            Assert.That(variable.Name, Is.EqualTo("LOGIN1"));
+            Assert.That(variable.Value, Is.EqualTo("bob"));
+            Assert.That(variable.Environment.Name, Is.EqualTo("DevTeam2"));
 
-			Assert.That(passwdVariable.Value, Is.EqualTo("sponge"));
-			Assert.That(passwdVariable.Environment.Name, Is.EqualTo("DevTeam1"));
+            variable = testFile.Variables[3];
+            Assert.That(variable.Name, Is.EqualTo("PASSWD1"));
+            Assert.That(variable.Value, Is.EqualTo("sponge"));
+            Assert.That(variable.Environment.Name, Is.EqualTo("DevTeam1"));
 
-			Assert.That(testTextVariable.Value, Is.EqualTo("Welcome Bob"));
-			Assert.That(testTextVariable.Environment.Name, Is.EqualTo("DevTeam2"));
+            variable = testFile.Variables[4];
+            Assert.That(variable.Name, Is.EqualTo("SUCCESSFULL_TEST_TEXT"));
+            Assert.That(variable.Value, Is.EqualTo("Welcome Bob"));
+            Assert.That(variable.Environment.Name, Is.EqualTo("DevTeam2"));
 		}
 
 		[Test]
@@ -337,26 +344,6 @@ namespace Syringe.Tests.Unit.Xml
 			Assert.That(assertion2.Description, Is.EqualTo("1"));
 			Assert.That(assertion2.AssertionType, Is.EqualTo(AssertionType.Negative));
 			Assert.That(assertion2.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
-		}
-
-		[Test]
-        public void Read_should_add_base_variables()
-        {
-            // Arrange
-            string xml = GetFullExample();
-            var stringReader = new StringReader(xml);
-            var testFileReader = GetTestFileReader();
-
-            // Act
-            TestFile testFile = testFileReader.Read(stringReader);
-
-            // Assert
-            Test test = testFile.Tests.First();
-            Assert.That(test.AvailableVariables.Count, Is.EqualTo(4));
-            Assert.That(test.AvailableVariables[0].Name, Is.EqualTo("LOGIN_URL"));
-            Assert.That(test.AvailableVariables[1].Name, Is.EqualTo("LOGIN1"));
-            Assert.That(test.AvailableVariables[2].Name, Is.EqualTo("PASSWD1"));
-            Assert.That(test.AvailableVariables[3].Name, Is.EqualTo("SUCCESSFULL_TEST_TEXT"));
         }
 
         [Test]
@@ -372,8 +359,8 @@ namespace Syringe.Tests.Unit.Xml
 
             // Assert
             Test test = testFile.Tests.ElementAtOrDefault(1);
-            Assert.That(test.AvailableVariables.Count, Is.EqualTo(5));
-            Assert.That(test.AvailableVariables[4].Name, Is.EqualTo("test"));
+            Assert.That(test.AvailableVariables.Count, Is.EqualTo(6));
+            Assert.That(test.AvailableVariables.Last().Name, Is.EqualTo("test"));
         }
     }
 }

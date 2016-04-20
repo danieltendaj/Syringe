@@ -175,7 +175,6 @@
     <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestException.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
-    <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="Tests\HeaderItem.cs" />
     <Compile Include="Http\Logging\HttpLogWriter.cs" />
     <Compile Include="Http\HttpResponse.cs" />

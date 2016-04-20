@@ -108,12 +108,14 @@ namespace Syringe.Core.Runner
                 _currentResults = new List<TestResult>();
             }
 
-            var testFileResult = new TestFileResult();
-            testFileResult.Filename = testFile.Filename;
-            testFileResult.StartTime = DateTime.UtcNow;
+            var testFileResult = new TestFileResult
+            {
+                Filename = testFile.Filename,
+                StartTime = DateTime.UtcNow
+            };
 
             // Add all config variables and ones in this <test>
-            var variables = new CapturedVariableProvider();
+            var variables = new CapturedVariableProvider(testFile.Environment);
             variables.AddOrUpdateVariables(testFile.Variables);
 
             var verificationsMatcher = new AssertionsMatcher(variables);
@@ -132,7 +134,9 @@ namespace Syringe.Core.Runner
             foreach (Test test in tests)
             {
                 if (_isStopPending)
+                {
                     break;
+                }
 
                 try
                 {
@@ -140,10 +144,14 @@ namespace Syringe.Core.Runner
                     AddResult(testFileResult, result);
 
                     if (result.ResponseTime < minResponseTime)
+                    {
                         minResponseTime = result.ResponseTime;
+                    }
 
                     if (result.ResponseTime > maxResponseTime)
+                    {
                         maxResponseTime = result.ResponseTime;
+                    }
                 }
                 catch (Exception ex)
                 {

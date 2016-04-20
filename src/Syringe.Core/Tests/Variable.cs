@@ -1,4 +1,6 @@
-﻿namespace Syringe.Core.Tests
+﻿using System;
+
+namespace Syringe.Core.Tests
 {
 	public class Variable
 	{
@@ -12,7 +14,32 @@
 		{
 			Name = name;
 			Value = value;
-			Environment = new Environment.Environment() { Name = environment };
+			Environment = new Environment.Environment { Name = environment };
 		}
+
+	    public bool MatchesEnvironment(string environmentToTest)
+	    {
+	        environmentToTest = environmentToTest ?? string.Empty;
+	        string thisEnvironment = Environment?.Name ?? string.Empty;
+
+	        bool matched = string.IsNullOrEmpty(thisEnvironment) || environmentToTest.Equals(thisEnvironment, StringComparison.InvariantCultureIgnoreCase);
+	        return matched;
+	    }
+
+	    public bool MatchesNameAndEnvironment(Variable variableToTest)
+	    {
+	        bool matched = false;
+
+	        if (variableToTest != null)
+	        {
+	            matched = Name.Equals(variableToTest.Name, StringComparison.InvariantCultureIgnoreCase);
+	            if (matched)
+	            {
+	                matched = Environment.Name.Equals(variableToTest.Environment.Name, StringComparison.InvariantCultureIgnoreCase);
+	            }
+	        }
+
+	        return matched;
+	    }
 	}
 }

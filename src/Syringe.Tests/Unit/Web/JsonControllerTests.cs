@@ -59,7 +59,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testsClient.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-            Assert.AreEqual("{\"Tests\":[],\"Filename\":null,\"Variables\":[]}", actionResult.Content);
+            Assert.AreEqual("{\"Tests\":[],\"Filename\":null,\"Variables\":[],\"Environment\":null}", actionResult.Content);
         }
     }
 }

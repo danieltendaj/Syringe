@@ -447,6 +447,8 @@
     <Content Include="Views\Shared\Partials\_TestPager.cshtml" />
     <Content Include="Views\TestFile\Add.cshtml" />
     <Content Include="Views\TestFile\EditorTemplates\VariableViewModel.cshtml" />
+    <Content Include="Views\Shared\Partials\_RunTest.cshtml" />
+    <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\Progress.ts" />

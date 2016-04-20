@@ -55,13 +55,12 @@ namespace Syringe.Core.Xml.Reader
                 if (nameAttribute != null)
                 {
 					XAttribute environmentAttribute = element.Attributes("environment").FirstOrDefault();
-	                string environment = "";
-	                if (environmentAttribute != null)
-		                environment = environmentAttribute.Value;
+	                string environment = environmentAttribute?.Value ?? string.Empty;
 
-					if (!variables.Any(x => x.Name.Equals(nameAttribute.Value, StringComparison.InvariantCultureIgnoreCase)))
+                    var newVariable = new Variable(nameAttribute.Value, element.Value, environment);
+                    if (!variables.Any(x => x.MatchesNameAndEnvironment(newVariable)))
 					{
-						variables.Add(new Variable(nameAttribute.Value, element.Value, environment));
+						variables.Add(newVariable);
 					}
 				}
             }

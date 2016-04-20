@@ -9,10 +9,12 @@ namespace Syringe.Core.Runner
 {
 	internal class CapturedVariableProvider
 	{
+	    private readonly string _environment;
 		private readonly List<Variable> _currentVariables;
 
-		public CapturedVariableProvider()
+		public CapturedVariableProvider(string environment)
 		{
+		    _environment = environment;
 			_currentVariables = new List<Variable>();
 		}
 
@@ -20,20 +22,25 @@ namespace Syringe.Core.Runner
 		{
 			foreach (Variable variable in variables)
 			{
-				AddOrUpdateVariable(variable.Name, variable.Value);
+				AddOrUpdateVariable(variable);
 			}
 		}
 
-		public void AddOrUpdateVariable(string name, string value)
+		public void AddOrUpdateVariable(Variable variable)
 		{
-			var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-			if (variable != null)
+		    bool shouldAddOrUpdate = variable.MatchesEnvironment(_environment);
+
+		    if (shouldAddOrUpdate)
+		{
+		        Variable detectedVariable = _currentVariables.FirstOrDefault(x => x.Name.Equals(variable.Name, StringComparison.InvariantCultureIgnoreCase));
+		        if (detectedVariable != null)
 			{
-				variable.Value = value;
+		            detectedVariable.Value = variable.Value;
 			}
 			else
 			{
-				_currentVariables.Add(new Variable(name, value, ""));
+		            _currentVariables.Add(variable);
+		        }
 			}
 		}
 

@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <tests>
 	<variables>
-		<variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
+    <variable name="LOGIN_URL" environment="DevTeam1">http://myserver/login.php</variable>
+    <variable name="LOGIN_URL" environment="DevTeam2">http://myserver2/login.php</variable>
 		<variable name="LOGIN1" environment="DevTeam2">bob</variable>
 		<variable name="PASSWD1" environment="DevTeam1">sponge</variable>
 		<variable name="SUCCESSFULL_TEST_TEXT" environment="DevTeam2">Welcome Bob</variable>
