@@ -11,7 +11,8 @@ namespace Syringe.Web.Models
 
         IEnumerable<RunningTestViewModel> Tests { get; }
 		int CurrentTaskId { get; }
-		string FileName { get; }
-	    string SignalRUrl { get; }
+        string FileName { get; }
+        string Environment { get; }
+        string SignalRUrl { get; }
 	}
 }

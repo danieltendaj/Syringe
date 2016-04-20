@@ -50,7 +50,8 @@ namespace Syringe.Core.Repositories.MongoDB
                                     TotalRunTime = x.TotalRunTime,
                                     TotalPassed = x.TotalTestsPassed,
                                     TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun
+                                    TotalRun = x.TotalTestsRun,
+                                    Environment = x.Environment
                                 })
                                 .OrderByDescending(x => x.DateRun);
         }
@@ -68,7 +69,8 @@ namespace Syringe.Core.Repositories.MongoDB
                                     TotalRunTime = x.TotalRunTime,
                                     TotalPassed = x.TotalTestsPassed,
                                     TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun
+                                    TotalRun = x.TotalTestsRun,
+                                    Environment = x.Environment
                                 })
                                 .OrderByDescending(x => x.DateRun);
         }

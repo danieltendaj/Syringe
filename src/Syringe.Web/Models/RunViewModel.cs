@@ -17,7 +17,8 @@ namespace Syringe.Web.Models
 		public IEnumerable<RunningTestViewModel> Tests => _runningTests;
 		public int CurrentTaskId { get; private set; }
 		public string FileName { get; private set; }
-		public string SignalRUrl { get; private set; }
+        public string Environment { get; private set; }
+        public string SignalRUrl { get; private set; }
 
 		public RunViewModel(ITasksService tasksService, ITestService testService)
         {
@@ -31,6 +32,7 @@ namespace Syringe.Web.Models
         public void RunTest(IUserContext userContext, string fileName, string environment, int index)
         {
             FileName = fileName;
+            Environment = fileName;
 
             Test test = _testService.GetTest(fileName,  index);
 
@@ -53,6 +55,7 @@ namespace Syringe.Web.Models
         public void Run(IUserContext userContext, string fileName, string environment)
         {
             FileName = fileName;
+            Environment = environment;
 
             TestFile testFile = _testService.GetTestFile(fileName);
 

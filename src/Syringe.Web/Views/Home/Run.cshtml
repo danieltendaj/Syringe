@@ -21,6 +21,7 @@
 			<a class="btn btn-primary pull-right" target="_blank" href="@Url.Action("View", "Test", new {filename = Model.FileName})">View Tests</a>
 			@using (Html.BeginForm("Run", "Home"))
 			{
+                @Html.HiddenFor(x => x.Environment)
 				<button title="Run" class="btn btn-primary pull-right" type="submit" name="filename" value="@Model.FileName"> Run again </button>
 			}
 		</div>
@@ -38,6 +39,7 @@
                 </div>
             </div>
 
+            <span class="label label-material-indigo">@Model.Environment</span>
             <div id="running-items">
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     @foreach (RunningTestViewModel test in Model.Tests)
