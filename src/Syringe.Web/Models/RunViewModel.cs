@@ -28,7 +28,7 @@ namespace Syringe.Web.Models
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
-        public void RunTest(IUserContext userContext, string fileName, int index)
+        public void RunTest(IUserContext userContext, string fileName, string environment, int index)
         {
             FileName = fileName;
 
@@ -43,6 +43,7 @@ namespace Syringe.Web.Models
                 Filename = fileName,
                 Username = userContext.FullName,
                 Position = index,
+                Environment = environment
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);

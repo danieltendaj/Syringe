@@ -37,11 +37,10 @@ namespace Syringe.Tests.Unit.Web
 			}
 
 			[Test]
-			public void should_populate_tests_using_specified_filename()
+			public void should_populate_tests_using_specified_filename_and_environment()
 			{
 				// given
 				const string fileName = "Some file";
-			    const string environment = "hardcore xxx environment";
 			    int test1 = 1;
 			    int test2 = 2;
 				var testFile =
@@ -58,7 +57,7 @@ namespace Syringe.Tests.Unit.Web
                 RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(), fileName, environment);
+				viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
 
 				// then
 				Assert.That(viewModel.Tests, Is.Not.Null);
@@ -67,33 +66,58 @@ namespace Syringe.Tests.Unit.Web
 					new { Position = test1, Description = "Desc1" },
 					new { Position = test2, Description = "Desc2" }
 				}));
-			}
+            }
 
-			[Test]
-			public void should_start_task_using_current_user_context_and_file_name()
-			{
-				// given
-				const string fileName = "MyFile";
-			    const string environment = "Chris loves a bit of environment if you know what I mean...";
-				const string userName = "Me";
+            [Test]
+            public void should_start_task_using_current_user_context_and_file_name_when_running_tests()
+            {
+                // given
+                const string fileName = "MyFile";
+                const string environment = "Chris loves a bit of environment if you know what I mean...";
+                const string userName = "Me";
 
-				ITestService testService =Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
-				var tasksService = new Mock<ITasksService>();
-				RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+                ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == Mock.Of<TestFile>());
+                var tasksService = new Mock<ITasksService>();
+                RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
 
-				// when
-				viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment);
+                // when
+                viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment);
 
-				// then
-				tasksService.Verify(
-					s =>
-						s.Start(
-							It.Is<TaskRequest>(
-								r => r.Filename == fileName && r.Username == userName && r.Environment == environment)),
+                // then
+                tasksService.Verify(
+                    s =>
+                        s.Start(
+                            It.Is<TaskRequest>(
+                                r => r.Filename == fileName && r.Username == userName && r.Environment == environment)),
                     "Should have requested for the correct task to start.");
-			}
+            }
 
-			[Test]
+            [Test]
+            public void should_start_task_using_current_user_context_and_filename_and_environment_and_position_when_running_test()
+            {
+                // given
+                const string fileName = "MyFile";
+                const string environment = "Chris loves a bit of environment if you know what I mean...";
+                const string userName = "Me";
+                const int position = 432;
+
+                ITestService testService = Mock.Of<ITestService>(s => s.GetTest(fileName, position) == Mock.Of<Test>());
+                var tasksService = new Mock<ITasksService>();
+                RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+
+                // when
+                viewModel.RunTest(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment, position);
+
+                // then
+                tasksService.Verify(
+                    s =>
+                        s.Start(
+                            It.Is<TaskRequest>(
+                                r => r.Filename == fileName && r.Username == userName && r.Environment == environment && r.Position == position)),
+                    "Should have requested for the correct task to start.");
+            }
+
+            [Test]
 			public void should_set_current_task_id_to_running_task_id()
 			{
 				// given
