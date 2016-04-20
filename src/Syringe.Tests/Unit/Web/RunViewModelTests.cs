@@ -1,20 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
+﻿using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
-using Syringe.Web;
 using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web
 {
-	[TestFixture]
-	public class RunViewModelTests
+	public static class RunViewModelTests
 	{
 		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
 		{
@@ -35,7 +30,7 @@ namespace Syringe.Tests.Unit.Web
 				RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
 
 				// then
 				Assert.That(viewModel.FileName, Is.EqualTo(fileName));
@@ -46,6 +41,7 @@ namespace Syringe.Tests.Unit.Web
 			{
 				// given
 				const string fileName = "Some file";
+			    const string environment = "hardcore xxx environment";
 			    int test1 = 1;
 			    int test2 = 2;
 				var testFile =
@@ -59,10 +55,10 @@ namespace Syringe.Tests.Unit.Web
 							});
 
 				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == testFile);
-				RunViewModel viewModel = GivenARunViewModel(testService: testService);
+                RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(), fileName, environment);
 
 				// then
 				Assert.That(viewModel.Tests, Is.Not.Null);
@@ -78,6 +74,7 @@ namespace Syringe.Tests.Unit.Web
 			{
 				// given
 				const string fileName = "MyFile";
+			    const string environment = "Chris loves a bit of environment if you know what I mean...";
 				const string userName = "Me";
 
 				ITestService testService =Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
@@ -85,15 +82,15 @@ namespace Syringe.Tests.Unit.Web
 				RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName);
+				viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment);
 
 				// then
 				tasksService.Verify(
 					s =>
 						s.Start(
 							It.Is<TaskRequest>(
-								r => r.Filename == fileName && r.Username == userName)),
-					"Should have requested for the correct task to start.");
+								r => r.Filename == fileName && r.Username == userName && r.Environment == environment)),
+                    "Should have requested for the correct task to start.");
 			}
 
 			[Test]
@@ -110,7 +107,7 @@ namespace Syringe.Tests.Unit.Web
 				var viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService);
 
 				// when
-				viewModel.Run(Mock.Of<IUserContext>(), "My test file");
+				viewModel.Run(Mock.Of<IUserContext>(), "My test file", "something");
 
 				// then
 				Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));

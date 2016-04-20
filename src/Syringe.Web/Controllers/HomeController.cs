@@ -64,7 +64,7 @@ namespace Syringe.Web.Controllers
 			UserContext context = UserContext.GetFromFormsAuth(HttpContext);
 
 			var runViewModel = _runViewModelFactory();
-            runViewModel.Run(context, filename);
+            runViewModel.Run(context, filename, environment);
             return View("Run", runViewModel);
         }
         

@@ -6,7 +6,7 @@ namespace Syringe.Web.Models
 {
 	public interface IRunViewModel
 	{
-		void Run(IUserContext userContext, string fileName);
+		void Run(IUserContext userContext, string fileName, string environment);
 	    void RunTest(IUserContext userContext, string fileName, int index);
 
         IEnumerable<RunningTestViewModel> Tests { get; }

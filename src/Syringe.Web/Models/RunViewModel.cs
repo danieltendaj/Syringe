@@ -49,7 +49,7 @@ namespace Syringe.Web.Models
         }
 
 
-        public void Run(IUserContext userContext, string fileName)
+        public void Run(IUserContext userContext, string fileName, string environment)
         {
             FileName = fileName;
 
@@ -66,6 +66,7 @@ namespace Syringe.Web.Models
             {
                 Filename = fileName,
                 Username = userContext.FullName,
+                Environment = environment
             };
 
             CurrentTaskId = _tasksService.Start(taskRequest);

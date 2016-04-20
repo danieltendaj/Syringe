@@ -131,6 +131,7 @@ namespace Syringe.Service.Parallel
                         testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);
                     }
 					testFile.Filename = xmlFilename;
+				    testFile.Environment = item.Request.Environment;
 
 					var httpClient = new HttpClient(new RestClient());
 

@@ -35,7 +35,7 @@ namespace Syringe.Tests.Unit.Web
             var urlHelper = new Mock<IUrlHelper>();
 
             var runViewModelMockService = new Mock<IRunViewModel>();
-            runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>()));
+            runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>(), It.IsAny<string>()));
             _runViewModelFactory = new Mock<Func<IRunViewModel>>();
             _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
 
