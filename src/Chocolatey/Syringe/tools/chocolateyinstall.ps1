@@ -47,6 +47,15 @@ cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force 
 cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
 cp "$websiteDir\web.config" "$serviceDir\web.bak.config" -Force -ErrorAction Ignore
 
+# Uninstall the service if it exists
+if (test-path $serviceExe)
+{
+  Write-Host "Service found - stopping and uninstalling the service."
+  & sc.exe stop syringe 2>&1
+  Sleep 5
+  & $serviceExe uninstall
+}
+
 # Unzip the service + website (overwrites existing files when upgrading)
 Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
 Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
@@ -57,14 +66,6 @@ if ($arguments["restoreConfigs"] -eq "true")
     cp "$serviceDir\configuration.bak.json" "$serviceDir\configuration.json" -Force -ErrorAction Ignore
     cp "$serviceDir\environments.bak.json" "$serviceDir\environments.json" -Force -ErrorAction Ignore
     cp "$serviceDir\web.bak.config" "$websiteDir\web.config" -Force -ErrorAction Ignore
-}
-
-# Uninstall the service if it exists
-if (test-path $serviceExe)
-{
-	Write-Host "Service found - uninstalling the service."
-    & sc.exe stop syringe 2>&1
-	& $serviceExe uninstall
 }
 
 # Install the service
