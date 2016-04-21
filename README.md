@@ -29,6 +29,10 @@ Make sure you have IIS enabled.
     choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
     choco install syringe
 
+Or if you want to configure Syringe to use custom settings (restoreConfigs will copy your configs over the package ones once the package is installed):
+
+	choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
+
 ##### Configure an OAuth2 provider
 
 Syringe uses OAuth2 for its security. Currently it only supports Github, Google and Microsoft OAuth2 providers.

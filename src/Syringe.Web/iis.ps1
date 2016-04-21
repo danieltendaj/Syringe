@@ -40,6 +40,7 @@ if ($removeOnly -eq $true)
 # Add the app pool first
 #=================================================================
 Write-Host "  Adding app pool $appPoolName (v4, localservice)"
+Remove-WebAppPool $appPoolName -ErrorAction Ignore
 New-WebAppPool -Name $appPoolName -Force | Out-Null
 Set-ItemProperty "IIS:\AppPools\$appPoolName" managedRuntimeVersion v4.0
 Set-ItemProperty "IIS:\AppPools\$appPoolName" managedPipelineMode Integrated
@@ -51,5 +52,7 @@ Set-ItemProperty "IIS:\AppPools\$appPoolName" processModel.pingingEnabled -value
 # Syringe website
 #=================================================================
 Write-Host "  Adding website $websiteName (id:$websitePort, port: $websitePort, path: $websitePath)"
+
+Remove-Website $websiteName -ErrorAction Ignore
 New-Website -Name $websiteName -Id $websitePort -Port $websitePort -PhysicalPath $websitePath -ApplicationPool $appPoolName -Force  | Out-Null
 New-WebBinding -Name $websiteName -IPAddress "*" -Port $websitePort -HostHeader $websiteDomain
