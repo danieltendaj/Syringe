@@ -441,8 +441,8 @@
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
-    <Content Include="Views\Home\AllResults.cshtml" />
-    <Content Include="Views\Home\ViewResult.cshtml" />
+    <Content Include="Views\Results\AllResults.cshtml" />
+    <Content Include="Views\Results\ViewResult.cshtml" />
     <Content Include="Views\Home\Run.cshtml" />
     <Content Include="Views\Shared\Partials\_TestPager.cshtml" />
     <Content Include="Views\TestFile\Add.cshtml" />

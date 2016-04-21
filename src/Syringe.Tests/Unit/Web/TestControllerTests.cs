@@ -17,7 +17,6 @@ namespace Syringe.Tests.Unit.Web
     {
         private TestController _testController;
         private Mock<ITestService> _testServiceMock;
-        private Mock<IUserContext> _userContextMock;
         private Mock<ITestFileMapper> _testFileMapperMock;
         private Mock<IEnvironmentsService> _environmentService;
 
@@ -25,7 +24,6 @@ namespace Syringe.Tests.Unit.Web
         public void Setup()
         {
             _testServiceMock = new Mock<ITestService>();
-            _userContextMock = new Mock<IUserContext>();
             _testFileMapperMock = new Mock<ITestFileMapper>();
             _environmentService = new Mock<IEnvironmentsService>();
 
@@ -38,7 +36,7 @@ namespace Syringe.Tests.Unit.Web
             _testServiceMock.Setup(x => x.EditTest(It.IsAny<Test>()));
             _testServiceMock.Setup(x => x.CreateTest(It.IsAny<Test>()));
 
-            _testController = new TestController(_testServiceMock.Object, _userContextMock.Object, _testFileMapperMock.Object, _environmentService.Object);
+            _testController = new TestController(_testServiceMock.Object, _testFileMapperMock.Object, _environmentService.Object);
         }
 
         [Test]
