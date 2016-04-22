@@ -5,6 +5,14 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
 
+## Syringe's purpose in the universe
+
+Syringe is a HTTP runner - if you can reach a server endpoint via HTTP, Syringe will be able to test it. It's purpose is:
+
+1. To check canary pages (HTML, XML, JSON, TXT etc.)
+2. To perform advanced smoke testing - get a HTML page (or other text-based resource) and assert that it contains some text.
+3. Basic end-to-end HTTP tests. For example logging into a website and checking a page.
+
 ## Installation
 
 ### Pre-requisites

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Helpers;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Results;
@@ -28,11 +26,8 @@ namespace Syringe.Tests.Unit.Web
         [SetUp]
         public void Setup()
         {
-            var userContext = new Mock<IUserContext>();
             _mockHealthCheck = new HealthCheckMock();
             _environmentService = new Mock<IEnvironmentsService>();
-
-            var urlHelper = new Mock<IUrlHelper>();
 
             var runViewModelMockService = new Mock<IRunViewModel>();
             runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>(), It.IsAny<string>()));
@@ -44,56 +39,7 @@ namespace Syringe.Tests.Unit.Web
             _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
             _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
 
-            _homeController = new HomeController(_testsClient.Object, userContext.Object, _runViewModelFactory.Object, _mockHealthCheck, urlHelper.Object, _environmentService.Object);
-        }
-
-        [Test]
-        public void AllResults_should_return_correct_view_and_model()
-        {
-            // given + when
-            var viewResult = _homeController.AllResults() as ViewResult;
-
-            // then
-            _testsClient.Verify(x => x.GetSummaries(), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
-        }
-
-        [Test]
-        public void TodaysResults_should_return_correct_view_and_model()
-        {
-            // given + when
-            var viewResult = _homeController.TodaysResults() as ViewResult;
-
-            // then
-            _testsClient.Verify(x => x.GetSummariesForToday(), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
-        }
-
-
-        [Test]
-        public void ViewResult_should_return_correct_view_and_model()
-        {
-            // given + when
-            var viewResult = _homeController.ViewResult(It.IsAny<Guid>()) as ViewResult;
-
-            // then
-            _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
-            Assert.AreEqual("ViewResult", viewResult.ViewName);
-            Assert.IsInstanceOf<TestFileResult>(viewResult.Model);
-        }
-
-        [Test]
-        public async void DeleteResult_should_call_delete_methods_and_redirect_to_correct_action()
-        {
-            // given + when
-            var redirectToRouteResult = await _homeController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
-
-            // then
-            _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
-            _testsClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
-            Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
+            _homeController = new HomeController(_testsClient.Object, _runViewModelFactory.Object, _mockHealthCheck, _environmentService.Object);
         }
 
         [Test]
@@ -134,13 +80,13 @@ namespace Syringe.Tests.Unit.Web
                 .Returns(environments);
 
             // when
-            var viewResult = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+            var view = _homeController.Index(It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
             // then
             _testsClient.Verify(x => x.ListFiles(), Times.Once);
-            Assert.AreEqual("Index", viewResult.ViewName);
+            Assert.AreEqual("Index", view.ViewName);
 
-            var model = viewResult.Model as IndexViewModel;
+            var model = view.Model as IndexViewModel;
             Assert.That(model, Is.Not.Null);
             Assert.That(model.Environments, Is.EqualTo(new[] { "First", "Middle", "End" }));
         }
