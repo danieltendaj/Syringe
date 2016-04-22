@@ -9,6 +9,7 @@
 # ===============================================================================
 $ErrorActionPreference = "Stop"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
+$serviceDir  = Resolve-Path ".\src\Syringe.Service\"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
@@ -26,6 +27,13 @@ $oldSysDrive = $env:systemdrive
 $env:systemdrive = $mongoDataDir
 choco install mongodb -y
 $env:systemdrive = $oldSysDrive
+
+
+if(!(Test-Path "$serviceDir\configuration.json"))
+{
+	Write-Host "Restoring config file from default..." -ForegroundColor Green
+	Copy-Item "$serviceDir\configuration.default.json" "$serviceDir\configuration.json"
+}
 
 # Build
 Write-Host "Building solution." -ForegroundColor Green
