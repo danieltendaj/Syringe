@@ -11,6 +11,8 @@ $websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
 if (test-path $serviceExe)
 {
 	Write-Host "Service found - uninstalling the service."
+    & sc.exe stop syringe 2>&1
+    Sleep 5
 	& $serviceExe uninstall
 }
 

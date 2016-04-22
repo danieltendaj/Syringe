@@ -63,6 +63,7 @@ Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
 # Restore the configs if it's set
 if ($arguments["restoreConfigs"] -eq "true")
 {
+    Write-Host "Restoring configs." -ForegroundColor Green
     cp "$serviceDir\configuration.bak.json" "$serviceDir\configuration.json" -Force -ErrorAction Ignore
     cp "$serviceDir\environments.bak.json" "$serviceDir\environments.json" -Force -ErrorAction Ignore
     cp "$serviceDir\web.bak.config" "$websiteDir\web.config" -Force -ErrorAction Ignore
@@ -70,9 +71,9 @@ if ($arguments["restoreConfigs"] -eq "true")
 
 # Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
-& $serviceExe install --autostart --localsystem start
+& $serviceExe install --autostart --localsystem
 Sleep 5
-& sc.exe start syringe 2>&1
+& sc.exe start syringe
 
 # Run the website installer
 Write-Host "Setting up IIS site." -ForegroundColor Green
