@@ -1,24 +1,39 @@
 ﻿using System;
-using System.Configuration;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Syringe.Web
 {
 	public class MvcConfiguration
 	{
 		private readonly Lazy<string> _lazySignalRUrl;
-		public string SignalRUrl => _lazySignalRUrl.Value;
+		private static MvcConfiguration _configuration;
 
 		public string ServiceUrl { get; set; }
+		public string SignalRUrl => _lazySignalRUrl.Value;
 
-		public MvcConfiguration()
+		private MvcConfiguration()
 		{
-			ServiceUrl = ConfigurationManager.AppSettings["ServiceUrl"];
-			if (string.IsNullOrEmpty(ServiceUrl))
+			_lazySignalRUrl = new Lazy<string>(BuildSignalRUrl);
+		}
+
+		public static MvcConfiguration Load()
+		{
+			if (_configuration == null)
 			{
-				ServiceUrl = "http://localhost:1981";
+				string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "websiteconfig.json");
+				string json = File.ReadAllText(configPath);
+				MvcConfiguration configuration = JsonConvert.DeserializeObject<MvcConfiguration>(json);
+
+				if (string.IsNullOrEmpty(configuration.ServiceUrl))
+				{
+					configuration.ServiceUrl = "http://localhost:1981";
+				}
+
+				_configuration = configuration;
 			}
 
-			_lazySignalRUrl = new Lazy<string>(BuildSignalRUrl);
+			return _configuration;
 		}
 
 		private string BuildSignalRUrl()

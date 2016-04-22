@@ -401,6 +401,7 @@
     <Content Include="Css\font-awesome-4.4.0\fonts\FontAwesome.otf" />
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
+    <None Include="websiteconfig.json" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />

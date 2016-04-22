@@ -25,7 +25,7 @@ namespace Syringe.Web.Models
             _tasksService = tasksService;
             _testService = testService;
 
-	        var mvcConfiguration = new MvcConfiguration();
+	        var mvcConfiguration = MvcConfiguration.Load();
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 

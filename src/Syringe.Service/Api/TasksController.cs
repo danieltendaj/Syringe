@@ -26,9 +26,9 @@ namespace Syringe.Service.Api
 
 		[Route("api/tasks/RunTestFileAndWait")]
 		[HttpGet]
-		public string RunTestFileAndWait(string filename)
+		public string RunTestFileAndWait(string filename, string environment)
 		{
-			string status = ((ParallelTestFileQueue) _fileQueue).RunTestFile(filename);
+			string status = ((ParallelTestFileQueue) _fileQueue).RunTestFile(filename, environment);
 			return status;
 		}
 

@@ -64,7 +64,7 @@ namespace Syringe.Service.Parallel
 		/// <summary>
 		/// Hacky, will be fixed later.
 		/// </summary>
-		internal string RunTestFile(string filename)
+		internal string RunTestFile(string filename, string environment)
 		{
 			try
 			{
@@ -77,6 +77,7 @@ namespace Syringe.Service.Parallel
 					var testCaseReader = new TestFileReader();
 					TestFile testFile = testCaseReader.Read(stringReader);
 					testFile.Filename = xmlFilename;
+					testFile.Environment = environment;
 
 					var httpClient = new HttpClient(new RestClient());
 

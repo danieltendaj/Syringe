@@ -29,8 +29,8 @@ namespace Syringe.Web.Controllers
 
 	    private static IConfiguration GetConfig()
 	    {
-		    var mvcConfiguration = new MvcConfiguration();
-		    var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
+		    var mvcConfiguration = MvcConfiguration.Load();
+			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
 		    IConfiguration config = configClient.GetConfiguration();
 		    return config;
 	    }

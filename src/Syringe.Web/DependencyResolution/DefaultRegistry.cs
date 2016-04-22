@@ -41,7 +41,8 @@ namespace Syringe.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-	        string serviceUrl = new MvcConfiguration().ServiceUrl;
+			MvcConfiguration config = MvcConfiguration.Load();
+			string serviceUrl = config.ServiceUrl;
 
 			For<IRunViewModel>().Use<RunViewModel>();
             For<ITestFileMapper>().Use<TestFileMapper>();

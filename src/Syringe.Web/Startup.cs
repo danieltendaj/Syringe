@@ -46,7 +46,7 @@ namespace Syringe.Web
 			//
 			// OAuth2 Integrations
 			//
-			var mvcConfiguration = new MvcConfiguration();
+			var mvcConfiguration = MvcConfiguration.Load();
 			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
 			IConfiguration config = configClient.GetConfiguration();
 
