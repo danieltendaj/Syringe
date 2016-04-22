@@ -1,0 +1,18 @@
+﻿{
+	"ServiceUrl": "http://*:1981",
+	"WebsiteUrl": "http://localhost:1980",
+	"TestFilesBaseDirectory": "..\\..\\..\\..\\Xml-Examples",
+	"MongoDbDatabaseName": "Syringe",
+	"OAuthConfiguration": {
+		"GithubAuthClientId": "",
+		"GithubAuthClientSecret": "",
+		"GoogleAuthClientId": "",
+		"GoogleAuthClientSecret": "",
+		"MicrosoftAuthClientId": "",
+		"MicrosoftAuthClientSecret": ""
+	},
+	"GitConfiguration": {
+		"RepositoryUrl": "https://github.com/TotalJobsGroup/Syringe-Examples.git",
+		"Branches": [ "master", "dev-team1", "dev-team2" ]
+	}
+}
