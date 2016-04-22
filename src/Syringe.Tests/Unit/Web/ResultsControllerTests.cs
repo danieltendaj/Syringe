@@ -131,7 +131,7 @@ namespace Syringe.Tests.Unit.Web
         public async void DeleteResult_should_call_delete_methods_and_redirect_to_correct_action()
         {
             // given + when
-            var redirectToRouteResult = await _resultsController.DeleteResult(It.IsAny<Guid>()) as RedirectToRouteResult;
+            var redirectToRouteResult = await _resultsController.Delete(It.IsAny<Guid>()) as RedirectToRouteResult;
 
             // then
             _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
