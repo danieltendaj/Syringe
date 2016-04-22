@@ -68,9 +68,11 @@ if ($arguments["restoreConfigs"] -eq "true")
     cp "$serviceDir\web.bak.config" "$websiteDir\web.config" -Force -ErrorAction Ignore
 }
 
-# Install the service
+# Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
 & $serviceExe install --autostart --localsystem start
+Sleep 5
+& sc.exe start syringe 2>&1
 
 # Run the website installer
 Write-Host "Setting up IIS site." -ForegroundColor Green
