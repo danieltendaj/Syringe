@@ -5,6 +5,7 @@ using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
+using Syringe.Web;
 using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web
@@ -13,9 +14,10 @@ namespace Syringe.Tests.Unit.Web
 	{
 		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
 		{
-			return new RunViewModel(
-				tasksService ?? Mock.Of<ITasksService>(),
-				testService ?? Mock.Of<ITestService>());
+			tasksService = tasksService ?? Mock.Of<ITasksService>();
+			testService = testService ?? Mock.Of<ITestService>();
+
+			return new RunViewModel(tasksService, testService, new MvcConfiguration());
 		}
 
 		[TestFixture]

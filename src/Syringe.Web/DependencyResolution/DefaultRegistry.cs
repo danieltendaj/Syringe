@@ -44,6 +44,7 @@ namespace Syringe.Web.DependencyResolution
 			MvcConfiguration config = MvcConfiguration.Load();
 			string serviceUrl = config.ServiceUrl;
 
+			For<MvcConfiguration>().Use(config);
 			For<IRunViewModel>().Use<RunViewModel>();
             For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();

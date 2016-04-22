@@ -20,12 +20,11 @@ namespace Syringe.Web.Models
         public string Environment { get; private set; }
         public string SignalRUrl { get; private set; }
 
-		public RunViewModel(ITasksService tasksService, ITestService testService)
+		public RunViewModel(ITasksService tasksService, ITestService testService, MvcConfiguration mvcConfiguration)
         {
             _tasksService = tasksService;
             _testService = testService;
 
-	        var mvcConfiguration = MvcConfiguration.Load();
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
