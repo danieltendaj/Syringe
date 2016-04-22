@@ -45,7 +45,7 @@ Parse-Parameters($arguments);
 # Backup the configs
 cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
 cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
-cp "$websiteDir\web.config" "$serviceDir\web.bak.config" -Force -ErrorAction Ignore
+cp "$websiteDir\web.config" "$websiteDir\web.bak.config" -Force -ErrorAction Ignore
 
 # Uninstall the service if it exists
 if (test-path $serviceExe)
@@ -66,7 +66,7 @@ if ($arguments["restoreConfigs"] -eq "true")
     Write-Host "Restoring configs." -ForegroundColor Green
     cp "$serviceDir\configuration.bak.json" "$serviceDir\configuration.json" -Force -ErrorAction Ignore
     cp "$serviceDir\environments.bak.json" "$serviceDir\environments.json" -Force -ErrorAction Ignore
-    cp "$serviceDir\web.bak.config" "$websiteDir\web.config" -Force -ErrorAction Ignore
+    cp "$websiteDir\web.bak.config" "$websiteDir\web.config" -Force -ErrorAction Ignore
 }
 
 # Install and start the service
