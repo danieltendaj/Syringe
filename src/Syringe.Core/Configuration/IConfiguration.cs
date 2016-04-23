@@ -8,5 +8,6 @@
 		string MongoDbDatabaseName { get; set; }
 		OAuthConfiguration OAuthConfiguration { get; set; }
 		GitConfiguration GitConfiguration { get; set; }
-	}
+        OctopusConfiguration OctopusConfiguration { get; set; }
+    }
 }

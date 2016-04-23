@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Syringe.Core.Configuration
 {
@@ -20,7 +19,9 @@ namespace Syringe.Core.Configuration
 		public OAuthConfiguration OAuthConfiguration { get; set; }
 		public GitConfiguration GitConfiguration { get; set; }
 
-		public JsonConfiguration()
+        public OctopusConfiguration OctopusConfiguration { get; set; }
+
+        public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";

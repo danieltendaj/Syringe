@@ -149,9 +149,14 @@
     <Compile Include="Configuration\IHealthCheck.cs" />
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
+    <Compile Include="Configuration\OctopusConfiguration.cs" />
     <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
+    <Compile Include="Environment\IOctopusRepositoryFactory.cs" />
     <Compile Include="Environment\JsonEnvironmentProvider.cs" />
+    <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
+    <Compile Include="Environment\OctopusRepositoryFactory.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="Git\GitProvider.cs" />

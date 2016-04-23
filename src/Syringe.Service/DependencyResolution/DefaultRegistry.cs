@@ -18,6 +18,7 @@
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Infrastructure;
+using Octopus.Client;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
@@ -67,7 +68,11 @@ namespace Syringe.Service.DependencyResolution
             For<ITestFileWriter>().Use<TestFileWriter>();
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
-	        For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
+
+            For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
+            For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
+            //For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
+            For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
                 .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
