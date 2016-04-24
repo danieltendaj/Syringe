@@ -53,16 +53,6 @@ namespace Syringe.Core.Xml.Reader
 			return result;
 		}
 
-        public static Guid AttributeAsGuid(XElement element, string attributeName, Guid defaultValue =new Guid())
-        {
-            string value = GetOptionalAttribute(element, attributeName);
-            Guid result = Guid.Empty;
-            if (!Guid.TryParse(value, out result))
-                result = defaultValue;
-
-            return result;
-        }
-
         public static int ElementAsInt(XElement element, string elementName, int defaultValue = 0)
 		{
 			string value = GetOptionalElementValue(element, elementName);

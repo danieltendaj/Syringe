@@ -55,6 +55,18 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void RunTest_should_call_run_method_and_return_correct_model()
+        {
+            // given + when
+            var viewResult = _homeController.RunTest(It.IsAny<string>(),It.IsAny<int>(), It.IsAny<string>()) as ViewResult;
+
+            // then
+            _runViewModelFactory.Verify(x => x(), Times.Once);
+            Assert.AreEqual("Run", viewResult.ViewName);
+            Assert.IsInstanceOf<IRunViewModel>(viewResult.Model);
+        }
+
+        [Test]
         public void Index_should_throw_HealthCheckException_if_healthcheck_fails()
         {
             // given

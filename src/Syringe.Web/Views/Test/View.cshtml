@@ -21,9 +21,23 @@
 			<a class="btn btn-sm btn-primary" href="@Url.Action("ViewXml", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View XML</a>
             @using (Html.BeginForm("Run", "Home"))
             {
-                <button title="Run" class="btn btn-sm btn-primary" type="submit" name="filename" value="@Model.Filename">
-                    Run all tests
-                </button>
+                <div class="btn-group environment-selection">
+                    @Html.Hidden("environment")
+                    <input type="hidden" name="filename" value="@Model.Filename" />
+                    <a class="btn btn-sm btn-primary" data-toggle="dropdown" href="#">Run all tests</a>
+                    <ul class="dropdown-menu">
+                        @foreach (string environment in Model.Environments)
+                        {
+                            <li>
+                                <a href="#" class="environment-option" role="button" data-value="@Html.AttributeEncode(environment)">
+                                    @environment
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+               
             }
         </div>
     </div>
