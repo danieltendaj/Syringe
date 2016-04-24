@@ -1,18 +1,66 @@
 ﻿[
-	{
+  {
 		"Name": "Development",
-		"Order": 1
+    "Order": 1,
+    "Roles": [
+      {
+        "Name": "R1 Dev",
+        "Role": "R1",
+        "HostName": "r1.dev.com"
+      },
+      {
+        "Name": "R2 Dev",
+        "Role": "R2",
+        "HostName": "r2.dev.ds"
+      }
+    ]
 	},
 	{
 		"Name": "PAT",
-		"Order": 2
+    "Order": 2,
+    "Roles": [
+      {
+        "Name": "R1 Pat",
+        "Role": "R1",
+        "HostName": "r1.pat.com"
+      },
+      {
+        "Name": "R2 Pat",
+        "Role": "R2",
+        "HostName": "r2.pat.ds"
+      }
+    ]
 	},
 	{
 		"Name": "LIVE - Farm A",
-		"Order": 3
+    "Order": 3,
+    "Roles": [
+      {
+        "Name": "R1 Live A",
+        "Role": "R1",
+        "HostName": "r1.liveA.com"
+      },
+      {
+        "Name": "R2 Live A",
+        "Role": "R2",
+        "HostName": "r2.liveA.com"
+      }
+    ]
 	},
-	{
-		"Name": "LIVE - Farm B",
-		"Order": 4
-	}
+  {
+    "Name": "LIVE - Farm B",
+    "Order": 4,
+    "Roles": [
+      {
+        "Name": "R1 Live B",
+        "Role": "R1",
+        "HostName": "r1.liveB.com"
+      },
+      {
+        "Name": "R2 Live B",
+        "Role": "R2",
+        "HostName": "r2.liveB.com"
+      }
+    ]
+  }
 ]

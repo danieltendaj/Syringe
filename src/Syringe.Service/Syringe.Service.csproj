@@ -91,6 +91,10 @@
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Octopus.Client, Version=3.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Octopus.Client.3.3.9\lib\net40\Octopus.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>

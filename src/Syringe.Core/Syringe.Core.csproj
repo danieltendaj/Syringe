@@ -85,6 +85,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NLog.3.2.1\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Octopus.Client, Version=3.3.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Octopus.Client.3.3.9\lib\net40\Octopus.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
       <Private>True</Private>
@@ -145,9 +149,14 @@
     <Compile Include="Configuration\IHealthCheck.cs" />
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
+    <Compile Include="Configuration\OctopusConfiguration.cs" />
     <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
+    <Compile Include="Environment\IOctopusRepositoryFactory.cs" />
     <Compile Include="Environment\JsonEnvironmentProvider.cs" />
+    <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
+    <Compile Include="Environment\OctopusRepositoryFactory.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="Git\GitProvider.cs" />
@@ -209,6 +218,7 @@
     <Compile Include="Xml\Writer\TestFileWriter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

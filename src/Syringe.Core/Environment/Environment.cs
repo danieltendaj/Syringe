@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Syringe.Core.Environment
 {
@@ -16,5 +13,10 @@ namespace Syringe.Core.Environment
 		/// The order of the environment in the list.
 		/// </summary>
 		public int Order { get; set; }
-	}
+
+        /// <summary>
+        /// The roles of the environment in the list.
+        /// </summary>
+        public IEnumerable<EnvironmentRole> Roles { get; set; }
+    }
 }
