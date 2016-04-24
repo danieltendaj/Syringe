@@ -51,11 +51,13 @@ namespace Syringe.Service.DependencyResolution
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
 
             For<Startup>().Use<Startup>().Singleton();
-
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
-			For<IConfigurationStore>().Use(new JsonConfigurationStore()).Singleton();
-			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load());
+			// Configuration: load the configuration from the store
+	        var configStore = new JsonConfigurationStore();
+	        IConfiguration configuration = configStore.Load();
+			For<IConfigurationStore>().Use(configStore).Singleton();
+			For<IConfiguration>().Use(configuration);
 
             For<ITestFileResultRepository>().Use<TestFileResultRepository>().Singleton();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
@@ -64,15 +66,24 @@ namespace Syringe.Service.DependencyResolution
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
 
+			// Test XML file readers and writers
             For<ITestFileReader>().Use<TestFileReader>();
             For<ITestFileWriter>().Use<TestFileWriter>();
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
 
-            For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
-            For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
-            //For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
-            For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
+			// Environments, use Octopus if keys exist
+	        if (!string.IsNullOrEmpty(configuration.OctopusConfiguration.OctopusApiKey) &&
+	            !string.IsNullOrEmpty(configuration.OctopusConfiguration.OctopusUrl))
+	        {
+		        For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
+		        For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
+		        For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
+	        }
+	        else
+	        {
+				For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
+	        }
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
                 .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
