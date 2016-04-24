@@ -31,10 +31,10 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>())).Returns("path");
             _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns("filepath.xml");
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns("<xml></xml>");
-            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename="filepath.xml", Tests = new List<Test> { new Test() } });
+            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = "filepath.xml", Tests = new List<Test> { new Test() } });
             _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
-            _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> {{"test"}});
+            _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
             _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns("<xml></xml>");
         }
 
@@ -56,8 +56,8 @@ namespace Syringe.Tests.Unit.Repositories
 
             // then
             Assert.AreEqual("parentFileName", test.Filename);
-            _fileHandler.Verify(x=>x.GetFileFullPath(It.IsAny<string>()),Times.Once);
-            _fileHandler.Verify(x=>x.ReadAllText(It.IsAny<string>()),Times.Once);
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
         }
 
         [Test]
@@ -124,9 +124,16 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
-            _fileHandler.Verify(x=>x.WriteAllText(It.IsAny<string>(),It.IsAny<string>()));
-            _testFileReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()));
+            _testFileReader.Verify(x => x.Read(It.IsAny<TextReader>()), Times.Once);
             Assert.IsTrue(success);
+        }
+
+        [Test]
+        public void DeleteTest_should_throw_NullReferenceException_when_test_does_not_exist()
+        {
+            // given + when + then
+            Assert.Throws<NullReferenceException>(() => _testRepository.DeleteTest(2, "filePath.xml"));
         }
 
         [Test]
@@ -145,10 +152,10 @@ namespace Syringe.Tests.Unit.Repositories
         public void CreateTestFile_should_throw_IO_exception_if_file_exists()
         {
             // given = when
-            _fileHandler.Setup(x=>x.FileExists(It.IsAny<string>())).Returns(true);
+            _fileHandler.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
 
             // then
-            Assert.Throws<IOException>(()=>_testRepository.CreateTestFile(new TestFile {Filename="filePath.xml"}));
+            Assert.Throws<IOException>(() => _testRepository.CreateTestFile(new TestFile { Filename = "filePath.xml" }));
         }
 
         [Test]
@@ -181,7 +188,7 @@ namespace Syringe.Tests.Unit.Repositories
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
 
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
-            _testFileReader.Verify(x=>x.Read(It.IsAny<TextReader>()),Times.Once);
+            _testFileReader.Verify(x => x.Read(It.IsAny<TextReader>()), Times.Once);
         }
 
         [Test]
