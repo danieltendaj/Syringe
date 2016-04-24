@@ -1,9 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Repositories;
+using Syringe.Core.Repositories.MongoDB;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
@@ -21,7 +24,19 @@ namespace Syringe.Tests.Integration.Xml
 			return new TestFileResultRepositoryMock();
 		}
 
-		[Test]
+	    [Test]
+	    public void should_throw_ArgumentNullException_when_httpclient_is_null()
+	    {
+	        Assert.Throws<ArgumentNullException>(() => new TestFileRunner(null, new TestFileResultRepositoryMock()));
+	    }
+
+        [Test]
+        public void should_throw_ArgumentNullException_when_repository_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TestFileRunner(It.IsAny<IHttpClient>(), null));
+        }
+
+        [Test]
 		public async Task should_parse_capturedvariables()
 		{
 			// Arrange
