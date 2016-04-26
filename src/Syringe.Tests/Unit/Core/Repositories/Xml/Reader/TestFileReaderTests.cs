@@ -6,7 +6,7 @@ using Syringe.Core.Exceptions;
 using Syringe.Core.Repositories.XML.Reader;
 using Syringe.Core.Tests;
 
-namespace Syringe.Tests.Unit.Repositories.Xml.Reader
+namespace Syringe.Tests.Unit.Core.Repositories.Xml.Reader
 {
 	public class TestFileReaderTests
 	{

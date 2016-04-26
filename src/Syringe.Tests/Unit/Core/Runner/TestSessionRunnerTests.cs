@@ -13,7 +13,7 @@ using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Tests.StubsMocks;
 
-namespace Syringe.Tests.Unit.Runner
+namespace Syringe.Tests.Unit.Core.Runner
 {
 	public class TestFileRunnerTests
 	{

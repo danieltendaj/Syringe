@@ -5,9 +5,8 @@ using Org.XmlUnit.Builder;
 using Org.XmlUnit.Constraints;
 using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
-using Syringe.Tests.Unit.Repositories.Xml.Reader;
 
-namespace Syringe.Tests.Unit.Repositories.Xml.Writer
+namespace Syringe.Tests.Unit.Core.Repositories.Xml.Writer
 {
 	public class TestFileWriterTests
 	{

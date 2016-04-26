@@ -11,7 +11,7 @@ using Syringe.Core.Tests;
 using Syringe.Tests.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
-namespace Syringe.Tests.Unit.Http
+namespace Syringe.Tests.Unit.Core.Http
 {
 	public class HttpClientTests
 	{
