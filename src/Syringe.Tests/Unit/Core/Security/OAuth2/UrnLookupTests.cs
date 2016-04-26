@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Syringe.Core.Security.OAuth2;
 
-namespace Syringe.Tests.Unit.Core.Security
+namespace Syringe.Tests.Unit.Core.Security.OAuth2
 {
     [TestFixture]
     public class UrnLookupTests
