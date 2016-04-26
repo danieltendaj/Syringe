@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+	<test
+		description=""
+		url=""
+		method=""
+		expectedhttpstatuscode="0"
+	>
+
+		<headers/>
+		
+		<postbody>
+			<![CDATA[username=corey&password=welcome&myhtml=<body></body>]]>
+		</postbody>
+
+		<capturedvariables />
+		<assertions />
+	</test>
+</tests>

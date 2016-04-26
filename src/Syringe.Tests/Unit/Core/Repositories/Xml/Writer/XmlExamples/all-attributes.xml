@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+    <test
+        description="description"
+        url="http://myserver"
+        method="post"
+        expectedhttpstatuscode="202"
+       
+	    >
+
+		<headers/>
+		<postbody/>
+		<capturedvariables />
+		<assertions />
+    </test>
+</tests>

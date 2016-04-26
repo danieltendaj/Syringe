@@ -166,6 +166,7 @@
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Repositories\ITestFileResultRepository.cs" />
+    <Compile Include="Repositories\Json\TestRepository.cs" />
     <Compile Include="Repositories\MongoDB\TestFileResultRepository.cs" />
     <Compile Include="Repositories\MongoDB\MongoDbConfiguration.cs" />
     <Compile Include="Runner\Assertions\AssertionLogger.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="Repositories\XML\TestRepository.cs" />
+    <Compile Include="Repositories\Xml\TestRepository.cs" />
     <Compile Include="Repositories\ITestRepository.cs" />
     <Compile Include="Tasks\TaskDetails.cs" />
     <Compile Include="Security\IUserContext.cs" />
@@ -206,16 +207,16 @@
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\CapturedVariableProvider.cs" />
     <Compile Include="Tests\AssertionType.cs" />
-    <Compile Include="Xml\Reader\ITestFileReader.cs" />
+    <Compile Include="Repositories\Xml\Reader\ITestFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\CapturedVariable.cs" />
-    <Compile Include="Xml\Reader\TestFileReader.cs" />
-    <Compile Include="Xml\Writer\ITestFileWriter.cs" />
-    <Compile Include="Xml\Writer\Utf8StringWriter.cs" />
-    <Compile Include="Xml\Reader\XmlHelper.cs" />
-    <Compile Include="Xml\Writer\TestFileWriter.cs" />
+    <Compile Include="Repositories\Xml\Reader\TestFileReader.cs" />
+    <Compile Include="Repositories\Xml\Writer\ITestFileWriter.cs" />
+    <Compile Include="Repositories\Xml\Writer\Utf8StringWriter.cs" />
+    <Compile Include="Xml\XmlHelper.cs" />
+    <Compile Include="Repositories\Xml\Writer\TestFileWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

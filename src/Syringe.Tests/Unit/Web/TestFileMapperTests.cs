@@ -8,7 +8,7 @@ using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
 
-namespace Syringe.Tests.Unit.ModelBuilders
+namespace Syringe.Tests.Unit.Web
 {
 	[TestFixture]
 	public class TestFileMapperTests

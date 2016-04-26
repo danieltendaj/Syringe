@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+    <test
+        description=""
+        url=""
+        method=""
+        expectedhttpstatuscode="0"
+	    >
+
+        <headers>
+            <header name="key1">value1</header>
+            <header name="key2"><![CDATA[some <marvellous> HTML &&&&.]]></header>
+        </headers>
+
+		<postbody/>
+		<capturedvariables />
+		<assertions />
+    </test>
+</tests>
