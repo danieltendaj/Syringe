@@ -17,27 +17,12 @@
         </nav>
         <div class="col-xs-5 text-right primary-actions">
             <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Add</a>
-	        <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Variables</a>
-			<a class="btn btn-sm btn-primary" href="@Url.Action("ViewXml", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View XML</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Variables</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewXml", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View XML</a>
             @using (Html.BeginForm("Run", "Home"))
             {
-                <div class="btn-group environment-selection">
-                    @Html.Hidden("environment")
-                    <input type="hidden" name="filename" value="@Model.Filename" />
-                    <a class="btn btn-sm btn-primary" data-toggle="dropdown" href="#">Run all tests</a>
-                    <ul class="dropdown-menu">
-                        @foreach (string environment in Model.Environments)
-                        {
-                            <li>
-                                <a href="#" class="environment-option" role="button" data-value="@Html.AttributeEncode(environment)">
-                                    @environment
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-
-               
+                <input type="hidden" name="filename" value="@Model.Filename" />
+                @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.RunAllTests))
             }
         </div>
     </div>
@@ -59,10 +44,10 @@
                 {
                     <tr>
                         <td class="description">
-	                        <p>
-		                        <strong>@test.Description</strong>
-	                        </p>
-	                        <h6>@test.Url</h6>
+                            <p>
+                                <strong>@test.Description</strong>
+                            </p>
+                            <h6>@test.Url</h6>
                         </td>
                         <td>
                             <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
@@ -71,8 +56,8 @@
                             @using (Html.BeginForm("RunTest", "Home"))
                             {
                                 <input type="hidden" name="filename" value="@Model.Filename" />
-                                <input type="hidden" name="position" value="@test.Position"/>
-                                @Html.Partial("Partials/_RunTest", Model.Environments)
+                                <input type="hidden" name="position" value="@test.Position" />
+                                @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
                             }
                             @using (Html.BeginForm("Delete", "Test"))
                             {

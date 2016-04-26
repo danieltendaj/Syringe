@@ -1,13 +1,20 @@
-﻿@model IEnumerable<string>
+﻿@model EnvironmentSelectorViewModel
 
 <div class="btn-group environment-selection">
     @Html.Hidden("environment")
 
     <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-        <i class="material-icons">play_arrow</i>
+        @if (Model.RunButtonType == RunButtonType.PlayButton)
+        {
+            <i class="material-icons">play_arrow</i>
+        }
+        else
+        {
+            <span>Run all tests</span>
+        }
     </a>
     <ul class="dropdown-menu">
-        @foreach (string environment in Model)
+        @foreach (string environment in Model.Environment)
         {
             <li>
                 <a href="#" class="environment-option" role="button" data-value="@Html.AttributeEncode(environment)">
