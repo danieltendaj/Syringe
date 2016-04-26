@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using NUnit.Framework;
 using Org.XmlUnit.Builder;
 using Org.XmlUnit.Constraints;
+using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
-using Syringe.Core.Xml.Writer;
+using Syringe.Tests.Unit.Repositories.Xml.Reader;
 
-namespace Syringe.Tests.Unit.Xml
+namespace Syringe.Tests.Unit.Repositories.Xml.Writer
 {
 	public class TestFileWriterTests
 	{
-		public static string XmlExamplesFolder = typeof(TestFileReaderTests).Namespace + ".XmlExamples.Writer.";
+		public static string XmlExamplesFolder = typeof(TestFileWriterTests).Namespace + ".XmlExamples.";
 
 		[Test]
 		public void write_should_add_variables()

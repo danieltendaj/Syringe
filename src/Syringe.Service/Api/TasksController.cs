@@ -10,7 +10,6 @@ using Syringe.Core.Runner;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
-using Syringe.Core.Xml.Reader;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api

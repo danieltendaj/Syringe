@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+	<test
+		description=""
+		url=""
+		method=""
+		expectedhttpstatuscode="0"
+	>
+
+		<headers/>
+		<postbody/>
+		<capturedvariables />
+
+		<assertions>
+			<assertion type="positive" description="p90-1" method="regex">regex1</assertion>
+			<assertion type="positive" description="p90-2" method="regex">regex2</assertion>
+			<assertion type="positive" description="p90-3" method="regex"><![CDATA[this 3rd positive needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
+
+			<assertion type="negative" description="negev1" method="csquery">csquery1</assertion>
+			<assertion type="negative" description="negev2" method="csquery">csquery2</assertion>
+			<assertion type="negative" description="negev3" method="csquery"><![CDATA[this 3rd negative needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
+		</assertions>
+	</test>
+</tests>

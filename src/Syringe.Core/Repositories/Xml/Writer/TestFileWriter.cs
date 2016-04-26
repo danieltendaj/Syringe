@@ -1,10 +1,9 @@
-using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Syringe.Core.Tests;
 
-namespace Syringe.Core.Xml.Writer
+namespace Syringe.Core.Repositories.XML.Writer
 {
     public class TestFileWriter : ITestFileWriter
     {

@@ -7,9 +7,9 @@ using NUnit.Framework;
 using Syringe.Core.IO;
 using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.XML;
+using Syringe.Core.Repositories.XML.Reader;
+using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
-using Syringe.Core.Xml.Reader;
-using Syringe.Core.Xml.Writer;
 
 namespace Syringe.Tests.Unit.Repositories
 {

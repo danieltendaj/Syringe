@@ -7,10 +7,10 @@ using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Repositories;
 using Syringe.Core.Repositories.MongoDB;
+using Syringe.Core.Repositories.XML.Reader;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
-using Syringe.Core.Xml.Reader;
 using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Integration.Xml

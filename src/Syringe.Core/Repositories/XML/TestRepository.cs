@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Syringe.Core.IO;
+using Syringe.Core.Repositories.XML.Reader;
+using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
-using Syringe.Core.Xml.Reader;
-using Syringe.Core.Xml.Writer;
 
 namespace Syringe.Core.Repositories.XML
 {

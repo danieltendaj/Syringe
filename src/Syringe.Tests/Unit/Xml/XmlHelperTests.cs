@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Syringe.Core.Xml.Reader;
+using Syringe.Core.Repositories.XML.Reader;
+using Syringe.Core.Xml;
 using XmlException = Syringe.Core.Exceptions.XmlException;
 
 namespace Syringe.Tests.Unit.Xml
