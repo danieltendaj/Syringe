@@ -41,7 +41,7 @@
                         @using (Html.BeginForm("Run", "Home"))
                         {
                             @Html.Hidden("filename", filename)
-                            @Html.Partial("Partials/_RunTest", Model.Environments)
+                            @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
                         }
                         @using (Html.BeginForm("Delete", "TestFile"))
                         {
