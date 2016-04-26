@@ -181,6 +181,7 @@
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Integration\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
+    <Compile Include="Unit\Core\Security\UserContextTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
     <Compile Include="Unit\Core\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
