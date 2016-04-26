@@ -73,8 +73,8 @@ namespace Syringe.Service.DependencyResolution
             For<ITestRepository>().Use<TestRepository>();
 
 			// Environments, use Octopus if keys exist
-	        if (!string.IsNullOrEmpty(configuration.OctopusConfiguration.OctopusApiKey) &&
-	            !string.IsNullOrEmpty(configuration.OctopusConfiguration.OctopusUrl))
+	        if (!string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey) &&
+	            !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusUrl))
 	        {
 		        For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
 		        For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
