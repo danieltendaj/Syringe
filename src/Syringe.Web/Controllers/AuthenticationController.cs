@@ -74,7 +74,7 @@ namespace Syringe.Web.Controllers
 		{
 			var claims = ClaimsPrincipal.Current.Claims.ToList();
 			var nameIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForName(provider), StringComparison.InvariantCultureIgnoreCase));
-			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForId(provider), StringComparison.InvariantCultureIgnoreCase));
+			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForId(), StringComparison.InvariantCultureIgnoreCase));
 
 			if (nameIdentifier == null || uidIdentifier == null)
 			{

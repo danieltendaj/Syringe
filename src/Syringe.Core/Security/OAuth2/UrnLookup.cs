@@ -2,7 +2,7 @@
 {
 	public class UrnLookup
 	{
-		public static string GetNamespaceForId(string provider)
+		public static string GetNamespaceForId()
 		{
 			return "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
 		}

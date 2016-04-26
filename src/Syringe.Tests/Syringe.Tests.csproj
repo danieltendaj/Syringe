@@ -180,6 +180,7 @@
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Integration\Git\GitProviderTests.cs" />
+    <Compile Include="Unit\Core\Security\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
     <Compile Include="Unit\Core\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
