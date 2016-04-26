@@ -12,9 +12,6 @@ namespace Syringe.Web
                     "~/Scripts/jquery.signalR-{version}.js")
         );
 
-            bundles.Add(new ScriptBundle("~/bundles/Syringe").Include(
-                    "~/Scripts/Syringe.js")
-            );
         }
     }
 }
