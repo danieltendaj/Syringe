@@ -91,7 +91,7 @@ namespace Syringe.Service.DependencyResolution
         private void SetupTestFileFormat(IConfiguration configuration)
         {
             For<IFileHandler>().Use<FileHandler>();
-            For<ITestRepository>().Use<Core.Tests.Repositories.Xml.TestRepository>();
+            For<ITestRepository>().Use<TestRepository>();
 
             // Test XML file readers and writers
             switch (configuration.TestFileFormat)

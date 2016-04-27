@@ -7,9 +7,8 @@ using NUnit.Framework;
 using Syringe.Core.IO;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
-using Syringe.Core.Tests.Repositories.Xml;
 
-namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml
+namespace Syringe.Tests.Unit.Core.Tests.Repositories
 {
     [TestFixture]
     public class TestRepositoryTests

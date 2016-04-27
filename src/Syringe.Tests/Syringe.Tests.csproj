@@ -182,14 +182,13 @@
     <Compile Include="Integration\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
-    <Compile Include="Unit\Core\Tests\Repositories\Json\TestRepositoryTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
     <Compile Include="Unit\Core\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Web\MvcConfigurationTests.cs" />
     <Compile Include="Unit\Web\TestFileMapperTests.cs" />
-    <Compile Include="Unit\Core\Tests\Repositories\Xml\TestRepositoryTests.cs" />
+    <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\JsonControllerTests.cs" />
@@ -295,7 +294,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unit\Core\Tests\Repositories\Json\Reader\" />
+    <Folder Include="Unit\Core\Tests\Repositories\Json\Writer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
