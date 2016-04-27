@@ -2,12 +2,13 @@
 {
 	public interface IConfiguration
 	{
-		string ServiceUrl { get; set; }
-		string WebsiteUrl { get; set; }
-		string TestFilesBaseDirectory { get; set; }
-		string MongoDbDatabaseName { get; set; }
-		OAuthConfiguration OAuthConfiguration { get; set; }
-		GitConfiguration GitConfiguration { get; set; }
-        OctopusConfiguration OctopusConfiguration { get; set; }
+		string ServiceUrl { get; }
+		string WebsiteUrl { get; }
+		string TestFilesBaseDirectory { get; }
+	    TestFileFormat TestFileFormat { get; }
+	    string MongoDbDatabaseName { get; }
+		OAuthConfiguration OAuthConfiguration { get; }
+		GitConfiguration GitConfiguration { get; }
+        OctopusConfiguration OctopusConfiguration { get; }
     }
 }

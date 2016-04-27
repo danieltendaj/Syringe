@@ -150,6 +150,7 @@
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
     <Compile Include="Configuration\OctopusConfiguration.cs" />
+    <Compile Include="Configuration\TestFileFormat.cs" />
     <Compile Include="Environment\Environment.cs" />
     <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
@@ -165,6 +166,8 @@
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
+    <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
+    <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Tests\Repositories\Json\TestRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepository.cs" />
@@ -224,10 +227,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tests\Repositories\Json\Reader\" />
-    <Folder Include="Tests\Repositories\Json\Writer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
