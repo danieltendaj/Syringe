@@ -10,10 +10,12 @@ namespace Syringe.Core.IO
     public class FileHandler : IFileHandler
     {
         private readonly IConfiguration _configuration;
+        private readonly string _fileExtension;
 
         public FileHandler(IConfiguration configuration)
         {
             _configuration = configuration;
+            _fileExtension = configuration.TestFileFormat.ToString().ToLower();
         }
 
         public string GetFileFullPath(string fileName)
@@ -58,7 +60,7 @@ namespace Syringe.Core.IO
 
         public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*.xml"))
+            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + _fileExtension))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;
@@ -72,9 +74,9 @@ namespace Syringe.Core.IO
                 throw new ArgumentNullException(nameof(filename));
             }
 
-            if (!filename.EndsWith(".xml"))
+            if (!filename.EndsWith("." + _fileExtension))
             {
-                filename = string.Concat(filename, ".xml");
+                filename = string.Concat(filename, "." + _fileExtension);
             }
 
             return filename;
