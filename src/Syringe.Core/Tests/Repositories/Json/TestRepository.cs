@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Syringe.Core.Tests;
 
-namespace Syringe.Core.Repositories.Json
+namespace Syringe.Core.Tests.Repositories.Json
 {
     public class TestRepository : ITestRepository
     {

@@ -8,8 +8,9 @@ using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Syringe.Core.Configuration;
-using Syringe.Core.Repositories.MongoDB;
+using Syringe.Core.MongoDB;
 using Syringe.Core.Tests.Results;
+using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Tests.Integration.Repository.MongoDB
 {

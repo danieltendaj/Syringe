@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Syringe.Core.Repositories.XML.Writer
+namespace Syringe.Core.Tests.Repositories.Xml.Writer
 {
 	internal class Utf8StringWriter : StringWriter
 	{

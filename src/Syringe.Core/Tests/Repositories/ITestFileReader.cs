@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using Syringe.Core.Tests;
 
-namespace Syringe.Core.Repositories.XML.Reader
+namespace Syringe.Core.Tests.Repositories
 {
 	public interface ITestFileReader
     {

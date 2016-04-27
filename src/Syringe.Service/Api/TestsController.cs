@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Syringe.Core.Repositories;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results;
+using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Api
 {

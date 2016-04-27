@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web.Http;
-using Syringe.Client;
 using Syringe.Core.Configuration;
-using Syringe.Core.Repositories.MongoDB;
-using Syringe.Core.Repositories.XML;
+using Syringe.Core.MongoDB;
+using Syringe.Core.Services;
+using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Api
 {

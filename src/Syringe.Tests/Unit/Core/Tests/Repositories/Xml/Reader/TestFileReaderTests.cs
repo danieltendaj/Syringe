@@ -3,10 +3,11 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Repositories.XML.Reader;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories;
+using Syringe.Core.Tests.Repositories.Xml.Reader;
 
-namespace Syringe.Tests.Unit.Core.Repositories.Xml.Reader
+namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Reader
 {
 	public class TestFileReaderTests
 	{

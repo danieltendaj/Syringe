@@ -5,10 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
-using Syringe.Core.Tests;
 using Syringe.Core.Xml;
 
-namespace Syringe.Core.Repositories.XML.Reader
+namespace Syringe.Core.Tests.Repositories.Xml.Reader
 {
     public class TestFileReader : ITestFileReader
     {

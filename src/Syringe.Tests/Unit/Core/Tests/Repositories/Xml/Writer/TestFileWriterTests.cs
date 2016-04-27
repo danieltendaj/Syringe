@@ -3,10 +3,10 @@ using System.Net;
 using NUnit.Framework;
 using Org.XmlUnit.Builder;
 using Org.XmlUnit.Constraints;
-using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories.Xml.Writer;
 
-namespace Syringe.Tests.Unit.Core.Repositories.Xml.Writer
+namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 {
 	public class TestFileWriterTests
 	{

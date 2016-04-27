@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Syringe.Core.Tests;
+﻿using System.Collections.Generic;
 
-namespace Syringe.Core.Repositories
+namespace Syringe.Core.Tests.Repositories
 {
     public interface ITestRepository
     {

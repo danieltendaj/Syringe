@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using Syringe.Core.Configuration;
+using Syringe.Core.Services;
 
 namespace Syringe.Client
 {

@@ -5,9 +5,10 @@ using System.Linq;
 using NUnit.Framework;
 using Syringe.Client;
 using Syringe.Core.Configuration;
-using Syringe.Core.Repositories.MongoDB;
+using Syringe.Core.MongoDB;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
+using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {
