@@ -11,6 +11,7 @@ using Syringe.Core.Http;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Repositories.Xml.Reader;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
@@ -25,15 +26,17 @@ namespace Syringe.Service.Parallel
 		private int _lastTaskId;
 		private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
 		private readonly IConfiguration _configuration;
-		private readonly ITestFileResultRepository _repository;
+	    private readonly ITestFileReader _testFileReader;
+	    private readonly ITestFileResultRepository _repository;
 	    private readonly ITaskPublisher _taskPublisher;
 
-	    public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration)
+	    public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestFileReader testFileReader)
 		{
 			_currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
 			_configuration = configuration;
+	        _testFileReader = testFileReader;
 
-			_repository = repository;
+	        _repository = repository;
 	        _taskPublisher = taskPublisher;
 		}
 
@@ -125,8 +128,7 @@ namespace Syringe.Service.Parallel
 
 				using (var stringReader = new StringReader(xml))
 				{
-					var testCaseReader = new TestFileReader();
-					TestFile testFile = testCaseReader.Read(stringReader);
+					TestFile testFile = _testFileReader.Read(stringReader);
                     if (item.Position.HasValue)
                     {
                         testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);

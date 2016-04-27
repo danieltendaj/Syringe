@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Syringe.Core.IO;
 
-namespace Syringe.Core.Tests.Repositories.Xml
+namespace Syringe.Core.Tests.Repositories
 {
 	public class TestRepository : ITestRepository
 	{

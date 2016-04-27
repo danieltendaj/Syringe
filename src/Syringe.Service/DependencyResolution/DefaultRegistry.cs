@@ -91,6 +91,7 @@ namespace Syringe.Service.DependencyResolution
         private void SetupTestFileFormat(IConfiguration configuration)
         {
             For<IFileHandler>().Use<FileHandler>();
+            For<ITestRepository>().Use<TestRepository>();
 
             // Test XML file readers and writers
             switch (configuration.TestFileFormat)
@@ -98,12 +99,11 @@ namespace Syringe.Service.DependencyResolution
                 case TestFileFormat.Xml:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Xml.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Xml.Writer.TestFileWriter>();
-                    For<ITestRepository>().Use<Core.Tests.Repositories.Xml.TestRepository>();
                     break;
                 case TestFileFormat.Json:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
-                    For<ITestRepository>().Use<Core.Tests.Repositories.Json.TestRepository>();
+                    //For<ITestRepository>().Use<Core.Tests.Repositories.Json.TestRepository>();
                     break;
                 default:
                     throw new NotImplementedException("Unknown test file format");

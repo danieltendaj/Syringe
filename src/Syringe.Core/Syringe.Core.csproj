@@ -169,7 +169,6 @@
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
-    <Compile Include="Tests\Repositories\Json\TestRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepository.cs" />
     <Compile Include="MongoDB\MongoDbConfiguration.cs" />
     <Compile Include="Runner\Assertions\AssertionLogger.cs" />
@@ -196,7 +195,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="Tests\Repositories\Xml\TestRepository.cs" />
+    <Compile Include="Tests\Repositories\TestRepository.cs" />
     <Compile Include="Tests\Repositories\ITestRepository.cs" />
     <Compile Include="Tasks\TaskDetails.cs" />
     <Compile Include="Security\IUserContext.cs" />

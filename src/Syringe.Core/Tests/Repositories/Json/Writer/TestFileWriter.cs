@@ -1,10 +1,12 @@
-﻿namespace Syringe.Core.Tests.Repositories.Json.Writer
+﻿using Newtonsoft.Json;
+
+namespace Syringe.Core.Tests.Repositories.Json.Writer
 {
     public class TestFileWriter : ITestFileWriter
     {
         public string Write(TestFile testFile)
         {
-            throw new System.NotImplementedException();
+            return JsonConvert.SerializeObject(testFile, Formatting.Indented);
         }
     }
 }

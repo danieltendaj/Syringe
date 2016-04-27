@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Newtonsoft.Json;
 
 namespace Syringe.Core.Tests.Repositories.Json.Reader
 {
@@ -6,7 +7,8 @@ namespace Syringe.Core.Tests.Repositories.Json.Reader
     {
         public TestFile Read(TextReader textReader)
         {
-            throw new System.NotImplementedException();
+            string data = textReader.ReadToEnd();
+            return JsonConvert.DeserializeObject<TestFile>(data);
         }
     }
 }
