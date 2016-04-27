@@ -150,6 +150,7 @@
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
     <Compile Include="Configuration\OctopusConfiguration.cs" />
+    <Compile Include="Configuration\TestFileFormat.cs" />
     <Compile Include="Environment\Environment.cs" />
     <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
@@ -165,10 +166,12 @@
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
-    <Compile Include="Repositories\ITestFileResultRepository.cs" />
-    <Compile Include="Repositories\Json\TestRepository.cs" />
-    <Compile Include="Repositories\MongoDB\TestFileResultRepository.cs" />
-    <Compile Include="Repositories\MongoDB\MongoDbConfiguration.cs" />
+    <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
+    <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
+    <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
+    <Compile Include="Tests\Repositories\Json\TestRepository.cs" />
+    <Compile Include="Tests\Results\Repositories\TestFileResultRepository.cs" />
+    <Compile Include="MongoDB\MongoDbConfiguration.cs" />
     <Compile Include="Runner\Assertions\AssertionLogger.cs" />
     <Compile Include="Runner\Assertions\CsQueryMatcher.cs" />
     <Compile Include="Runner\Assertions\RegexMatcher.cs" />
@@ -193,8 +196,8 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\NLogConfigurationBuilder.cs" />
-    <Compile Include="Repositories\Xml\TestRepository.cs" />
-    <Compile Include="Repositories\ITestRepository.cs" />
+    <Compile Include="Tests\Repositories\Xml\TestRepository.cs" />
+    <Compile Include="Tests\Repositories\ITestRepository.cs" />
     <Compile Include="Tasks\TaskDetails.cs" />
     <Compile Include="Security\IUserContext.cs" />
     <Compile Include="Security\UserContext.cs" />
@@ -207,16 +210,16 @@
     <Compile Include="Http\IHttpClient.cs" />
     <Compile Include="Runner\CapturedVariableProvider.cs" />
     <Compile Include="Tests\AssertionType.cs" />
-    <Compile Include="Repositories\Xml\Reader\ITestFileReader.cs" />
+    <Compile Include="Tests\Repositories\ITestFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\CapturedVariable.cs" />
-    <Compile Include="Repositories\Xml\Reader\TestFileReader.cs" />
-    <Compile Include="Repositories\Xml\Writer\ITestFileWriter.cs" />
-    <Compile Include="Repositories\Xml\Writer\Utf8StringWriter.cs" />
+    <Compile Include="Tests\Repositories\Xml\Reader\TestFileReader.cs" />
+    <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
+    <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
     <Compile Include="Xml\XmlHelper.cs" />
-    <Compile Include="Repositories\Xml\Writer\TestFileWriter.cs" />
+    <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

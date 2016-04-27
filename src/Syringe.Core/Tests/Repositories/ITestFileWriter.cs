@@ -1,6 +1,4 @@
-using Syringe.Core.Tests;
-
-namespace Syringe.Core.Repositories.XML.Writer
+namespace Syringe.Core.Tests.Repositories
 {
 	public interface ITestFileWriter
 	{

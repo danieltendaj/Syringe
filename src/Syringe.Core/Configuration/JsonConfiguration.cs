@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Syringe.Core.Configuration
 {
@@ -12,6 +13,10 @@ namespace Syringe.Core.Configuration
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string TestFilesBaseDirectory { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TestFileFormat TestFileFormat { get; set; }
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string MongoDbDatabaseName { get; set; }
@@ -27,6 +32,7 @@ namespace Syringe.Core.Configuration
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
 			TestFilesBaseDirectory = @"D:\Syringe\";
+            TestFileFormat = TestFileFormat.Xml;
 			MongoDbDatabaseName = "Syringe";
 
 			OAuthConfiguration = new OAuthConfiguration();

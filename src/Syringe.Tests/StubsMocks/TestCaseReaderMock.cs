@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using Syringe.Core.Repositories.XML.Reader;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories;
 
 namespace Syringe.Tests.StubsMocks
 {

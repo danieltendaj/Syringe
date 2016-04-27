@@ -5,12 +5,11 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.IO;
-using Syringe.Core.Repositories.XML;
-using Syringe.Core.Repositories.XML.Reader;
-using Syringe.Core.Repositories.XML.Writer;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Repositories;
+using Syringe.Core.Tests.Repositories.Xml;
 
-namespace Syringe.Tests.Unit.Core.Repositories
+namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml
 {
     [TestFixture]
     public class TestRepositoryTests

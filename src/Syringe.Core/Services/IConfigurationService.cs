@@ -1,6 +1,6 @@
 ﻿using Syringe.Core.Configuration;
 
-namespace Syringe.Client
+namespace Syringe.Core.Services
 {
 	public interface IConfigurationService
 	{

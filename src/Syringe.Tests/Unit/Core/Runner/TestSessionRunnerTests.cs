@@ -7,10 +7,10 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Core.Repositories;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
+using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Runner

@@ -15,21 +15,18 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Infrastructure;
 using Octopus.Client;
 using StructureMap;
-using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.IO;
-using Syringe.Core.Repositories;
-using Syringe.Core.Repositories.MongoDB;
-using Syringe.Core.Repositories.XML;
-using Syringe.Core.Repositories.XML.Reader;
-using Syringe.Core.Repositories.XML.Writer;
+using Syringe.Core.Tests.Repositories;
+using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Service.Api.Hubs;
 using Syringe.Service.Parallel;
 using WebApiContrib.IoC.StructureMap;
@@ -45,7 +42,7 @@ namespace Syringe.Service.DependencyResolution
                 {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
-				});
+                });
 
             For<IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>().Singleton();
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
@@ -53,11 +50,11 @@ namespace Syringe.Service.DependencyResolution
             For<Startup>().Use<Startup>().Singleton();
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
-			// Configuration: load the configuration from the store
-	        var configStore = new JsonConfigurationStore();
-	        IConfiguration configuration = configStore.Load();
-			For<IConfigurationStore>().Use(configStore).Singleton();
-			For<IConfiguration>().Use(configuration);
+            // Configuration: load the configuration from the store
+            var configStore = new JsonConfigurationStore();
+            IConfiguration configuration = configStore.Load();
+            For<IConfigurationStore>().Use(configStore).Singleton();
+            For<IConfiguration>().Use(configuration);
 
             For<ITestFileResultRepository>().Use<TestFileResultRepository>().Singleton();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
@@ -66,27 +63,51 @@ namespace Syringe.Service.DependencyResolution
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
 
-			// Test XML file readers and writers
-            For<ITestFileReader>().Use<TestFileReader>();
-            For<ITestFileWriter>().Use<TestFileWriter>();
-            For<IFileHandler>().Use<FileHandler>();
-            For<ITestRepository>().Use<TestRepository>();
-
-			// Environments, use Octopus if keys exist
-	        if (!string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey) &&
-	            !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusUrl))
-	        {
-		        For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
-		        For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
-		        For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
-	        }
-	        else
-	        {
-				For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
-	        }
+            SetupTestFileFormat(configuration);
+            SetupEnvironmentSource(configuration);
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
                 .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
+        }
+
+        private void SetupEnvironmentSource(IConfiguration configuration)
+        {
+            // Environments, use Octopus if keys exist
+            bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey);
+            bool containsOctopusUrl = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusUrl);
+
+            if (containsOctopusApiKey && containsOctopusUrl)
+            {
+                For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
+                For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
+                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
+            }
+            else
+            {
+                For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
+            }
+        }
+
+        private void SetupTestFileFormat(IConfiguration configuration)
+        {
+            For<IFileHandler>().Use<FileHandler>();
+
+            // Test XML file readers and writers
+            switch (configuration.TestFileFormat)
+            {
+                case TestFileFormat.Xml:
+                    For<ITestFileReader>().Use<Core.Tests.Repositories.Xml.Reader.TestFileReader>();
+                    For<ITestFileWriter>().Use<Core.Tests.Repositories.Xml.Writer.TestFileWriter>();
+                    For<ITestRepository>().Use<Core.Tests.Repositories.Xml.TestRepository>();
+                    break;
+                case TestFileFormat.Json:
+                    For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
+                    For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
+                    For<ITestRepository>().Use<Core.Tests.Repositories.Json.TestRepository>();
+                    break;
+                default:
+                    throw new NotImplementedException("Unknown test file format");
+            }
         }
     }
 }

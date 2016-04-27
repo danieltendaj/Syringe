@@ -188,7 +188,7 @@
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Web\MvcConfigurationTests.cs" />
     <Compile Include="Unit\Web\TestFileMapperTests.cs" />
-    <Compile Include="Unit\Core\Repositories\TestRepositoryTests.cs" />
+    <Compile Include="Unit\Core\Tests\Repositories\Xml\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\JsonControllerTests.cs" />
@@ -196,7 +196,7 @@
     <Compile Include="Unit\Web\RunViewModelTests.cs" />
     <Compile Include="Unit\Web\TestControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileControllerTests.cs" />
-    <Compile Include="Unit\Core\Repositories\Xml\Writer\TestFileWriterTests.cs" />
+    <Compile Include="Unit\Core\Tests\Repositories\Xml\Writer\TestFileWriterTests.cs" />
     <Compile Include="Integration\Xml\TestFileRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
@@ -213,7 +213,7 @@
     <Compile Include="Unit\Core\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\Core\Repositories\Xml\Reader\TestFileReaderTests.cs" />
+    <Compile Include="Unit\Core\Tests\Repositories\Xml\Reader\TestFileReaderTests.cs" />
     <Compile Include="Unit\Core\Xml\XmlHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -236,7 +236,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\variables.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\variables.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -255,28 +255,28 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Reader\XmlExamples\full.xml" />
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Reader\XmlExamples\single-test.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\full.xml" />
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\single-test.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\all-attributes.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\all-attributes.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\headers.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\headers.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\postbody.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\postbody.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\capturedvariables.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\capturedvariables.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -284,13 +284,13 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\assertions.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\assertions.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Integration\Xml\XmlExamples\Runner\50-cases.xml" />
-    <EmbeddedResource Include="Unit\Core\Repositories\Xml\Writer\XmlExamples\large-file.xml">
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\large-file.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
