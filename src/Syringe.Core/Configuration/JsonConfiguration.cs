@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Syringe.Core.Configuration
 {
@@ -14,6 +15,7 @@ namespace Syringe.Core.Configuration
 		public string TestFilesBaseDirectory { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public TestFileFormat TestFileFormat { get; set; }
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
