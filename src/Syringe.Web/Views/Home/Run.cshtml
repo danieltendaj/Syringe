@@ -4,7 +4,7 @@
 }
 @section Scripts
 {
-    @Scripts.Render("~/bundles/signalR")
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script type="text/javascript" src="@Model.SignalRUrl/js"></script>
     <script type="text/javascript">
         var filename = "@Model.FileName";
