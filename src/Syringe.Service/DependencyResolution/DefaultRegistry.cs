@@ -103,7 +103,6 @@ namespace Syringe.Service.DependencyResolution
                 case TestFileFormat.Json:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
-                    //For<ITestRepository>().Use<Core.Tests.Repositories.Json.TestRepository>();
                     break;
                 default:
                     throw new NotImplementedException("Unknown test file format");
