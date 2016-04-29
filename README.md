@@ -3,7 +3,7 @@
 [![MyGet](https://img.shields.io/myget/syringe/v/Syringe.svg?maxAge=2592000)]()
 
 # Syringe
-Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests. It is compatable with the webinject HTTP testing tool XML syntax.
+Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests.
 
 ## Syringe's purpose in the universe
 
