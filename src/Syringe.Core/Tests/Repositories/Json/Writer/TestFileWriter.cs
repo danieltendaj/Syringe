@@ -6,7 +6,7 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
     {
         public string Write(TestFile testFile)
         {
-            return JsonConvert.SerializeObject(testFile, Formatting.Indented);
+            return JsonConvert.SerializeObject(testFile, Formatting.Indented, SerializationContract.GetSettings());
         }
     }
 }

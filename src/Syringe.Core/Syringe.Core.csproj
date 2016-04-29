@@ -167,6 +167,7 @@
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
+    <Compile Include="Tests\Repositories\Json\Writer\SerializationContract.cs" />
     <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepository.cs" />
