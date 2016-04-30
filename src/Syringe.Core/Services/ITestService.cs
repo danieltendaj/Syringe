@@ -18,9 +18,8 @@ namespace Syringe.Core.Services
 	    bool DeleteFile(string fileName);
 	    bool CreateTestFile(TestFile testFile);
 	    bool UpdateTestVariables(TestFile testFile);
-
-		IEnumerable<TestFileResultSummary> GetSummariesForToday();
-	    IEnumerable<TestFileResultSummary> GetSummaries();
+        TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20);
+        TestFileResultSummaryCollection GetSummaries(int pageNumber=1, int noOfResults=20);
         TestFileResult GetResultById(Guid id);
         Task DeleteResultAsync(Guid id);
 	}

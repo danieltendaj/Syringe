@@ -85,16 +85,16 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/GetSummariesForToday")]
         [HttpGet]
-        public IEnumerable<TestFileResultSummary> GetSummariesForToday()
+        public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
         {
-            return _testFileResultRepository.GetSummariesForToday();
+            return _testFileResultRepository.GetSummariesForToday(pageNumber, noOfResults);
         }
 
         [Route("api/tests/GetSummaries")]
         [HttpGet]
-        public IEnumerable<TestFileResultSummary> GetSummaries()
+        public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
         {
-            return _testFileResultRepository.GetSummaries();
+            return _testFileResultRepository.GetSummaries(pageNumber, noOfResults);
         }
 
         [Route("api/tests/GetById")]

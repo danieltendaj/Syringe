@@ -25,14 +25,14 @@ namespace Syringe.Tests.StubsMocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<TestFileResultSummary> GetSummaries()
-		{
-			return new List<TestFileResultSummary>();
+		public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
+        {
+			return new TestFileResultSummaryCollection();
 		}
 
-		public IEnumerable<TestFileResultSummary> GetSummariesForToday()
-		{
-			return new List<TestFileResultSummary>();
+		public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
+        {
+			return new TestFileResultSummaryCollection();
 		}
 
 		public Task AddAsync(TestFileResult testFileResult)

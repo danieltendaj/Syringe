@@ -32,8 +32,8 @@ namespace Syringe.Tests.Unit.Web
 
             _testsClient = new Mock<ITestService>();
             _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
-            _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
-            _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
+            _testsClient.Setup(x => x.GetSummaries(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
+            _testsClient.Setup(x => x.GetSummariesForToday(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
 
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Position = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object, _testsClient.Object);
@@ -97,7 +97,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _resultsController.AllResults() as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummaries(), Times.Once);
+            _testsClient.Verify(x => x.GetSummaries(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }
@@ -109,7 +109,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _resultsController.TodaysResults() as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummariesForToday(), Times.Once);
+            _testsClient.Verify(x => x.GetSummariesForToday(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
         }

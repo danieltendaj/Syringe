@@ -243,11 +243,11 @@ namespace Syringe.Tests.Integration.ClientAndService
 			repository.AddAsync(todayResult1).Wait();
 			repository.AddAsync(todayResult2).Wait();
 
-			// when
-			IEnumerable<TestFileResultSummary> results = client.GetSummariesForToday();
+            // when
+            TestFileResultSummaryCollection results = client.GetSummariesForToday();
 
 			// then
-			Assert.That(results.Count(), Is.EqualTo(2));
+			Assert.That(results.TotalFileResults, Is.EqualTo(2));
 		}
 
 		[Test]
@@ -275,11 +275,11 @@ namespace Syringe.Tests.Integration.ClientAndService
 			repository.AddAsync(result1).Wait();
 			repository.AddAsync(result2).Wait();
 
-			// when
-			IEnumerable<TestFileResultSummary> results = client.GetSummaries();
+            // when
+            TestFileResultSummaryCollection results = client.GetSummaries();
 
 			// then
-			Assert.That(results.Count(), Is.EqualTo(2));
+			Assert.That(results.TotalFileResults, Is.EqualTo(2));
 		}
 
 		[Test]

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using Syringe.Core.Extensions;
 using Syringe.Core.MongoDB;
 
 namespace Syringe.Core.Tests.Results.Repositories
@@ -11,12 +14,12 @@ namespace Syringe.Core.Tests.Results.Repositories
     {
         private static readonly string MONGDB_COLLECTION_NAME = "TestFileResults";
         private readonly MongoDbConfiguration _mongoDbConfiguration;
-	    private readonly IMongoDatabase _database;
+        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestFileResult> _collection;
 
         public TestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
         {
-	        _mongoDbConfiguration = mongoDbConfiguration;
+            _mongoDbConfiguration = mongoDbConfiguration;
             var mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
 
             _database = mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
@@ -38,41 +41,59 @@ namespace Syringe.Core.Tests.Results.Repositories
             return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<TestFileResultSummary> GetSummaries()
+        public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
         {
-            return _collection.AsQueryable()
-                                .ToList()
-                                .Select(x => new TestFileResultSummary()
-                                {
-                                    Id = x.Id,
-                                    DateRun = x.StartTime,
-                                    FileName = x.Filename,
-                                    TotalRunTime = x.TotalRunTime,
-                                    TotalPassed = x.TotalTestsPassed,
-                                    TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun,
-                                    Environment = x.Environment
-                                })
-                                .OrderByDescending(x => x.DateRun);
+            var collection = new TestFileResultSummaryCollection();
+
+            collection.TotalFileResults = _collection.Find(_ => true).CountAsync().Result;
+            collection.PagedResults = _collection
+                .Find(_ => true)
+                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                .Skip((pageNumber - 1) * noOfResults)
+                .Limit(noOfResults)
+                .ToListAsync()
+                .Result
+                .Select(x => new TestFileResultSummary()
+                 {
+                     Id = x.Id,
+                     DateRun = x.StartTime,
+                     FileName = x.Filename,
+                     TotalRunTime = x.TotalRunTime,
+                     TotalPassed = x.TotalTestsPassed,
+                     TotalFailed = x.TotalTestsFailed,
+                     TotalRun = x.TotalTestsRun,
+                     Environment = x.Environment
+                 });
+
+            return collection;
         }
 
-        public IEnumerable<TestFileResultSummary> GetSummariesForToday()
+        public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
         {
-            return _collection.AsQueryable()
-                                .Where(x => x.StartTime >= DateTime.Today)
-                                 .ToList()
-                                .Select(x => new TestFileResultSummary()
-                                {
-                                    Id = x.Id,
-                                    DateRun = x.StartTime,
-                                    FileName = x.Filename,
-                                    TotalRunTime = x.TotalRunTime,
-                                    TotalPassed = x.TotalTestsPassed,
-                                    TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun,
-                                    Environment = x.Environment
-                                })
-                                .OrderByDescending(x => x.DateRun);
+            var collection = new TestFileResultSummaryCollection();
+
+            collection.TotalFileResults = _collection.Find(x => x.StartTime >= DateTime.Today).CountAsync().Result;
+
+            collection.PagedResults = _collection
+                .Find(x => x.StartTime >= DateTime.Today)
+                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                .Skip((pageNumber - 1) * noOfResults)
+                .Limit(noOfResults)
+                .ToListAsync()
+                .Result
+                .Select(x => new TestFileResultSummary()
+                {
+                    Id = x.Id,
+                    DateRun = x.StartTime,
+                    FileName = x.Filename,
+                    TotalRunTime = x.TotalRunTime,
+                    TotalPassed = x.TotalTestsPassed,
+                    TotalFailed = x.TotalTestsFailed,
+                    TotalRun = x.TotalTestsRun,
+                    Environment = x.Environment
+                });
+
+            return collection;
         }
 
         /// <summary>

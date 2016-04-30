@@ -118,22 +118,26 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-	    public IEnumerable<TestFileResultSummary> GetSummariesForToday()
+	    public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("GetSummariesForToday");
             request.Method = Method.GET;
+            request.AddQueryParameter("pageNumber", pageNumber.ToString());
+            request.AddQueryParameter("noOfResults", noOfResults.ToString());
             IRestResponse response = client.Execute(request);
-            return _restSharpHelper.DeserializeOrThrow<IEnumerable<TestFileResultSummary>>(response);
+            return _restSharpHelper.DeserializeOrThrow<TestFileResultSummaryCollection>(response);
         }
 
-	    public IEnumerable<TestFileResultSummary> GetSummaries()
+	    public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
 	    {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("GetSummaries");
             request.Method = Method.GET;
+            request.AddQueryParameter("pageNumber", pageNumber.ToString());
+            request.AddQueryParameter("noOfResults", noOfResults.ToString());
             IRestResponse response = client.Execute(request);
-            return _restSharpHelper.DeserializeOrThrow<IEnumerable<TestFileResultSummary>>(response);
+            return _restSharpHelper.DeserializeOrThrow<TestFileResultSummaryCollection>(response);
         }
 
 	    public TestFileResult GetResultById(Guid id)

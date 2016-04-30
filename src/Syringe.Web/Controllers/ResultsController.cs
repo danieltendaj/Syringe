@@ -11,21 +11,21 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[Authorize]
+    [Authorize]
     public class ResultsController : Controller
     {
         private readonly ITasksService _tasksClient;
-	    private readonly IUrlHelper _urlHelper;
-	    private readonly ITestService _testsClient;
+        private readonly IUrlHelper _urlHelper;
+        private readonly ITestService _testsClient;
 
-	    public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient)
-	    {
-	        _tasksClient = tasksClient;
-	        _urlHelper = urlHelper;
-	        _testsClient = testsClient;
-	    }
+        public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient)
+        {
+            _tasksClient = tasksClient;
+            _urlHelper = urlHelper;
+            _testsClient = testsClient;
+        }
 
-	    public ActionResult Html(int taskId, int position)
+        public ActionResult Html(int taskId, int position)
         {
             TestResult testResult = FindTestResult(taskId, position);
 
@@ -34,7 +34,7 @@ namespace Syringe.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
-	        var baseUrl = _urlHelper.GetBaseUrl(testResult.ActualUrl);
+            var baseUrl = _urlHelper.GetBaseUrl(testResult.ActualUrl);
 
             var viewModel = new ResultsViewModel
             {
@@ -71,14 +71,14 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult AllResults()
+        public ActionResult AllResults(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummaries());
+            return View("AllResults", _testsClient.GetSummaries(pageNumber, noOfResults));
         }
 
-        public ActionResult TodaysResults()
+        public ActionResult TodaysResults(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummariesForToday());
+            return View("AllResults", _testsClient.GetSummariesForToday(pageNumber, noOfResults));
         }
 
         public ActionResult ViewResult(Guid id)

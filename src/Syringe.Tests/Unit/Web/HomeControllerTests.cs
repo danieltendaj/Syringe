@@ -36,8 +36,8 @@ namespace Syringe.Tests.Unit.Web
 
             _testsClient = new Mock<ITestService>();
             _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
-            _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
-            _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
+            _testsClient.Setup(x => x.GetSummaries(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
+            _testsClient.Setup(x => x.GetSummariesForToday(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
 
             _homeController = new HomeController(_testsClient.Object, _runViewModelFactory.Object, _mockHealthCheck, _environmentService.Object);
         }
