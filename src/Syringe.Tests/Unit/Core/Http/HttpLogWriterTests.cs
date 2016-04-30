@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Policy;
 using NUnit.Framework;
+using RestSharp;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Tests;
 
@@ -16,100 +18,18 @@ namespace Syringe.Tests.Unit.Core.Http
 		}
 
 		[Test]
-		public void WriteRequest_should_ignore_null_method_parameter()
-		{
-			// Arrange
-			var logWriter = GetHttpLogWriter();
-			var stringBuilder = logWriter.StringBuilder;
-			var requestDetails = new RequestDetails()
-			{
-				Method = null,
-				Url = "url",
-				Headers = new List<HeaderItem>()
-			};
-
-			// Act
-			logWriter.AppendRequest(requestDetails);
-
-			// Assert
-			Assert.AreEqual("", stringBuilder.ToString());
-		}
-
-		[Test]
-		public void WriteRequest_should_ignore_null_url_parameter()
-		{
-			// Arrange
-			var logWriter = GetHttpLogWriter();
-			var stringBuilder = logWriter.StringBuilder;
-			var requestDetails = new RequestDetails()
-			{
-				Method = "get",
-				Url = null,
-				Headers = new List<HeaderItem>()
-			};
-
-			// Act
-			logWriter.AppendRequest(requestDetails);
-
-			// Assert
-			Assert.AreEqual("", stringBuilder.ToString());
-		}
-
-		[Test]
-		public void WriteRequest_should_ignore_invalid_url_parameter()
-		{
-			// Arrange
-			var logWriter = GetHttpLogWriter();
-			var stringBuilder = logWriter.StringBuilder;
-			var requestDetails = new RequestDetails()
-			{
-				Method = null,
-				Url = "not a valid url",
-				Headers = new List<HeaderItem>()
-			};
-
-			// Act
-			logWriter.AppendRequest(requestDetails);
-
-			// Assert
-			Assert.AreEqual("", stringBuilder.ToString());
-		}
-
-		[Test]
-		public void WriteRequest_should_allow_null_for_headers()
-		{
-			// Arrange
-			var logWriter = GetHttpLogWriter();
-			var stringBuilder = logWriter.StringBuilder;
-			var requestDetails = new RequestDetails()
-			{
-				Method = null,
-				Url = "http://www.uri",
-				Headers = null
-			};
-
-			// Act
-			logWriter.AppendRequest(requestDetails);
-
-			// Assert
-			Assert.AreEqual("", stringBuilder.ToString());
-		}
-
-		[Test]
 		public void WriteRequest_should_write_request_line_and_host_and_extra_newline_at_end()
 		{
 			// Arrange
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
-			var requestDetails = new RequestDetails()
-			{
-				Method = "post",
-				Url = "http://en.wikipedia.org/wiki/Microsoft?a=b",
-				Headers = new List<HeaderItem>()
-			};
+			var request = new RestRequest();
+			request.Method = Method.POST;
+
+			var uri = new Uri("http://en.wikipedia.org/wiki/Microsoft?a=b");
 
 			// Act
-			logWriter.AppendRequest(requestDetails);
+			logWriter.AppendRequest(uri, request);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -125,22 +45,16 @@ namespace Syringe.Tests.Unit.Core.Http
 			// Arrange
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
-			var headers = new List<HeaderItem>()
-			{
-				new HeaderItem("Cookie", "aaa=bbb;loggedin=true"),
-				new HeaderItem("Accept-Language", "en-US"),
-				new HeaderItem("Accept", "text/html")
-			};
+			var request = new RestRequest();
+			request.Method = Method.POST;
+			request.AddHeader("Cookie", "aaa=bbb;loggedin=true");
+			request.AddHeader("Accept-Language", "en-US");
+			request.AddHeader("Accept", "text/html");
 
-			var requestDetails = new RequestDetails()
-			{
-				Method = "post",
-				Url = "http://en.wikipedia.org/wiki/Microsoft?a=b",
-				Headers = headers
-			};
+			var uri = new Uri("http://en.wikipedia.org/wiki/Microsoft?a=b");
 
 			// Act	
-			logWriter.AppendRequest(requestDetails);
+			logWriter.AppendRequest(uri, request);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -159,15 +73,13 @@ namespace Syringe.Tests.Unit.Core.Http
 			// Arrange
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
-			var responseDetails = new ResponseDetails()
+			var response = new RestResponse()
 			{
-				Status = HttpStatusCode.NotFound,
-				BodyResponse = "",
-				Headers = new List<KeyValuePair<string, string>>()
+				StatusCode = HttpStatusCode.NotFound
 			};
 
 			// Act	
-			logWriter.AppendResponse(responseDetails);
+			logWriter.AppendResponse(response);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -182,23 +94,19 @@ namespace Syringe.Tests.Unit.Core.Http
 			// Arrange
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
-			var headers = new List<KeyValuePair<string, string>>()
+			var response = new RestResponse()
 			{
-				new KeyValuePair<string, string>("Server", "Apache"),
-				new KeyValuePair<string, string>("Cache-Control", "private, s-maxage=0, max-age=0, must-revalidate"),
-				new KeyValuePair<string, string>("Date", "Sun, 12 Apr 2015 19:18:21 GMT"),
-				new KeyValuePair<string, string>("Content-Type", "text/html; charset=UTF-8")
+				StatusCode = HttpStatusCode.OK,
+				Content = "<html><body></body></html>"
 			};
 
-			var responseDetails = new ResponseDetails()
-			{
-				Status = HttpStatusCode.OK,
-				BodyResponse = "<html><body></body></html>",
-				Headers = headers
-			};
+			response.Headers.Add(new Parameter() { Name = "Server", Value = "Apache" });
+			response.Headers.Add(new Parameter() { Name = "Cache-Control", Value = "private, s-maxage=0, max-age=0, must-revalidate" });
+			response.Headers.Add(new Parameter() { Name = "Date", Value = "Sun, 12 Apr 2015 19:18:21 GMT" });
+			response.Headers.Add(new Parameter() { Name = "Content-Type", Value = "text/html; charset=UTF-8" });
 
 			// Act	
-			logWriter.AppendResponse(responseDetails);
+			logWriter.AppendResponse(response);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
@@ -213,20 +121,19 @@ namespace Syringe.Tests.Unit.Core.Http
 		}
 
 		[Test]
-		public void WriteResponse_should_ignore_null_headers_and_empty_body()
+		public void WriteResponse_should_ignore_empty_body()
 		{
 			// Arrange
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
-			var responseDetails = new ResponseDetails()
+			var response = new RestResponse()
 			{
-				Status = HttpStatusCode.OK,
-				BodyResponse = "",
-				Headers = null
+				StatusCode = HttpStatusCode.OK,
+				Content = ""
 			};
 
 			// Act	
-			logWriter.AppendResponse(responseDetails);
+			logWriter.AppendResponse(response);
 
 			// Assert
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);

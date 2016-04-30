@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Tests;
+using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Tests.StubsMocks
 {
@@ -14,17 +16,23 @@ namespace Syringe.Tests.StubsMocks
 		public bool LogLastResponseCalled { get; set; }
 		public HttpResponse Response { get; set; }
 		public List<TimeSpan> ResponseTimes { get; set; }
-
 		public List<HttpResponse> Responses { get; set; }
+
+		public IRestRequest RestRequest { get; set; }
 
 		public HttpClientMock(HttpResponse response)
 		{
 			Response = response;
 		}
 
-		public Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
+		public IRestRequest CreateRestRequest(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)
 		{
-		    if (Responses == null)
+			return RestRequest;
+		}
+
+		public Task<HttpResponse> ExecuteRequestAsync(IRestRequest request, HttpLogWriter httpLogWriter)
+		{
+			if (Responses == null)
 			{
 				if (ResponseTimes != null)
 				{

@@ -98,7 +98,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=4.1.2.386, Culture=neutral, processorArchitecture=MSIL">
@@ -180,7 +180,7 @@
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Integration\Git\GitProviderTests.cs" />
-    <Compile Include="Unit\Core\Scripting\Class1.cs" />
+    <Compile Include="Unit\Core\Scripting\ScriptingTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />

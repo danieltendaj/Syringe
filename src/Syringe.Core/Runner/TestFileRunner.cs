@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
@@ -217,7 +218,8 @@ namespace Syringe.Core.Runner
 
                 var httpLogWriter = new HttpLogWriter();
 
-				HttpResponse response = await _httpClient.ExecuteRequestAsync(test.Method, resolvedUrl, test.PostBody, test.Headers, httpLogWriter);
+	            IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, test.PostBody, test.Headers);
+				HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
                 testResult.ResponseTime = response.ResponseTime;
                 testResult.HttpResponse = response;
                 testResult.HttpLog = httpLogWriter.StringBuilder.ToString();

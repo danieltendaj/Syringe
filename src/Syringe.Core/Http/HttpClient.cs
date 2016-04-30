@@ -27,11 +27,40 @@ namespace Syringe.Core.Http
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpResponse> ExecuteRequestAsync(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers, HttpLogWriter httpLogWriter)
+		public async Task<HttpResponse> ExecuteRequestAsync(IRestRequest request, HttpLogWriter httpLogWriter)
+		{
+			//
+			// Get the response back, parsing the headers
+			//
+            DateTime startTime = DateTime.UtcNow;
+			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
+		    TimeSpan responseTime = DateTime.UtcNow - startTime;
+
+			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
+			if (response.Headers != null)
+			{ 
+				keyvaluePairs = response.Headers.Select(x => new KeyValuePair<string, string>(x.Name, Convert.ToString(x.Value)))
+												.ToList();
+			}
+
+			// Logging
+			httpLogWriter.AppendRequest(_restClient.BaseUrl, request);
+			httpLogWriter.AppendResponse(response);
+
+			return new HttpResponse()
+			{
+				StatusCode = response.StatusCode,
+				Content = response.Content,
+				Headers = keyvaluePairs,
+                ResponseTime = responseTime
+			};
+		}
+
+		public IRestRequest CreateRestRequest(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)
 		{
 			Uri uri;
 			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-				throw new ArgumentException(url + " is not a valid Uri", "url");
+				throw new ArgumentException(url + " is not a valid Uri", nameof(url));
 
 			_restClient.BaseUrl = uri;
 			_restClient.CookieContainer = _cookieContainer;
@@ -59,46 +88,7 @@ namespace Syringe.Core.Http
 				}
 			}
 
-			//
-			// Get the response back, parsing the headers
-			//
-            DateTime startTime = DateTime.UtcNow;
-			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
-		    TimeSpan responseTime = DateTime.UtcNow - startTime;
-
-			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
-			if (response.Headers != null)
-			{ 
-				keyvaluePairs = response.Headers.Select(x => new KeyValuePair<string, string>(x.Name, Convert.ToString(x.Value)))
-												.ToList();
-			}
-
-			// Logging
-			var requestDetails = new RequestDetails()
-			{
-				Body = postBody,
-				Headers = headers,
-				Method = httpMethod,
-				Url = url
-			};
-
-			var responseDetails = new ResponseDetails()
-			{
-				BodyResponse = response.Content,
-				Headers = keyvaluePairs,
-				Status = response.StatusCode
-			};
-
-			httpLogWriter.AppendRequest(requestDetails);
-			httpLogWriter.AppendResponse(responseDetails);
-
-			return new HttpResponse()
-			{
-				StatusCode = response.StatusCode,
-				Content = response.Content,
-				Headers = keyvaluePairs,
-                ResponseTime = responseTime
-			};
+			return request;
 		}
 
 		private Method GetMethodEnum(string httpMethod)
