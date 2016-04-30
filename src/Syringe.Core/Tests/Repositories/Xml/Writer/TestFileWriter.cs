@@ -44,16 +44,18 @@ namespace Syringe.Core.Tests.Repositories.Xml.Writer
                     {
                         XElement headersElement = GetHeadersElement(test);
                         XElement postbodyElement = GetPostBodyElement(test);
-                        XElement parseResponsesElement = GetParseResponsesElement(test);
+						XElement capturedVariablesElement = GetCapturedVariablesElement(test);
                         XElement assertionElement = GetAssertionsElement(test);
+						XElement beforeExecuteScriptElement = GetBeforeExecuteScriptElement(test);
 
-                        XElement testElement = GetTestElement(test);
+						XElement testElement = GetTestElement(test);
                         testElement.Add(headersElement);
                         testElement.Add(postbodyElement);
-                        testElement.Add(parseResponsesElement);
+                        testElement.Add(capturedVariablesElement);
                         testElement.Add(assertionElement);
+						testElement.Add(beforeExecuteScriptElement);
 
-                        testsElement.Add(testElement);
+						testsElement.Add(testElement);
                     }
 
                     XDocument doc = new XDocument(testsElement);
@@ -106,9 +108,19 @@ namespace Syringe.Core.Tests.Repositories.Xml.Writer
             return postBodyElement;
         }
 
-        private XElement GetParseResponsesElement(Test test)
+		private XElement GetBeforeExecuteScriptElement(Test test)
+		{
+			XElement beforeExecuteScriptElement = new XElement("beforeExecuteScript");
+
+			if (!string.IsNullOrEmpty(test.BeforeExecuteScript))
+				beforeExecuteScriptElement.Add(new XCData(test.BeforeExecuteScript));
+
+			return beforeExecuteScriptElement;
+		}
+
+		private XElement GetCapturedVariablesElement(Test test)
         {
-            XElement parseresponsesElement = new XElement("capturedvariables");
+            XElement capturedVariablesElement = new XElement("capturedvariables");
 
             foreach (CapturedVariable item in test.CapturedVariables)
             {
@@ -118,11 +130,11 @@ namespace Syringe.Core.Tests.Repositories.Xml.Writer
                     element.Add(new XAttribute("name", item.Name));
                     element.Value = item.Regex;
 
-                    parseresponsesElement.Add(element);
+                    capturedVariablesElement.Add(element);
                 }
             }
 
-            return parseresponsesElement;
+            return capturedVariablesElement;
         }
 
         private XElement GetAssertionsElement(Test test)

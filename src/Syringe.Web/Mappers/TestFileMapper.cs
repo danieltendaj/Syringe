@@ -34,7 +34,8 @@ namespace Syringe.Web.Mappers
                 Url = test.Url,
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod}).ToList(),
                 Filename = test.Filename,
-                AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList()
+                AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList(),
+				BeforeExecuteScript = test.BeforeExecuteScript
             };
 
             return model;
@@ -76,6 +77,7 @@ namespace Syringe.Web.Mappers
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
+				BeforeExecuteScript = testModel.BeforeExecuteScript
             };
         }
 

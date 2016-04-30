@@ -8,13 +8,12 @@
 	>
 
 		<headers/>
-		
-		<postbody>
-			<![CDATA[username=corey&password=welcome&myhtml=<body></body>]]>
-		</postbody>
-
+		<postbody/>
 		<capturedvariables />
 		<assertions />
-		<beforeExecuteScript />
+
+		<beforeExecuteScript>
+			<![CDATA[using Amazinglib;string name = "<singletest>";]]>
+		</beforeExecuteScript>
 	</test>
 </tests>

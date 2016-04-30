@@ -84,8 +84,9 @@ namespace Syringe.Core.Tests.Repositories.Xml.Reader
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");
             test.PostBody = XmlHelper.GetOptionalElementValue(element, "postbody").Trim();
             test.ExpectedHttpStatusCode = GetExpectedHttpStatusCode(element);
+			test.BeforeExecuteScript = XmlHelper.GetOptionalElementValue(element, "beforeExecuteScript").Trim();
 
-            test.Headers = GetHeaders(element);
+			test.Headers = GetHeaders(element);
             test.CapturedVariables = GetCapturedVariables(element);
             test.Assertions = GetAssertions(element);
 

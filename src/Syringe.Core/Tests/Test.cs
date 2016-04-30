@@ -22,6 +22,8 @@ namespace Syringe.Core.Tests
 		public string Filename { get; set; }
 	    public List<Variable> AvailableVariables { get; set; }
 
+	    public string BeforeExecuteScript { get; set; }
+
 	    public Test()
 		{
 			Headers = new List<HeaderItem>();

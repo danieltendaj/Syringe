@@ -269,6 +269,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\beforeExecuteScript.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\variables.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -26,6 +26,10 @@
 		<capturedvariables>
 			<variable name="test">/d</variable>
 		</capturedvariables>
+
+		<beforeExecuteScript>
+			<![CDATA[using Amazinglib;string name = "<myname>";]]>
+		</beforeExecuteScript>
 	</test>
 
 	<test
