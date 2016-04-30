@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Syringe.Tests</RootNamespace>
     <AssemblyName>Syringe.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -180,6 +180,7 @@
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Integration\Git\GitProviderTests.cs" />
+    <Compile Include="Unit\Core\Scripting\Class1.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
