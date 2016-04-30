@@ -10,6 +10,7 @@ using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Scripting;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
@@ -219,6 +220,32 @@ namespace Syringe.Core.Runner
                 var httpLogWriter = new HttpLogWriter();
 
 	            IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, test.PostBody, test.Headers);
+				var logger = new SimpleLogger();
+
+				// Scripting part
+				if (!string.IsNullOrEmpty(test.BeforeExecuteScript))
+	            {
+					logger.WriteLine("--------------------------");
+		            logger.WriteLine("Evaluating C# script:");
+
+					try
+					{
+						var evaluator = new TestFileScriptEvaluator();
+						evaluator.EvaluateBeforeExecute(test.BeforeExecuteScript, test, request);
+
+						request = evaluator.RequestGlobals.Request;
+						test = evaluator.RequestGlobals.Test;
+						logger.WriteLine("Compilation OK");
+
+					}
+		            catch (Exception ex)
+		            {
+			            logger.WriteLine("Compilation failed: {0}", ex);
+		            }
+
+					logger.WriteLine("--------------------------");
+				}
+
 				HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
                 testResult.ResponseTime = response.ResponseTime;
                 testResult.HttpResponse = response;
@@ -231,7 +258,7 @@ namespace Syringe.Core.Runner
                     string content = response.ToString();
 
                     // Put the parseresponse regex values in the current variable set
-                    var logger = new SimpleLogger();
+                    
 					logger.WriteLine("--------------------------");
 					logger.WriteLine("Parsing variables");
                     logger.WriteLine("--------------------------");
