@@ -43,7 +43,7 @@
             <ul class="pagination">
                 @for (int i = 1; i <= Model.TotalFileResults/Model.PagedResults.Count(); i++)
                 {
-                    <li><a href="@Url.Action("AllResults", "Results", new {pageNumber = i, noOfResults = Model.PagedResults.Count()})">@i</a></li>
+                    <li class=@(Model.PageNumber == i ? "active" : "")><a href="@Url.Action("AllResults", "Results", new {pageNumber = i, noOfResults = Model.PagedResults.Count()})">@i</a></li>
                 }
             </ul>
         </div>

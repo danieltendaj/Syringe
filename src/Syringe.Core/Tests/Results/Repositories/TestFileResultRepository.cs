@@ -43,55 +43,58 @@ namespace Syringe.Core.Tests.Results.Repositories
 
         public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
         {
-            var collection = new TestFileResultSummaryCollection();
-
-            collection.TotalFileResults = _collection.Find(_ => true).CountAsync().Result;
-            collection.PagedResults = _collection
-                .Find(_ => true)
-                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
-                .Skip((pageNumber - 1) * noOfResults)
-                .Limit(noOfResults)
-                .ToListAsync()
-                .Result
-                .Select(x => new TestFileResultSummary()
-                 {
-                     Id = x.Id,
-                     DateRun = x.StartTime,
-                     FileName = x.Filename,
-                     TotalRunTime = x.TotalRunTime,
-                     TotalPassed = x.TotalTestsPassed,
-                     TotalFailed = x.TotalTestsFailed,
-                     TotalRun = x.TotalTestsRun,
-                     Environment = x.Environment
-                 });
+            var collection = new TestFileResultSummaryCollection
+            {
+                TotalFileResults = _collection.Find(_ => true).CountAsync().Result,
+                PageNumber = pageNumber,
+                PagedResults = _collection
+                    .Find(_ => true)
+                    .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                    .Skip((pageNumber - 1)*noOfResults)
+                    .Limit(noOfResults)
+                    .ToListAsync()
+                    .Result
+                    .Select(x => new TestFileResultSummary()
+                    {
+                        Id = x.Id,
+                        DateRun = x.StartTime,
+                        FileName = x.Filename,
+                        TotalRunTime = x.TotalRunTime,
+                        TotalPassed = x.TotalTestsPassed,
+                        TotalFailed = x.TotalTestsFailed,
+                        TotalRun = x.TotalTestsRun,
+                        Environment = x.Environment
+                    })
+            };
 
             return collection;
         }
 
         public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
         {
-            var collection = new TestFileResultSummaryCollection();
-
-            collection.TotalFileResults = _collection.Find(x => x.StartTime >= DateTime.Today).CountAsync().Result;
-
-            collection.PagedResults = _collection
-                .Find(x => x.StartTime >= DateTime.Today)
-                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
-                .Skip((pageNumber - 1) * noOfResults)
-                .Limit(noOfResults)
-                .ToListAsync()
-                .Result
-                .Select(x => new TestFileResultSummary()
-                {
-                    Id = x.Id,
-                    DateRun = x.StartTime,
-                    FileName = x.Filename,
-                    TotalRunTime = x.TotalRunTime,
-                    TotalPassed = x.TotalTestsPassed,
-                    TotalFailed = x.TotalTestsFailed,
-                    TotalRun = x.TotalTestsRun,
-                    Environment = x.Environment
-                });
+            var collection = new TestFileResultSummaryCollection
+            {
+                TotalFileResults = _collection.Find(x => x.StartTime >= DateTime.Today).CountAsync().Result,
+                PageNumber = pageNumber,
+                PagedResults = _collection
+                    .Find(x => x.StartTime >= DateTime.Today)
+                    .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                    .Skip((pageNumber - 1)*noOfResults)
+                    .Limit(noOfResults)
+                    .ToListAsync()
+                    .Result
+                    .Select(x => new TestFileResultSummary()
+                    {
+                        Id = x.Id,
+                        DateRun = x.StartTime,
+                        FileName = x.Filename,
+                        TotalRunTime = x.TotalRunTime,
+                        TotalPassed = x.TotalTestsPassed,
+                        TotalFailed = x.TotalTestsFailed,
+                        TotalRun = x.TotalTestsRun,
+                        Environment = x.Environment
+                    })
+            };
 
             return collection;
         }
