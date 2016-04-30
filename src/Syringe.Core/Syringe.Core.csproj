@@ -198,6 +198,7 @@
     <Compile Include="Environment\JsonEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusRepositoryFactory.cs" />
+    <Compile Include="Exceptions\CodeEvaluationException.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="Git\GitProvider.cs" />
@@ -206,7 +207,8 @@
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
-    <Compile Include="Scripting\ScriptingBlock.cs" />
+    <Compile Include="Tests\Scripting\RequestGlobals.cs" />
+    <Compile Include="Tests\Scripting\TestFileScriptEvaluator.cs" />
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\Json\Writer\SerializationContract.cs" />
     <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
