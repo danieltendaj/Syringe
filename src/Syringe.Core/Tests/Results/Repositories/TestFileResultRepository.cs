@@ -45,7 +45,7 @@ namespace Syringe.Core.Tests.Results.Repositories
             Task<List<TestFileResult>> testFileCollection = _collection
                 .Find(x => x.StartTime >= fromDate)
                 .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
-                .Skip((pageNumber - 1)*noOfResults)
+                .Skip((pageNumber - 1) * noOfResults)
                 .Limit(noOfResults)
                 .ToListAsync();
 
@@ -56,6 +56,7 @@ namespace Syringe.Core.Tests.Results.Repositories
                 TotalFileResults = fileResult.Result,
                 PageNumber = pageNumber,
                 NoOfResults = noOfResults,
+                PageNumbers = Math.Ceiling((double)fileResult.Result / noOfResults),
                 PagedResults = testFileCollection.Result
                     .Select(x => new TestFileResultSummary()
                     {

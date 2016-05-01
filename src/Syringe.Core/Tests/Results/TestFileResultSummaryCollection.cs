@@ -9,5 +9,6 @@ namespace Syringe.Core.Tests.Results
 		public int PageNumber { get; set; }
         public IEnumerable<TestFileResultSummary> PagedResults { get; set; }
 	    public int NoOfResults { get; set; }
+	    public double PageNumbers { get; set; }
 	}
 }
