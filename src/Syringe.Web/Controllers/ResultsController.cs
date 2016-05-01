@@ -71,16 +71,16 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> AllResults(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20)
         {
             var result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
-            return View("AllResults", result);
+            return View("Index", result);
         }
 
-        public async Task<ActionResult> TodaysResults(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20)
         {
             var result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
-            return View("AllResults", result);
+            return View("Index", result);
         }
 
         public ActionResult ViewResult(Guid id)
@@ -94,7 +94,7 @@ namespace Syringe.Web.Controllers
             TestFileResult session = _testsClient.GetResultById(id);
             await _testsClient.DeleteResultAsync(session.Id);
 
-            return RedirectToAction("AllResults");
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewHtml(Guid testFileResultId, int resultId)

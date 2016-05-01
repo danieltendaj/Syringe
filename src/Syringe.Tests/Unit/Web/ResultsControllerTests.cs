@@ -91,26 +91,26 @@ namespace Syringe.Tests.Unit.Web
 
 
         [Test]
-        public void AllResults_should_return_correct_view_and_model()
+        public void Index_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.AllResults().Result as ViewResult;
+            var viewResult = _resultsController.Index().Result as ViewResult;
 
             // then
             _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
+            Assert.AreEqual("Index", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
         [Test]
-        public void TodaysResults_should_return_correct_view_and_model()
+        public void Today_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.TodaysResults().Result as ViewResult;
+            var viewResult = _resultsController.Today().Result as ViewResult;
 
             // then
             _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
+            Assert.AreEqual("Index", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
@@ -136,7 +136,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
             _testsClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
-            Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
         }
     }
 }
