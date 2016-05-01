@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
 using Syringe.Client;
 using Syringe.Core.Configuration;
@@ -212,45 +213,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 		}
 
 		[Test]
-		public void GetSummariesForToday_should_only_return_todays_results()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
-
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
-
-			var yesterdayResult = new TestFileResult()
-			{
-				StartTime = DateTime.Now.AddDays(-1),
-				EndTime = DateTime.Now.AddDays(-1).AddSeconds(1),
-				Filename = testFile.Filename
-			};
-			var todayResult1 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
-			var todayResult2 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
-
-			repository.AddAsync(yesterdayResult).Wait();
-			repository.AddAsync(todayResult1).Wait();
-			repository.AddAsync(todayResult2).Wait();
-
-            // when
-            TestFileResultSummaryCollection results = client.GetSummariesForToday();
-
-			// then
-			Assert.That(results.TotalFileResults, Is.EqualTo(2));
-		}
-
-		[Test]
 		public void GetSummaries_should_return_all_results()
 		{
 			// given
@@ -276,7 +238,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			repository.AddAsync(result2).Wait();
 
             // when
-            TestFileResultSummaryCollection results = client.GetSummaries();
+            TestFileResultSummaryCollection results = client.GetSummaries(It.IsAny<DateTime>()).Result;
 
 			// then
 			Assert.That(results.TotalFileResults, Is.EqualTo(2));

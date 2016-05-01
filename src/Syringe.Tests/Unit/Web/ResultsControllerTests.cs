@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -32,8 +33,7 @@ namespace Syringe.Tests.Unit.Web
 
             _testsClient = new Mock<ITestService>();
             _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
-            _testsClient.Setup(x => x.GetSummaries(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
-            _testsClient.Setup(x => x.GetSummariesForToday(It.IsAny<int>(), It.IsAny<int>())).Returns(new TestFileResultSummaryCollection());
+            _testsClient.Setup(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>())).Returns(Task.FromResult(new TestFileResultSummaryCollection()));
 
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Position = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object, _testsClient.Object);
@@ -94,24 +94,24 @@ namespace Syringe.Tests.Unit.Web
         public void AllResults_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.AllResults() as ViewResult;
+            var viewResult = _resultsController.AllResults().Result as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummaries(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
+            Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
         [Test]
         public void TodaysResults_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.TodaysResults() as ViewResult;
+            var viewResult = _resultsController.TodaysResults().Result as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummariesForToday(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
+            Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
 

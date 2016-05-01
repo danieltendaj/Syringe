@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -40,7 +41,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session);
 
             // Assert
-            TestFileResultSummaryCollection summaries = repository.GetSummaries();
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
 		}
 
@@ -58,7 +59,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.DeleteAsync(session.Id);
 
             // Assert
-            TestFileResultSummaryCollection summaries = repository.GetSummaries();
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
 		}
 
@@ -96,7 +97,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session2);
 
             // Act
-            TestFileResultSummaryCollection summaries = repository.GetSummaries();
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 
 			// Assert
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
@@ -107,7 +108,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 		}
 
 		[Test]
-		public async Task GetSummariesForToday_should_return_sessioninfo_objects_for_today_only()
+		public async Task GetSummaries_should_return_sessioninfo_objects_for_today_only()
 		{
 			// Arrange
 			var fixture = new Fixture();
@@ -135,7 +136,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(otherSession2);
 
             // Act
-            TestFileResultSummaryCollection summaries = repository.GetSummariesForToday();
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 
 			// Assert
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));

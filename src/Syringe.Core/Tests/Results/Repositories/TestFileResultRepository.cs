@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Linq;
-using Syringe.Core.Extensions;
 using Syringe.Core.MongoDB;
 
 namespace Syringe.Core.Tests.Results.Repositories
@@ -41,48 +38,25 @@ namespace Syringe.Core.Tests.Results.Repositories
             return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
         }
 
-        public TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20)
+        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20)
         {
+            Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate);
+
+            Task<List<TestFileResult>> testFileCollection = _collection
+                .Find(x => x.StartTime >= fromDate)
+                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                .Skip((pageNumber - 1)*noOfResults)
+                .Limit(noOfResults)
+                .ToListAsync();
+
+            await Task.WhenAll(fileResult, testFileCollection);
+
             var collection = new TestFileResultSummaryCollection
             {
-                TotalFileResults = _collection.Find(_ => true).CountAsync().Result,
+                TotalFileResults = fileResult.Result,
                 PageNumber = pageNumber,
-                PagedResults = _collection
-                    .Find(_ => true)
-                    .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
-                    .Skip((pageNumber - 1)*noOfResults)
-                    .Limit(noOfResults)
-                    .ToListAsync()
-                    .Result
-                    .Select(x => new TestFileResultSummary()
-                    {
-                        Id = x.Id,
-                        DateRun = x.StartTime,
-                        FileName = x.Filename,
-                        TotalRunTime = x.TotalRunTime,
-                        TotalPassed = x.TotalTestsPassed,
-                        TotalFailed = x.TotalTestsFailed,
-                        TotalRun = x.TotalTestsRun,
-                        Environment = x.Environment
-                    })
-            };
-
-            return collection;
-        }
-
-        public TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20)
-        {
-            var collection = new TestFileResultSummaryCollection
-            {
-                TotalFileResults = _collection.Find(x => x.StartTime >= DateTime.Today).CountAsync().Result,
-                PageNumber = pageNumber,
-                PagedResults = _collection
-                    .Find(x => x.StartTime >= DateTime.Today)
-                    .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
-                    .Skip((pageNumber - 1)*noOfResults)
-                    .Limit(noOfResults)
-                    .ToListAsync()
-                    .Result
+                NoOfResults = noOfResults,
+                PagedResults = testFileCollection.Result
                     .Select(x => new TestFileResultSummary()
                     {
                         Id = x.Id,

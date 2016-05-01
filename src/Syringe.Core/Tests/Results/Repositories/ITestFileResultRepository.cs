@@ -10,7 +10,6 @@ namespace Syringe.Core.Tests.Results.Repositories
 		Task DeleteAsync(Guid testFileResultId);
 		TestFileResult GetById(Guid id);
 		void Wipe();
-        TestFileResultSummaryCollection GetSummaries(int pageNumber = 1, int noOfResults = 20);
-        TestFileResultSummaryCollection GetSummariesForToday(int pageNumber = 1, int noOfResults = 20);
+        Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20);
 	}
 }

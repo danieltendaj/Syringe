@@ -71,14 +71,16 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult AllResults(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> AllResults(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummaries(pageNumber, noOfResults));
+            var result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
+            return View("AllResults", result);
         }
 
-        public ActionResult TodaysResults(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> TodaysResults(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummariesForToday(pageNumber, noOfResults));
+            var result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
+            return View("AllResults", result);
         }
 
         public ActionResult ViewResult(Guid id)
