@@ -6,39 +6,34 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Tests.StubsMocks
 {
-	internal class TestFileResultRepositoryMock : ITestFileResultRepository
-	{
-		public TestFileResult SavedSession { get; set; }
+    internal class TestFileResultRepositoryMock : ITestFileResultRepository
+    {
+        public TestFileResult SavedSession { get; set; }
 
-		public Task DeleteAsync(Guid testFileResultId)
-		{
-			return Task.FromResult<object>(null);
-		}
+        public Task DeleteAsync(Guid testFileResultId)
+        {
+            return Task.FromResult<object>(null);
+        }
 
-		public TestFileResult GetById(Guid id)
-		{
-			return new TestFileResult();
-		}
+        public TestFileResult GetById(Guid id)
+        {
+            return new TestFileResult();
+        }
 
-		public void Wipe()
-		{
-			throw new NotImplementedException();
-		}
+        public void Wipe()
+        {
+            throw new NotImplementedException();
+        }
 
-		public IEnumerable<TestFileResultSummary> GetSummaries()
-		{
-			return new List<TestFileResultSummary>();
-		}
+        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20)
+        {
+            return Task.FromResult(new TestFileResultSummaryCollection());
+        }
 
-		public IEnumerable<TestFileResultSummary> GetSummariesForToday()
-		{
-			return new List<TestFileResultSummary>();
-		}
-
-		public Task AddAsync(TestFileResult testFileResult)
-		{
-			SavedSession = testFileResult;
-		    return Task.FromResult<object>(null);
-		}
-	}
+        public Task AddAsync(TestFileResult testFileResult)
+        {
+            SavedSession = testFileResult;
+            return Task.FromResult<object>(null);
+        }
+    }
 }

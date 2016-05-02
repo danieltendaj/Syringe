@@ -11,12 +11,12 @@ namespace Syringe.Core.Tests.Results.Repositories
     {
         private static readonly string MONGDB_COLLECTION_NAME = "TestFileResults";
         private readonly MongoDbConfiguration _mongoDbConfiguration;
-	    private readonly IMongoDatabase _database;
+        private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestFileResult> _collection;
 
         public TestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
         {
-	        _mongoDbConfiguration = mongoDbConfiguration;
+            _mongoDbConfiguration = mongoDbConfiguration;
             var mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
 
             _database = mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
@@ -38,41 +38,40 @@ namespace Syringe.Core.Tests.Results.Repositories
             return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<TestFileResultSummary> GetSummaries()
+        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20)
         {
-            return _collection.AsQueryable()
-                                .ToList()
-                                .Select(x => new TestFileResultSummary()
-                                {
-                                    Id = x.Id,
-                                    DateRun = x.StartTime,
-                                    FileName = x.Filename,
-                                    TotalRunTime = x.TotalRunTime,
-                                    TotalPassed = x.TotalTestsPassed,
-                                    TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun,
-                                    Environment = x.Environment
-                                })
-                                .OrderByDescending(x => x.DateRun);
-        }
+            Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate);
 
-        public IEnumerable<TestFileResultSummary> GetSummariesForToday()
-        {
-            return _collection.AsQueryable()
-                                .Where(x => x.StartTime >= DateTime.Today)
-                                 .ToList()
-                                .Select(x => new TestFileResultSummary()
-                                {
-                                    Id = x.Id,
-                                    DateRun = x.StartTime,
-                                    FileName = x.Filename,
-                                    TotalRunTime = x.TotalRunTime,
-                                    TotalPassed = x.TotalTestsPassed,
-                                    TotalFailed = x.TotalTestsFailed,
-                                    TotalRun = x.TotalTestsRun,
-                                    Environment = x.Environment
-                                })
-                                .OrderByDescending(x => x.DateRun);
+            Task<List<TestFileResult>> testFileCollection = _collection
+                .Find(x => x.StartTime >= fromDate)
+                .Sort(Builders<TestFileResult>.Sort.Descending("DateRun"))
+                .Skip((pageNumber - 1) * noOfResults)
+                .Limit(noOfResults)
+                .ToListAsync();
+
+            await Task.WhenAll(fileResult, testFileCollection);
+
+            var collection = new TestFileResultSummaryCollection
+            {
+                TotalFileResults = fileResult.Result,
+                PageNumber = pageNumber,
+                NoOfResults = noOfResults,
+                PageNumbers = Math.Ceiling((double)fileResult.Result / noOfResults),
+                PagedResults = testFileCollection.Result
+                    .Select(x => new TestFileResultSummary()
+                    {
+                        Id = x.Id,
+                        DateRun = x.StartTime,
+                        FileName = x.Filename,
+                        TotalRunTime = x.TotalRunTime,
+                        TotalPassed = x.TotalTestsPassed,
+                        TotalFailed = x.TotalTestsFailed,
+                        TotalRun = x.TotalTestsRun,
+                        Environment = x.Environment
+                    })
+            };
+
+            return collection;
         }
 
         /// <summary>

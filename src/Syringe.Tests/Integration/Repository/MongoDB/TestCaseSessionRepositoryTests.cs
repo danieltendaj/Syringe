@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -39,9 +40,9 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			// Act
 			await repository.AddAsync(session);
 
-			// Assert
-			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
-			Assert.That(summaries.Count(), Is.EqualTo(1));
+            // Assert
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -57,9 +58,9 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			// Act
 			await repository.DeleteAsync(session.Id);
 
-			// Assert
-			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
-			Assert.That(summaries.Count(), Is.EqualTo(0));
+            // Assert
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
@@ -95,19 +96,19 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session1);
 			await repository.AddAsync(session2);
 
-			// Act
-			IEnumerable<TestFileResultSummary> summaries = repository.GetSummaries();
+            // Act
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 
 			// Assert
-			Assert.That(summaries.Count(), Is.EqualTo(2));
+			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
 
-			IEnumerable<Guid> ids = summaries.Select(x => x.Id);
+			IEnumerable<Guid> ids = summaries.PagedResults.Select(x => x.Id);
 			Assert.That(ids, Contains.Item(session1.Id));
 			Assert.That(ids, Contains.Item(session2.Id));
 		}
 
 		[Test]
-		public async Task GetSummariesForToday_should_return_sessioninfo_objects_for_today_only()
+		public async Task GetSummaries_should_return_sessioninfo_objects_for_today_only()
 		{
 			// Arrange
 			var fixture = new Fixture();
@@ -134,13 +135,13 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(otherSession1);
 			await repository.AddAsync(otherSession2);
 
-			// Act
-			IEnumerable<TestFileResultSummary> summaries = repository.GetSummariesForToday();
+            // Act
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 
 			// Assert
-			Assert.That(summaries.Count(), Is.EqualTo(2));
+			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
 
-			IEnumerable<Guid> ids = summaries.Select(x => x.Id);
+			IEnumerable<Guid> ids = summaries.PagedResults.Select(x => x.Id);
 			Assert.That(ids, Contains.Item(todaySession1.Id));
 			Assert.That(ids, Contains.Item(todaySession2.Id));
 		}

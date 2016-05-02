@@ -1,4 +1,5 @@
 ﻿@using Syringe.Core.Security
+@using Syringe.Web.HtmlHelpers
 @{
     var userContext = UserContext.GetFromFormsAuth(this.Context);
 }
@@ -30,13 +31,13 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="@(Request.RawUrl =="/"? "active" :"")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-                    <li class="@(Request.RawUrl.Contains("/home/allresults") ? "active" :"")">@Html.ActionLink("All results", "AllResults", "Results")</li>
-                    <li class="@(Request.RawUrl.Contains("/home/todaysresults") ? "active" :"")">@Html.ActionLink("Today's results", "TodaysResults", "Results")</li>
+                    <li class="@Html.Active("Index","Home")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+                    <li class="@Html.Active("Index","Results")">@Html.ActionLink("All results", "Index", "Results")</li>
+                    <li class="@Html.Active("Today","Results")">@Html.ActionLink("Today's results", "Today", "Results")</li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
+                    <li class="dropdown @Html.Active("Login","Authentication")">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@(userContext.FullName)<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="@Url.Action("Logout", "Authentication")">@(userContext.Id == "anon" ? "Login" : "Logout")</a></li>

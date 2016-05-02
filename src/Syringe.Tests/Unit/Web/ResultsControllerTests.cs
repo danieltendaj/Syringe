@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -32,8 +33,7 @@ namespace Syringe.Tests.Unit.Web
 
             _testsClient = new Mock<ITestService>();
             _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
-            _testsClient.Setup(x => x.GetSummaries()).Returns(new List<TestFileResultSummary>());
-            _testsClient.Setup(x => x.GetSummariesForToday()).Returns(new List<TestFileResultSummary>());
+            _testsClient.Setup(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>())).Returns(Task.FromResult(new TestFileResultSummaryCollection()));
 
             _tasksServiceMock.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns((new TaskDetails { Results = new List<TestResult> { new TestResult { ActualUrl = "syringe.com", Position = _id } } }));
             _resultsController = new ResultsController(_tasksServiceMock.Object, _urlHelperMock.Object, _testsClient.Object);
@@ -91,27 +91,27 @@ namespace Syringe.Tests.Unit.Web
 
 
         [Test]
-        public void AllResults_should_return_correct_view_and_model()
+        public void Index_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.AllResults() as ViewResult;
+            var viewResult = _resultsController.Index().Result as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummaries(), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
+            _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            Assert.AreEqual("Index", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
         [Test]
-        public void TodaysResults_should_return_correct_view_and_model()
+        public void Today_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _resultsController.TodaysResults() as ViewResult;
+            var viewResult = _resultsController.Today().Result as ViewResult;
 
             // then
-            _testsClient.Verify(x => x.GetSummariesForToday(), Times.Once);
-            Assert.AreEqual("AllResults", viewResult.ViewName);
-            Assert.IsInstanceOf<IEnumerable<TestFileResultSummary>>(viewResult.Model);
+            _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            Assert.AreEqual("Index", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
 
@@ -136,7 +136,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
             _testsClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
-            Assert.AreEqual("AllResults", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
         }
     }
 }

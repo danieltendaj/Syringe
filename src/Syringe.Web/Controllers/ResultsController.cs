@@ -11,21 +11,21 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[Authorize]
+    [Authorize]
     public class ResultsController : Controller
     {
         private readonly ITasksService _tasksClient;
-	    private readonly IUrlHelper _urlHelper;
-	    private readonly ITestService _testsClient;
+        private readonly IUrlHelper _urlHelper;
+        private readonly ITestService _testsClient;
 
-	    public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient)
-	    {
-	        _tasksClient = tasksClient;
-	        _urlHelper = urlHelper;
-	        _testsClient = testsClient;
-	    }
+        public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient)
+        {
+            _tasksClient = tasksClient;
+            _urlHelper = urlHelper;
+            _testsClient = testsClient;
+        }
 
-	    public ActionResult Html(int taskId, int position)
+        public ActionResult Html(int taskId, int position)
         {
             TestResult testResult = FindTestResult(taskId, position);
 
@@ -34,7 +34,7 @@ namespace Syringe.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Could not locate the specified test.");
             }
 
-	        var baseUrl = _urlHelper.GetBaseUrl(testResult.ActualUrl);
+            var baseUrl = _urlHelper.GetBaseUrl(testResult.ActualUrl);
 
             var viewModel = new ResultsViewModel
             {
@@ -71,14 +71,16 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        public ActionResult AllResults()
+        public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummaries());
+            var result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
+            return View("Index", result);
         }
 
-        public ActionResult TodaysResults()
+        public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20)
         {
-            return View("AllResults", _testsClient.GetSummariesForToday());
+            var result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
+            return View("Index", result);
         }
 
         public ActionResult ViewResult(Guid id)
@@ -92,7 +94,7 @@ namespace Syringe.Web.Controllers
             TestFileResult session = _testsClient.GetResultById(id);
             await _testsClient.DeleteResultAsync(session.Id);
 
-            return RedirectToAction("AllResults");
+            return RedirectToAction("Index");
         }
 
         public ActionResult ViewHtml(Guid testFileResultId, int resultId)
