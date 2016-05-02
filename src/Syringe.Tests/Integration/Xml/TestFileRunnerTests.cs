@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using RestSharp;
+using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
@@ -26,13 +27,13 @@ namespace Syringe.Tests.Integration.Xml
 	    [Test]
 	    public void should_throw_ArgumentNullException_when_httpclient_is_null()
 	    {
-	        Assert.Throws<ArgumentNullException>(() => new TestFileRunner(null, new TestFileResultRepositoryMock()));
+	        Assert.Throws<ArgumentNullException>(() => new TestFileRunner(null, new TestFileResultRepositoryMock(), new JsonConfiguration()));
 	    }
 
         [Test]
         public void should_throw_ArgumentNullException_when_repository_is_null()
         {
-            Assert.Throws<ArgumentNullException>(() => new TestFileRunner(It.IsAny<IHttpClient>(), null));
+            Assert.Throws<ArgumentNullException>(() => new TestFileRunner(It.IsAny<IHttpClient>(), null, new JsonConfiguration()));
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace Syringe.Tests.Integration.Xml
 			var stringReader = new StringReader(xml);
 			var reader = new TestFileReader();
 			TestFile testFile = reader.Read(stringReader);
-			var runner = new TestFileRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration());
 
 			// Act
 			TestFileResult result = await runner.RunAsync(testFile);

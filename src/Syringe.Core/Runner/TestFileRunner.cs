@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
+using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
@@ -18,7 +19,8 @@ namespace Syringe.Core.Runner
     public class TestFileRunner : IObservable<TestResult>
     {
         private readonly IHttpClient _httpClient;
-        private bool _isStopPending;
+	    private readonly IConfiguration _configuration;
+	    private bool _isStopPending;
         private List<TestResult> _currentResults;
 
         private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers =
@@ -41,7 +43,7 @@ namespace Syringe.Core.Runner
         public int TestsRun { get; set; }
         public int TotalTests { get; set; }
 
-        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository)
+        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository, IConfiguration configuration)
         {
             if (httpClient == null)
                 throw new ArgumentNullException(nameof(httpClient));
@@ -50,7 +52,8 @@ namespace Syringe.Core.Runner
                 throw new ArgumentNullException(nameof(repository));
 
             _httpClient = httpClient;
-            _currentResults = new List<TestResult>();
+	        _configuration = configuration;
+	        _currentResults = new List<TestResult>();
             Repository = repository;
 
             SessionId = Guid.NewGuid();
@@ -230,8 +233,8 @@ namespace Syringe.Core.Runner
 
 					try
 					{
-						var evaluator = new TestFileScriptEvaluator();
-						evaluator.EvaluateBeforeExecute(test.BeforeExecuteScript, test, request);
+						var evaluator = new TestFileScriptEvaluator(_configuration);
+						evaluator.EvaluateBeforeExecute(test, request);
 
 						request = evaluator.RequestGlobals.Request;
 						test = evaluator.RequestGlobals.Test;
@@ -240,7 +243,9 @@ namespace Syringe.Core.Runner
 					}
 		            catch (Exception ex)
 		            {
-			            logger.WriteLine("Compilation failed: {0}", ex);
+			            testResult.ScriptCompilationSuccess = false;
+			            testResult.ExceptionMessage = "The script failed to compile - see the log file for a stack trace.";
+						logger.WriteLine("Compilation failed: {0}", ex);
 		            }
 
 					logger.WriteLine("--------------------------");
