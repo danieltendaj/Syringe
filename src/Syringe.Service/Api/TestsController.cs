@@ -83,18 +83,11 @@ namespace Syringe.Service.Api
             return _testRepository.UpdateTestVariables(testFile);
         }
 
-        [Route("api/tests/GetSummariesForToday")]
-        [HttpGet]
-        public IEnumerable<TestFileResultSummary> GetSummariesForToday()
-        {
-            return _testFileResultRepository.GetSummariesForToday();
-        }
-
         [Route("api/tests/GetSummaries")]
         [HttpGet]
-        public IEnumerable<TestFileResultSummary> GetSummaries()
+        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20)
         {
-            return _testFileResultRepository.GetSummaries();
+            return _testFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults);
         }
 
         [Route("api/tests/GetById")]
