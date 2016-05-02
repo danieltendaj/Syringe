@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web;
+using RestSharp;
 
 namespace Syringe.Core.Http.Logging
 {
@@ -20,52 +22,43 @@ namespace Syringe.Core.Http.Logging
 			_writer = new StringWriter(StringBuilder);
 		}
 
-		public virtual void AppendRequest(RequestDetails requestDetails)
+		public virtual void AppendRequest(Uri uri, IRestRequest request)
 		{
-			if (string.IsNullOrEmpty(requestDetails.Method))
-				return;
-
-			if (string.IsNullOrEmpty(requestDetails.Url))
-				return;
-
-			if (!Uri.IsWellFormedUriString(requestDetails.Url, UriKind.Absolute))
-				return;
-
-			Uri uri = new Uri(requestDetails.Url);
-			_writer.WriteLine(REQUEST_LINE_FORMAT, requestDetails.Method.ToUpper(), requestDetails.Url);
+			_writer.WriteLine(REQUEST_LINE_FORMAT, request.Method.ToString().ToUpper(), uri.ToString());
 			_writer.WriteLine(HEADER_FORMAT, "Host", uri.Host);
 
-			if (requestDetails.Headers != null)
+			if (request.Parameters != null)
 			{
-				foreach (var keyValuePair in requestDetails.Headers)
+				foreach (Parameter parameter in request.Parameters.Where(x => x.Type == ParameterType.HttpHeader))
 				{
-					_writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
+					_writer.WriteLine(HEADER_FORMAT, parameter.Name, parameter.Value);
 				}
-			}
 
-			if (!string.IsNullOrEmpty(requestDetails.Body))
-				_writer.WriteLine(requestDetails.Body);
+				Parameter postBody = request.Parameters.FirstOrDefault(x => x.Type == ParameterType.RequestBody);
+				if (postBody != null)
+					_writer.WriteLine(postBody.Value);
+			}
 
 			_writer.WriteLine();
 		}
 
-		public virtual void AppendResponse(ResponseDetails responseDetails)
+		public virtual void AppendResponse(IRestResponse response)
 		{
-			int statusCode = (int)responseDetails.Status;
+			int statusCode = (int)response.StatusCode;
 			_writer.WriteLine(RESPONSE_LINE_FORMAT, statusCode, HttpWorkerRequest.GetStatusDescription(statusCode));
 
-			if (responseDetails.Headers != null)
+			if (response.Headers != null)
 			{
-				foreach (var keyValuePair in responseDetails.Headers)
+				foreach (Parameter parameter in response.Headers)
 				{
-					_writer.WriteLine(HEADER_FORMAT, keyValuePair.Key, keyValuePair.Value);
+					_writer.WriteLine(HEADER_FORMAT, parameter.Name, parameter.Value);
 				}
 			}
 
 			_writer.WriteLine();
 
-			if (!string.IsNullOrEmpty(responseDetails.BodyResponse))
-				_writer.WriteLine(responseDetails.BodyResponse);
+			if (!string.IsNullOrEmpty(response.Content))
+				_writer.WriteLine(response.Content);
 		}
 	}
 }

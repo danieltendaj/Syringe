@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using RestSharp;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Runner;
@@ -12,6 +13,7 @@ using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Tests.StubsMocks;
+using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Tests.Unit.Core.Runner
 {
@@ -352,29 +354,26 @@ namespace Syringe.Tests.Unit.Core.Runner
 		{
 			// Arrange
 			var httpClientMock = new Mock<IHttpClient>();
-
 			IDisposable subscription = null;
 
-			httpClientMock
-				.Setup(
-					c =>
-						c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-							It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
-				.Returns(Task.FromResult(new HttpResponse()));
+			httpClientMock.Setup(c => c.CreateRestRequest(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()));
 
 			// Dispose of the subscription before processing the third request.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), "foo3", It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), It.IsAny<HttpLogWriter>()))
-				.Callback(() => { if (subscription != null) subscription.Dispose(); })
+				.Setup(c => c.CreateRestRequest(It.IsAny<string>(), "http://foo3", It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>()))
+				.Callback(() => { subscription?.Dispose(); });
+
+			httpClientMock
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), It.IsAny<HttpLogWriter>()))
 				.Returns(Task.FromResult(new HttpResponse()));
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
 
 			var testFile = CreateTestFile(new[]
 			{
-				new Test() { Url = "foo1" },
-				new Test() { Url = "foo2" },
-				new Test() { Url = "foo3" }
+				new Test() { Url = "http://foo1" },
+				new Test() { Url = "http://foo2" },
+				new Test() { Url = "http://foo3" }
 			});
 
 			var observedResults = new List<TestResult>();
@@ -385,7 +384,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2" }), "Should not have included the result after having been disposed.");
+			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "http://foo1", "http://foo2" }), "Should not have included the result after having been disposed.");
 		}
 
 		[Test]
@@ -422,7 +421,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// Throw an error.
 			httpClientMock
-				.Setup(c => c.ExecuteRequestAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<HeaderItem>>(), new HttpLogWriter()))
+				.Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
 			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());

@@ -80,9 +80,9 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			var testCase = new Test() { Position = 0};
-			testCase.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
-			TestFile testFile = CreateTestFile(testCase);
+			var test = new Test() { Position = 0};
+			test.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
+			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act
@@ -162,6 +162,24 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			}
 
 			testFile.Tests = list;
+			TestFileWriter xmlWriter = CreateTestFileWriter();
+
+			// Act
+			string actualXml = xmlWriter.Write(testFile);
+
+			// Assert
+			Assert.That(Input.FromString(actualXml), CompareConstraint.IsIdenticalTo(Input.FromString(expectedXml)));
+		}
+
+		[Test]
+		public void write_should_add_beforeExecuteScript_with_cdata()
+		{
+			// Arrange
+			string expectedXml = TestHelpers.ReadEmbeddedFile("beforeExecuteScript.xml", XmlExamplesFolder);
+
+			var test = new Test() { Position = 0 };
+			test.BeforeExecuteScript = "using Amazinglib;string name = \"<singletest>\";";
+			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
 
 			// Act

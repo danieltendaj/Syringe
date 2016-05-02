@@ -164,7 +164,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Reader
 		}
 
 		[Test]
-		public void Read_should_parse_postbody_attribute()
+		public void Read_should_parse_postbody_element()
 		{
 			// Arrange
 			string xml = GetSingleTestExample();
@@ -362,5 +362,21 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Reader
             Assert.That(test.AvailableVariables.Count, Is.EqualTo(6));
             Assert.That(test.AvailableVariables.Last().Name, Is.EqualTo("test"));
         }
-    }
+
+		[Test]
+		public void Read_should_parse_beforeExecuteScript_element()
+		{
+			// Arrange
+			string xml = GetSingleTestExample();
+			var stringReader = new StringReader(xml);
+			var testFileReader = GetTestFileReader();
+
+			// Act
+			TestFile testFile = testFileReader.Read(stringReader);
+
+			// Assert
+			Test test = testFile.Tests.First();
+			Assert.That(test.BeforeExecuteScript, Is.EqualTo("using Amazinglib;string name = \"<the reader>\";"));
+		}
+	}
 }

@@ -33,6 +33,7 @@ namespace Syringe.Tests.Unit.Web
 					Url = "url",
 					Method = MethodType.POST,
 					ExpectedHttpStatusCode = HttpStatusCode.Accepted,
+					BeforeExecuteScript = "ISomething something = new Something();"
 				};
 			}
 		}
@@ -57,6 +58,7 @@ namespace Syringe.Tests.Unit.Web
 			Assert.AreEqual(_testViewModel.Url, test.Url);
 			Assert.AreEqual(_testViewModel.Method.ToString(), test.Method);
 			Assert.AreEqual(_testViewModel.ExpectedHttpStatusCode, test.ExpectedHttpStatusCode);
+			Assert.AreEqual(_testViewModel.BeforeExecuteScript, test.BeforeExecuteScript);
 		}
 
 		[Test]
@@ -176,6 +178,7 @@ namespace Syringe.Tests.Unit.Web
 				CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
 				Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
 				Filename = "test.xml",
+				BeforeExecuteScript = "// this is some script"
 			};
 
 			// when
@@ -190,6 +193,7 @@ namespace Syringe.Tests.Unit.Web
 			Assert.AreEqual(MethodType.GET, testViewModel.Method);
 			Assert.AreEqual(test.ExpectedHttpStatusCode, testViewModel.ExpectedHttpStatusCode);
 			Assert.AreEqual(test.Filename, testViewModel.Filename);
+			Assert.AreEqual(test.BeforeExecuteScript, testViewModel.BeforeExecuteScript);
 
 			Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
 			Assert.AreEqual(1, testViewModel.Assertions.Count);

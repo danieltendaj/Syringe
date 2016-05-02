@@ -23,32 +23,6 @@ namespace Syringe.Tests.Unit.Core.Http
 		}
 
 		[Test]
-		public async Task should_throw_exception_when_uri_is_invalid()
-		{
-			// Arrange
-			var httpLogWriter = GetHttpLogWriter();
-			var restResponse = new RestResponse();
-			HttpClient httpClient = CreateClient(restResponse);
-
-			string url = "invalid url";
-
-			string method = "get";
-			string postBody = "";
-			var headers = new List<HeaderItem>();
-
-			// Act + Assert
-
-			try
-			{
-				await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
-				Assert.Fail("Should have thrown an exception.");
-			}
-			catch (ArgumentException)
-			{
-			}
-		}
-
-		[Test]
 		public async Task should_return_expected_html_content()
 		{
 			// Arrange
@@ -59,14 +33,14 @@ namespace Syringe.Tests.Unit.Core.Http
 			};
 			HttpClient httpClient = CreateClient(restResponse);
 
-
 			string method = "get";
 			string url = "http://www.example.com";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			Assert.NotNull(response);
@@ -84,9 +58,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			string url = "http://www.example.com";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			Assert.IsNotNull(response);
@@ -103,10 +78,11 @@ namespace Syringe.Tests.Unit.Core.Http
 			string url = "http://www.example.com";
 			string postBody = "keywords=foo&location=london";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
-
+			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
+			
 			// Assert
 			Parameter parameter = _restClientMock.RestRequest.Parameters.First();
 			Assert.AreEqual("application/x-www-form-urlencoded", parameter.Name);
@@ -125,9 +101,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			string url = "http://www.example.com";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			Assert.AreEqual(Method.GET, _restClientMock.RestRequest.Method);
@@ -148,9 +125,10 @@ namespace Syringe.Tests.Unit.Core.Http
 				new HeaderItem("user-agent", "Netscape Navigator 1"),
 				new HeaderItem("cookies", "mmm cookies"),
 			};
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			var parameters = _restClientMock.RestRequest.Parameters;
@@ -178,9 +156,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			string url = "http://www.example.com";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
@@ -200,9 +179,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			string url = "http://www.example.com";
 			string postBody = "";
 			var headers = new List<HeaderItem>();
+			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
 			// Act
-			HttpResponse response = await httpClient.ExecuteRequestAsync(method, url, postBody, headers, httpLogWriter);
+			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
 			// Assert
 			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
