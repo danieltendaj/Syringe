@@ -32,7 +32,9 @@ namespace Syringe.Web.Models
         public List<AssertionViewModel> Assertions { get; set; }
         public List<VariableViewModel> AvailableVariables { get; set; }
 
-        [Required]
+		public string BeforeExecuteScript { get; set; }
+
+		[Required]
         public string Filename { get; set; }
 
         public TestViewModel()

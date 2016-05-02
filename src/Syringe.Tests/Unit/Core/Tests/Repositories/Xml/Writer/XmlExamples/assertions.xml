@@ -20,5 +20,6 @@
 			<assertion type="negative" description="negev2" method="csquery">csquery2</assertion>
 			<assertion type="negative" description="negev3" method="csquery"><![CDATA[this 3rd negative needs CDATA as it has <html> & stuff in it (.*)]]></assertion>
 		</assertions>
+		<beforeExecuteScript />
 	</test>
 </tests>

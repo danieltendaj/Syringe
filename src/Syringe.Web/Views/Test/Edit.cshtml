@@ -85,6 +85,15 @@
 			    </div>
 		    </div>
 
+		    <div class="panel panel-default">
+				<div class="panel-heading clearfix">
+					<h3 class="panel-title pull-left">Script (before)</h3>
+				</div>
+			    <div class="panel-body">
+				    @Html.TextAreaFor(x => x.BeforeExecuteScript, new {@class = "form-control", placeholder = "C# that will be run before the test executes. Two variables are available: Test (Syringe.Core.Tests.Test) and Request (Restsharp.IRestRequest)"})
+			    </div>
+		    </div>
+
 		    <div class="pull-right">
 				<a href="@Url.Action("View", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
 				<input type="submit" value="Save" class="btn btn-primary" />    

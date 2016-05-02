@@ -80,18 +80,19 @@ namespace Syringe.Core.Tests.Repositories
 			{
 				collection = _testFileReader.Read(stringReader);
 
-				Test item = collection.Tests.ElementAt(test.Position);
+				Test singleTest = collection.Tests.ElementAt(test.Position);
 
-				item.Description = test.Description;
-			    item.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
-				item.Method = test.Method;
-				item.Filename = test.Filename;
-				item.CapturedVariables = test.CapturedVariables;
-				item.PostBody = test.PostBody;
-				item.Assertions = test.Assertions;
-				item.Description = test.Description;
-				item.Url = test.Url;
-				item.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
+				singleTest.Description = test.Description;
+			    singleTest.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
+				singleTest.Method = test.Method;
+				singleTest.Filename = test.Filename;
+				singleTest.CapturedVariables = test.CapturedVariables;
+				singleTest.PostBody = test.PostBody;
+				singleTest.Assertions = test.Assertions;
+				singleTest.Description = test.Description;
+				singleTest.Url = test.Url;
+				singleTest.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
+				singleTest.BeforeExecuteScript = test.BeforeExecuteScript;
 			}
 
 			string contents = _testFileWriter.Write(collection);

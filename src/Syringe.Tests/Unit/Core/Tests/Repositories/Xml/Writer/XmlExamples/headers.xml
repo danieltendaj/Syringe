@@ -15,5 +15,6 @@
 		<postbody/>
 		<capturedvariables />
 		<assertions />
+		<beforeExecuteScript />
     </test>
 </tests>

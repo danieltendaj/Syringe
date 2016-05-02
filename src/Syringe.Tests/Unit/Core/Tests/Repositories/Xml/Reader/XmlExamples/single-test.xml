@@ -39,5 +39,9 @@
 			<assertion type="NEGaTiVE" description="2">negative 6</assertion>
 			<assertion type="negative" description="3">negative 66</assertion>
 		</assertions>
+
+		<beforeExecuteScript>
+			<![CDATA[using Amazinglib;string name = "<the reader>";]]>
+		</beforeExecuteScript>
 	</test>
 </tests>
