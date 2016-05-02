@@ -179,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
+    <Compile Include="HtmlHelpers\NavLinks.cs" />
     <Compile Include="Models\EnvironmentSelectorViewModel.cs" />
     <Compile Include="MvcConfiguration.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

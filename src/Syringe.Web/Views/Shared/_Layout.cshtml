@@ -1,4 +1,5 @@
 ﻿@using Syringe.Core.Security
+@using Syringe.Web.HtmlHelpers
 @{
     var userContext = UserContext.GetFromFormsAuth(this.Context);
 }
@@ -30,9 +31,9 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="@(Request.RawUrl =="/"? "active" :"")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-                    <li class="@(Request.RawUrl=="/Results" ? "active" :"")">@Html.ActionLink("All results", "Index", "Results")</li>
-                    <li class="@(Request.RawUrl.Contains("/Results/Today") ? "active" :"")">@Html.ActionLink("Today's results", "Today", "Results")</li>
+                    <li class="@Html.Active("Index","Home")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+                    <li class="@Html.Active("Index","Results")">@Html.ActionLink("All results", "Index", "Results")</li>
+                    <li class="@Html.Active("Today","Results")">@Html.ActionLink("Today's results", "Today", "Results")</li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
