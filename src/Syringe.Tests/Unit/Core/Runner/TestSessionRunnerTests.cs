@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using RestSharp;
+using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Runner;
@@ -51,7 +52,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			};
 			httpClient.Response = response;
 
-			var runner = new TestFileRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration());
 
 			var testFile = CreateTestFile(new[]
 			{
@@ -79,7 +80,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			response.ResponseTime = TimeSpan.FromSeconds(5);
 
 			HttpClientMock httpClient = new HttpClientMock(response);
-			var runner = new TestFileRunner(httpClient, GetRepository());
+			var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration());
 
 			var testFile = CreateTestFile(new[]
 			{
@@ -367,7 +368,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				.Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), It.IsAny<HttpLogWriter>()))
 				.Returns(Task.FromResult(new HttpResponse()));
 
-			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
+			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration());
 
 			var testFile = CreateTestFile(new[]
 			{
@@ -424,7 +425,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				.Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), new HttpLogWriter()))
 				.Throws(new InvalidOperationException("Bad"));
 
-			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository());
+			TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration());
 
 			var testFile = CreateTestFile(new[]
 			{
@@ -449,7 +450,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			_httpResponse = new HttpResponse();
 			_httpClientMock = new HttpClientMock(_httpResponse);
 
-			return new TestFileRunner(_httpClientMock, GetRepository());
+			return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration());
 		}
 
 		private TestFile CreateTestFile(Test[] tests)

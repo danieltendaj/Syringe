@@ -25,7 +25,7 @@ namespace Syringe.Core.Tests.Results
 
 		public bool Success
 		{
-			get { return ResponseCodeSuccess && AssertionsSuccess; }
+			get { return ResponseCodeSuccess && AssertionsSuccess && ScriptCompilationSuccess; }
 		}
 		
 		public bool AssertionsSuccess
@@ -38,9 +38,13 @@ namespace Syringe.Core.Tests.Results
 				return AssertionResults.Count(x => x.Success == false) == 0;
 			}
 		}
+
+	    public bool ScriptCompilationSuccess { get; set; }
+
 		public TestResult()
 		{
             AssertionResults = new List<Assertion>();
+			ScriptCompilationSuccess = true;
 		}
 	}
 }

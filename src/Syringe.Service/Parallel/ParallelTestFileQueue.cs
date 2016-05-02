@@ -84,7 +84,7 @@ namespace Syringe.Service.Parallel
 
 					var httpClient = new HttpClient(new RestClient());
 
-					var runner = new TestFileRunner(httpClient, _repository);
+					var runner = new TestFileRunner(httpClient, _repository, _configuration);
 					Task<TestFileResult> task = runner.RunAsync(testFile);
 					bool success = task.Wait(TimeSpan.FromMinutes(3));
 
@@ -138,7 +138,7 @@ namespace Syringe.Service.Parallel
 
 					var httpClient = new HttpClient(new RestClient());
 
-					var runner = new TestFileRunner(httpClient, _repository);
+					var runner = new TestFileRunner(httpClient, _repository, _configuration);
 					item.Runner = runner;
 					await runner.RunAsync(testFile);
 				}
