@@ -8,6 +8,16 @@ namespace Syringe.Tests.Unit.Web
     public class ExtensionsTests
     {
         [Test]
+        public void MinutesAndSecondsFormat_should_return_time_in_milliseconds_if_less_then_a_second()
+        {
+            // given + when
+            var minutesAndSecondsFormat = new TimeSpan(0, 0, 0, 0, 10).MinutesAndSecondsFormat();
+
+            // then
+            Assert.AreEqual("10 milliseconds", minutesAndSecondsFormat);
+        }
+
+        [Test]
         public void MinutesAndSecondsFormat_should_return_time_in_seconds_if_less_then_a_minute()
         {
             // given + when
