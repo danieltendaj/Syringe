@@ -15,16 +15,16 @@ namespace Syringe.Core.Runner.Assertions
 			_assertionLogger = assertionLogger;
 		}
 
-		public void Match(Assertion item, string httpContent)
+		public void Match(Assertion assertion, string httpContent)
 		{
-			string selector = item.Value;
+			string selector = assertion.Value;
 
 			if (!string.IsNullOrEmpty(selector) && !string.IsNullOrEmpty(httpContent))
 			{
 				selector = _variableProvider.ReplaceVariablesIn(selector);
-				item.TransformedValue = selector;
+				assertion.TransformedValue = selector;
 
-				_assertionLogger.LogValue(item.Value, selector);
+				_assertionLogger.LogValue(assertion.Value, selector);
 
 				// Grab everything from the start of the first html tag.
 				string html = "";
@@ -39,27 +39,27 @@ namespace Syringe.Core.Runner.Assertions
 					CQ cq = CQ.Create(html);
 					CQ result = cq.Find(selector);
 					bool isMatch = (result != null && result.Length > 0);
-					item.Success = isMatch;
+					assertion.Success = isMatch;
 
-					if (item.AssertionType == AssertionType.Positive && isMatch == false)
+					if (assertion.AssertionType == AssertionType.Positive && isMatch == false)
 					{
-						item.Success = false;
-						_assertionLogger.LogFail(item.AssertionType, selector, AssertionMethod.CSQuery);
+						assertion.Success = false;
+						_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
 					}
-					else if (item.AssertionType == AssertionType.Negative && isMatch == true)
+					else if (assertion.AssertionType == AssertionType.Negative && isMatch == true)
 					{
-						item.Success = false;
-						_assertionLogger.LogFail(item.AssertionType, selector, AssertionMethod.CSQuery);
+						assertion.Success = false;
+						_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
 					}
 					else
 					{
-						_assertionLogger.LogSuccess(item.AssertionType, selector, AssertionMethod.CSQuery);
+						_assertionLogger.LogSuccess(assertion.AssertionType, selector, AssertionMethod.CSQuery);
 					}
 				}
 				catch (Exception e)
 				{
 					// Something went wrong, CQ doesn't tell use what exceptions it throws
-					item.Success = false;
+					assertion.Success = false;
 					_assertionLogger.LogException(AssertionMethod.CSQuery, e);
 				}
 			}

@@ -4,9 +4,9 @@ using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 
-namespace Syringe.Tests.Unit.Core.Runner
+namespace Syringe.Tests.Unit.Core.Runner.Assertions
 {
-	public class VerificationsMatcherTests
+	public class AssertionsMatcherTests
 	{
 		[SetUp]
 		public void Setup()
