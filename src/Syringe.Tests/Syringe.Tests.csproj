@@ -211,6 +211,7 @@
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />

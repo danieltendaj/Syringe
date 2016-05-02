@@ -5,25 +5,30 @@ namespace Syringe.Core.Logging
 {
     public class SimpleLogger
     {
-        private readonly StringBuilder _stringBuilder;
+        internal readonly StringBuilder LogStringBuilder;
 
         public SimpleLogger()
         {
-            _stringBuilder = new StringBuilder();
+            LogStringBuilder = new StringBuilder();
         }
 
         public string GetLog()
         {
-            return _stringBuilder.ToString();
+            return LogStringBuilder.ToString();
         }
 
         public void Write(string message, params object[] args)
         {
 	        if (!string.IsNullOrEmpty(message))
 	        {
-		        message = (args.Length > 0) ? string.Format(message, args) : message;
-				_stringBuilder.Append(message);
-			}
+		        try
+		        {
+			        LogStringBuilder.AppendFormat(message, args);
+		        }
+		        catch (FormatException)
+		        {
+		        }
+	        }
 		}
 
         public void WriteLine(string message, params object[] args)
