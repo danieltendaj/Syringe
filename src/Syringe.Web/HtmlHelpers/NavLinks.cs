@@ -4,11 +4,12 @@ namespace Syringe.Web.HtmlHelpers
 {
     public static class NavLinks
     {
-        public static MvcHtmlString Active(this HtmlHelper helper, string action, string controller)
+        public static MvcHtmlString Active(this HtmlHelper helper, string actionName, string controllerName)
         {
             string activeClass = "";
-            var routeData = helper.ViewContext.RouteData;
-            if (routeData.Values["action"].ToString() == action && routeData.Values["controller"].ToString() == controller)
+            var routeData = helper.ViewContext.RouteData.Values;
+
+            if (routeData["action"].ToString() == actionName && routeData["controller"].ToString() == controllerName)
             {
                 activeClass = "active";
             }
