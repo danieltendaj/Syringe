@@ -41,7 +41,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.AddAsync(session);
 
             // Assert
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
 		}
 
@@ -59,7 +59,7 @@ namespace Syringe.Tests.Integration.Repository.MongoDB
 			await repository.DeleteAsync(session.Id);
 
             // Assert
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
 		}
 

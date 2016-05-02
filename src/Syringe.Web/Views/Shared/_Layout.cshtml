@@ -31,8 +31,8 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li class="@(Request.RawUrl =="/"? "active" :"")"><a href="/">Home <span class="sr-only">(current)</span></a></li>
-                    <li class="@(Request.RawUrl.Contains("/home/Index") ? "active" :"")">@Html.ActionLink("All results", "Index", "Results")</li>
-                    <li class="@(Request.RawUrl.Contains("/home/Today") ? "active" :"")">@Html.ActionLink("Today's results", "Today", "Results")</li>
+                    <li class="@(Request.RawUrl=="/Results" ? "active" :"")">@Html.ActionLink("All results", "Index", "Results")</li>
+                    <li class="@(Request.RawUrl.Contains("/Results/Today") ? "active" :"")">@Html.ActionLink("Today's results", "Today", "Results")</li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
