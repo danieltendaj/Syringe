@@ -201,7 +201,6 @@
     <Compile Include="Exceptions\CodeEvaluationException.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
-    <Compile Include="Git\GitProvider.cs" />
     <Compile Include="IO\FileHandler.cs" />
     <Compile Include="IO\IFileHandler.cs" />
     <Compile Include="Helpers\IUrlHelper.cs" />

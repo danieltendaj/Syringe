@@ -9,12 +9,12 @@ namespace Syringe.Core.Runner
 {
 	internal class CapturedVariableProvider
 	{
-	    private readonly string _environment;
+		private readonly string _environment;
 		private readonly List<Variable> _currentVariables;
 
 		public CapturedVariableProvider(string environment)
 		{
-		    _environment = environment;
+			_environment = environment;
 			_currentVariables = new List<Variable>();
 		}
 
@@ -28,19 +28,19 @@ namespace Syringe.Core.Runner
 
 		public void AddOrUpdateVariable(Variable variable)
 		{
-		    bool shouldAddOrUpdate = variable.MatchesEnvironment(_environment);
+			bool shouldAddOrUpdate = variable.MatchesEnvironment(_environment);
 
-		    if (shouldAddOrUpdate)
-		{
-		        Variable detectedVariable = _currentVariables.FirstOrDefault(x => x.Name.Equals(variable.Name, StringComparison.InvariantCultureIgnoreCase));
-		        if (detectedVariable != null)
+			if (shouldAddOrUpdate)
 			{
-		            detectedVariable.Value = variable.Value;
-			}
-			else
-			{
-		            _currentVariables.Add(variable);
-		        }
+				Variable detectedVariable = _currentVariables.FirstOrDefault(x => x.Name.Equals(variable.Name, StringComparison.InvariantCultureIgnoreCase));
+				if (detectedVariable != null)
+				{
+					detectedVariable.Value = variable.Value;
+				}
+				else
+				{
+					_currentVariables.Add(variable);
+				}
 			}
 		}
 
@@ -74,16 +74,6 @@ namespace Syringe.Core.Runner
 			return text;
 		}
 
-		public void Dump()
-		{
-			Log.Information("In my bag of magic variables I have:");
-
-			foreach (Variable variable in _currentVariables)
-			{
-				Log.Information(" - {{{0}}} : {1}", variable.Name, variable.Value);
-			}
-		}
-
 		/// <summary>
 		/// Finds text in the content, returning them as variables, e.g. {capturedvariable1} = value
 		/// </summary>
@@ -93,8 +83,8 @@ namespace Syringe.Core.Runner
 
 			foreach (CapturedVariable regexItem in capturedVariables)
 			{
-				simpleLogger.WriteLine("Testing {{capturedvariable{0}}}", regexItem.Name);
-				simpleLogger.WriteLine(" - Regex: {0}", regexItem.Regex);
+				simpleLogger.WriteLine("Parsing captured variable '{{capturedvariable{0}}}'", regexItem.Name);
+				simpleLogger.WriteIndentedLine("Regex: {0}", regexItem.Regex);
 
 				string capturedValue = "";
 				try
@@ -109,27 +99,25 @@ namespace Syringe.Core.Runner
 							if (match.Groups.Count > 1)
 							{
 								capturedValue += match.Groups[1];
-								simpleLogger.WriteLine(" - {0}. '{1}' matched, updated variable to '{2}'", ++matchCount, regexItem.Regex, capturedValue);
+								simpleLogger.WriteIndentedLine("{0}. '{1}' matched, updated variable to '{2}'", ++matchCount, regexItem.Regex, capturedValue);
 							}
 							else
 							{
-								simpleLogger.WriteLine(" - {0}. '{1}' matched, but the regex has no capture groups so the variable value wasn't updated.", ++matchCount, regexItem.Regex);
+								simpleLogger.WriteIndentedLine("{0}. '{1}' matched, but the regex has no capture groups so the variable value wasn't updated.", ++matchCount, regexItem.Regex);
 							}
 						}
 					}
 					else
 					{
-						simpleLogger.WriteLine(" - No match");
+						simpleLogger.WriteIndentedLine("No match");
 					}
 				}
 				catch (ArgumentException e)
 				{
-					simpleLogger.WriteLine(" - Invalid regex: {0}", e.Message);
+					simpleLogger.WriteIndentedLine("Invalid regex: {0}", e.Message);
 				}
 
 				variables.Add(new Variable("capturedvariable" + regexItem.Name, capturedValue, ""));
-				simpleLogger.WriteLine("");
-
 			}
 
 			return variables;

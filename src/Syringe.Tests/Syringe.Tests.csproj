@@ -211,12 +211,11 @@
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
-    <Compile Include="Integration\Git\GitProviderTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
-    <Compile Include="Unit\Core\Git\GitProviderTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Web\MvcConfigurationTests.cs" />
@@ -241,7 +240,7 @@
     <Compile Include="Unit\Core\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Core\Runner\TestFileResultsBuilder.cs" />
     <Compile Include="Unit\Core\Runner\TestFileResultTests.cs" />
-    <Compile Include="Unit\Core\Runner\VerificationsMatcherTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\AssertionsMatcherTests.cs" />
     <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
     <Compile Include="Unit\Core\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />

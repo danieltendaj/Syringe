@@ -28,17 +28,32 @@ namespace Syringe.Core.Logging
 
         public void WriteLine(string message, params object[] args)
         {
-            WriteLine(null, message, args);
+            WriteLine(null, 0, message, args);
         }
 
-        public void WriteLine(Exception ex, string message, params object[] args)
+		public void WriteIndentedLine(string message, params object[] args)
+		{
+			WriteLine(null, 1, message, args);
+		}
+
+		public void WriteDoubleIndentedLine(string message, params object[] args)
+		{
+			WriteLine(null, 2, message, args);
+		}
+
+		public void WriteLine(Exception ex, int indents, string message, params object[] args)
         {
             if (ex != null)
                 message += "\n" + ex;
 
 	        if (!string.IsNullOrEmpty(message))
 	        {
-		        Write(message, args);
+		        for (int i = 0; i < indents; i++)
+		        {
+			        Write("  ");
+		        }
+
+		        Write("=> "+message, args);
 		        Write(System.Environment.NewLine);
 	        }
         }
