@@ -31,12 +31,19 @@ $(document).ready(function () {
 
     });
 
-    $(".delete-button").on("click", function () {
-        var success = false;
+    $(".delete-button").on("click", function (e) {
+        e.preventDefault();
+
+        var that = $(this);
+
+        var form = that.closest("form");
         bootbox.confirm("Are you sure you want delete?", function (result) {
-            success = result;
+            if (result) {
+                form.submit();
+                return true;
+            }
         });
 
-        return success;
+        return false;
     });
 });

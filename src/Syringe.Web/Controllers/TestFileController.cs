@@ -85,9 +85,9 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(string fileName)
+        public ActionResult Delete(string filename)
         {
-            _testsClient.DeleteFile(fileName);
+            _testsClient.DeleteFile(filename);
 
             return RedirectToAction("Index", "Home");
         }

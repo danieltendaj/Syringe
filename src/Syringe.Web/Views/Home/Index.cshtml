@@ -45,7 +45,8 @@
                         }
                         @using (Html.BeginForm("Delete", "TestFile"))
                         {
-                            <button title="Run" class="btn btn-sm btn-danger delete-button" type="submit" name="filename" value="@filename">
+                            @Html.Hidden("filename", filename)
+                            <button title="Run" class="btn btn-sm btn-danger delete-button" type="submit">
                                 <i class="material-icons">delete</i>
                             </button>
                         }
