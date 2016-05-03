@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+	<variables>
+		<variable name="baseurl">http://www.bing.com</variable>
+	</variables>
+
+	<test
+		id="1e4f8fb7-79f3-4068-8fd9-307e68cd8f7c"
+		shortdescription="Search for Cows"
+		url="{baseurl}/search?q=cows"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="685a2790-0f88-4cc0-bf39-7cfac61baf2f"
+		shortdescription="Search for Goats"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="395c3a0e-d471-4f47-a2f3-84d933126f77"
+		shortdescription="Search for Geese"
+		url="{baseurl}/search?q=geese"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="da1b3251-0742-4f6a-9652-c7e528b58934"
+		shortdescription="Search for Fresh air"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="4ecb9aa9-b5f1-4a52-97ea-98fd7789b874"
+		shortdescription="Search for Monkeys"
+		url="{baseurl}/search?q=monkeys"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="35e16764-b2bc-4bfc-9bd0-7c9e4c01d359"
+		shortdescription="Search for Web inject"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="3a727f78-c808-4dda-a412-7a6e7b985f4a"
+		shortdescription="Search for Github"
+		url="{baseurl}/search?q=github"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="465a8c0b-1ab6-45f2-94ab-0e615a4f398f"
+		shortdescription="Search for Anotherchris"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="e9fa0577-26f4-4f5d-b7fc-fbe1a966c976"
+		shortdescription="Search for AVFC"
+		url="badurl/search?q=avfc"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="26e63df7-1547-4adc-84c3-eb137729a777"
+		shortdescription="Search for Duke of cambridge"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<!-- END BLOCK -->
+
+	<test
+	id="4744ff6a-3c14-433b-bcc6-cfa5ade523e9"
+	shortdescription="Search for Cows"
+	url="{baseurl}/search?q=cows"
+	
+	method="post"
+	expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="460ab243-c99b-490b-bb84-6a1185ed4914"
+		shortdescription="Search for Goats"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="6c769bd0-0631-4427-adf5-8604b694d261"
+		shortdescription="Search for Geese"
+		url="{baseurl}/search?q=geese"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="f1326a22-df85-4219-a378-50db0ba3daee"
+		shortdescription="Search for Fresh air"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="7a705b2f-865c-4ced-b162-c2089f604546"
+		shortdescription="Search for Monkeys"
+		url="{baseurl}/search?q=monkeys"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="bed0c854-0e20-42e3-96d4-b870ca9dac3f"
+		shortdescription="Search for Web inject"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="80436c56-2098-45ac-9240-1fef506d0b8d"
+		shortdescription="Search for Github"
+		url="{baseurl}/search?q=github"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="b6ca7d8f-7ec1-48d3-8a66-df1e7e15fc03"
+		shortdescription="Search for Anotherchris"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="246e1b5a-5a89-4615-899c-b3f0b9da46f4"
+		shortdescription="Search for AVFC"
+		url="badurl/search?q=avfc"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="61218265-b79c-4c66-8395-00ac381bd833"
+		shortdescription="Search for Duke of cambridge"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<!-- END BLOCK -->
+
+	<test
+	id="49f859de-e30c-4f4c-9380-1c786ecebeaf"
+	shortdescription="Search for Cows"
+	url="{baseurl}/search?q=cows"
+	
+	method="post"
+	expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="afb0fdab-1623-43a6-a82a-1ff314c03d1d"
+		shortdescription="Search for Goats"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="56c3f928-c6f5-4a29-816c-18822f0da71f"
+		shortdescription="Search for Geese"
+		url="{baseurl}/search?q=geese"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="6badfac4-a855-4266-886c-2cf3cc48ffe1"
+		shortdescription="Search for Fresh air"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="adf63a25-ece5-4f56-8fd5-5f534b5b668b"
+		shortdescription="Search for Monkeys"
+		url="{baseurl}/search?q=monkeys"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="c0a06d31-65f1-4158-a61a-e2eb992d119d"
+		shortdescription="Search for Web inject"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="0f5abf78-0e03-4f6d-abf8-c8ac7353b07d"
+		shortdescription="Search for Github"
+		url="{baseurl}/search?q=github"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="be29c5b2-3429-4fa9-92a6-0f15f2a088f8"
+		shortdescription="Search for Anotherchris"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="d9fba188-532d-498d-bfd0-7f8bb1d7a394"
+		shortdescription="Search for AVFC"
+		url="badurl/search?q=avfc"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="06400970-75c8-41fc-a7dc-6c3edf72ba79"
+		shortdescription="Search for Duke of cambridge"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<!-- END BLOCK -->
+
+	<test
+	id="05add8fe-a3e9-4df0-81bc-f4d0e1864f56"
+	shortdescription="Search for Cows"
+	url="{baseurl}/search?q=cows"
+	
+	method="post"
+	expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="5dab6574-8ff0-4871-a071-fcd619f5480f"
+		shortdescription="Search for Goats"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="d857939c-b449-4b63-ba68-48577b4da1f9"
+		shortdescription="Search for Geese"
+		url="{baseurl}/search?q=geese"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="c9ec1ad9-08a9-4cbb-8aa4-f4e8988163ef"
+		shortdescription="Search for Fresh air"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="02308ed6-b653-4d9a-82e7-aa84361340df"
+		shortdescription="Search for Monkeys"
+		url="{baseurl}/search?q=monkeys"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="47e021bf-7f33-496a-94f7-a757cffc9e03"
+		shortdescription="Search for Web inject"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="690c40df-8926-44c5-bea4-333efbbe1b1b"
+		shortdescription="Search for Github"
+		url="{baseurl}/search?q=github"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="fae2dbb8-2848-419b-b2bf-8436b5dff2fc"
+		shortdescription="Search for Anotherchris"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="59690c44-6c8c-40e1-a4ab-d01764fb67b5"
+		shortdescription="Search for AVFC"
+		url="badurl/search?q=avfc"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="118c40fd-a96e-4a23-9a83-183b0bd824f5"
+		shortdescription="Search for Duke of cambridge"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<!-- END BLOCK -->
+
+	<test
+	id="aa1592c9-4d84-4b77-be5f-70f2c11679ec"
+	shortdescription="Search for Cows"
+	url="{baseurl}/search?q=cows"
+	
+	method="post"
+	expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="d88c6936-2433-4e12-84ef-b15b4b65fedd"
+		shortdescription="Search for Goats"
+		url="{baseurl}/search?q=goats"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="0fd70457-b694-4fa9-b2ec-4857d10e31c9"
+		shortdescription="Search for Geese"
+		url="{baseurl}/search?q=geese"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="764c90a0-6330-499c-8580-49029675f82e"
+		shortdescription="Search for Fresh air"
+		url="{baseurl}/search?q=fresh air"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="25623176-336a-4bce-bce7-af771aefcc0a"
+		shortdescription="Search for Monkeys"
+		url="{baseurl}/search?q=monkeys"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="6a17035a-8dd5-4d97-80a6-c5b439d6c112"
+		shortdescription="Search for Web inject"
+		url="{baseurl}/search?q=web inject"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="80e889bb-3354-4627-bfb0-c361d84f2a1a"
+		shortdescription="Search for Github"
+		url="{baseurl}/search?q=github"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="8a4d360c-9763-4a7c-a031-ebe268f92949"
+		shortdescription="Search for Anotherchris"
+		url="{baseurl}/search?q=anotherchris"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="79187656-297c-4019-9692-bfed8320be5a"
+		shortdescription="Search for AVFC"
+		url="badurl/search?q=avfc"
+		
+		method="post"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<test
+		id="d1198f3f-ca6b-4449-bf26-13031d2768d6"
+		shortdescription="Search for Duke of cambridge"
+		url="{baseurl}/search?q=duke of cambridge"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<assertion type="negative" description="Text doesn't exist">Google</assertion>
+		</assertions>
+	</test>
+
+	<!-- END BLOCK -->
+</tests>

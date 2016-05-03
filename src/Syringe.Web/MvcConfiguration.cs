@@ -19,11 +19,13 @@ namespace Syringe.Web
 			ServiceUrl = "http://localhost:1981";
 		}
 
-		public static MvcConfiguration Load()
+		public static MvcConfiguration Load(string configPath = "")
 		{
 			if (Configuration == null)
 			{
-				string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "websiteconfig.json");
+				if (string.IsNullOrEmpty(configPath))
+					configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "websiteconfig.json");
+
 				if (!File.Exists(configPath))
 					throw new ConfigurationException("The website configuration file {0} could not be found", configPath);
 

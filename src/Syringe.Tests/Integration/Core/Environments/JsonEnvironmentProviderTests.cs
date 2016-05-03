@@ -6,11 +6,19 @@ using NUnit.Framework;
 using Syringe.Core.Environment;
 using Environment = Syringe.Core.Environment.Environment;
 
-namespace Syringe.Tests.Integration.Environments
+namespace Syringe.Tests.Integration.Core.Environments
 {
 	[TestFixture]
 	public class JsonEnvironmentProviderTests
 	{
+		private string _defaultConfigPath;
+
+		[SetUp]
+		public void Setup()
+		{
+			_defaultConfigPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Core", "Environments", "environments.json");
+		}
+
 		[Test]
 		public void should_return_empty_list_when_config_file_does_not_exist()
 		{
@@ -30,8 +38,7 @@ namespace Syringe.Tests.Integration.Environments
 		public void should_deserialize_json_environments()
 		{
 			// given
-			string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Environments", "environments.json");
-			var provider = new JsonEnvironmentProvider(configPath);
+			var provider = new JsonEnvironmentProvider(_defaultConfigPath);
 
 			// when
 			IEnumerable<Environment> environments = provider.GetAll();
@@ -45,8 +52,7 @@ namespace Syringe.Tests.Integration.Environments
 		public void should_deserialize_json_environments_and_return_using_order()
 		{
 			// given
-			string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Environments", "environments.json");
-			var provider = new JsonEnvironmentProvider(configPath);
+			var provider = new JsonEnvironmentProvider(_defaultConfigPath);
 
 			// when
 			List<Environment> environments = provider.GetAll().ToList();

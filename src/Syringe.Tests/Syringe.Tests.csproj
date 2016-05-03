@@ -203,12 +203,13 @@
     <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
     <Compile Include="Integration\ClientAndService\Helpers.cs" />
-    <Compile Include="Integration\Environments\JsonEnvironmentProviderTests.cs" />
-    <Compile Include="Integration\Repository\MongoDB\SetUpFixture.cs" />
-    <Compile Include="Integration\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
+    <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
+    <Compile Include="Integration\Core\Repository\MongoDB\SetUpFixture.cs" />
+    <Compile Include="Integration\Core\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
     <Compile Include="Integration\ClientAndService\ServiceConfig.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
+    <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
-    <Compile Include="Unit\Web\MvcConfigurationTests.cs" />
     <Compile Include="Unit\Web\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
@@ -230,7 +230,7 @@
     <Compile Include="Unit\Web\TestControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileControllerTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\Xml\Writer\TestFileWriterTests.cs" />
-    <Compile Include="Integration\Xml\TestFileRunnerTests.cs" />
+    <Compile Include="Integration\Core\Xml\TestFileRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
     <Compile Include="StubsMocks\RestResponseStub.cs" />
@@ -276,18 +276,24 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <Content Include="Integration\Environments\environments.json">
+    <Content Include="Integration\Core\Environments\environments.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="configuration.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Integration\Web\empty-websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Integration\Web\websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Integration\Xml\XmlExamples\Runner\capturedvariables.xml">
+    <EmbeddedResource Include="Integration\Core\Xml\XmlExamples\Runner\capturedvariables.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -325,7 +331,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Integration\Xml\XmlExamples\Runner\50-cases.xml" />
+    <Content Include="Integration\Core\Xml\XmlExamples\Runner\50-cases.xml" />
     <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\large-file.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>

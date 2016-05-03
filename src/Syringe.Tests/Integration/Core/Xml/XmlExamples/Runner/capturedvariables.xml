@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tests>
+	<variables>
+		<variable name="baseurl">http://demo.roadkillwiki.net</variable>
+	</variables>
+	
+	<test
+		id="1"
+		shortdescription="Roadkill"
+		url="{baseurl}"
+		
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<capturedvariables>
+			<variable description="1"><![CDATA[This site is hosted on (.*?)<]]></variable>
+		</capturedvariables>
+	</test>
+
+	<test
+		id="2"
+		shortdescription="Go to new website"
+		url="http://www.{parsedresponse1}.com"
+		method="get"
+		expectedhttpstatuscode="200"
+	>
+		<assertions>
+			<verify type="positive" description="Page title">Microsoft Azure</verify>
+		</assertions>
+	</test>
+</tests>
