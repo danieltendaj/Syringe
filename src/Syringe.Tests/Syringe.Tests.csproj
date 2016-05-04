@@ -209,6 +209,7 @@
     <Compile Include="Integration\ClientAndService\ServiceConfig.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
+    <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
     <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
@@ -285,6 +286,7 @@
     <Content Include="Integration\Web\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -336,10 +338,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Unit\Core\Tests\Repositories\Json\Reader\" />
-    <Folder Include="Unit\Core\Tests\Repositories\Json\Writer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />

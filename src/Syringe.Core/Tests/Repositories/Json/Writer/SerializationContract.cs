@@ -20,6 +20,7 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
             GetPropertyFullName<Environment.Environment>(x => x.Roles),
             GetPropertyFullName<Assertion>(x => x.TransformedValue),
             GetPropertyFullName<Assertion>(x => x.Log),
+            GetPropertyFullName<Assertion>(x => x.Success),
         };
         
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)

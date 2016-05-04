@@ -1,0 +1,48 @@
+﻿{
+  "Tests": [
+    {
+      "Description": "Some Test",
+      "Method": "POST",
+      "Url": "FML",
+      "PostBody": "SOOOO MANY PROPERTIES, I am getting bored",
+      "ExpectedHttpStatusCode": 400,
+      "Headers": [
+        {
+          "Key": "Some Key",
+          "Value": "Some Value"
+        }
+      ],
+      "CapturedVariables": [
+        {
+          "Name": "Captured Var 1",
+          "Regex": "/w/t/SOMETHING"
+        }
+      ],
+      "Assertions": [
+        {
+          "Description": "I SHOULD DO A THING",
+          "AssertionMethod": 1,
+          "Value": "Awesome Value",
+          "AssertionType": 1
+        }
+      ],
+      "BeforeExecuteScript": "Some script thing that Chris did"
+    }
+  ],
+  "Variables": [
+    {
+      "Name": "Variable 1",
+      "Value": "Value 1",
+      "Environment": {
+        "Name": "Env1"
+      }
+    },
+    {
+      "Name": "Variable 2",
+      "Value": "Value 2",
+      "Environment": {
+        "Name": "Env2"
+      }
+    }
+  ]
+}
