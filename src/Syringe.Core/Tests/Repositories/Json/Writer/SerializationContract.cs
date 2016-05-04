@@ -18,6 +18,8 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
             GetPropertyFullName<TestFile>(x => x.Environment),
             GetPropertyFullName<Environment.Environment>(x => x.Order),
             GetPropertyFullName<Environment.Environment>(x => x.Roles),
+            GetPropertyFullName<Assertion>(x => x.TransformedValue),
+            GetPropertyFullName<Assertion>(x => x.Log),
         };
         
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -54,16 +56,6 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
 
             string name = $"{expr.Member.DeclaringType?.FullName}.{expr.Member.Name}";
             return name;
-        }
-
-        public static JsonSerializerSettings GetSettings()
-        {
-            var settings = new JsonSerializerSettings
-            {
-                ContractResolver = new SerializationContract()
-            };
-
-            return settings;
         }
     }
 }
