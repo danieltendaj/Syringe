@@ -74,7 +74,8 @@ namespace Syringe.Service.Api
         [HttpPost]
         public bool CopyTest(int position, string fileName)
         {
-            throw new NotImplementedException();
+            Test test = _testRepository.GetTest(fileName, position);
+            return _testRepository.CreateTest(test);
         }
 
         [Route("api/tests/CreateTestFile")]

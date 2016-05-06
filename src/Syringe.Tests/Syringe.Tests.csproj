@@ -221,6 +221,7 @@
     <Compile Include="Unit\Core\Tests\VariableTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
+    <Compile Include="Unit\Service\Api\TestsControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
