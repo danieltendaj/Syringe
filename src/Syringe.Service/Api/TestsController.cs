@@ -75,6 +75,7 @@ namespace Syringe.Service.Api
         public bool CopyTest(int position, string fileName)
         {
             Test test = _testRepository.GetTest(fileName, position);
+            test.Description = $"Copy of {test.Description}";
             return _testRepository.CreateTest(test);
         }
 

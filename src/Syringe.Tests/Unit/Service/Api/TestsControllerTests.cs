@@ -20,7 +20,7 @@ namespace Syringe.Tests.Unit.Service.Api
 
             var testRepositoryMock = new Mock<ITestRepository>();
 
-            var expectedExistingTest = new Test();
+            var expectedExistingTest = new Test { Description = "Initial description" };
             testRepositoryMock
                 .Setup(x => x.GetTest(expectedFilename, expectedPosition))
                 .Returns(expectedExistingTest);
@@ -35,6 +35,7 @@ namespace Syringe.Tests.Unit.Service.Api
 
             // then
             Assert.That(result, Is.EqualTo(expectedResult));
+            Assert.That(expectedExistingTest.Description, Is.EqualTo("Copy of Initial description"));
         }
     }
 }
