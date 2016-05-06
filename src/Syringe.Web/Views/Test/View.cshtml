@@ -18,7 +18,7 @@
         <div class="col-xs-5 text-right primary-actions">
             <a class="btn btn-sm btn-primary" href="@Url.Action("Add", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Add</a>
             <a class="btn btn-sm btn-primary" href="@Url.Action("Update", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">Variables</a>
-            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewXml", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View XML</a>
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewRawFile", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View Raw File</a>
             @using (Html.BeginForm("Run", "Home"))
             {
                 <input type="hidden" name="filename" value="@Model.Filename" />

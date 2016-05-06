@@ -100,11 +100,11 @@ namespace Syringe.Tests.Unit.Web
         public void ViewXml_should_return_correct_view_and_model()
         {
             // given + when
-            var viewResult = _testController.ViewXml(It.IsAny<string>()) as ViewResult;
+            var viewResult = _testController.ViewRawFile(It.IsAny<string>()) as ViewResult;
 
             // then 
-            _testServiceMock.Verify(x => x.GetXml(It.IsAny<string>()), Times.Once);
-            Assert.AreEqual("ViewXml", viewResult.ViewName);
+            _testServiceMock.Verify(x => x.GetRawFile(It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("ViewRawFile", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
 
@@ -112,6 +112,19 @@ namespace Syringe.Tests.Unit.Web
         public void Delete_should_return_correct_redirection_to_view()
         {
             // given + when
+            var redirectToRouteResult = _testController.Delete(It.IsAny<int>(), It.IsAny<string>()) as RedirectToRouteResult;
+
+            // then
+            _testServiceMock.Verify(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void CopyTest_should_return_and_save_test_with_copied_test()
+        {
+            // given
+
+            // when
             var redirectToRouteResult = _testController.Delete(It.IsAny<int>(), It.IsAny<string>()) as RedirectToRouteResult;
 
             // then

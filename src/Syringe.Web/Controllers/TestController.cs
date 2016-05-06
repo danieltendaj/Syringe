@@ -131,10 +131,10 @@ namespace Syringe.Web.Controllers
 			ViewBag.NoOfResults = Request.QueryString["noOfResults"];
 		}
 
-		public ActionResult ViewXml(string fileName)
+		public ActionResult ViewRawFile(string fileName)
 		{
-            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetRawFile(fileName) };
-			return View("ViewXml", model);
+            var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
+			return View("ViewRawFile", model);
 		}
 	}
 }

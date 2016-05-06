@@ -414,7 +414,7 @@
     </Content>
     <Content Include="Views\Authentication\Login.cshtml" />
     <Content Include="Views\Shared\Partials\_Variables.cshtml" />
-    <Content Include="Views\Test\ViewXml.cshtml" />
+    <Content Include="Views\Test\ViewRawFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Syringe.css">
