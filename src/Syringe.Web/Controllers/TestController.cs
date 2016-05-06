@@ -103,6 +103,12 @@ namespace Syringe.Web.Controllers
 			return RedirectToAction("View", new { filename = fileName });
 		}
 
+	    [HttpPost]
+	    public ActionResult Copy(TestViewModel model)
+	    {
+	        return null;
+	    }
+
 		public ActionResult AddAssertion()
 		{
 			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());

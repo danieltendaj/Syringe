@@ -14,5 +14,6 @@ namespace Syringe.Core.Tests.Repositories
         bool UpdateTestVariables(TestFile testFile);
         string GetXml(string filename);
         bool DeleteFile(string fileName);
+        bool CopyTest(int position, string fileName);
     }
 }

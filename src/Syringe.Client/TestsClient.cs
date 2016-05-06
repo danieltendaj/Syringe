@@ -96,6 +96,11 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
+	    public bool CopyTest(int position, string fileName)
+	    {
+	        throw new NotImplementedException();
+	    }
+
 	    public bool CreateTestFile(TestFile testFile)
 	    {
             var client = new RestClient(_serviceUrl);
