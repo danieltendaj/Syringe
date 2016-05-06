@@ -213,6 +213,7 @@
     <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
