@@ -42,11 +42,11 @@ namespace Syringe.Service.Api
             return _testRepository.GetTestFile(filename);
         }
 
-        [Route("api/tests/GetXml")]
+        [Route("api/tests/GetRawFile")]
         [HttpGet]
-        public string GetXml(string filename)
+        public string GetRawFile(string filename)
         {
-            return _testRepository.GetXml(filename);
+            return _testRepository.GetRawFile(filename);
         }
 
         [Route("api/tests/EditTest")]

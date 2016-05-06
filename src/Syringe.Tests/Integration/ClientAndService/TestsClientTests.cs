@@ -100,7 +100,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
 			// when
-			string xml = client.GetXml(testFile.Filename);
+			string xml = client.GetRawFile(testFile.Filename);
 
 			// then
 			Assert.That(xml, Is.Not.Null);

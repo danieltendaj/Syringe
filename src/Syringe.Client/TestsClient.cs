@@ -51,10 +51,10 @@ namespace Syringe.Client
 			return _restSharpHelper.DeserializeOrThrow<TestFile>(response);
 		}
 
-	    public string GetXml(string filename)
+	    public string GetRawFile(string filename)
 	    {
             var client = new RestClient(_serviceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetXml");
+            IRestRequest request = _restSharpHelper.CreateRequest("GetRawFile");
             request.AddParameter("filename", filename);
 
             IRestResponse response = client.Execute(request);

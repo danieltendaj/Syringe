@@ -12,7 +12,7 @@ namespace Syringe.Core.Tests.Repositories
         bool DeleteTest(int position, string fileName);
         bool CreateTestFile(TestFile testFile);
         bool UpdateTestVariables(TestFile testFile);
-        string GetXml(string filename);
+        string GetRawFile(string filename);
         bool DeleteFile(string fileName);
         bool CopyTest(int position, string fileName);
     }

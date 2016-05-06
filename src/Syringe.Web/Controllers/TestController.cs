@@ -133,7 +133,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult ViewXml(string fileName)
 		{
-            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName) };
+            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetRawFile(fileName) };
 			return View("ViewXml", model);
 		}
 	}

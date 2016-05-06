@@ -173,7 +173,7 @@ namespace Syringe.Core.Tests.Repositories
 			}
 		}
 
-		public string GetXml(string filename)
+		public string GetRawFile(string filename)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);
