@@ -189,10 +189,10 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         }
 
         [Test]
-        public void GetXml_should_return_correct_xml()
+        public void GetRawFile_should_return_correct_xml()
         {
             // given + when
-            var xml = _testRepository.GetXml("filePath.xml");
+            var xml = _testRepository.GetRawFile("filePath.xml");
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);

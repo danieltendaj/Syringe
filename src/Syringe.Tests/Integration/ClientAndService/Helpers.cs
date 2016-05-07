@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Syringe.Client;
+using Syringe.Client.RestSharpHelpers;
 using Syringe.Core.Tests;
 
 namespace Syringe.Tests.Integration.ClientAndService
@@ -21,7 +22,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
 		public static TestsClient CreateTestsClient()
 		{
-			var client = new TestsClient(ServiceConfig.BaseUrl);
+			var client = new TestsClient(ServiceConfig.BaseUrl, new RestSharpClientFactory());
 			return client;
 		}
 

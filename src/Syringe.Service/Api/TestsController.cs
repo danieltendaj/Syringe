@@ -41,11 +41,12 @@ namespace Syringe.Service.Api
         {
             return _testRepository.GetTestFile(filename);
         }
-        [Route("api/tests/GetXml")]
+
+        [Route("api/tests/GetRawFile")]
         [HttpGet]
-        public string GetXml(string filename)
+        public string GetRawFile(string filename)
         {
-            return _testRepository.GetXml(filename);
+            return _testRepository.GetRawFile(filename);
         }
 
         [Route("api/tests/EditTest")]
@@ -67,6 +68,15 @@ namespace Syringe.Service.Api
         public bool DeleteTest(int position, string fileName)
         {
             return _testRepository.DeleteTest(position, fileName);
+        }
+
+        [Route("api/tests/CopyTest")]
+        [HttpPost]
+        public bool CopyTest(int position, string fileName)
+        {
+            Test test = _testRepository.GetTest(fileName, position);
+            test.Description = $"Copy of {test.Description}";
+            return _testRepository.CreateTest(test);
         }
 
         [Route("api/tests/CreateTestFile")]

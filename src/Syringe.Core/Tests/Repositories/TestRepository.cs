@@ -173,7 +173,7 @@ namespace Syringe.Core.Tests.Repositories
 			}
 		}
 
-		public string GetXml(string filename)
+		public string GetRawFile(string filename)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);
@@ -185,7 +185,12 @@ namespace Syringe.Core.Tests.Repositories
 			return _fileHandler.DeleteFile(fullPath);
 		}
 
-		public IEnumerable<string> ListFiles()
+	    public bool CopyTest(int position, string fileName)
+	    {
+	        throw new NotImplementedException();
+	    }
+
+	    public IEnumerable<string> ListFiles()
 		{
 			return _fileHandler.GetFileNames();
 		}

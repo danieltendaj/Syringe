@@ -17,6 +17,7 @@
 
 using StructureMap;
 using Syringe.Client;
+using Syringe.Client.RestSharpHelpers;
 using Syringe.Core.Configuration;
 using Syringe.Core.Helpers;
 using Syringe.Core.Security;
@@ -49,7 +50,7 @@ namespace Syringe.Web.DependencyResolution
             For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();
             For<IUrlHelper>().Use<UrlHelper>();
-            For<ITestService>().Use(() => new TestsClient(serviceUrl));
+            For<ITestService>().Use(x => new TestsClient(serviceUrl, x.GetInstance<IRestSharpClientFactory>()));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
 	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
             For<IEnvironmentsService>().Use(() => new EnvironmentsClient(serviceUrl));

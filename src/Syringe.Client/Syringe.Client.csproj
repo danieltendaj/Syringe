@@ -54,6 +54,8 @@
     <Compile Include="EnvironmentsClient.cs" />
     <Compile Include="ConfigurationClient.cs" />
     <Compile Include="RestSharpHelper.cs" />
+    <Compile Include="RestSharpHelpers\IRestSharpClientFactory.cs" />
+    <Compile Include="RestSharpHelpers\RestSharpClientFactory.cs" />
     <Compile Include="TestsClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TasksClient.cs" />

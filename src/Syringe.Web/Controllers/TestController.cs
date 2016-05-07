@@ -103,6 +103,12 @@ namespace Syringe.Web.Controllers
 			return RedirectToAction("View", new { filename = fileName });
 		}
 
+	    [HttpPost]
+	    public ActionResult Copy(TestViewModel model)
+	    {
+	        return null;
+	    }
+
 		public ActionResult AddAssertion()
 		{
 			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
@@ -125,10 +131,10 @@ namespace Syringe.Web.Controllers
 			ViewBag.NoOfResults = Request.QueryString["noOfResults"];
 		}
 
-		public ActionResult ViewXml(string fileName)
+		public ActionResult ViewRawFile(string fileName)
 		{
-            var model = new TestFileViewModel { Filename = fileName, Xml = _testsClient.GetXml(fileName) };
-			return View("ViewXml", model);
+            var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
+			return View("ViewRawFile", model);
 		}
 	}
 }

@@ -11,11 +11,12 @@ namespace Syringe.Core.Services
 		IEnumerable<string> ListFiles();
 		Test GetTest(string filename, int position);
 		TestFile GetTestFile(string filename);
-	    string GetXml(string filename);
+	    string GetRawFile(string filename);
         bool EditTest(Test test);
 	    bool CreateTest(Test test);
         bool DeleteTest(int position, string fileName);
-	    bool DeleteFile(string fileName);
+        bool CopyTest(int position, string fileName);
+        bool DeleteFile(string fileName);
 	    bool CreateTestFile(TestFile testFile);
 	    bool UpdateTestVariables(TestFile testFile);
         Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20);

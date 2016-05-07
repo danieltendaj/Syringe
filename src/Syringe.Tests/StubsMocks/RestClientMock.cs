@@ -23,8 +23,10 @@ namespace Syringe.Tests.StubsMocks
 
 		public override IRestResponse Execute(IRestRequest request)
 		{
-			if (ResponseTime > TimeSpan.MinValue)
-				Thread.Sleep(ResponseTime);
+		    if (ResponseTime > TimeSpan.MinValue)
+		    {
+		        Thread.Sleep(ResponseTime);
+		    }
 
 			RestRequest = request;
 			return RestResponse;
