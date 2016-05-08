@@ -14,7 +14,7 @@ namespace Syringe.Core.Security
 		public static UserContext GetFromFormsAuth(HttpContextBase httpContext)
 		{
 			if (httpContext == null || httpContext.Request.Cookies[FormsAuthentication.FormsCookieName] == null)
-				return new UserContext() { IsGuest = true };
+				return new UserContext() { Id = "Guest", FullName = "Guest", IsGuest = true};
 
 			string cookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
 			FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);

@@ -23,7 +23,6 @@ namespace Syringe.Core.Configuration
 
 		public OAuthConfiguration OAuthConfiguration { get; set; }
 		public GitConfiguration GitConfiguration { get; set; }
-
         public OctopusConfiguration OctopusConfiguration { get; set; }
 
         public JsonConfiguration()
@@ -37,6 +36,7 @@ namespace Syringe.Core.Configuration
 
 			OAuthConfiguration = new OAuthConfiguration();
 			GitConfiguration = new GitConfiguration();
+			OctopusConfiguration = new OctopusConfiguration();
 		}
 	}
 }
