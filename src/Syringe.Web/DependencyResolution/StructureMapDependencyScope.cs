@@ -111,10 +111,26 @@ namespace Syringe.Web.DependencyResolution {
 
 		    if (string.IsNullOrEmpty(key))
 		    {
-			    return serviceType.IsAbstract || serviceType.IsInterface
-				    ? container.TryGetInstance(serviceType)
-				    : container.GetInstance(serviceType);
-		    }
+				if (serviceType.IsAbstract || serviceType.IsInterface)
+				{
+					object instance = container.TryGetInstance(serviceType);
+
+					// Throw an error
+					if (instance == null)
+						container.GetInstance(serviceType);
+				}
+				else
+				{
+					try
+					{
+						return container.GetInstance(serviceType);
+					}
+					catch (StructureMapConfigurationException ex)
+					{
+						throw ex;
+					}
+				}
+			}
 
 		    return container.GetInstance(serviceType, key);
 	    }

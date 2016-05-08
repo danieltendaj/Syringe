@@ -7,6 +7,7 @@ using Syringe.Core.Tests;
 
 namespace Syringe.Web.Controllers
 {
+	[AuthorizeWhenOAuth]
 	public class JsonController : Controller
 	{
 		private readonly ITasksService _tasksClient;
