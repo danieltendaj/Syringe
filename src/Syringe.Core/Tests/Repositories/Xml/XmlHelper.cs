@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using XmlException = Syringe.Core.Exceptions.XmlException;
 
-namespace Syringe.Core.Xml
+namespace Syringe.Core.Tests.Repositories.Xml
 {
 	internal class XmlHelper
 	{
