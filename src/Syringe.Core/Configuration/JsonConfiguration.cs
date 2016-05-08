@@ -24,7 +24,10 @@ namespace Syringe.Core.Configuration
 		public OAuthConfiguration OAuthConfiguration { get; set; }
         public OctopusConfiguration OctopusConfiguration { get; set; }
 
-        public JsonConfiguration()
+		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+		public bool ReadonlyMode { get; set; }
+
+		public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
@@ -32,6 +35,7 @@ namespace Syringe.Core.Configuration
 			TestFilesBaseDirectory = @"D:\Syringe\";
             TestFileFormat = TestFileFormat.Xml;
 			MongoDbDatabaseName = "Syringe";
+			ReadonlyMode = false;
 
 			OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();

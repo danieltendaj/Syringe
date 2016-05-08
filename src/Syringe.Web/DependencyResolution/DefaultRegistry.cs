@@ -42,17 +42,29 @@ namespace Syringe.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-			MvcConfiguration config = MvcConfiguration.Load();
-			string serviceUrl = config.ServiceUrl;
+			//
+			// Configration - load from the service at startup, cache it.
+			//
+			MvcConfiguration mvcConfig = MvcConfiguration.Load();
+			string serviceUrl = mvcConfig.ServiceUrl;
+			For<MvcConfiguration>().Use(mvcConfig);
 
-			For<MvcConfiguration>().Use(config);
-			
-			For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
+			var configClient = new ConfigurationClient(serviceUrl);
+			IConfiguration config = configClient.GetConfiguration();
+			For<IConfiguration>().Use(config).Singleton();
 
+			//
+			// Model helpers
+			//
 			For<IRunViewModel>().Use<RunViewModel>();
             For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();
             For<IUrlHelper>().Use<UrlHelper>();
+
+			//
+			// REST API clients
+			//
+			For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
             For<ITestService>().Use(x => new TestsClient(serviceUrl, x.GetInstance<IRestSharpClientFactory>()));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
 	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));

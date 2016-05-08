@@ -9,5 +9,6 @@
 	    string MongoDbDatabaseName { get; }
 		OAuthConfiguration OAuthConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }
+		bool ReadonlyMode { get; }
     }
 }

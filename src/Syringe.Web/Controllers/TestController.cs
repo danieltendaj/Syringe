@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Syringe.Client;
+using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
@@ -16,15 +18,18 @@ namespace Syringe.Web.Controllers
 		private readonly ITestService _testsClient;
 		private readonly ITestFileMapper _testFileMapper;
 	    private readonly IEnvironmentsService _environmentsService;
+		private readonly IConfiguration _configuration;
 
 		public TestController(
 			ITestService testsClient,
 			ITestFileMapper testFileMapper,
-            IEnvironmentsService environmentsService)
+            IEnvironmentsService environmentsService,
+			IConfiguration configuration)
 		{
 			_testsClient = testsClient;
 			_testFileMapper = testFileMapper;
 	        _environmentsService = environmentsService;
+			_configuration = configuration;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -48,9 +53,16 @@ namespace Syringe.Web.Controllers
                 Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
 			};
 
-			return View("View", viewModel);
+			string viewName = "View";
+			if (_configuration.ReadonlyMode)
+			{
+				viewName = "View-ReadonlyMode";
+			}
+
+			return View(viewName, viewModel);
 		}
 
+		[EditableTestsRequired]
 		public ActionResult Edit(string filename, int position)
 		{
             Test test = _testsClient.GetTest(filename, position);
@@ -61,6 +73,7 @@ namespace Syringe.Web.Controllers
 
 		[HttpPost]
 		[ValidateInput(false)]
+		[EditableTestsRequired]
 		public ActionResult Edit(TestViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -73,6 +86,7 @@ namespace Syringe.Web.Controllers
 			return View("Edit", model);
 		}
 
+		[EditableTestsRequired]
 		public ActionResult Add(string filename)
 		{
             TestFile testFile = _testsClient.GetTestFile(filename);
@@ -83,6 +97,7 @@ namespace Syringe.Web.Controllers
 
 		[HttpPost]
 		[ValidateInput(false)]
+		[EditableTestsRequired]
 		public ActionResult Add(TestViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -96,6 +111,7 @@ namespace Syringe.Web.Controllers
 		}
 
 		[HttpPost]
+		[EditableTestsRequired]
 		public ActionResult Delete(int position, string fileName)
 		{
             _testsClient.DeleteTest(position, fileName);
@@ -104,24 +120,34 @@ namespace Syringe.Web.Controllers
 		}
 
 	    [HttpPost]
-	    public ActionResult Copy(TestViewModel model)
+		[EditableTestsRequired]
+		public ActionResult Copy(TestViewModel model)
 	    {
 	        return null;
 	    }
 
+		[EditableTestsRequired]
 		public ActionResult AddAssertion()
 		{
 			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
 		}
 
+		[EditableTestsRequired]
 		public ActionResult AddCapturedVariableItem()
 		{
 			return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
 		}
 
+		[EditableTestsRequired]
 		public ActionResult AddHeaderItem()
 		{
 			return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
+		}
+
+		public ActionResult ViewRawFile(string fileName)
+		{
+            var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
+			return View("ViewRawFile", model);
 		}
 
 		private void AddPagingDataForBreadCrumb()
@@ -129,12 +155,6 @@ namespace Syringe.Web.Controllers
 			// Paging support for the breadcrumb trail
 			ViewBag.PageNumber = Request.QueryString["pageNumber"];
 			ViewBag.NoOfResults = Request.QueryString["noOfResults"];
-		}
-
-		public ActionResult ViewRawFile(string fileName)
-		{
-            var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
-			return View("ViewRawFile", model);
 		}
 	}
 }

@@ -4,6 +4,7 @@
 	"TestFilesBaseDirectory": "..\\..\\..\\..\\Xml-Examples",
 	"TestFileFormat": "Xml",
 	"MongoDbDatabaseName": "Syringe",
+	"ReadonlyMode": false,
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
 		"GithubAuthClientSecret": "",

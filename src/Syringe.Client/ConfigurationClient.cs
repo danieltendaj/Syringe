@@ -18,16 +18,11 @@ namespace Syringe.Client
 
 		public IConfiguration GetConfiguration()
 		{
-			if (_configuration == null)
-			{
-				var client = new RestClient(_serviceUrl);
-				IRestRequest request = _restSharpHelper.CreateRequest("");
+			var client = new RestClient(_serviceUrl);
+			IRestRequest request = _restSharpHelper.CreateRequest("");
 
-				IRestResponse response = client.Execute(request);
-				_configuration = _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
-			}
-
-			return _configuration;
+			IRestResponse response = client.Execute(request);
+			return _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
 		}
 	}
 }
