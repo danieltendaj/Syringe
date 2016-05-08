@@ -8,6 +8,7 @@ namespace Syringe.Client
 	{
 		private readonly string _serviceUrl;
 		private readonly RestSharpHelper _restSharpHelper;
+		private static IConfiguration _configuration;
 
 		public ConfigurationClient(string serviceUrl)
 		{
@@ -17,11 +18,16 @@ namespace Syringe.Client
 
 		public IConfiguration GetConfiguration()
 		{
-			var client = new RestClient(_serviceUrl);
-			IRestRequest request = _restSharpHelper.CreateRequest("");
+			if (_configuration == null)
+			{
+				var client = new RestClient(_serviceUrl);
+				IRestRequest request = _restSharpHelper.CreateRequest("");
 
-			IRestResponse response = client.Execute(request);
-			return _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
+				IRestResponse response = client.Execute(request);
+				_configuration = _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
+			}
+
+			return _configuration;
 		}
 	}
 }

@@ -9,11 +9,12 @@ namespace Syringe.Core.Security
 	{
 		public string Id { get; set; }
 		public string FullName { get; set; }
+		public bool IsGuest { get; set; }
 
 		public static UserContext GetFromFormsAuth(HttpContextBase httpContext)
 		{
 			if (httpContext == null || httpContext.Request.Cookies[FormsAuthentication.FormsCookieName] == null)
-				return new UserContext() {FullName = "Not Logged In", Id = "anon"};
+				return new UserContext() { Id = "Guest", FullName = "Guest", IsGuest = true};
 
 			string cookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
 			FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);

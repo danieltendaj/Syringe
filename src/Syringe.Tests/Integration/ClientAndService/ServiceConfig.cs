@@ -18,6 +18,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public static string MongodbDatabaseName => "Syringe-Tests";
 		public static IDisposable OwinServer;
 
+		public static int Port { get; set; }
+
 		public static string BaseUrl
 		{
 			get
@@ -25,12 +27,15 @@ namespace Syringe.Tests.Integration.ClientAndService
 				if (string.IsNullOrEmpty(_baseUrl))
 				{
 					// Find a free port. Using port 0 gives you the next free port.
-					var listener = new TcpListener(IPAddress.Loopback, 0);
-					listener.Start();
-					int port = ((IPEndPoint)listener.LocalEndpoint).Port;
-					listener.Stop();
+					if (Port == 0)
+					{
+						var listener = new TcpListener(IPAddress.Loopback, 0);
+						listener.Start();
+						Port = ((IPEndPoint) listener.LocalEndpoint).Port;
+						listener.Stop();
+					}
 
-					_baseUrl = $"http://localhost:{port}";
+					_baseUrl = $"http://localhost:{Port}";
 				}
 
 				return _baseUrl;

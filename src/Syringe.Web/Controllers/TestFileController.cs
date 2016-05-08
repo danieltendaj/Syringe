@@ -8,7 +8,7 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[Authorize]
+	[AuthorizeWhenOAuth]
 	public class TestFileController : Controller
     {
         private readonly ITestService _testsClient;
