@@ -11,10 +11,6 @@
 		"MicrosoftAuthClientId": "",
 		"MicrosoftAuthClientSecret": ""
 	},
-	"GitConfiguration": {
-		"RepositoryUrl": "https://github.com/TotalJobsGroup/Syringe-Examples.git",
-		"Branches": [ "master", "dev-team1", "dev-team2" ]
-	},
 	"OctopusConfiguration": {
 		"OctopusUrl": "",
 		"OctopusApiKey": ""

@@ -22,7 +22,6 @@ namespace Syringe.Core.Configuration
 		public string MongoDbDatabaseName { get; set; }
 
 		public OAuthConfiguration OAuthConfiguration { get; set; }
-		public GitConfiguration GitConfiguration { get; set; }
         public OctopusConfiguration OctopusConfiguration { get; set; }
 
         public JsonConfiguration()
@@ -35,7 +34,6 @@ namespace Syringe.Core.Configuration
 			MongoDbDatabaseName = "Syringe";
 
 			OAuthConfiguration = new OAuthConfiguration();
-			GitConfiguration = new GitConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();
 		}
 	}

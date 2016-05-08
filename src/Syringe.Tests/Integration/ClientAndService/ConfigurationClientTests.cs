@@ -9,20 +9,20 @@ namespace Syringe.Tests.Integration.ClientAndService
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			ServiceConfig.StartSelfHostedOwin();
+			ServiceStarter.StartSelfHostedOwin();
 		}
 
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
-			ServiceConfig.OwinServer.Dispose();
+			ServiceStarter.OwinServer.Dispose();
 		}
 
 		[Test]
 		public void GetConfiguration_should_get_full_config_object()
 		{
 			// given
-			var client = new ConfigurationClient(ServiceConfig.BaseUrl);
+			var client = new ConfigurationClient(ServiceStarter.BaseUrl);
 
 			// when
 			var config = client.GetConfiguration();

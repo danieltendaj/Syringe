@@ -19,23 +19,23 @@ namespace Syringe.Tests.Integration.ClientAndService
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			ServiceConfig.StartSelfHostedOwin();
+			ServiceStarter.StartSelfHostedOwin();
 		}
 
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
-			ServiceConfig.OwinServer.Dispose();
+			ServiceStarter.OwinServer.Dispose();
 		}
 
 		[SetUp]
 		public void Setup()
 		{
-			Console.WriteLine("Wiping MongoDB results database {0}", ServiceConfig.MongodbDatabaseName);
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+			Console.WriteLine("Wiping MongoDB results database {0}", ServiceStarter.MongodbDatabaseName);
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 			repository.Wipe();
 
-			ServiceConfig.RecreateXmlDirectory();
+			ServiceStarter.RecreateXmlDirectory();
 		}
 
 		[Test]
@@ -219,7 +219,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
 			var result1 = new TestFileResult()
 			{
@@ -251,7 +251,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
 			var result1 = new TestFileResult()
 			{
@@ -284,7 +284,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			TestsClient client = Helpers.CreateTestsClient();
 			TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceConfig.MongodbDatabaseName });
+			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
 			var result1 = new TestFileResult()
 			{

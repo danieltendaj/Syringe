@@ -8,7 +8,6 @@
 	    TestFileFormat TestFileFormat { get; }
 	    string MongoDbDatabaseName { get; }
 		OAuthConfiguration OAuthConfiguration { get; }
-		GitConfiguration GitConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }
     }
 }

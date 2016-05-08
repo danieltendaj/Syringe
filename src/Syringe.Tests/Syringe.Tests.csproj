@@ -210,7 +210,7 @@
     <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
-    <Compile Include="Integration\ClientAndService\ServiceConfig.cs" />
+    <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
