@@ -121,10 +121,12 @@ namespace Syringe.Web.Controllers
 
 	    [HttpPost]
 		[EditableTestsRequired]
-		public ActionResult Copy(TestViewModel model)
-	    {
-	        return null;
-	    }
+		public ActionResult Copy(int position, string fileName)
+        {
+            _testsClient.CopyTest(position, fileName);
+
+            return RedirectToAction("View", new { filename = fileName });
+        }
 
 		[EditableTestsRequired]
 		public ActionResult AddAssertion()

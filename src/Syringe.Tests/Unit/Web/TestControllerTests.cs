@@ -126,6 +126,25 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void Copy_should_return_correct_redirection_to_view()
+        {
+            // given
+            const int expectedPosition = 422;
+            const string expectedFileName = "doobeedoo.dont.touch.me.there";
+            
+            // when
+            var redirectToRouteResult = _testController.Copy(expectedPosition, expectedFileName) as RedirectToRouteResult;
+
+            // then
+            _testServiceMock.Verify(x => x.CopyTest(expectedPosition, expectedFileName), Times.Once);
+
+            Assert.That(redirectToRouteResult, Is.Not.Null);
+            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("View"));
+            Assert.That(redirectToRouteResult.RouteValues["filename"], Is.EqualTo(expectedFileName));
+
+        }
+
+        [Test]
         public void Delete_should_return_correct_redirection_to_view()
         {
             // given + when
