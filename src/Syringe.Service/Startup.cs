@@ -36,7 +36,18 @@ namespace Syringe.Service
 
 		public void Start()
 		{
-			WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
+			try
+			{
+				WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
+
+			}
+			catch (Exception ex)
+			{
+				if (ex.InnerException != null && ex.InnerException.Message.ToLowerInvariant().Contains("access is denied"))
+					throw new InvalidOperationException("Access denied - if you're running Visual Studio, restart it in adminsitrator mode. Otherwise is the service running as an administrator or privileges to listen on TCP ports?");
+
+				throw;
+			}
 		}
 
 		public void Stop()

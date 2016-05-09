@@ -179,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
+    <Compile Include="Controllers\AuthorizeWhenOAuthAttribute.cs" />
+    <Compile Include="Controllers\EditableTestsRequiredAttribute.cs" />
     <Compile Include="HtmlHelpers\NavLinks.cs" />
     <Compile Include="Models\EnvironmentSelectorViewModel.cs" />
     <Compile Include="MvcConfiguration.cs" />
@@ -403,6 +405,8 @@
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
     <Content Include="Views\Shared\Partials\_ResultsPager.cshtml" />
+    <Content Include="Views\Test\View-ReadonlyMode.cshtml" />
+    <Content Include="Views\Home\Index-ReadonlyMode.cshtml" />
     <None Include="websiteconfig.json" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />

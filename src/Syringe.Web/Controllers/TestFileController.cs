@@ -8,7 +8,7 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[Authorize]
+	[AuthorizeWhenOAuth]
 	public class TestFileController : Controller
     {
         private readonly ITestService _testsClient;
@@ -30,7 +30,8 @@ namespace Syringe.Web.Controllers
 
         [HttpPost]
 		[ValidateInput(false)]
-        public ActionResult Add(TestFileViewModel model)
+		[EditableTestsRequired]
+		public ActionResult Add(TestFileViewModel model)
         {
             SelectListItem[] environments = GetEnvironmentsDropDown();
 
@@ -60,7 +61,8 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-        public ActionResult Update(string fileName)
+		[EditableTestsRequired]
+		public ActionResult Update(string fileName)
         {
             TestFile testFile = _testsClient.GetTestFile(fileName);
             SelectListItem[] environments = GetEnvironmentsDropDown();
@@ -85,7 +87,8 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(string filename)
+		[EditableTestsRequired]
+		public ActionResult Delete(string filename)
         {
             _testsClient.DeleteFile(filename);
 
@@ -94,7 +97,8 @@ namespace Syringe.Web.Controllers
 
         [HttpPost]
 		[ValidateInput(false)]
-        public ActionResult Update(TestFileViewModel model)
+		[EditableTestsRequired]
+		public ActionResult Update(TestFileViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -114,7 +118,8 @@ namespace Syringe.Web.Controllers
             return View("Update", model);
         }
 
-        public ActionResult AddVariableItem()
+		[EditableTestsRequired]
+		public ActionResult AddVariableItem()
         {
             var model = new VariableViewModel
             {

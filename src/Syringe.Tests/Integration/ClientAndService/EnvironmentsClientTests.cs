@@ -12,13 +12,13 @@ namespace Syringe.Tests.Integration.ClientAndService
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			ServiceConfig.StartSelfHostedOwin();
+			ServiceStarter.StartSelfHostedOwin();
 		}
 
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
-			ServiceConfig.OwinServer.Dispose();
+			ServiceStarter.OwinServer.Dispose();
 		}
 
 		[Test]
@@ -27,7 +27,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			// This test relies on the environments.json in the service always having some environments. 
 
 			// given
-			var client = new EnvironmentsClient(ServiceConfig.BaseUrl);
+			var client = new EnvironmentsClient(ServiceStarter.BaseUrl);
 
 			// when
 			IEnumerable<Environment> environments = client.List();

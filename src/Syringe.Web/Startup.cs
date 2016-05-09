@@ -23,7 +23,7 @@ namespace Syringe.Web
 	{
 		public void Configuration(IAppBuilder app)
 		{
-			AreaRegistration.RegisterAllAreas();
+			//AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 
@@ -33,6 +33,11 @@ namespace Syringe.Web
 
 		private void ConfigureOAuth(IAppBuilder app)
 		{
+			// Call the service to get its configuration back
+			MvcConfiguration mvcConfiguration = MvcConfiguration.Load();
+			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
+			IConfiguration config = configClient.GetConfiguration();
+
 			var cookieOptions = new CookieAuthenticationOptions
 			{
 				LoginPath = new PathString("/Authentication/Login"),
@@ -45,41 +50,40 @@ namespace Syringe.Web
 			//
 			// OAuth2 Integrations
 			//
-			var mvcConfiguration = MvcConfiguration.Load();
-			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
-			IConfiguration config = configClient.GetConfiguration();
-
-			if (!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientSecret))
-		    {
-		        // Console: https://console.developers.google.com/home/dashboard
-		        // Found under API and credentials.
-		        app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
-		        {
-		            ClientId = config.OAuthConfiguration.GoogleAuthClientId,
-		            ClientSecret = config.OAuthConfiguration.GoogleAuthClientSecret
-		        });
-		    }
-		    if (!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientSecret))
-		    {
-		        // Console: https://account.live.com/developers/applications/
-		        // Make sure he 'redirecturl' is set to 'http://localhost:1980/Authentication/Noop' (or the domain being used), to match the CallbackPath
-		        app.UseMicrosoftAccountAuthentication(new MicrosoftAccountAuthenticationOptions()
-		        {
-		            ClientId = config.OAuthConfiguration.MicrosoftAuthClientId,
-		            ClientSecret = config.OAuthConfiguration.MicrosoftAuthClientSecret,
-		            CallbackPath = new PathString("/Authentication/Noop")
-		        });
-		    }
-		    if (!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientSecret))
-		    {
-		        // Console:  https://github.com/settings/developers
-		        // Set the callback url in the Github console to the same as the homepage url.
-		        app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
-		        {
-		            ClientId = config.OAuthConfiguration.GithubAuthClientId,
-		            ClientSecret = config.OAuthConfiguration.GithubAuthClientSecret
-		        });
-		    }
+			if (!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientSecret))
+			{
+				// Console: https://console.developers.google.com/home/dashboard
+				// Found under API and credentials.
+				app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+				{
+					ClientId = config.OAuthConfiguration.GoogleAuthClientId,
+					ClientSecret = config.OAuthConfiguration.GoogleAuthClientSecret
+				});
+			}
+			if (!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientSecret))
+			{
+				// Console: https://account.live.com/developers/applications/
+				// Make sure he 'redirecturl' is set to 'http://localhost:1980/Authentication/Noop' (or the domain being used), to match the CallbackPath
+				app.UseMicrosoftAccountAuthentication(new MicrosoftAccountAuthenticationOptions()
+				{
+					ClientId = config.OAuthConfiguration.MicrosoftAuthClientId,
+					ClientSecret = config.OAuthConfiguration.MicrosoftAuthClientSecret,
+					CallbackPath = new PathString("/Authentication/Noop")
+				});
+			}
+			if (!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientSecret))
+			{
+				// Console:  https://github.com/settings/developers
+				// Set the callback url in the Github console to the same as the homepage url.
+				app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
+				{
+					ClientId = config.OAuthConfiguration.GithubAuthClientId,
+					ClientSecret = config.OAuthConfiguration.GithubAuthClientSecret
+				});
+			}
 		}
 	}
 }

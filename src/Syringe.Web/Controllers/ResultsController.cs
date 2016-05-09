@@ -11,8 +11,8 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-    [Authorize]
-    public class ResultsController : Controller
+	[AuthorizeWhenOAuth]
+	public class ResultsController : Controller
     {
         private readonly ITasksService _tasksClient;
         private readonly IUrlHelper _urlHelper;

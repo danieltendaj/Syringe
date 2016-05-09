@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -23,14 +24,16 @@ namespace Syringe.Tests.Unit.Web
         private Mock<IEnvironmentsService> _environmentService;
         private HomeController _homeController;
         private HealthCheckMock _mockHealthCheck;
+	    private JsonConfiguration _configuration;
 
-        [SetUp]
+	    [SetUp]
         public void Setup()
         {
             _mockHealthCheck = new HealthCheckMock();
             _environmentService = new Mock<IEnvironmentsService>();
+			_configuration = new JsonConfiguration();
 
-            var runViewModelMockService = new Mock<IRunViewModel>();
+			var runViewModelMockService = new Mock<IRunViewModel>();
             runViewModelMockService.Setup(x => x.Run(It.IsAny<UserContext>(), It.IsAny<string>(), It.IsAny<string>()));
             _runViewModelFactory = new Mock<Func<IRunViewModel>>();
             _runViewModelFactory.Setup(x => x()).Returns(runViewModelMockService.Object);
@@ -39,7 +42,7 @@ namespace Syringe.Tests.Unit.Web
             _testsClient.Setup(x => x.GetResultById(It.IsAny<Guid>())).Returns(new TestFileResult());
             _testsClient.Setup(x => x.GetSummaries(It.IsAny<DateTime>(),It.IsAny<int>(), It.IsAny<int>())).Returns(Task.FromResult(new TestFileResultSummaryCollection()));
 
-            _homeController = new HomeController(_testsClient.Object, _runViewModelFactory.Object, _mockHealthCheck, _environmentService.Object);
+            _homeController = new HomeController(_testsClient.Object, _runViewModelFactory.Object, _mockHealthCheck, _environmentService.Object, _configuration);
         }
 
         [Test]
@@ -76,7 +79,28 @@ namespace Syringe.Tests.Unit.Web
             Assert.Throws<HealthCheckException>(() => _homeController.Index());
         }
 
-        [Test]
+		[Test]
+		public void Index_should_return_view_name()
+		{
+			// given + when
+			var viewResult = _homeController.Index() as ViewResult;
+
+			// then
+			Assert.AreEqual("Index", viewResult.ViewName);
+		}
+
+		[Test]
+		public void Index_should_return_readonly_view_name_when_configuration_is_readonly()
+		{
+			// given + when
+			_configuration.ReadonlyMode = true;
+			var viewResult = _homeController.Index() as ViewResult;
+
+			// then
+			Assert.AreEqual("Index-ReadonlyMode", viewResult.ViewName);
+		}
+
+		[Test]
         public void Index_should_call_run_method_and_return_correct_model()
         {
             // given

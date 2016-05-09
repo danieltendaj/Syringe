@@ -184,7 +184,6 @@
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IConfigurationStore.cs" />
     <Compile Include="Configuration\JsonConfiguration.cs" />
-    <Compile Include="Configuration\GitConfiguration.cs" />
     <Compile Include="Configuration\HealthCheck.cs" />
     <Compile Include="Configuration\IHealthCheck.cs" />
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
@@ -259,7 +258,7 @@
     <Compile Include="Tests\Repositories\Xml\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
-    <Compile Include="Xml\XmlHelper.cs" />
+    <Compile Include="Tests\Repositories\Xml\XmlHelper.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
   </ItemGroup>
   <ItemGroup>

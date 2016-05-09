@@ -17,12 +17,12 @@ namespace Syringe.Tests.Integration.ClientAndService
 
 		public static string GetFullPath(string filename)
 		{
-			return Path.Combine(ServiceConfig.XmlDirectoryPath, filename);
+			return Path.Combine(ServiceStarter.XmlDirectoryPath, filename);
 		}
 
 		public static TestsClient CreateTestsClient()
 		{
-			var client = new TestsClient(ServiceConfig.BaseUrl, new RestSharpClientFactory());
+			var client = new TestsClient(ServiceStarter.BaseUrl, new RestSharpClientFactory());
 			return client;
 		}
 

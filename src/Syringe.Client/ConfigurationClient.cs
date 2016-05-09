@@ -8,6 +8,7 @@ namespace Syringe.Client
 	{
 		private readonly string _serviceUrl;
 		private readonly RestSharpHelper _restSharpHelper;
+		private static IConfiguration _configuration;
 
 		public ConfigurationClient(string serviceUrl)
 		{
