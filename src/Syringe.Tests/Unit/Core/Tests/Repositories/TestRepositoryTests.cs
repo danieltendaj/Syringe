@@ -103,12 +103,33 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         [Test]
         public void GetTestFile_should_return_testfile()
         {
-            // given + when
-            TestFile testFile = _testRepository.GetTestFile(It.IsAny<string>());
+            // given
+            const string expectedFileName = "this is a filename";
+            var expectedTest = new TestFile
+            {
+                Tests = new[]
+                {
+                    new Test { Position = 0 },
+                    new Test { Position = 0 },
+                    new Test { Position = 0 },
+                }
+            };
+
+            _testFileReader
+                .Setup(x => x.Read(It.IsAny<StringReader>()))
+                .Returns(expectedTest);
+
+            // when
+            TestFile testFile = _testRepository.GetTestFile(expectedFileName);
 
             // then
-            Assert.NotNull(testFile.Tests);
-            Assert.AreEqual(1, testFile.Tests.Count());
+            Assert.That(testFile, Is.EqualTo(expectedTest));
+            Assert.That(testFile.Tests.Count(), Is.EqualTo(3));
+
+            var tests = testFile.Tests.ToArray();
+            Assert.That(tests[0].Position, Is.EqualTo(0));
+            Assert.That(tests[1].Position, Is.EqualTo(1));
+            Assert.That(tests[2].Position, Is.EqualTo(2));
         }
 
         [Test]

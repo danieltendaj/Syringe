@@ -22,9 +22,9 @@ namespace Syringe.Core.Tests.Repositories
 		public Test GetTest(string filename, int position)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(filename);
-			string xml = _fileHandler.ReadAllText(fullPath);
+			string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				TestFile testFile = _testFileReader.Read(stringReader);
 				Test test = testFile.Tests.ElementAtOrDefault(position);
@@ -48,11 +48,11 @@ namespace Syringe.Core.Tests.Repositories
 			}
 
 			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
-			string xml = _fileHandler.ReadAllText(fullPath);
+			string fileContents = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				collection = _testFileReader.Read(stringReader);
 
@@ -72,11 +72,11 @@ namespace Syringe.Core.Tests.Repositories
 			}
 
 			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
-			string xml = _fileHandler.ReadAllText(fullPath);
+			string fileContents = _fileHandler.ReadAllText(fullPath);
 
 			TestFile collection;
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				collection = _testFileReader.Read(stringReader);
 
@@ -103,11 +103,11 @@ namespace Syringe.Core.Tests.Repositories
 		public bool DeleteTest(int position, string fileName)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(fileName);
-			string xml = _fileHandler.ReadAllText(fullPath);
+			string fileContents = _fileHandler.ReadAllText(fullPath);
 
 			TestFile testFile;
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				testFile = _testFileReader.Read(stringReader);
 
@@ -146,9 +146,9 @@ namespace Syringe.Core.Tests.Repositories
 		public bool UpdateTestVariables(TestFile testFile)
 		{
 			string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
-			string xml = _fileHandler.ReadAllText(fileFullPath);
+			string fileContents = _fileHandler.ReadAllText(fileFullPath);
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				TestFile updatedTestFile = _testFileReader.Read(stringReader);
 
@@ -162,18 +162,29 @@ namespace Syringe.Core.Tests.Repositories
 		public TestFile GetTestFile(string filename)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(filename);
-			string xml = _fileHandler.ReadAllText(fullPath);
+			string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			using (var stringReader = new StringReader(xml))
+			using (var stringReader = new StringReader(fileContents))
 			{
 				TestFile testFile = _testFileReader.Read(stringReader);
 				testFile.Filename = filename;
 
-				return testFile;
+			    SetTestsPositionValue(testFile.Tests);
+
+			    return testFile;
 			}
 		}
 
-		public string GetRawFile(string filename)
+	    private static void SetTestsPositionValue(IEnumerable<Test> givenTests)
+	    {
+	        Test[] tests = givenTests.ToArray();
+	        for (int i = 0; i < tests.Length; i++)
+	        {
+	            tests[i].Position = i;
+	        }
+	    }
+
+	    public string GetRawFile(string filename)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.ReadAllText(fullPath);

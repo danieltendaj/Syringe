@@ -6,7 +6,7 @@ namespace Syringe.Client.RestSharpHelpers
     {
         public IRestClient Create(string serviceUrl)
         {
-            throw new System.NotImplementedException();
+            return new RestClient(serviceUrl);
         }
     }
 }

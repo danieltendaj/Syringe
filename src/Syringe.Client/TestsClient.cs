@@ -108,7 +108,7 @@ namespace Syringe.Client
             request.AddQueryParameter("position", Convert.ToString(position));
             request.AddQueryParameter("fileName", fileName);
 
-            var response = client.Execute(request);
+            IRestResponse response = client.Execute(request);
 
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
