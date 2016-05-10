@@ -13,7 +13,7 @@
 
        
         @Html.Partial("Partials/_Variables", Model.AvailableVariables)
-	    <form action="@(Request.Path)" method="post" class="form-horizontal">
+	    <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 
 			@Html.ValidationSummary(false, "", new {@class = "alert alert-danger"})
 			<div class="panel panel-default">
