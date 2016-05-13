@@ -186,5 +186,23 @@ namespace Syringe.Tests.Unit.Web
             Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
             Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
         }
+        
+        [Test]
+        public void Copy_should_return_correct_redirection_to_view()
+        {
+            // given
+            const string sourceFileName = "doobeedoo.dont.touch.me.there";
+            const string targetFileName = "yum yum in my tum";
+
+            // when
+            var redirectToRouteResult = _testFileController.Copy(sourceFileName, targetFileName) as RedirectToRouteResult;
+
+            // then
+            _testServiceMock.Verify(x => x.CopyTestFile(sourceFileName, targetFileName), Times.Once);
+
+            Assert.That(redirectToRouteResult, Is.Not.Null);
+            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Index"));
+            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Home"));
+        }
     }
 }
