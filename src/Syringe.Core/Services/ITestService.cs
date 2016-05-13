@@ -18,7 +18,8 @@ namespace Syringe.Core.Services
         bool CopyTest(int position, string fileName);
         bool DeleteFile(string fileName);
 	    bool CreateTestFile(TestFile testFile);
-	    bool UpdateTestVariables(TestFile testFile);
+	    bool CopyTestFile(string sourceFileName, string targetFileName);
+        bool UpdateTestVariables(TestFile testFile);
         Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20);
         TestFileResult GetResultById(Guid id);
         Task DeleteResultAsync(Guid id);

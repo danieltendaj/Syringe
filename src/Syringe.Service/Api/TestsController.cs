@@ -86,6 +86,17 @@ namespace Syringe.Service.Api
             return _testRepository.CreateTestFile(testFile);
         }
 
+        [Route("api/tests/CopyTestFile")]
+        [HttpPost]
+        public bool CopyTestFile(string sourceFileName, string targetFileName)
+        {
+            TestFile testFile = _testRepository.GetTestFile(sourceFileName);
+            testFile.Filename = targetFileName;
+
+            bool result = _testRepository.CreateTestFile(testFile);
+            return result;
+        }
+
         [Route("api/tests/UpdateTestVariables")]
         [HttpPost]
         public bool UpdateTestVariables([FromBody]TestFile testFile)

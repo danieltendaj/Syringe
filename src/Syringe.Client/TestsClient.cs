@@ -125,6 +125,19 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
+        public bool CopyTestFile(string sourceFileName, string targetFileName)
+        {
+            var client = _clientFactory.Create(_serviceUrl);
+            IRestRequest request = _restSharpHelper.CreateRequest("CopyTestFile");
+            request.Method = Method.POST;
+            request.AddQueryParameter("sourceFileName", sourceFileName);
+            request.AddQueryParameter("targetFileName", targetFileName);
+
+            IRestResponse response = client.Execute(request);
+
+            return _restSharpHelper.DeserializeOrThrow<bool>(response);
+        }
+
         public bool UpdateTestVariables(TestFile testFile)
         {
             var client = new RestClient(_serviceUrl);

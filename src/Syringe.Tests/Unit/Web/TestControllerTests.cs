@@ -20,7 +20,7 @@ namespace Syringe.Tests.Unit.Web
         private Mock<ITestService> _testServiceMock;
         private Mock<ITestFileMapper> _testFileMapperMock;
         private Mock<IEnvironmentsService> _environmentService;
-	    private JsonConfiguration _configuration;
+        private JsonConfiguration _configuration;
 
         [SetUp]
         public void Setup()
@@ -28,9 +28,9 @@ namespace Syringe.Tests.Unit.Web
             _testServiceMock = new Mock<ITestService>();
             _testFileMapperMock = new Mock<ITestFileMapper>();
             _environmentService = new Mock<IEnvironmentsService>();
-			_configuration = new JsonConfiguration();
+            _configuration = new JsonConfiguration();
 
-			_testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()));
+            _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()));
             _testFileMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
             _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
@@ -55,21 +55,21 @@ namespace Syringe.Tests.Unit.Web
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
 
-		[Test]
-		public void View_should_return_readonly_view_when_configuration_is_readonly()
-		{
-			// given + when
-			_configuration.ReadonlyMode = true;
-			var viewResult = _testController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+        [Test]
+        public void View_should_return_readonly_view_when_configuration_is_readonly()
+        {
+            // given + when
+            _configuration.ReadonlyMode = true;
+            var viewResult = _testController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
 
-			// then
-			_testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-			_testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()), Times.Once);
-			Assert.AreEqual("View-ReadonlyMode", viewResult.ViewName);
-			Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
-		}
+            // then
+            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()), Times.Once);
+            Assert.AreEqual("View-ReadonlyMode", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
+        }
 
-		[Test]
+        [Test]
         public void Edit_should_return_correct_view_and_model()
         {
             // given + when
@@ -87,7 +87,7 @@ namespace Syringe.Tests.Unit.Web
         {
             // given
             _testController.ModelState.Clear();
-            
+
             // when
             var redirectToRouteResult = _testController.Edit(new TestViewModel()) as RedirectToRouteResult;
 
@@ -131,7 +131,7 @@ namespace Syringe.Tests.Unit.Web
             // given
             const int expectedPosition = 422;
             const string expectedFileName = "doobeedoo.dont.touch.me.there";
-            
+
             // when
             var redirectToRouteResult = _testController.Copy(expectedPosition, expectedFileName) as RedirectToRouteResult;
 
@@ -141,7 +141,6 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(redirectToRouteResult, Is.Not.Null);
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("View"));
             Assert.That(redirectToRouteResult.RouteValues["filename"], Is.EqualTo(expectedFileName));
-
         }
 
         [Test]
