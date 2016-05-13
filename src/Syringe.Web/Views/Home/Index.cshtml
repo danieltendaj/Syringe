@@ -38,11 +38,22 @@
                         <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "Test", new {filename = filename})">
                             <i class="material-icons">description</i>
                         </a>
+
                         @using (Html.BeginForm("Run", "Home"))
                         {
                             @Html.Hidden("filename", filename)
                             @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
                         }
+                        
+                        @using (Html.BeginForm("Copy", "TestFile"))
+                        {
+                            <input type="hidden" name="sourceTestFile" value="@filename" />
+                            <input type="hidden" name="targetTestFile" value="" />
+                            <button class="btn btn-sm btn-material-pink copy-file-button" type="submit">
+                                <i class="material-icons">content_copy</i>
+                            </button>
+                        }
+
                         @using (Html.BeginForm("Delete", "TestFile"))
                         {
                             @Html.Hidden("filename", filename)

@@ -9,6 +9,10 @@ $(document).ready(function () {
     let rowHandler = new RowHandler(rowsToAdd);
     rowHandler.setupButtons();
 
+    function getFileExtension(fileName: string) {
+        return fileName.split(".").pop().toLowerCase();
+    }
+
     $("body").on("click", "#removeRow", function (e) {
         e.preventDefault();
         var formGroup = $(this).closest(".form-group");
@@ -41,6 +45,39 @@ $(document).ready(function () {
             if (result) {
                 form.submit();
                 return true;
+            }
+        });
+
+        return false;
+    });
+
+    $(".copy-file-button").on("click", function (e) {
+        e.preventDefault();
+
+        var that = $(this);
+        var form = that.closest("form");
+        var sourceFileName = form.find("[name='sourceTestFile']").val();
+        bootbox.prompt({
+            title: "What would you like to call the new file?",
+            value: sourceFileName,
+            callback: function (result) {
+                var canConvert: boolean = false;
+                if (result) {
+                    if (result.toLowerCase() != sourceFileName.toLowerCase()) {
+                        if (getFileExtension(result) == getFileExtension(sourceFileName)) {
+                            canConvert = true;
+                        }
+                    }
+                }
+
+                if (!canConvert) {
+                    bootbox.alert("Invalid copy name, please try again.");
+                }
+                else {
+                    form.find("[name='targetTestFile']").val(result);
+                    form.submit();
+                    return true;
+                }
             }
         });
 
