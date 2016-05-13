@@ -52,7 +52,7 @@ namespace Syringe.Core.IO
             }
             catch (Exception exception)
             {
-                Log.Error(exception, exception.Message);
+                Log.Error(exception, $"path={path}\ncontents={contents}\n\n{exception.Message}");
             }
 
             return false;
