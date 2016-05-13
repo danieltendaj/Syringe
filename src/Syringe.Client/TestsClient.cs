@@ -127,7 +127,15 @@ namespace Syringe.Client
 
         public bool CopyTestFile(string sourceFileName, string targetFileName)
         {
-            throw new NotImplementedException();
+            var client = _clientFactory.Create(_serviceUrl);
+            IRestRequest request = _restSharpHelper.CreateRequest("CopyTestFile");
+            request.Method = Method.POST;
+            request.AddQueryParameter("sourceFileName", sourceFileName);
+            request.AddQueryParameter("targetFileName", targetFileName);
+
+            IRestResponse response = client.Execute(request);
+
+            return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
         public bool UpdateTestVariables(TestFile testFile)
