@@ -73,13 +73,17 @@ namespace Syringe.Web.Controllers
 
         public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20)
         {
-            var result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
+	        ViewBag.Title = "All results";
+
+            TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
             return View("Index", result);
         }
 
         public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20)
         {
-            var result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
+			ViewBag.Title = "Today's results";
+
+			TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
             return View("Index", result);
         }
 
