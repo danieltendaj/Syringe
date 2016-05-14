@@ -49,7 +49,7 @@ namespace Syringe.Core.Tests.Results.Repositories
 
             Task<List<TestFileResult>> testFileCollection = _collection
                 .Find(x => x.StartTime >= fromDate)
-                .Sort(Builders<TestFileResult>.Sort.Descending("StartTime"))
+                .Sort(Builders<TestFileResult>.Sort.Descending(x => x.StartTime))
                 .Skip((pageNumber - 1) * noOfResults)
                 .Limit(noOfResults)
                 .ToListAsync();
