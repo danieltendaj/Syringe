@@ -39,7 +39,6 @@ namespace Syringe.Service
 			try
 			{
 				WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
-
 			}
 			catch (Exception ex)
 			{
