@@ -83,6 +83,17 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void Edit_should_be_decorated_with_httpGet_and_EditableTestsRequired()
+        {
+            // given + when
+            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(string), typeof(int) });
+
+            // then
+            Assert.IsTrue(editMethod.IsDefined(typeof(HttpGetAttribute), false));
+            Assert.IsTrue(editMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+        }
+
+        [Test]
         public void Edit_should_redirect_to_view_when_validation_succeeded()
         {
             // given
@@ -95,6 +106,18 @@ namespace Syringe.Tests.Unit.Web
             _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
             _testServiceMock.Verify(x => x.EditTest(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void Edit_should_be_decorated_with_httpPost_and_ValidateInput_and_EditableTestsRequired()
+        {
+            // given + when
+            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(TestViewModel)});
+
+            // then
+            Assert.IsTrue(editMethod.IsDefined(typeof(HttpPostAttribute), false));
+            Assert.IsTrue(editMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+            Assert.IsTrue(editMethod.IsDefined(typeof(ValidateInputAttribute), false));
         }
 
         [Test]
@@ -144,6 +167,17 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void Copy_should_be_decorated_with_httpPost_and_EditableTestsRequired()
+        {
+            // given + when
+            var copyMethod = typeof(TestController).GetMethod("Copy", new[] { typeof(int), typeof(string) });
+
+            // then
+            Assert.IsTrue(copyMethod.IsDefined(typeof(HttpPostAttribute), false));
+            Assert.IsTrue(copyMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+        }
+
+        [Test]
         public void Delete_should_return_correct_redirection_to_view()
         {
             // given + when
@@ -152,6 +186,17 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testServiceMock.Verify(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void Delete_should_be_decorated_with_httpPost_and_EditableTestsRequired()
+        {
+            // given + when
+            var deleteMethod = typeof(TestController).GetMethod("Delete", new[] { typeof(int), typeof(string) });
+
+            // then
+            Assert.IsTrue(deleteMethod.IsDefined(typeof(HttpPostAttribute), false));
+            Assert.IsTrue(deleteMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
         }
 
         [Test]
@@ -180,6 +225,17 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void Add_should_be_decorated_with_httpGet_and_EditableTestsRequired()
+        {
+            // given + when
+            var addMethod = typeof(TestController).GetMethod("Add", new[] { typeof(string) });
+
+            // then
+            Assert.IsTrue(addMethod.IsDefined(typeof(HttpGetAttribute), false));
+            Assert.IsTrue(addMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+        }
+
+        [Test]
         public void Add_should_redirect_to_view_when_validation_succeeded()
         {
             // given
@@ -192,6 +248,18 @@ namespace Syringe.Tests.Unit.Web
             _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
             _testServiceMock.Verify(x => x.CreateTest(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+        }
+
+        [Test]
+        public void Add_should_be_decorated_with_httpPost_and_ValidateInput_and_EditableTestsRequired()
+        {
+            // given + when
+            var editMethod = typeof(TestController).GetMethod("Add", new[] { typeof(TestViewModel) });
+
+            // then
+            Assert.IsTrue(editMethod.IsDefined(typeof(HttpPostAttribute), false));
+            Assert.IsTrue(editMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+            Assert.IsTrue(editMethod.IsDefined(typeof(ValidateInputAttribute), false));
         }
 
         [Test]
@@ -222,7 +290,17 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void AddParseResponseItem_should_return_correct_view()
+        public void AddAssertion_should_be_decorated_with_EditableTestsRequired()
+        {
+            // given + when
+            var addAssertionMethod = typeof(TestController).GetMethod("AddAssertion");
+
+            // then
+            Assert.IsTrue(addAssertionMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+        }
+
+        [Test]
+        public void CapturedVariableItem_should_return_correct_view()
         {
             // given + when
             var viewResult = _testController.AddCapturedVariableItem() as PartialViewResult;
@@ -230,6 +308,16 @@ namespace Syringe.Tests.Unit.Web
             // then
             Assert.AreEqual("EditorTemplates/CapturedVariableItem", viewResult.ViewName);
             Assert.IsInstanceOf<Syringe.Web.Models.CapturedVariableItem>(viewResult.Model);
+        }
+
+        [Test]
+        public void AddCapturedVariableItem_should_be_decorated_with_EditableTestsRequired()
+        {
+            // given + when
+            var capturedVariableItemMethod = typeof(TestController).GetMethod("AddCapturedVariableItem");
+
+            // then
+            Assert.IsTrue(capturedVariableItemMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
         }
 
         [Test]
@@ -241,6 +329,23 @@ namespace Syringe.Tests.Unit.Web
             // then
             Assert.AreEqual("EditorTemplates/HeaderItem", viewResult.ViewName);
             Assert.IsInstanceOf<Syringe.Web.Models.HeaderItem>(viewResult.Model);
+        }
+
+        [Test]
+        public void AddHeaderItem_should_be_decorated_with_EditableTestsRequired()
+        {
+            // given + when
+            var addHeaderMethod = typeof(TestController).GetMethod("AddHeaderItem");
+
+            // then
+            Assert.IsTrue(addHeaderMethod.IsDefined(typeof(EditableTestsRequiredAttribute), false));
+        }
+
+        [Test]
+        public void TestController_should_be_decorated_with_AuthorizeWhenOAuth()
+        {
+            // given + when + then
+            Assert.IsTrue(typeof(TestController).IsDefined(typeof(AuthorizeWhenOAuthAttribute), false));
         }
     }
 }

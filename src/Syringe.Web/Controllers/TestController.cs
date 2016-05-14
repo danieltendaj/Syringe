@@ -87,6 +87,7 @@ namespace Syringe.Web.Controllers
 			return View("Edit", model);
 		}
 
+        [HttpGet]
 		[EditableTestsRequired]
 		public ActionResult Add(string filename)
 		{
