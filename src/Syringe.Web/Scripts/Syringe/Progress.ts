@@ -46,7 +46,7 @@ module Syringe.Web {
                 // Exceptions
                 if (taskInfo.ExceptionMessage !== null) {
                     $(".test-result-exception", $selector).removeClass("hidden");
-                    $(".test-result-exception textarea", $selector).text(taskInfo.ExceptionMessage);
+                    $(".test-result-exception pre", $selector).text(taskInfo.ExceptionMessage);
                     $("table tr.result-row", $selector).addClass("warning");
                 }
                 else {
