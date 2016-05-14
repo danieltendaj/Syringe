@@ -51,8 +51,7 @@ cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force 
 if (test-path $serviceExe)
 {
   Write-Host "Service found - stopping and uninstalling the service."
-  & sc.exe stop syringe 2>&1
-  Sleep 5
+  & $serviceExe stop 2>&1
   & $serviceExe uninstall
 }
 
@@ -69,11 +68,15 @@ if ($arguments["restoreConfigs"] -eq "true")
     cp "$websiteDir\configuration.bak.json" "$websiteDir\configuration.json" -Force -ErrorAction Ignore
 }
 
+# Add the user "SyringeUser" for the service
+.\add-syringeuser.ps1
+
 # Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
-& $serviceExe install --autostart --localsystem
-Sleep 5
-& sc.exe start syringe
+& $serviceExe install --autostart -username=".\SyringeUser" -password="Password"
+
+Write-Host "Starting the Syringe service." -ForegroundColor Green
+& $serviceExe start
 
 # Run the website installer
 Write-Host "Setting up IIS site." -ForegroundColor Green

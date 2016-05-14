@@ -32,7 +32,6 @@ namespace Syringe.Service
 				host.SetServiceName("Syringe");
 				host.SetDisplayName("Syringe");
 				host.SetDescription("Syringe RESTful API service");
-				host.RunAsNetworkService();
 			});
 			return (int) exitCode;
 		}
