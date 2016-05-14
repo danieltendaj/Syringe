@@ -39,21 +39,37 @@ namespace Syringe.Core.Runner.Assertions
 					CQ cq = CQ.Create(html);
 					CQ result = cq.Find(selector);
 					bool isMatch = (result != null && result.Length > 0);
-					assertion.Success = isMatch;
 
-					if (assertion.AssertionType == AssertionType.Positive && isMatch == false)
+					switch (assertion.AssertionType)
 					{
-						assertion.Success = false;
-						_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
-					}
-					else if (assertion.AssertionType == AssertionType.Negative && isMatch == true)
-					{
-						assertion.Success = false;
-						_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
-					}
-					else
-					{
-						_assertionLogger.LogSuccess(assertion.AssertionType, selector, AssertionMethod.CSQuery);
+						case AssertionType.Positive:
+							if (isMatch == false)
+							{
+								assertion.Success = false;
+								_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
+							}
+							else
+							{
+								_assertionLogger.LogSuccess(assertion.AssertionType, selector, AssertionMethod.CSQuery);
+								assertion.Success = true;
+							}
+							break;
+
+						case AssertionType.Negative:
+							if (isMatch == true)
+							{
+								assertion.Success = false;
+								_assertionLogger.LogFail(assertion.AssertionType, selector, AssertionMethod.CSQuery);
+							}
+							else
+							{
+								_assertionLogger.LogSuccess(assertion.AssertionType, selector, AssertionMethod.CSQuery);
+								assertion.Success = true;
+							}
+							break;
+
+						default:
+							throw new ArgumentOutOfRangeException();
 					}
 				}
 				catch (Exception e)

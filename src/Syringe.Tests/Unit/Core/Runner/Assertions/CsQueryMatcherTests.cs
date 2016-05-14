@@ -60,87 +60,133 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		}
 
 		[Test]
-		public void should_log_value_and_selector()
-		{
-			// given
-			CsQueryMatcher matcher = CreateCsQueryMatcher();
-
-			// when
-
-			// then
-			Assert.That(matcher, Is.Not.Null);
-		}
-
-		[Test]
 		public void should_ignore_http_headers_and_use_first_html_tag()
 		{
-			// given
+			string httpContent = @"HTTP/1.1 200 OK                                                                                                                                      
+MyHeader: <body class='foo'></body>
+Cache - Control: private, max-age=0                                                                                                                    
+Server: gws
+
+<html>
+<body class='foo'>some text here</body>
+</html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.AssertionType = AssertionType.Positive;
+			assertion.Value = "body.foo:contains('some text here')";
 
 			// when
+			matcher.Match(assertion, httpContent);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			Assert.That(assertion.Success, Is.True);
 		}
 
 		[Test]
 		public void should_set_success_to_false_when_no_match_found_with_positive_assertiontype()
 		{
-			// given
+			string httpContent = @"<html><body class='foo'>some text here</body></html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.AssertionType = AssertionType.Positive;
+			assertion.Value = "body.someclass";
 
 			// when
+			matcher.Match(assertion, httpContent);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			Assert.That(assertion.Success, Is.False);
 		}
 
 		[Test]
-		public void should_set_success_to_false_when_match_found_with_negative_assertiontype()
+		public void should_set_success_to_true_when_match_found_with_negative_assertiontype()
 		{
-			// given
+			string httpContent = @"<html><body class='foo'>some text here</body></html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.AssertionType = AssertionType.Negative;
+			assertion.Value = "div#blahblah";
 
 			// when
+			matcher.Match(assertion, httpContent);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			Assert.That(assertion.Success, Is.True);
+		}
+
+		[Test]
+		public void should_log_value_and_selector()
+		{
+			// given
+			string html = "<html></html>";
+
+			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.Value = "#id .class body";
+
+			// when
+			matcher.Match(assertion, html);
+
+			// then
+			string log = _assertionLogger.GetLog();
+			Assert.That(log, Is.StringContaining("Original assertion value: #id .class body"));
+			Assert.That(log, Is.StringContaining("Assertion value with variables transformed: #id .class body"));
 		}
 
 		[Test]
 		public void should_log_succesful_assertions()
 		{
 			// given
+			string html = "<html><body id=mybody></body></html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.Value = "body#mybody";
 
 			// when
+			matcher.Match(assertion, html);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			string log = _assertionLogger.GetLog();
+			Assert.That(log, Is.StringContaining("Positive verification successful: the CSQuery \"body#mybody\" matched."));
 		}
 
 		[Test]
 		public void should_log_failed_assertions()
 		{
 			// given
+			string html = "<html><body></body></html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.Value = "pre";
 
 			// when
+			matcher.Match(assertion, html);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			string log = _assertionLogger.GetLog();
+			Assert.That(log, Is.StringContaining("Positive verification failed: the CSQuery \"pre\" did not match."));
 		}
 
 		[Test]
 		public void should_catch_CQ_exceptions()
 		{
 			// given
+			string html = "<html><body></body></html>";
+
 			CsQueryMatcher matcher = CreateCsQueryMatcher();
+			var assertion = new Assertion();
+			assertion.Value = "### ...";
 
 			// when
+			matcher.Match(assertion, html);
 
 			// then
-			Assert.That(matcher, Is.Not.Null);
+			Assert.That(assertion.Success, Is.False);
 		}
 	}
 }
