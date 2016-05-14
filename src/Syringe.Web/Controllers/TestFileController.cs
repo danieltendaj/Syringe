@@ -23,7 +23,9 @@ namespace Syringe.Web.Controllers
             _environmentsService = environmentsService;
         }
 
-        public ActionResult Add()
+		[HttpGet]
+		[EditableTestsRequired]
+		public ActionResult Add()
         {
             var model = new TestFileViewModel();
             return View("Add", model);
@@ -62,7 +64,8 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-        [EditableTestsRequired]
+		[HttpGet]
+		[EditableTestsRequired]
         public ActionResult Update(string fileName)
         {
             TestFile testFile = _testsClient.GetTestFile(fileName);
@@ -119,6 +122,7 @@ namespace Syringe.Web.Controllers
             return View("Update", model);
         }
 
+		[HttpGet]
         [EditableTestsRequired]
         public ActionResult AddVariableItem()
         {
