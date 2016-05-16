@@ -112,11 +112,11 @@ namespace Syringe.Tests.Unit.Core.Runner
 					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
-						new CapturedVariable("1", "some content")
+						new CapturedVariable("var1", "some content")
 					},
                     Assertions = new List<Assertion>()
 					{
-						new Assertion("positive-1", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
+						new Assertion("positive-1", "{var1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
@@ -160,7 +160,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
-						new CapturedVariable("1", @"(SECRET_KEY)")
+						new CapturedVariable("var1", @"(SECRET_KEY)")
 					},
 				},
 				new Test()
@@ -169,12 +169,12 @@ namespace Syringe.Tests.Unit.Core.Runner
 					ExpectedHttpStatusCode = HttpStatusCode.OK,
 					CapturedVariables = new List<CapturedVariable>()
 					{
-						new CapturedVariable("2", @"(SECRET_KEY)")
+						new CapturedVariable("var2", @"(SECRET_KEY)")
 					},
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-2", "{capturedvariable1}", AssertionType.Positive, AssertionMethod.Regex)
+						new Assertion("positive-for-test-2", "{var1}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				},
 				new Test()
@@ -184,7 +184,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                     Assertions = new List<Assertion>()
 					{
 						// Test the capturedvariable variable from the 1st test
-						new Assertion("positive-for-test-3", "{capturedvariable2}", AssertionType.Positive, AssertionMethod.Regex)
+						new Assertion("positive-for-test-3", "{var2}", AssertionType.Positive, AssertionMethod.Regex)
 					},
 				}
 			});
