@@ -61,16 +61,18 @@
 					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addHeaderItem"></button>
 				</div>
 				<div class="panel-body">
+					<p>Enter HTTP headers that are sent to the server, for example <code>cookies</code> or <code>content-type</code>.</p>
 					@Html.EditorFor(x => x.Headers)
 				</div>
 			</div>
 
 			<div class="panel panel-default">
 				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Captured Variables</h3>
+					<h3 class="panel-title pull-left">Test file variables</h3>
 					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addParsedItem"></button>
 				</div>
 				<div class="panel-body">
+					<p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
 					@Html.EditorFor(x => x.CapturedVariables)
 				</div>
 			</div>
@@ -81,6 +83,7 @@
 				    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVerification"></button>
 			    </div>
 			    <div class="panel-body">
+				    <p>These are items you want to check exist on the HTML page or resource.</p>
 				    @Html.EditorFor(x => x.Assertions)
 			    </div>
 		    </div>
@@ -90,7 +93,13 @@
 					<h3 class="panel-title pull-left">Script (before)</h3>
 				</div>
 			    <div class="panel-body">
-				    @Html.TextAreaFor(x => x.BeforeExecuteScript, new {@class = "form-control", placeholder = "C# that will be run before the test executes. Two variables are available: Test (Syringe.Core.Tests.Test) and Request (Restsharp.IRestRequest)"})
+				    <p>You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:</p>
+
+				    <ul>
+					    <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+						<li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+				    </ul>
+				    @Html.TextAreaFor(x => x.BeforeExecuteScript, new {@class = "form-control", placeholder = "Enter C#"})
 			    </div>
 		    </div>
 
