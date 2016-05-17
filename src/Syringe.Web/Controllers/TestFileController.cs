@@ -115,7 +115,7 @@ namespace Syringe.Web.Controllers
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
                 if (updateTestFile)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("View", "Test", new { filename = model.Filename });
                 }
             }
 

@@ -9,11 +9,10 @@ namespace Syringe.Core.Tests.Repositories
         Test GetTest(string filename, int position);
         bool SaveTest(Test test);
         bool CreateTest(Test test);
-        bool DeleteTest(int position, string fileName);
+        bool DeleteTest(int position, string filename);
         bool CreateTestFile(TestFile testFile);
         bool UpdateTestVariables(TestFile testFile);
         string GetRawFile(string filename);
-        bool DeleteFile(string fileName);
-        bool CopyTest(int position, string fileName);
+        bool DeleteFile(string filename);
     }
 }

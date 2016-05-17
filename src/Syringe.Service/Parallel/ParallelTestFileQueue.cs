@@ -18,232 +18,226 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Parallel
 {
-	/// <summary>
-	/// A TPL based queue for running test files using the default <see cref="TestFileRunner"/>
-	/// </summary>
-	internal class ParallelTestFileQueue : ITestFileQueue, ITaskObserver
-	{
-		private int _lastTaskId;
-		private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
-		private readonly IConfiguration _configuration;
-	    private readonly ITestFileReader _testFileReader;
-	    private readonly ITestFileResultRepository _repository;
-	    private readonly ITaskPublisher _taskPublisher;
+    /// <summary>
+    /// A TPL based queue for running test files using the default <see cref="TestFileRunner"/>
+    /// </summary>
+    internal class ParallelTestFileQueue : ITestFileQueue, ITaskObserver
+    {
+        private int _lastTaskId;
+        private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
+        private readonly IConfiguration _configuration;
+        private readonly ITestRepository _testRepository;
+        private readonly ITestFileResultRepository _repository;
+        private readonly ITaskPublisher _taskPublisher;
 
-	    public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestFileReader testFileReader)
-		{
-			_currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
-			_configuration = configuration;
-	        _testFileReader = testFileReader;
+        public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestRepository testRepository)
+        {
+            _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
+            _configuration = configuration;
+            _testRepository = testRepository;
 
-	        _repository = repository;
-	        _taskPublisher = taskPublisher;
-		}
+            _repository = repository;
+            _taskPublisher = taskPublisher;
+        }
 
-		/// <summary>
-		/// Adds a request to run a test file to the queue of tasks to run.
-		/// </summary>
-		public int Add(TaskRequest item)
-		{
-			int taskId = Interlocked.Increment(ref _lastTaskId);
+        /// <summary>
+        /// Adds a request to run a test file to the queue of tasks to run.
+        /// </summary>
+        public int Add(TaskRequest item)
+        {
+            int taskId = Interlocked.Increment(ref _lastTaskId);
 
-			var cancelTokenSource = new CancellationTokenSource();
+            var cancelTokenSource = new CancellationTokenSource();
 
-			var taskInfo = new TestFileRunnerTaskInfo(taskId);
-			taskInfo.Request = item;
-			taskInfo.StartTime = DateTime.UtcNow;
-			taskInfo.Username = item.Username;
-			taskInfo.Position = item.Position;
+            var taskInfo = new TestFileRunnerTaskInfo(taskId);
+            taskInfo.Request = item;
+            taskInfo.StartTime = DateTime.UtcNow;
+            taskInfo.Username = item.Username;
+            taskInfo.Position = item.Position;
 
-		    Task childTask = StartSessionAsync(taskInfo);
+            Task childTask = StartSessionAsync(taskInfo);
 
-			taskInfo.CancelTokenSource = cancelTokenSource;
-			taskInfo.CurrentTask = childTask;
+            taskInfo.CancelTokenSource = cancelTokenSource;
+            taskInfo.CurrentTask = childTask;
 
-			_currentTasks.TryAdd(taskId, taskInfo);
-			return taskId;
-		}
+            _currentTasks.TryAdd(taskId, taskInfo);
+            return taskId;
+        }
 
-		/// <summary>
-		/// Hacky, will be fixed later.
-		/// </summary>
-		internal string RunTestFile(string filename, string environment)
-		{
-			try
-			{
-				string xmlFilename = filename;
-				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, xmlFilename);
-				string xml = File.ReadAllText(fullPath);
+        /// <summary>
+        /// Hacky, will be fixed later.
+        /// </summary>
+        internal string RunTestFile(string filename, string environment)
+        {
+            try
+            {
+                string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, filename);
+                string testFileContents = File.ReadAllText(fullPath);
 
-				using (var stringReader = new StringReader(xml))
-				{
-					var testCaseReader = new TestFileReader();
-					TestFile testFile = testCaseReader.Read(stringReader);
-					testFile.Filename = xmlFilename;
-					testFile.Environment = environment;
+                using (var stringReader = new StringReader(testFileContents))
+                {
+                    var testCaseReader = new TestFileReader();
+                    TestFile testFile = testCaseReader.Read(stringReader);
+                    testFile.Filename = filename;
+                    testFile.Environment = environment;
 
-					var httpClient = new HttpClient(new RestClient());
+                    var httpClient = new HttpClient(new RestClient());
 
-					var runner = new TestFileRunner(httpClient, _repository, _configuration);
-					Task<TestFileResult> task = runner.RunAsync(testFile);
-					bool success = task.Wait(TimeSpan.FromMinutes(3));
+                    var runner = new TestFileRunner(httpClient, _repository, _configuration);
+                    Task<TestFileResult> task = runner.RunAsync(testFile);
+                    bool success = task.Wait(TimeSpan.FromMinutes(3));
 
-					if (success)
-					{
-						int failCount = runner.CurrentResults.Count(x => x.Success);
-						if (failCount == 0)
-						{
-							return "success";
-						}
-						else
-						{
-							IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
-							string names = string.Join(",", failedCases.Select(x => "'" +x.Test.Description+ "'"));
-							return $"fail - tests that failed: {names}";
-						}
-					}
-					else
-					{
-						return "fail - the runner timed out or crashed.";
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				return "fail - " + e.ToString();
-			}
-		}
-
-		/// <summary>
-		/// Starts the test file run.
-		/// </summary>
-		internal async Task StartSessionAsync(TestFileRunnerTaskInfo item)
-		{
-			try
-			{
-				// Read in the XML file from the folder, e.g. "D:\syringe\test1.xml"
-				string xmlFilename = item.Request.Filename;
-				string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, xmlFilename);
-				string xml = File.ReadAllText(fullPath);
-
-				using (var stringReader = new StringReader(xml))
-				{
-					TestFile testFile = _testFileReader.Read(stringReader);
-                    if (item.Position.HasValue)
+                    if (success)
                     {
-                        testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);
+                        int failCount = runner.CurrentResults.Count(x => x.Success);
+                        if (failCount == 0)
+                        {
+                            return "success";
+                        }
+                        else
+                        {
+                            IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
+                            string names = string.Join(",", failedCases.Select(x => "'" + x.Test.Description + "'"));
+                            return $"fail - tests that failed: {names}";
+                        }
                     }
-					testFile.Filename = xmlFilename;
-				    testFile.Environment = item.Request.Environment;
+                    else
+                    {
+                        return "fail - the runner timed out or crashed.";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return "fail - " + e.ToString();
+            }
+        }
 
-					var httpClient = new HttpClient(new RestClient());
+        /// <summary>
+        /// Starts the test file run.
+        /// </summary>
+        internal async Task StartSessionAsync(TestFileRunnerTaskInfo item)
+        {
+            try
+            {
+                string filename = item.Request.Filename;
 
-					var runner = new TestFileRunner(httpClient, _repository, _configuration);
-					item.Runner = runner;
-					await runner.RunAsync(testFile);
-				}
-			}
-			catch (Exception e)
-			{
-				item.Errors = e.ToString();
-			}
-		}
+                TestFile testFile = _testRepository.GetTestFile(filename);
+                testFile.Filename = filename;
+                testFile.Environment = item.Request.Environment;
 
-		/// <summary>
-		/// Shows minimal information about all test XML file requests in the queue, and their status,
-		/// and who started the run.
-		/// </summary>
-		public IEnumerable<TaskDetails> GetRunningTasks()
-		{
-			return _currentTasks.Values.Select(task =>
-			{
-				TestFileRunner runner = task.Runner;
+                if (item.Position.HasValue)
+                {
+                    testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);
+                }
 
-				return new TaskDetails()
-				{
-					TaskId = task.Id,
-					Username = task.Username,
-					Status = task.CurrentTask.Status.ToString(),
-					IsComplete = task.CurrentTask.IsCompleted,
-					CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
-					TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
-				};
-			});
-		}
+                var httpClient = new HttpClient(new RestClient());
 
-		/// <summary>
-		/// Shows the full information about a *single* test run - it doesn't have to be running, it could be complete.
-		/// This includes the results of every test in the test file.
-		/// </summary>
-		public TaskDetails GetRunningTaskDetails(int taskId)
-		{
-			TestFileRunnerTaskInfo task;
-			_currentTasks.TryGetValue(taskId, out task);
-			if (task == null)
-			{
-				return null;
-			}
+                var runner = new TestFileRunner(httpClient, _repository, _configuration);
+                item.Runner = runner;
+                await runner.RunAsync(testFile);
+            }
+            catch (Exception e)
+            {
+                item.Errors = e.ToString();
+            }
+        }
 
-			TestFileRunner runner = task.Runner;
-			return new TaskDetails()
-			{
-				TaskId = task.Id,
-				Username = task.Username,
-				Status = task.CurrentTask.Status.ToString(),
-				Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
-				CurrentIndex = (runner != null) ? runner.TestsRun : 0,
-				TotalTests = (runner != null) ? runner.TotalTests : 0,
-				Errors = task.Errors
-			};
-		}
+        /// <summary>
+        /// Shows minimal information about all test XML file requests in the queue, and their status,
+        /// and who started the run.
+        /// </summary>
+        public IEnumerable<TaskDetails> GetRunningTasks()
+        {
+            return _currentTasks.Values.Select(task =>
+            {
+                TestFileRunner runner = task.Runner;
 
-		/// <summary>
-		/// Stops a test XML request task in the queue, returning a message of whether the stop succeeded or not.
-		/// </summary>
-		public string Stop(int taskId)
-		{
-			TestFileRunnerTaskInfo task;
-			_currentTasks.TryRemove(taskId, out task);
-			if (task == null)
-			{
-				return "FAILED - Cancel request made, but removing from the list of tasks failed";
-			}
+                return new TaskDetails()
+                {
+                    TaskId = task.Id,
+                    Username = task.Username,
+                    Status = task.CurrentTask.Status.ToString(),
+                    IsComplete = task.CurrentTask.IsCompleted,
+                    CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
+                    TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
+                };
+            });
+        }
+
+        /// <summary>
+        /// Shows the full information about a *single* test run - it doesn't have to be running, it could be complete.
+        /// This includes the results of every test in the test file.
+        /// </summary>
+        public TaskDetails GetRunningTaskDetails(int taskId)
+        {
+            TestFileRunnerTaskInfo task;
+            _currentTasks.TryGetValue(taskId, out task);
+            if (task == null)
+            {
+                return null;
+            }
+
+            TestFileRunner runner = task.Runner;
+            return new TaskDetails()
+            {
+                TaskId = task.Id,
+                Username = task.Username,
+                Status = task.CurrentTask.Status.ToString(),
+                Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
+                CurrentIndex = (runner != null) ? runner.TestsRun : 0,
+                TotalTests = (runner != null) ? runner.TotalTests : 0,
+                Errors = task.Errors
+            };
+        }
+
+        /// <summary>
+        /// Stops a test XML request task in the queue, returning a message of whether the stop succeeded or not.
+        /// </summary>
+        public string Stop(int taskId)
+        {
+            TestFileRunnerTaskInfo task;
+            _currentTasks.TryRemove(taskId, out task);
+            if (task == null)
+            {
+                return "FAILED - Cancel request made, but removing from the list of tasks failed";
+            }
 
 
-			task.Runner.Stop();
-			task.CancelTokenSource.Cancel(false);
+            task.Runner.Stop();
+            task.CancelTokenSource.Cancel(false);
 
-			return string.Format("OK - Task {0} stopped and removed", task.Id);
-		}
+            return string.Format("OK - Task {0} stopped and removed", task.Id);
+        }
 
-		/// <summary>
-		/// Attempts to shut down all running tasks.
-		/// </summary>
-		public List<string> StopAll()
-		{
-			List<string> results = new List<string>();
-			foreach (TestFileRunnerTaskInfo task in _currentTasks.Values)
-			{
-				results.Add(Stop(task.Id));
-			}
+        /// <summary>
+        /// Attempts to shut down all running tasks.
+        /// </summary>
+        public List<string> StopAll()
+        {
+            List<string> results = new List<string>();
+            foreach (TestFileRunnerTaskInfo task in _currentTasks.Values)
+            {
+                results.Add(Stop(task.Id));
+            }
 
-			return results;
-		}
+            return results;
+        }
 
-		public TaskMonitoringInfo StartMonitoringTask(int taskId)
-		{
-			TestFileRunnerTaskInfo task;
-			_currentTasks.TryGetValue(taskId, out task);
-			if (task == null)
-			{
-				return null;
-			}
+        public TaskMonitoringInfo StartMonitoringTask(int taskId)
+        {
+            TestFileRunnerTaskInfo task;
+            _currentTasks.TryGetValue(taskId, out task);
+            if (task == null)
+            {
+                return null;
+            }
 
-			TestFileRunner runner = task.Runner;
+            TestFileRunner runner = task.Runner;
 
-			_taskPublisher.Start(taskId, runner);
+            _taskPublisher.Start(taskId, runner);
 
-			return new TaskMonitoringInfo(runner.TotalTests);
-		}
-	}
+            return new TaskMonitoringInfo(runner.TotalTests);
+        }
+    }
 }

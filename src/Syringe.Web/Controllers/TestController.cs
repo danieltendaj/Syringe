@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core.Configuration;
@@ -92,8 +93,14 @@ namespace Syringe.Web.Controllers
 		public ActionResult Add(string filename)
 		{
             TestFile testFile = _testsClient.GetTestFile(filename);
+            var model = new TestViewModel
+            {
+                Filename = filename,
+                AvailableVariables = _testFileMapper.BuildVariableViewModel(testFile),
+                Method = MethodType.GET,
+                ExpectedHttpStatusCode = HttpStatusCode.OK
+            };
 
-            var model = new TestViewModel { Filename = filename, AvailableVariables = _testFileMapper.BuildVariableViewModel(testFile) };
 			return View("Edit", model);
 		}
 

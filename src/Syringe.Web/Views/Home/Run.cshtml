@@ -1,4 +1,4 @@
-﻿@model IRunViewModel
+﻿    @model IRunViewModel
 @{
     ViewBag.Title = "Run";
 }
@@ -59,7 +59,7 @@
                                         <div class="pull-right">
                                             <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View HTML</a>
                                             <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View raw</a>
-                                            <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Edit", "Test", new {filename = Model.FileName, position = test.Position})">Edit</a>
+                                            <a class="hidden view-raw btn btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.FileName, position = test.Position})">Edit</a>
                                         </div>
                                     </div>
 	                                <div class="test-result-errors">

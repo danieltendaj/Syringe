@@ -100,9 +100,9 @@ namespace Syringe.Core.Tests.Repositories
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool DeleteTest(int position, string fileName)
+		public bool DeleteTest(int position, string filename)
 		{
-			string fullPath = _fileHandler.GetFileFullPath(fileName);
+			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string fileContents = _fileHandler.ReadAllText(fullPath);
 
 			TestFile testFile;
@@ -190,17 +190,12 @@ namespace Syringe.Core.Tests.Repositories
 			return _fileHandler.ReadAllText(fullPath);
 		}
 
-		public bool DeleteFile(string fileName)
+		public bool DeleteFile(string filename)
 		{
-			var fullPath = _fileHandler.GetFileFullPath(fileName);
+			var fullPath = _fileHandler.GetFileFullPath(filename);
 			return _fileHandler.DeleteFile(fullPath);
 		}
-
-	    public bool CopyTest(int position, string fileName)
-	    {
-	        throw new NotImplementedException();
-	    }
-
+        
 	    public IEnumerable<string> ListFiles()
 		{
 			return _fileHandler.GetFileNames();
