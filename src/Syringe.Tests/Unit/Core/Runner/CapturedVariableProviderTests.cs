@@ -21,8 +21,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Arrange
 			var parseResponses = new List<CapturedVariable>()
 			{
-				new CapturedVariable("1", @"(\d+)"),
-				new CapturedVariable("foo", "(<html.+?>)")
+				new CapturedVariable("var1", @"(\d+)"),
+				new CapturedVariable("varFoo", "(<html.+?>)")
 			};
 			string content = "<html class='bootstrap'><p>Tap tap tap 123</p></html>";
 
@@ -31,8 +31,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables.ValueByName("capturedvariable1"), Is.EqualTo("123"));
-			Assert.That(variables.ValueByName("capturedvariablefoo"), Is.EqualTo("<html class='bootstrap'>"));
+			Assert.That(variables.ValueByName("var1"), Is.EqualTo("123"));
+			Assert.That(variables.ValueByName("varFoo"), Is.EqualTo("<html class='bootstrap'>"));
 		}
 
 		[Test]
@@ -41,8 +41,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Arrange
 			var parseResponses = new List<CapturedVariable>()
 			{
-				new CapturedVariable("1", @"foo"),
-				new CapturedVariable("2", @"bar"),
+				new CapturedVariable("var1", @"foo"),
+				new CapturedVariable("var2", @"bar"),
 
 			};
 			string content = "<html>123 abc</html>";
@@ -52,8 +52,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables.ValueByName("capturedvariable1"), Is.EqualTo(""));
-			Assert.That(variables.ValueByName("capturedvariable2"), Is.EqualTo(""));
+			Assert.That(variables.ValueByName("var1"), Is.EqualTo(""));
+			Assert.That(variables.ValueByName("var2"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -62,8 +62,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Arrange
 			var parseResponses = new List<CapturedVariable>()
 			{
-				new CapturedVariable("1", @"(\d+)"),
-				new CapturedVariable("2", @"(() this is a bad regex?("),
+				new CapturedVariable("var1", @"(\d+)"),
+				new CapturedVariable("var2", @"(() this is a bad regex?("),
 
 			};
 			string content = "<html>123 abc</html>";
@@ -73,8 +73,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// Assert
 			Assert.That(variables.Count, Is.EqualTo(2));
-			Assert.That(variables.ValueByName("capturedvariable1"), Is.EqualTo("123"));
-			Assert.That(variables.ValueByName("capturedvariable2"), Is.EqualTo(""));
+			Assert.That(variables.ValueByName("var1"), Is.EqualTo("123"));
+			Assert.That(variables.ValueByName("var2"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -83,7 +83,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Arrange
 			var parseResponses = new List<CapturedVariable>()
 			{
-				new CapturedVariable("1", @"(\d+)"),
+				new CapturedVariable("var1", @"(\d+)"),
 			};
 			string content = "<html>The number 3 and the number 4 combined make 7</html>";
 
@@ -91,7 +91,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
 			// Assert
-			Assert.That(variables.ValueByName("capturedvariable1"), Is.EqualTo("347"));
+			Assert.That(variables.ValueByName("var1"), Is.EqualTo("347"));
 		}
 	}
 }

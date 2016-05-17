@@ -83,7 +83,7 @@ namespace Syringe.Core.Runner
 
 			foreach (CapturedVariable regexItem in capturedVariables)
 			{
-				simpleLogger.WriteLine("Parsing captured variable '{{capturedvariable{0}}}'", regexItem.Name);
+				simpleLogger.WriteLine("Parsing captured variable '{{{0}}}'", regexItem.Name);
 				simpleLogger.WriteIndentedLine("Regex: {0}", regexItem.Regex);
 
 				string capturedValue = "";
@@ -117,7 +117,7 @@ namespace Syringe.Core.Runner
 					simpleLogger.WriteIndentedLine("Invalid regex: {0}", e.Message);
 				}
 
-				variables.Add(new Variable("capturedvariable" + regexItem.Name, capturedValue, ""));
+				variables.Add(new Variable(regexItem.Name, capturedValue, ""));
 			}
 
 			return variables;
