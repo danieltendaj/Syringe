@@ -108,8 +108,8 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testServiceMock.Verify(x => x.UpdateTestVariables(It.IsAny<TestFile>()), Times.Once);
-            Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
-            Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
+            Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
+            Assert.AreEqual("Test", redirectToRouteResult.RouteValues["controller"]);
         }
 
         [Test]
