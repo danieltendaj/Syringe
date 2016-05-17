@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -215,13 +216,32 @@ namespace Syringe.Tests.Unit.Web
         [Test]
         public void Add_should_return_correct_view_and_model()
         {
-            // given + when
-            var viewResult = _testController.Add(It.IsAny<string>()) as ViewResult;
+            // given
+            const string expectedFilename = "This is my filename.DONT STOP ME NOW";
+            var expectedTestFile = new TestFile();
+
+            _testServiceMock
+                .Setup(x => x.GetTestFile(expectedFilename))
+                .Returns(expectedTestFile);
+
+            var expectedVariable = new List<VariableViewModel>(2);
+            _testFileMapperMock
+                .Setup(x => x.BuildVariableViewModel(expectedTestFile))
+                .Returns(expectedVariable);
+
+            // when
+            var viewResult = _testController.Add(expectedFilename) as ViewResult;
 
             // then
             Assert.AreEqual("Edit", viewResult.ViewName);
             _testFileMapperMock.Verify(x => x.BuildVariableViewModel(It.IsAny<TestFile>()), Times.Once);
-            Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
+
+            var model = viewResult.Model as TestViewModel;
+            Assert.That(model, Is.Not.Null);
+            Assert.That(model.Filename, Is.EqualTo(expectedFilename));
+            Assert.That(model.AvailableVariables, Is.EqualTo(expectedVariable));
+            Assert.That(model.ExpectedHttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(model.Method, Is.EqualTo(MethodType.GET));
         }
 
         [Test]

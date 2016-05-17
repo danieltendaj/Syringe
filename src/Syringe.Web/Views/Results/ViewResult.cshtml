@@ -63,7 +63,7 @@
 											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
 											<a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
 										    <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
-                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
+                                            <a class="btn btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
 										</p>
 
 										@if (!string.IsNullOrEmpty(result.ExceptionMessage))
