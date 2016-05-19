@@ -219,10 +219,14 @@ namespace Syringe.Core.Runner
 			{
 				string resolvedUrl = variables.ReplacePlainTextVariablesIn(test.Url);
 				testResult.ActualUrl = resolvedUrl;
+                
+			    string postBody = variables.ReplacePlainTextVariablesIn(test.PostBody);
+			    foreach (HeaderItem header in test.Headers)
+			    {
+			        header.Value = variables.ReplacePlainTextVariablesIn(header.Value);
+			    }
 
-				var httpLogWriter = new HttpLogWriter();
-
-				IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, test.PostBody, test.Headers);
+				IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, postBody, test.Headers);
 				var logger = new SimpleLogger();
 
 				// Scripting part
@@ -248,7 +252,8 @@ namespace Syringe.Core.Runner
 					}
 				}
 
-				HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
+                var httpLogWriter = new HttpLogWriter();
+                HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
 				testResult.ResponseTime = response.ResponseTime;
 				testResult.HttpResponse = response;
 				testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
@@ -260,6 +265,11 @@ namespace Syringe.Core.Runner
 					string content = response.ToString();
 
 					// Put the captured variables regex values in the current variable set
+				    foreach (var capturedVariable in test.CapturedVariables)
+				    {
+				        capturedVariable.Regex = variables.ReplacePlainTextVariablesIn(capturedVariable.Regex);
+				    }
+
 					List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
 					variables.AddOrUpdateVariables(parsedVariables);
 					logger.WriteLine("{0} captured variable(s) parsed.", parsedVariables.Count);

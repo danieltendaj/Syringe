@@ -56,7 +56,9 @@ namespace Syringe.Core.Runner
 
 		public string ReplacePlainTextVariablesIn(string text)
 		{
-			foreach (Variable variable in _currentVariables)
+		    text = text ?? string.Empty;
+
+            foreach (Variable variable in _currentVariables)
 			{
 				text = text.Replace("{" + variable.Name + "}", variable.Value);
 			}
