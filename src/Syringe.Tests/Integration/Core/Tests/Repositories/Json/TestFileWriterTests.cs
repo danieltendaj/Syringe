@@ -73,7 +73,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         BeforeExecuteScript = "Some script thing that Chris did",
                         CapturedVariables = new List<CapturedVariable>
                         {
-                            new CapturedVariable { Name = "Captured Var 1", Regex = "/w/t/SOMETHING" }
+                            new CapturedVariable { Name = "Captured Var 1", Regex = "/w/t/SOMETHING", PostProcessorType = VariablePostProcessorType.HtmlDecode}
                         },
                         ExpectedHttpStatusCode = HttpStatusCode.BadRequest,
                         Headers = new List<HeaderItem>

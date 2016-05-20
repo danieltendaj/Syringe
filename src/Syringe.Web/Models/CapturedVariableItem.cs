@@ -10,7 +10,6 @@ namespace Syringe.Web.Models
         public string Name { get; set; }
         [Required]
         public string Regex { get; set; }
-
         [Required]
         [Display(Name = "Post Processor")]
         public VariablePostProcessorType PostProcessorType { get; set; }
