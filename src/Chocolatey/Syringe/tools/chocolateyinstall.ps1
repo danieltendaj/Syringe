@@ -23,6 +23,15 @@ if ((Test-IisInstalled) -eq $False)
     throw "IIS is not installed, please install it before continuing."
 }
 
+# Parse command line arguments - this function is required because of the context Chocolatey runs in, e.g.
+# choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
+$arguments = @{}
+$arguments["websitePort"] = 80;
+$arguments["websiteDomain"] = "localhost";
+$arguments["websiteDir"] = $websiteDir;
+$arguments["restoreConfigs"] = "false";
+Parse-Parameters($arguments);
+
 # Stop the service and ignore if it fails
 & sc.exe stop Syringe 2>&1
 
@@ -34,10 +43,43 @@ if (test-path $serviceExe)
   & $serviceExe uninstall
 }
 
-# Backup the configs
-cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
-cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
-cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
+if (test-path "$serviceDir\configuration.json")
+{
+    # Backup the configs
+    cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
+    cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
+    cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
+}
+else
+{
+    # Create a default config
+    $json = '{
+        "ServiceUrl": "http://*:1981",
+        "WebsiteUrl": "http://{WEBSITEURL}",
+        "TestFilesBaseDirectory": "{XML-DIR}",
+        "TestFileFormat": "Xml",
+        "MongoDbDatabaseName": "Syringe",
+        "ReadonlyMode": true,
+        "OAuthConfiguration": {
+            "GithubAuthClientId": "",
+            "GithubAuthClientSecret": "",
+            "GoogleAuthClientId": "",
+            "GoogleAuthClientSecret": "",
+            "MicrosoftAuthClientId": "",
+            "MicrosoftAuthClientSecret": ""
+        },
+        "OctopusConfiguration": {
+            "OctopusUrl": "",
+            "OctopusApiKey": ""
+        }
+    }';
+
+    $json = $json.Replace("{WEBSITEURL}", $arguments["websiteDomain"] +":"+ $arguments["websitePort"]);
+    $json = $json.Replace("{XML-DIR}", $arguments["websiteDir"]); 
+
+    [System.IO.File]::WriteAllText("$serviceDir\configuration.json", $json);
+}
+
 
 $packageArgs = @{
   packageName   = $packageName
@@ -49,15 +91,6 @@ $packageArgs = @{
 
 # Download
 Install-ChocolateyZipPackage $packageName $url $toolsDir
-
-# Parse command line arguments - this function is required because of the context Chocolatey runs in, e.g.
-# choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
-$arguments = @{}
-$arguments["websitePort"] = 80;
-$arguments["websiteDomain"] = "localhost";
-$arguments["websiteDir"] = $websiteDir;
-$arguments["restoreConfigs"] = "false";
-Parse-Parameters($arguments);
 
 # Unzip the service + website (overwrites existing files when upgrading)
 Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
