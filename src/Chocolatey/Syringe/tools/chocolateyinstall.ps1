@@ -16,12 +16,15 @@ $version = "{{VERSION}}"
 $url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
 
+. "$toolsDir\common.ps1"
+
 if ((Test-IisInstalled) -eq $False)
 {
     throw "IIS is not installed, please install it before continuing."
 }
 
-. "$toolsDir\common.ps1"
+# Stop the service and ignore if it fails
+& sc.exe stop Syringe 2>&1
 
 # Uninstall the service if it exists
 if (test-path $serviceExe)
