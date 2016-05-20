@@ -1,7 +1,7 @@
 # Add the user
 $computer = [ADSI]"WinNT://$Env:COMPUTERNAME,Computer"
 $syringeUser = $computer.Create("User", "SyringeUser")
-$syringeUser.SetPassword("Password")
+$syringeUser.SetPassword("Passw0rd123")
 $syringeUser.SetInfo()
 
 $syringeUser.UserFlags = 64 + 65536
