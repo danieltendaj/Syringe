@@ -43,16 +43,32 @@ if (test-path $serviceExe)
   & $serviceExe uninstall
 }
 
+# Backup the configs
 if (test-path "$serviceDir\configuration.json")
 {
-    # Backup the configs
     cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
     cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
     cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
 }
-else
+
+$packageArgs = @{
+  packageName   = $packageName
+  unzipLocation = $toolsDir
+  fileType      = 'EXE' #only one of these: exe, msi, msu
+  url           = $url
+  url64bit      = $url64
+}
+
+# Download
+Install-ChocolateyZipPackage $packageName $url $toolsDir
+
+# Unzip the service + website (overwrites existing files when upgrading)
+Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
+Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
+
+# Create a default config if none exists
+if (!(test-path "$serviceDir\configuration.json"))
 {
-    # Create a default config
     $json = '{
         "ServiceUrl": "http://*:1981",
         "WebsiteUrl": "http://{WEBSITEURL}",
@@ -79,22 +95,6 @@ else
 
     [System.IO.File]::WriteAllText("$serviceDir\configuration.json", $json);
 }
-
-
-$packageArgs = @{
-  packageName   = $packageName
-  unzipLocation = $toolsDir
-  fileType      = 'EXE' #only one of these: exe, msi, msu
-  url           = $url
-  url64bit      = $url64
-}
-
-# Download
-Install-ChocolateyZipPackage $packageName $url $toolsDir
-
-# Unzip the service + website (overwrites existing files when upgrading)
-Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
-Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
 
 # Restore the configs if it's set
 if ($arguments["restoreConfigs"] -eq "true")
