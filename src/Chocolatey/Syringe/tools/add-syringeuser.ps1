@@ -1,21 +1,26 @@
-# Add the user
 $computer = [ADSI]"WinNT://$Env:COMPUTERNAME,Computer"
-$syringeUser = $computer.Create("User", "SyringeUser")
-$syringeUser.SetPassword("Passw0rd123")
-$syringeUser.SetInfo()
+$items = $computer.Children | where {$_.SchemaClassName -eq 'user' -and $_.Path.Contains("SyringeUser") }
 
-$syringeUser.UserFlags = 64 + 65536
-$syringeUser.SetInfo()
+if ($items)
+{
+    # Add the user
+    $syringeUser = $computer.Create("User", "SyringeUser")
+    $syringeUser.SetPassword("Passw0rd123")
+    $syringeUser.SetInfo()
 
-$syringeUser.FullName = "Syringe service user"
-$syringeUser.SetInfo()
+    $syringeUser.UserFlags = 64 + 65536
+    $syringeUser.SetInfo()
 
-# Add to the Users group
-$group = [ADSI]"WinNT://./Users,group"
-$group.Add("WinNT://SyringeUser, user")
+    $syringeUser.FullName = "Syringe service user"
+    $syringeUser.SetInfo()
 
-# Give the user permission to have HTTP listen on port 1981 (for self-hosting)
-netsh http add urlacl url=http://*:1981/ user=SyringeUser
+    # Add to the Users group
+    $group = [ADSI]"WinNT://./Users,group"
+    $group.Add("WinNT://SyringeUser, user")
 
-# Testing the service:
-#runas /user:syringeuser "powershell.exe c:\code\syringe\tools\start-service.ps1"
+    # Give the user permission to have HTTP listen on port 1981 (for self-hosting)
+    netsh http add urlacl url=http://*:1981/ user=SyringeUser
+
+    # Testing the service:
+    #runas /user:syringeuser "powershell.exe c:\code\syringe\tools\start-service.ps1"
+}
