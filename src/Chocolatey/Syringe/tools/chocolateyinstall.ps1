@@ -1,7 +1,8 @@
 $ErrorActionPreference = 'Stop';
 
 $packageName = "Syringe"
-$toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition) . "$toolsDir\common.ps1"
+$toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+. "$toolsDir\common.ps1"
 
 $serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
 $websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
