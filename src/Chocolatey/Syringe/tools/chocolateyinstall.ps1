@@ -96,7 +96,7 @@ if (!(test-path "$serviceDir\configuration.json"))
     $websiteUrl = $arguments["websiteDomain"] + ":" + $arguments["websitePort"];
 
     $testFilesDir = $arguments["websiteDir"];
-    $testFilesDir = $xmlDir.Replace("\", "\\");
+    $testFilesDir = $testFilesDir.Replace("\", "\\");
     $testFilesDir += "\\TestFiles"
 
     if (!(test-path $testFilesDir))
