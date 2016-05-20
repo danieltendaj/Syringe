@@ -1,7 +1,7 @@
 $computer = [ADSI]"WinNT://$Env:COMPUTERNAME,Computer"
-$items = $computer.Children | where {$_.SchemaClassName -eq 'user' -and $_.Path.Contains("SyringeUser") }
+$existingUser = $computer.Children | where {$_.SchemaClassName -eq 'user' -and $_.Path.Contains("SyringeUser") }
 
-if ($items)
+if (!$existingUser)
 {
     # Add the user
     $syringeUser = $computer.Create("User", "SyringeUser")
