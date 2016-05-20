@@ -12,6 +12,7 @@ using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Scripting;
+using Syringe.Core.Tests.Variables;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner

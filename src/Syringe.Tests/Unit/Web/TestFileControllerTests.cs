@@ -2,7 +2,6 @@
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Environment;
-using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
@@ -15,21 +14,19 @@ namespace Syringe.Tests.Unit.Web
     {
         private TestFileController _testFileController;
         private Mock<ITestService> _testServiceMock;
-        private Mock<IUserContext> _userContextMock;
         private Mock<IEnvironmentsService> _environmentsService;
 
         [SetUp]
         public void Setup()
         {
             _testServiceMock = new Mock<ITestService>();
-            _userContextMock = new Mock<IUserContext>();
             _environmentsService = new Mock<IEnvironmentsService>();
 
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             _testServiceMock.Setup(x => x.UpdateTestVariables(It.IsAny<TestFile>())).Returns(true);
             _testServiceMock.Setup(x => x.CreateTestFile(It.IsAny<TestFile>())).Returns(true);
             _testServiceMock.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(true);
-            _testFileController = new TestFileController(_testServiceMock.Object, _userContextMock.Object, _environmentsService.Object);
+            _testFileController = new TestFileController(_testServiceMock.Object, _environmentsService.Object);
         }
 
         [Test]

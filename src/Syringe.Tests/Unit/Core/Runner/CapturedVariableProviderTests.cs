@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 using Syringe.Tests.Extensions;
 
 namespace Syringe.Tests.Unit.Core.Runner

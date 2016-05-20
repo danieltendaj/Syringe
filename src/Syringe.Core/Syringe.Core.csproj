@@ -222,7 +222,8 @@
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
-    <Compile Include="Tests\Variable.cs" />
+    <Compile Include="Tests\Variables\IVariablePostProcessor.cs" />
+    <Compile Include="Tests\Variables\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ITestService.cs" />
@@ -254,12 +255,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
-    <Compile Include="Tests\CapturedVariable.cs" />
+    <Compile Include="Tests\Variables\CapturedVariable.cs" />
     <Compile Include="Tests\Repositories\Xml\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
     <Compile Include="Tests\Repositories\Xml\XmlHelper.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
+    <Compile Include="Tests\Variables\VariablePostProcessor.cs" />
+    <Compile Include="Tests\Variables\VariablePostProcessorType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

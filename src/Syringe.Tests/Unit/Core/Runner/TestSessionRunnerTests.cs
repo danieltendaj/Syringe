@@ -13,6 +13,7 @@ using Syringe.Core.Runner;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables;
 using Syringe.Tests.StubsMocks;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 

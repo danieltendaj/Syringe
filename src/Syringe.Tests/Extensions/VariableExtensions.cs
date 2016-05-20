@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.Tests;
+﻿using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Extensions
 {

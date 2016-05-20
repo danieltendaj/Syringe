@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Environment;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories.Json.Writer;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
 {

@@ -4,6 +4,7 @@ using System.IO;
 using Syringe.Client;
 using Syringe.Client.RestSharpHelpers;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {

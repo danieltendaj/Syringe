@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Runner
 {
@@ -82,6 +83,7 @@ namespace Syringe.Core.Runner
 		public static List<Variable> MatchVariables(List<CapturedVariable> capturedVariables, string content, SimpleLogger simpleLogger)
 		{
 			var variables = new List<Variable>();
+            var variablePostProcessor = new VariablePostProcessor();
 
 			foreach (CapturedVariable regexItem in capturedVariables)
 			{
@@ -100,8 +102,14 @@ namespace Syringe.Core.Runner
 						{
 							if (match.Groups.Count > 1)
 							{
-								capturedValue += match.Groups[1];
-								simpleLogger.WriteIndentedLine("{0}. '{1}' matched, updated variable to '{2}'", ++matchCount, regexItem.Regex, capturedValue);
+							    string detectedValue = match.Groups[1].Value;
+							    simpleLogger.WriteIndentedLine($"Detected value: {detectedValue}");
+
+                                string transformedValue = variablePostProcessor.Process(detectedValue, regexItem.PostProcessorType);
+                                simpleLogger.WriteIndentedLine($"Transformed value: {detectedValue}");
+
+                                capturedValue += transformedValue;
+								simpleLogger.WriteIndentedLine($"{++matchCount}. '{regexItem.Regex}' matched, updated variable to '{capturedValue}'");
 							}
 							else
 							{

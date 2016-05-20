@@ -2,6 +2,7 @@
 using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Unit.Core.Runner.Assertions
 {
