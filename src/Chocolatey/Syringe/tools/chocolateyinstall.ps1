@@ -2,7 +2,6 @@ $ErrorActionPreference = 'Stop';
 
 $packageName = "Syringe"
 $toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-. "$toolsDir\common.ps1"
 
 $serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
 $websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
@@ -21,6 +20,8 @@ if ((Test-IisInstalled) -eq $False)
 {
     throw "IIS is not installed, please install it before continuing."
 }
+
+. "$toolsDir\common.ps1"
 
 # Uninstall the service if it exists
 if (test-path $serviceExe)
