@@ -1,6 +1,6 @@
 ﻿[
   {
-		"Name": "Development",
+    "Name": "Development",
     "Order": 1,
     "Roles": [
       {
@@ -16,18 +16,18 @@
     ]
 	},
 	{
-		"Name": "PAT",
+		"Name": "UAT",
     "Order": 2,
     "Roles": [
       {
-        "Name": "R1 Pat",
+        "Name": "R1 UAT",
         "Role": "R1",
-        "HostName": "r1.pat.com"
+        "HostName": "r1.uat.com"
       },
       {
-        "Name": "R2 Pat",
+        "Name": "R2 UAT",
         "Role": "R2",
-        "HostName": "r2.pat.ds"
+        "HostName": "r2.uat.ds"
       }
     ]
 	},

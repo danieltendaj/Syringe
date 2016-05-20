@@ -1,7 +1,24 @@
 $ErrorActionPreference = 'Stop';
 
 $packageName = "Syringe"
-$toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
+$toolsDir = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+
+$serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
+$websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
+
+$serviceDir = "$toolsDir\Syringe.Service"
+$websiteDir = "$toolsDir\Syringe.Web"
+
+$serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
+$websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
+
+$syringeUsername = "SyringeUser"
+$syringePassword = "Passw0rd123"
+
+$version = "{{VERSION}}"
+$url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
+$url64 = $url
+
 . "$toolsDir\common.ps1"
 
 if ((Test-IisInstalled) -eq $False)
@@ -9,9 +26,33 @@ if ((Test-IisInstalled) -eq $False)
     throw "IIS is not installed, please install it before continuing."
 }
 
-$version = "{{VERSION}}"
-$url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
-$url64 = $url
+# Parse command line arguments - this function is required because of the context Chocolatey runs in, e.g.
+# choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
+$arguments = @{}
+$arguments["websitePort"] = 80;
+$arguments["websiteDomain"] = "localhost";
+$arguments["websiteDir"] = $websiteDir;
+$arguments["restoreConfigs"] = "false";
+Parse-Parameters($arguments);
+
+# Stop the service and ignore if it fails
+& sc.exe stop Syringe 2>&1
+
+# Uninstall the service if it exists
+if (test-path $serviceExe)
+{
+  Write-Host "Service found - stopping and uninstalling the service."
+  & $serviceExe stop 2>&1
+  & $serviceExe uninstall
+}
+
+# Backup the configs
+if (test-path "$serviceDir\configuration.json")
+{
+    cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
+    cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
+    cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
+}
 
 $packageArgs = @{
   packageName   = $packageName
@@ -24,40 +65,44 @@ $packageArgs = @{
 # Download
 Install-ChocolateyZipPackage $packageName $url $toolsDir
 
-$serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
-$websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
-
-$serviceDir = "$toolsDir\Syringe.Service"
-$websiteDir = "$toolsDir\Syringe.Web"
-
-$serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
-$websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
-
-# Parse command line arguments - this function is required because of the context Chocolatey runs in, e.g.
-# choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
-$arguments = @{}
-$arguments["websitePort"] = 80;
-$arguments["websiteDomain"] = "localhost";
-$arguments["websiteDir"] = $websiteDir;
-$arguments["restoreConfigs"] = "false";
-Parse-Parameters($arguments);
-
-# Backup the configs
-cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
-cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
-cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
-
-# Uninstall the service if it exists
-if (test-path $serviceExe)
-{
-  Write-Host "Service found - stopping and uninstalling the service."
-  & $serviceExe stop 2>&1
-  & $serviceExe uninstall
-}
-
 # Unzip the service + website (overwrites existing files when upgrading)
 Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
 Get-ChocolateyUnzip  $websiteZip $websiteDir "" $packageName
+
+# Create a default config if none exists
+if (!(test-path "$serviceDir\configuration.json"))
+{
+    $json = '{
+        "ServiceUrl": "http://*:1981",
+        "WebsiteUrl": "http://{WEBSITEURL}",
+        "TestFilesBaseDirectory": "{XML-DIR}",
+        "TestFileFormat": "Xml",
+        "MongoDbDatabaseName": "Syringe",
+        "ReadonlyMode": true,
+        "OAuthConfiguration": {
+            "GithubAuthClientId": "",
+            "GithubAuthClientSecret": "",
+            "GoogleAuthClientId": "",
+            "GoogleAuthClientSecret": "",
+            "MicrosoftAuthClientId": "",
+            "MicrosoftAuthClientSecret": ""
+        },
+        "OctopusConfiguration": {
+            "OctopusUrl": "",
+            "OctopusApiKey": ""
+        }
+    }';
+
+    $websiteUrl = $arguments["websiteDomain"] + ":" + $arguments["websitePort"];
+
+    $xmlDir = $arguments["websiteDir"];
+    $xmlDir = $xmlDir.Replace("\", "\\");
+
+    $json = $json.Replace("{WEBSITEURL}", $websiteUrl);
+    $json = $json.Replace("{XML-DIR}", $xmlDir); 
+
+    [System.IO.File]::WriteAllText("$serviceDir\configuration.json", $json);
+}
 
 # Restore the configs if it's set
 if ($arguments["restoreConfigs"] -eq "true")
@@ -69,11 +114,12 @@ if ($arguments["restoreConfigs"] -eq "true")
 }
 
 # Add the user "SyringeUser" for the service
-.\add-syringeuser.ps1
+. "$toolsDir\adduser.ps1"
+AddUser $syringeUsername $syringePassword
 
 # Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
-& $serviceExe install --autostart -username=".\SyringeUser" -password="Password"
+& $serviceExe install --autostart -username=".\$syringeUsername" -password="$syringePassword"
 
 Write-Host "Starting the Syringe service." -ForegroundColor Green
 & $serviceExe start
