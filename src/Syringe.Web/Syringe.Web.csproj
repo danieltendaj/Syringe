@@ -407,7 +407,7 @@
     <Content Include="Views\Shared\Partials\_ResultsPager.cshtml" />
     <Content Include="Views\Test\View-ReadonlyMode.cshtml" />
     <Content Include="Views\Home\Index-ReadonlyMode.cshtml" />
-    <None Include="websiteconfig.json" />
+    <Content Include="websiteconfig.json" />
     <Content Include="Views\Results\Html.cshtml" />
     <Content Include="Views\Results\Raw.cshtml" />
     <Content Include="Views\TestFile\Update.cshtml" />
