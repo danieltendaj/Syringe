@@ -1,6 +1,7 @@
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Tests.Repositories.Xml.Writer
 {

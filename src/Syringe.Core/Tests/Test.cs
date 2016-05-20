@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using MongoDB.Bson.Serialization.Attributes;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Tests
 {

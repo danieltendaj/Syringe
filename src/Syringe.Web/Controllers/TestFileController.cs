@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -13,13 +14,11 @@ namespace Syringe.Web.Controllers
     public class TestFileController : Controller
     {
         private readonly ITestService _testsClient;
-        private readonly IUserContext _userContext;
         private readonly IEnvironmentsService _environmentsService;
 
-        public TestFileController(ITestService testsClient, IUserContext userContext, IEnvironmentsService environmentsService)
+        public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService)
         {
             _testsClient = testsClient;
-            _userContext = userContext;
             _environmentsService = environmentsService;
         }
 

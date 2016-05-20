@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Tests
 {

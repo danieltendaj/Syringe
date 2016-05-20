@@ -15,7 +15,8 @@
       "CapturedVariables": [
         {
           "Name": "Captured Var 1",
-          "Regex": "/w/t/SOMETHING"
+          "Regex": "/w/t/SOMETHING",
+          "PostProcessorType": 1
         }
       ],
       "Assertions": [

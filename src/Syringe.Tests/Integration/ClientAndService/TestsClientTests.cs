@@ -10,6 +10,7 @@ using Syringe.Core.MongoDB;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {

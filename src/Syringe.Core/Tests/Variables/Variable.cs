@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Syringe.Core.Tests
+namespace Syringe.Core.Tests.Variables
 {
 	public class Variable
 	{

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
@@ -235,13 +236,26 @@ namespace Syringe.Tests.Unit.Web
 		{
 			// given
 			var fileMapper = new TestFileMapper();
-			var testFile = new TestFile { Tests = new List<Test> { new Test { CapturedVariables = new List<CapturedVariable> { new CapturedVariable("name", "regex") } }, new Test() } };
+			var testFile = new TestFile
+			{
+			    Tests = new List<Test>
+			    {
+			        new Test
+			        {
+			            CapturedVariables = new List<CapturedVariable>
+			            {
+			                new CapturedVariable("name", "regex")
+			            }
+			        },
+                    new Test()
+			    }
+			};
 
 			// when + then
-			var buildVariableViewModel = fileMapper.BuildVariableViewModel(testFile);
-			Assert.AreEqual(1, buildVariableViewModel.Count);
-			Assert.AreEqual("name", buildVariableViewModel[0].Name);
-			Assert.AreEqual("regex", buildVariableViewModel[0].Value);
-		}
+			List<VariableViewModel> buildVariableViewModel = fileMapper.BuildVariableViewModel(testFile);
+			Assert.That(buildVariableViewModel.Count, Is.EqualTo(1));
+			Assert.That(buildVariableViewModel[0].Name, Is.EqualTo("name"));
+            Assert.That(buildVariableViewModel[0].Value, Is.EqualTo("regex"));
+        }
 	}
 }

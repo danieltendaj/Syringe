@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
 
@@ -26,7 +27,7 @@ namespace Syringe.Web.Mappers
             {
                 Position = test.Position,
                 Headers = test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }).ToList(),
-                CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex }).ToList(),
+                CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex, PostProcessorType = x.PostProcessorType }).ToList(),
                 PostBody = test.PostBody,
                 Method = methodType,
                 ExpectedHttpStatusCode = test.ExpectedHttpStatusCode,
@@ -70,14 +71,14 @@ namespace Syringe.Web.Mappers
                 Position = testModel.Position,
                 Headers = testModel.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
                 Filename = testModel.Filename,
-                CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex)).ToList(),
+                CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex, x.PostProcessorType)).ToList(),
                 PostBody = testModel.PostBody,
                 Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Value, x.AssertionType, x.AssertionMethod)).ToList(),
                 Description = testModel.Description,
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
-				BeforeExecuteScript = testModel.BeforeExecuteScript
+				BeforeExecuteScript = testModel.BeforeExecuteScript,
             };
         }
 

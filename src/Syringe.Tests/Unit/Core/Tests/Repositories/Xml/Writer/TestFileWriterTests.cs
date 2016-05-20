@@ -5,6 +5,7 @@ using Org.XmlUnit.Builder;
 using Org.XmlUnit.Constraints;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories.Xml.Writer;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 {

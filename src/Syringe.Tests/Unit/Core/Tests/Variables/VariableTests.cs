@@ -1,7 +1,8 @@
 ﻿using NUnit.Framework;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 
-namespace Syringe.Tests.Unit.Core.Tests
+namespace Syringe.Tests.Unit.Core.Tests.Variables
 {
     [TestFixture]
     public class VariableTests

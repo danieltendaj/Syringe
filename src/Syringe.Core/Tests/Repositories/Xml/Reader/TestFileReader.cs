@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 using Syringe.Core.Exceptions;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Tests.Repositories.Xml.Reader
 {
