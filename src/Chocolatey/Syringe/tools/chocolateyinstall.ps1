@@ -1,17 +1,38 @@
 $ErrorActionPreference = 'Stop';
 
 $packageName = "Syringe"
-$toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition)
-. "$toolsDir\common.ps1"
+$toolsDir = $(Split-Path -parent $MyInvocation.MyCommand.Definition) . "$toolsDir\common.ps1"
+
+$serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
+$websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
+
+$serviceDir = "$toolsDir\Syringe.Service"
+$websiteDir = "$toolsDir\Syringe.Web"
+
+$serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
+$websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
+
+$version = "{{VERSION}}"
+$url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
+$url64 = $url
 
 if ((Test-IisInstalled) -eq $False)
 {
     throw "IIS is not installed, please install it before continuing."
 }
 
-$version = "{{VERSION}}"
-$url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
-$url64 = $url
+# Uninstall the service if it exists
+if (test-path $serviceExe)
+{
+  Write-Host "Service found - stopping and uninstalling the service."
+  & $serviceExe stop 2>&1
+  & $serviceExe uninstall
+}
+
+# Backup the configs
+cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
+cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
+cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
 
 $packageArgs = @{
   packageName   = $packageName
@@ -24,15 +45,6 @@ $packageArgs = @{
 # Download
 Install-ChocolateyZipPackage $packageName $url $toolsDir
 
-$serviceZip = "$toolsDir\Syringe.Service.$version.0.zip"
-$websiteZip = "$toolsDir\Syringe.Web.$version.0.zip"
-
-$serviceDir = "$toolsDir\Syringe.Service"
-$websiteDir = "$toolsDir\Syringe.Web"
-
-$serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
-$websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
-
 # Parse command line arguments - this function is required because of the context Chocolatey runs in, e.g.
 # choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
 $arguments = @{}
@@ -41,19 +53,6 @@ $arguments["websiteDomain"] = "localhost";
 $arguments["websiteDir"] = $websiteDir;
 $arguments["restoreConfigs"] = "false";
 Parse-Parameters($arguments);
-
-# Backup the configs
-cp "$serviceDir\configuration.json" "$serviceDir\configuration.bak.json" -Force -ErrorAction Ignore
-cp "$serviceDir\environments.json" "$serviceDir\environments.bak.json" -Force -ErrorAction Ignore
-cp "$websiteDir\configuration.json" "$websiteDir\configuration.bak.json" -Force -ErrorAction Ignore
-
-# Uninstall the service if it exists
-if (test-path $serviceExe)
-{
-  Write-Host "Service found - stopping and uninstalling the service."
-  & $serviceExe stop 2>&1
-  & $serviceExe uninstall
-}
 
 # Unzip the service + website (overwrites existing files when upgrading)
 Get-ChocolateyUnzip  $serviceZip $serviceDir "" $packageName
@@ -69,6 +68,7 @@ if ($arguments["restoreConfigs"] -eq "true")
 }
 
 # Add the user "SyringeUser" for the service
+# TODO don't do this if the user exists
 .\add-syringeuser.ps1
 
 # Install and start the service
