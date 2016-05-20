@@ -90,8 +90,11 @@ if (!(test-path "$serviceDir\configuration.json"))
         }
     }';
 
+    $xmlDir = $arguments["websiteDir"];
+    $xmlDir = $xmlDir.Replace($xmlDir, "\", "\\");
+    
     $json = $json.Replace("{WEBSITEURL}", $arguments["websiteDomain"] +":"+ $arguments["websitePort"]);
-    $json = $json.Replace("{XML-DIR}", $arguments["websiteDir"]); 
+    $json = $json.Replace("{XML-DIR}", $xmlDir); 
 
     [System.IO.File]::WriteAllText("$serviceDir\configuration.json", $json);
 }
