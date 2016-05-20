@@ -75,10 +75,10 @@ if (!(test-path "$serviceDir\configuration.json"))
     $json = '{
         "ServiceUrl": "http://*:1981",
         "WebsiteUrl": "http://{WEBSITEURL}",
-        "TestFilesBaseDirectory": "{XML-DIR}",
+        "TestFilesBaseDirectory": "{TESTFILES-DIR}",
         "TestFileFormat": "Xml",
         "MongoDbDatabaseName": "Syringe",
-        "ReadonlyMode": true,
+        "ReadonlyMode": false,
         "OAuthConfiguration": {
             "GithubAuthClientId": "",
             "GithubAuthClientSecret": "",
@@ -95,11 +95,17 @@ if (!(test-path "$serviceDir\configuration.json"))
 
     $websiteUrl = $arguments["websiteDomain"] + ":" + $arguments["websitePort"];
 
-    $xmlDir = $arguments["websiteDir"];
-    $xmlDir = $xmlDir.Replace("\", "\\");
+    $testFilesDir = $arguments["websiteDir"];
+    $testFilesDir = $xmlDir.Replace("\", "\\");
+    $testFilesDir += "\\TestFiles"
+
+    if (!(test-path $testFilesDir))
+    {
+        md $testFilesDir -ErrorAction Ignore
+    }
 
     $json = $json.Replace("{WEBSITEURL}", $websiteUrl);
-    $json = $json.Replace("{XML-DIR}", $xmlDir); 
+    $json = $json.Replace("{TESTFILES-DIR}", $testFilesDir); 
 
     [System.IO.File]::WriteAllText("$serviceDir\configuration.json", $json);
 }
