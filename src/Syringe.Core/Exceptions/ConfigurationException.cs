@@ -2,13 +2,13 @@
 
 namespace Syringe.Core.Exceptions
 {
-	public class CodeEvaluationException : Exception
+	public class ConfigurationException : Exception
 	{
-		public CodeEvaluationException(string message) : base(message)
+		public ConfigurationException(string message, string args) : base(string.Format(message, args))
 		{
 		}
 
-		public CodeEvaluationException(Exception inner, string message, params object[] args) : base(string.Format(message, args), inner)
+		public ConfigurationException(string message, params object[] args) : base(string.Format(message, args))
 		{
 		}
 	}
