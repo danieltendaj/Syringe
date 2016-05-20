@@ -4,8 +4,8 @@
     {
         None = 0,
         HtmlDecode = 1,
-        //HtmlEncode = 2,
-        //UrlDecode = 3,
-        //UrlEncode = 4
+        HtmlEncode = 2,
+        UrlDecode = 3,
+        UrlEncode = 4
     }
 }
