@@ -12,6 +12,9 @@ $websiteDir = "$toolsDir\Syringe.Web"
 $serviceExe = "$toolsDir\Syringe.Service\Syringe.Service.exe"
 $websiteSetupScript = "$toolsDir\Syringe.Web\bin\iis.ps1"
 
+$syringeUsername = "SyringeUser"
+$syringePassword = "Passw0rd123"
+
 $version = "{{VERSION}}"
 $url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
@@ -111,12 +114,12 @@ if ($arguments["restoreConfigs"] -eq "true")
 }
 
 # Add the user "SyringeUser" for the service
-# TODO don't do this if the user exists
-Invoke-Expression "$toolsDir\add-syringeuser.ps1"
+. "$toolsDir\adduser.ps1"
+AddUser $syringeUsername, $syringePassword
 
 # Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
-& $serviceExe install --autostart -username=".\SyringeUser" -password="Password"
+& $serviceExe install --autostart -username=".\$syringeUsername" -password="$syringePassword"
 
 Write-Host "Starting the Syringe service." -ForegroundColor Green
 & $serviceExe start
