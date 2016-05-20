@@ -115,7 +115,7 @@ if ($arguments["restoreConfigs"] -eq "true")
 
 # Add the user "SyringeUser" for the service
 . "$toolsDir\adduser.ps1"
-AddUser $syringeUsername, $syringePassword
+AddUser $syringeUsername $syringePassword
 
 # Install and start the service
 Write-Host "Installing the Syringe service." -ForegroundColor Green
