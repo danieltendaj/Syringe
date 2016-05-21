@@ -12,7 +12,7 @@
 
         $.get(test.URL, function (html) {
             var panelBody = test.$Button.parent().next();
-            var formGroup = panelBody.find(".form-group:last-child"), rowNumber = 0;
+            var formGroup = panelBody.find(".form-group").last(), rowNumber = 0;
 
             if (formGroup.length !== 0) {
                 var firstInputName = formGroup.find("input:first").attr("name");
