@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web.Mvc;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
@@ -33,10 +35,10 @@ namespace Syringe.Web.Mappers
                 ExpectedHttpStatusCode = test.ExpectedHttpStatusCode,
                 Description = test.Description,
                 Url = test.Url,
-                Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod}).ToList(),
+                Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 Filename = test.Filename,
                 AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList(),
-				BeforeExecuteScript = test.BeforeExecuteScript
+                BeforeExecuteScript = test.BeforeExecuteScript
             };
 
             return model;
@@ -54,9 +56,9 @@ namespace Syringe.Web.Mappers
                 Position = x.Position,
                 Description = x.Description,
                 Url = x.Url,
-				Assertions = x.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
-				CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
-			});
+                Assertions = x.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
+                CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
+            });
         }
 
         public Test BuildCoreModel(TestViewModel testModel)
@@ -78,7 +80,7 @@ namespace Syringe.Web.Mappers
                 Url = testModel.Url,
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
-				BeforeExecuteScript = testModel.BeforeExecuteScript,
+                BeforeExecuteScript = testModel.BeforeExecuteScript,
             };
         }
 
