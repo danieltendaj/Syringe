@@ -42,7 +42,7 @@
 						</div>
 						@Html.LabelFor(x => x.ExpectedHttpStatusCode, new {@class = "col-sm-2 control-label"})
 						<div class="col-sm-4">
-							@Html.EnumDropDownListFor(x => x.ExpectedHttpStatusCode, new {@class = "form-control"})
+                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
 						</div>
 					</div>
 
