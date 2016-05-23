@@ -10,38 +10,6 @@ namespace Syringe.Web.Mappers
 {
     public class TestFileMapper : ITestFileMapper
     {
-        public TestViewModel BuildViewModel(Test test)
-        {
-            if (test == null)
-            {
-                throw new ArgumentNullException(nameof(test));
-            }
-
-            MethodType methodType;
-            if (!Enum.TryParse(test.Method, true, out methodType))
-            {
-                methodType = MethodType.GET;
-            }
-
-            var model = new TestViewModel
-            {
-                Position = test.Position,
-                Headers = test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }).ToList(),
-                CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex, PostProcessorType = x.PostProcessorType }).ToList(),
-                PostBody = test.PostBody,
-                Method = methodType,
-                ExpectedHttpStatusCode = test.ExpectedHttpStatusCode,
-                Description = test.Description,
-                Url = test.Url,
-                Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
-                Filename = test.Filename,
-                AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList(),
-                BeforeExecuteScript = test.BeforeExecuteScript
-            };
-
-            return model;
-        }
-
         public TestViewModel BuildTestViewModel(TestFile testFile, int position)
         {
             if (testFile == null)

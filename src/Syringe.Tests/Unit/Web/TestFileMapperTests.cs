@@ -100,7 +100,7 @@ namespace Syringe.Tests.Unit.Web
         {
             var testFileMapper = new TestFileMapper();
 
-            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildViewModel(null));
+            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTestViewModel(null, 0));
         }
 
         [Test]
@@ -162,53 +162,7 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
             Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
         }
-
-        [Test]
-        public void BuildViewModel_should_return_correct_model_values_from_test()
-        {
-            // given
-            var fileMapper = new TestFileMapper();
-
-            var test = new Test
-            {
-                Position = 1,
-                Description = "Short Description",
-                Url = "http://www.google.com",
-                Method = MethodType.GET.ToString(),
-                PostBody = "PostBody",
-                ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-                Headers = new List<Syringe.Core.Tests.HeaderItem> { new Syringe.Core.Tests.HeaderItem() },
-                CapturedVariables = new List<CapturedVariable> { new CapturedVariable() },
-                Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
-                Filename = "test.xml",
-                BeforeExecuteScript = "// this is some script"
-            };
-
-            // when
-            TestViewModel testViewModel = fileMapper.BuildViewModel(test);
-
-            // then
-            Assert.NotNull(testViewModel);
-            Assert.AreEqual(test.Position, testViewModel.Position);
-            Assert.AreEqual(test.Description, testViewModel.Description);
-            Assert.AreEqual(test.Url, testViewModel.Url);
-            Assert.AreEqual(test.PostBody, testViewModel.PostBody);
-            Assert.AreEqual(MethodType.GET, testViewModel.Method);
-            Assert.AreEqual(test.ExpectedHttpStatusCode, testViewModel.ExpectedHttpStatusCode);
-            Assert.AreEqual(test.Filename, testViewModel.Filename);
-            Assert.AreEqual(test.BeforeExecuteScript, testViewModel.BeforeExecuteScript);
-
-            Assert.AreEqual(1, testViewModel.CapturedVariables.Count);
-            Assert.AreEqual(1, testViewModel.Assertions.Count);
-            Assert.AreEqual(1, test.Headers.Count);
-
-            AssertionViewModel assertionViewModel = testViewModel.Assertions.FirstOrDefault();
-            Assert.That(assertionViewModel.Description, Is.EqualTo("Desc"));
-            Assert.That(assertionViewModel.Value, Is.EqualTo("Val"));
-            Assert.That(assertionViewModel.AssertionType, Is.EqualTo(AssertionType.Negative));
-            Assert.That(assertionViewModel.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
-        }
-
+        
         [Test]
         public void BuildTestViewModel_should_return_correct_model_values_from_test()
         {

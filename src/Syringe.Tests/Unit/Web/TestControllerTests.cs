@@ -32,7 +32,6 @@ namespace Syringe.Tests.Unit.Web
             _configuration = new JsonConfiguration();
 
             _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()));
-            _testFileMapperMock.Setup(x => x.BuildViewModel(It.IsAny<Test>())).Returns(new TestViewModel());
             _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             _testServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()));
