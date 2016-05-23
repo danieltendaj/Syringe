@@ -14,322 +14,341 @@ using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {
-	[TestFixture]
-	public class TestsClientTests
-	{
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
-		{
-			ServiceStarter.StartSelfHostedOwin();
-		}
+    [TestFixture]
+    public class TestsClientTests
+    {
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            ServiceStarter.StartSelfHostedOwin();
+        }
 
-		[TestFixtureTearDown]
-		public void TestFixtureTearDown()
-		{
-			ServiceStarter.OwinServer.Dispose();
-		}
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            ServiceStarter.OwinServer.Dispose();
+        }
 
-		[SetUp]
-		public void Setup()
-		{
-			Console.WriteLine("Wiping MongoDB results database {0}", ServiceStarter.MongodbDatabaseName);
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
-			repository.Wipe();
+        [SetUp]
+        public void Setup()
+        {
+            Console.WriteLine("Wiping MongoDB results database {0}", ServiceStarter.MongodbDatabaseName);
+            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            repository.Wipe();
 
-			ServiceStarter.RecreateXmlDirectory();
-		}
+            ServiceStarter.RecreateXmlDirectory();
+        }
 
-		[Test]
-		public void ListFiles_should_list_all_files()
-		{
-			// given
-			string testFilepath1 = Helpers.GetFullPath(Helpers.GetXmlFilename());
-			File.WriteAllText(testFilepath1, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
+        [Test]
+        public void ListFiles_should_list_all_files()
+        {
+            // given
+            string testFilepath1 = Helpers.GetFullPath(Helpers.GetXmlFilename());
+            File.WriteAllText(testFilepath1, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
-			string testFilepath2 = Helpers.GetFullPath(Helpers.GetXmlFilename());
-			File.WriteAllText(testFilepath2, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
+            string testFilepath2 = Helpers.GetFullPath(Helpers.GetXmlFilename());
+            File.WriteAllText(testFilepath2, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
-			TestsClient client = Helpers.CreateTestsClient();
+            TestsClient client = Helpers.CreateTestsClient();
 
-			// when
-			IEnumerable<string> files = client.ListFiles();
+            // when
+            IEnumerable<string> files = client.ListFiles();
 
-			// then
-			Assert.That(files, Is.Not.Null);
-			Assert.That(files.Count(), Is.EqualTo(2));
-		}
+            // then
+            Assert.That(files, Is.Not.Null);
+            Assert.That(files.Count(), Is.EqualTo(2));
+        }
 
-		[Test]
-		public void GetTest_should_return_expected_test_using_position()
-		{
-			// given
-			int testIndex = 1;
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
-			Test expectedTest = testFile.Tests.ToList()[testIndex];
-			
-			// when
-			Test actualTest = client.GetTest(testFile.Filename, testIndex);
+        [Test]
+        public void GetTest_should_return_expected_test_using_position()
+        {
+            // given
+            int testIndex = 1;
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            Test expectedTest = testFile.Tests.ToList()[testIndex];
 
-			// then
-			Assert.That(actualTest, Is.Not.Null);
-			Assert.That(actualTest.Filename, Is.EqualTo(expectedTest.Filename));
-			Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
-		}
+            // when
+            Test actualTest = client.GetTest(testFile.Filename, testIndex);
 
-		[Test]
-		public void GetTestFile_should_return_expected_testfile()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            // then
+            Assert.That(actualTest, Is.Not.Null);
+            Assert.That(actualTest.Filename, Is.EqualTo(expectedTest.Filename));
+            Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
+        }
 
-			// when
-			TestFile actualTestFile = client.GetTestFile(testFile.Filename);
+        [Test]
+        public void GetTestFile_should_return_expected_testfile()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			// then
-			Assert.That(actualTestFile, Is.Not.Null);
-			Assert.That(actualTestFile.Filename, Is.EqualTo(testFile.Filename));
-			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
-		}
+            // when
+            TestFile actualTestFile = client.GetTestFile(testFile.Filename);
 
-		[Test]
-		public void GetXml_should_return_expected_source()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            // then
+            Assert.That(actualTestFile, Is.Not.Null);
+            Assert.That(actualTestFile.Filename, Is.EqualTo(testFile.Filename));
+            Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
+        }
 
-			// when
-			string xml = client.GetRawFile(testFile.Filename);
+        [Test]
+        public void GetXml_should_return_expected_source()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			// then
-			Assert.That(xml, Is.Not.Null);
-			Assert.That(xml, Is.StringContaining(@"<?xml version=""1.0"""));
-			Assert.That(xml, Is.StringContaining("<tests"));
-			Assert.That(xml, Is.StringContaining("<test"));
-		}
+            // when
+            string xml = client.GetRawFile(testFile.Filename);
 
-		[Test]
-		public void EditTest_should_save_changes_to_test()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
-			Test expectedTest = testFile.Tests.FirstOrDefault();
-			expectedTest.Description = "new description";
+            // then
+            Assert.That(xml, Is.Not.Null);
+            Assert.That(xml, Is.StringContaining(@"<?xml version=""1.0"""));
+            Assert.That(xml, Is.StringContaining("<tests"));
+            Assert.That(xml, Is.StringContaining("<test"));
+        }
 
-			// when
-			bool success = client.EditTest(expectedTest);
+        [Test]
+        public void EditTest_should_save_changes_to_test()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            Test expectedTest = testFile.Tests.FirstOrDefault();
+            expectedTest.Description = "new description";
 
-			// then
-			Test actualTest = client.GetTest(testFile.Filename, 0);
-			
-			Assert.True(success);
-			Assert.That(actualTest.Description, Is.StringContaining("new description"));
-		}
+            // when
+            bool success = client.EditTest(expectedTest);
 
-		[Test]
-		public void CreateTest_should_create_test_for_existing_file()
-		{
-			// given
-			string filename = Helpers.GetXmlFilename();
-			TestsClient client = Helpers.CreateTestsClient();
-			client.CreateTestFile(new TestFile() { Filename = filename });
+            // then
+            Test actualTest = client.GetTest(testFile.Filename, 0);
 
-			var test = new Test()
-			{
-				Filename = filename,
-				Assertions = new List<Assertion>(),
-				AvailableVariables = new List<Variable>(),
-				CapturedVariables = new List<CapturedVariable>(),
-				Headers = new List<HeaderItem>(),
-				Method = "POST",
-				Url = "url"
-			};
+            Assert.True(success);
+            Assert.That(actualTest.Description, Is.StringContaining("new description"));
+        }
 
-			// when
-			bool success = client.CreateTest(test);
+        [Test]
+        public void EditTest_should_save_changes_to_test_as_expected()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            Test expectedTest = testFile.Tests.FirstOrDefault();
+            expectedTest.Description = "new description";
 
-			// then
-			string fullPath = Helpers.GetFullPath(filename);
+            // when
+            bool success = client.EditTest(testFile.Filename, 0, expectedTest);
 
-			Assert.True(success);
-			Assert.True(File.Exists(fullPath));
-			Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
-		}
+            // then
+            Test actualTest = client.GetTest(testFile.Filename, 0);
 
-		[Test]
-		public void DeleteTest_should_save_changes_to_test()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile expectedTestFile = Helpers.CreateTestFileAndTest(client);
+            Assert.True(success);
+            Assert.That(actualTest.Description, Is.StringContaining("new description"));
+        }
 
-			// when
-			bool success = client.DeleteTest(0, expectedTestFile.Filename);
+        [Test]
+        public void CreateTest_should_create_test_for_existing_file()
+        {
+            // given
+            string filename = Helpers.GetXmlFilename();
+            TestsClient client = Helpers.CreateTestsClient();
+            client.CreateTestFile(new TestFile() { Filename = filename });
 
-			// then
-			TestFile actualTestFile = client.GetTestFile(expectedTestFile.Filename);
+            var test = new Test()
+            {
+                Filename = filename,
+                Assertions = new List<Assertion>(),
+                AvailableVariables = new List<Variable>(),
+                CapturedVariables = new List<CapturedVariable>(),
+                Headers = new List<HeaderItem>(),
+                Method = "POST",
+                Url = "url"
+            };
 
-			Assert.True(success);
-			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(1));
-		}
+            // when
+            bool success = client.CreateTest(test);
 
-		[Test]
-		public void CreateTestFile_should_write_file()
-		{
-			// given
-			string filename = Helpers.GetXmlFilename();
-			TestsClient client = Helpers.CreateTestsClient();
+            // then
+            string fullPath = Helpers.GetFullPath(filename);
 
-			// when
-			bool success = client.CreateTestFile(new TestFile() { Filename = filename });
+            Assert.True(success);
+            Assert.True(File.Exists(fullPath));
+            Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
+        }
 
-			// then
-			string fullPath = Helpers.GetFullPath(filename);
+        [Test]
+        public void DeleteTest_should_save_changes_to_test()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile expectedTestFile = Helpers.CreateTestFileAndTest(client);
 
-			Assert.True(success);
-			Assert.True(File.Exists(fullPath));
-			Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
-		}
+            // when
+            bool success = client.DeleteTest(0, expectedTestFile.Filename);
 
-		//--------------------------
-		[Test]
-		public void UpdateTestFile_should_store_changes()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
-			testFile.Tests = new List<Test>();
+            // then
+            TestFile actualTestFile = client.GetTestFile(expectedTestFile.Filename);
 
-			// when
-			bool success = client.UpdateTestVariables(testFile);
+            Assert.True(success);
+            Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(1));
+        }
 
-			// then
-			Assert.True(success);
+        [Test]
+        public void CreateTestFile_should_write_file()
+        {
+            // given
+            string filename = Helpers.GetXmlFilename();
+            TestsClient client = Helpers.CreateTestsClient();
 
-			TestFile actualTestFile = client.GetTestFile(testFile.Filename);
-			Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
-		}
+            // when
+            bool success = client.CreateTestFile(new TestFile() { Filename = filename });
 
-		[Test]
-		public void GetSummaries_should_return_all_results()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            // then
+            string fullPath = Helpers.GetFullPath(filename);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            Assert.True(success);
+            Assert.True(File.Exists(fullPath));
+            Assert.That(new FileInfo(fullPath).Length, Is.GreaterThan(0));
+        }
 
-			var result1 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
-			var result2 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
+        //--------------------------
+        [Test]
+        public void UpdateTestFile_should_store_changes()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            testFile.Tests = new List<Test>();
 
-			repository.AddAsync(result1).Wait();
-			repository.AddAsync(result2).Wait();
+            // when
+            bool success = client.UpdateTestVariables(testFile);
+
+            // then
+            Assert.True(success);
+
+            TestFile actualTestFile = client.GetTestFile(testFile.Filename);
+            Assert.That(actualTestFile.Tests.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void GetSummaries_should_return_all_results()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+
+            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+
+            var result1 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
+            var result2 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
+
+            repository.AddAsync(result1).Wait();
+            repository.AddAsync(result2).Wait();
 
             // when
             TestFileResultSummaryCollection results = client.GetSummaries(It.IsAny<DateTime>()).Result;
 
-			// then
-			Assert.That(results.TotalFileResults, Is.EqualTo(2));
-		}
+            // then
+            Assert.That(results.TotalFileResults, Is.EqualTo(2));
+        }
 
-		[Test]
-		public void GetResultById_should_return_expected_result()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+        [Test]
+        public void GetResultById_should_return_expected_result()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
-			var result1 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
-			var result2 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
+            var result1 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
+            var result2 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
 
-			repository.AddAsync(result1).Wait();
-			repository.AddAsync(result2).Wait();
+            repository.AddAsync(result1).Wait();
+            repository.AddAsync(result2).Wait();
 
-			// when
-			TestFileResult actualResult = client.GetResultById(result2.Id);
+            // when
+            TestFileResult actualResult = client.GetResultById(result2.Id);
 
-			// then
-			Assert.That(actualResult, Is.Not.Null);
-			Assert.That(actualResult.Id, Is.EqualTo(result2.Id));
-		}
+            // then
+            Assert.That(actualResult, Is.Not.Null);
+            Assert.That(actualResult.Id, Is.EqualTo(result2.Id));
+        }
 
-		[Test]
-		public void DeleteResultAsync_should_delete_expected_result()
-		{
-			// given
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+        [Test]
+        public void DeleteResultAsync_should_delete_expected_result()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
-			var result1 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
-			var result2 = new TestFileResult()
-			{
-				StartTime = DateTime.Now,
-				EndTime = DateTime.Now.AddSeconds(1),
-				Filename = testFile.Filename
-			};
+            var result1 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
+            var result2 = new TestFileResult()
+            {
+                StartTime = DateTime.Now,
+                EndTime = DateTime.Now.AddSeconds(1),
+                Filename = testFile.Filename
+            };
 
-			repository.AddAsync(result1).Wait();
-			repository.AddAsync(result2).Wait();
+            repository.AddAsync(result1).Wait();
+            repository.AddAsync(result2).Wait();
 
-			// when
-			client.DeleteResultAsync(result2.Id).Wait();
+            // when
+            client.DeleteResultAsync(result2.Id).Wait();
 
-			// then
-			TestFileResult deletedResult = client.GetResultById(result2.Id);
-			Assert.That(deletedResult, Is.Null);
+            // then
+            TestFileResult deletedResult = client.GetResultById(result2.Id);
+            Assert.That(deletedResult, Is.Null);
 
-			TestFileResult otherResult = client.GetResultById(result1.Id);
-			Assert.That(otherResult, Is.Not.Null);
-		}
+            TestFileResult otherResult = client.GetResultById(result1.Id);
+            Assert.That(otherResult, Is.Not.Null);
+        }
 
-		[Test]
-		public void DeleteFile_should_delete_file_from_disk()
-		{
-			// given
-			string filename = Helpers.GetXmlFilename();
-			TestsClient client = Helpers.CreateTestsClient();
-			TestFile testFile = Helpers.CreateTestFileAndTest(client);
+        [Test]
+        public void DeleteFile_should_delete_file_from_disk()
+        {
+            // given
+            string filename = Helpers.GetXmlFilename();
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-			// when
-			bool success = client.DeleteFile(testFile.Filename);
+            // when
+            bool success = client.DeleteFile(testFile.Filename);
 
-			// then
-			string fullPath = Helpers.GetFullPath(filename);
+            // then
+            string fullPath = Helpers.GetFullPath(filename);
 
-			Assert.True(success);
-			Assert.False(File.Exists(fullPath));
-		}
-	}
+            Assert.True(success);
+            Assert.False(File.Exists(fullPath));
+        }
+    }
 }

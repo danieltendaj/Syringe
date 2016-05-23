@@ -40,7 +40,7 @@ namespace Syringe.Core.Tests.Repositories
 			}
 		}
 
-		public bool CreateTest(Test test)
+	    public bool CreateTest(Test test)
 		{
 			if (test == null)
 			{
@@ -98,9 +98,39 @@ namespace Syringe.Core.Tests.Repositories
 			string contents = _testFileWriter.Write(collection);
 
 			return _fileHandler.WriteAllText(fullPath, contents);
-		}
+        }
 
-		public bool DeleteTest(int position, string filename)
+        public bool SaveTest(string filename, int position, Test test)
+        {
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
+
+            TestFile testFile;
+
+            using (var stringReader = new StringReader(fileContents))
+            {
+                testFile = _testFileReader.Read(stringReader);
+            }
+
+            Test singleTest = testFile.Tests.ElementAt(position);
+
+            singleTest.Description = test.Description;
+            singleTest.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
+            singleTest.Method = test.Method;
+            singleTest.CapturedVariables = test.CapturedVariables;
+            singleTest.PostBody = test.PostBody;
+            singleTest.Assertions = test.Assertions;
+            singleTest.Description = test.Description;
+            singleTest.Url = test.Url;
+            singleTest.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
+            singleTest.BeforeExecuteScript = test.BeforeExecuteScript;
+
+            string contents = _testFileWriter.Write(testFile);
+
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
+
+        public bool DeleteTest(int position, string filename)
 		{
 			string fullPath = _fileHandler.GetFileFullPath(filename);
 			string fileContents = _fileHandler.ReadAllText(fullPath);

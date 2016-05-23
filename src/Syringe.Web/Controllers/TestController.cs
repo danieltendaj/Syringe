@@ -13,85 +13,85 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[AuthorizeWhenOAuth]
-	public class TestController : Controller
-	{
-		private readonly ITestService _testsClient;
-		private readonly ITestFileMapper _testFileMapper;
-	    private readonly IEnvironmentsService _environmentsService;
-		private readonly IConfiguration _configuration;
+    [AuthorizeWhenOAuth]
+    public class TestController : Controller
+    {
+        private readonly ITestService _testsClient;
+        private readonly ITestFileMapper _testFileMapper;
+        private readonly IEnvironmentsService _environmentsService;
+        private readonly IConfiguration _configuration;
 
-		public TestController(
-			ITestService testsClient,
-			ITestFileMapper testFileMapper,
+        public TestController(
+            ITestService testsClient,
+            ITestFileMapper testFileMapper,
             IEnvironmentsService environmentsService,
-			IConfiguration configuration)
-		{
-			_testsClient = testsClient;
-			_testFileMapper = testFileMapper;
-	        _environmentsService = environmentsService;
-			_configuration = configuration;
-		}
+            IConfiguration configuration)
+        {
+            _testsClient = testsClient;
+            _testFileMapper = testFileMapper;
+            _environmentsService = environmentsService;
+            _configuration = configuration;
+        }
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			AddPagingDataForBreadCrumb();
-			base.OnActionExecuting(filterContext);
-		}
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            AddPagingDataForBreadCrumb();
+            base.OnActionExecuting(filterContext);
+        }
 
-		public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
-		{
+        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
+        {
             TestFile testFile = _testsClient.GetTestFile(filename);
-			IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
+            IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 
-			var viewModel = new TestFileViewModel
-			{
-				PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
-				Tests = _testFileMapper.BuildTests(tests),
-				Filename = filename,
-				PageNumber = pageNumber,
-				NoOfResults = noOfResults,
+            var viewModel = new TestFileViewModel
+            {
+                PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
+                Tests = _testFileMapper.BuildTests(tests),
+                Filename = filename,
+                PageNumber = pageNumber,
+                NoOfResults = noOfResults,
                 Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
-			};
+            };
 
-			string viewName = "View";
-			if (_configuration.ReadonlyMode)
-			{
-				viewName = "View-ReadonlyMode";
-			}
+            string viewName = "View";
+            if (_configuration.ReadonlyMode)
+            {
+                viewName = "View-ReadonlyMode";
+            }
 
-			return View(viewName, viewModel);
-		}
+            return View(viewName, viewModel);
+        }
 
         [HttpGet]
-		[EditableTestsRequired]
-		public ActionResult Edit(string filename, int position)
+        [EditableTestsRequired]
+        public ActionResult Edit(string filename, int position)
         {
             TestFile testFile = _testsClient.GetTestFile(filename);
             TestViewModel model = _testFileMapper.BuildTestViewModel(testFile, position);
 
-			return View("Edit", model);
-		}
+            return View("Edit", model);
+        }
 
-		[HttpPost]
-		[ValidateInput(false)]
-		[EditableTestsRequired]
-		public ActionResult Edit(TestViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.EditTest(test);
-				return RedirectToAction("View", new { filename = model.Filename });
-			}
+        [HttpPost]
+        [ValidateInput(false)]
+        [EditableTestsRequired]
+        public ActionResult Edit(TestViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Test test = _testFileMapper.BuildCoreModel(model);
+                _testsClient.EditTest(model.Filename, model.Position, test);
+                return RedirectToAction("View", new { filename = model.Filename });
+            }
 
-			return View("Edit", model);
-		}
+            return View("Edit", model);
+        }
 
         [HttpGet]
-		[EditableTestsRequired]
-		public ActionResult Add(string filename)
-		{
+        [EditableTestsRequired]
+        public ActionResult Add(string filename)
+        {
             TestFile testFile = _testsClient.GetTestFile(filename);
             var model = new TestViewModel
             {
@@ -101,71 +101,71 @@ namespace Syringe.Web.Controllers
                 ExpectedHttpStatusCode = HttpStatusCode.OK
             };
 
-			return View("Edit", model);
-		}
+            return View("Edit", model);
+        }
 
-		[HttpPost]
-		[ValidateInput(false)]
-		[EditableTestsRequired]
-		public ActionResult Add(TestViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				Test test = _testFileMapper.BuildCoreModel(model);
+        [HttpPost]
+        [ValidateInput(false)]
+        [EditableTestsRequired]
+        public ActionResult Add(TestViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Test test = _testFileMapper.BuildCoreModel(model);
                 _testsClient.CreateTest(test);
-				return RedirectToAction("View", new { filename = model.Filename });
-			}
+                return RedirectToAction("View", new { filename = model.Filename });
+            }
 
-			return View("Edit", model);
-		}
+            return View("Edit", model);
+        }
 
-		[HttpPost]
-		[EditableTestsRequired]
-		public ActionResult Delete(int position, string fileName)
-		{
+        [HttpPost]
+        [EditableTestsRequired]
+        public ActionResult Delete(int position, string fileName)
+        {
             _testsClient.DeleteTest(position, fileName);
 
-			return RedirectToAction("View", new { filename = fileName });
-		}
+            return RedirectToAction("View", new { filename = fileName });
+        }
 
-	    [HttpPost]
-		[EditableTestsRequired]
-		public ActionResult Copy(int position, string fileName)
+        [HttpPost]
+        [EditableTestsRequired]
+        public ActionResult Copy(int position, string fileName)
         {
             _testsClient.CopyTest(position, fileName);
 
             return RedirectToAction("View", new { filename = fileName });
         }
 
-		[EditableTestsRequired]
-		public ActionResult AddAssertion()
-		{
-			return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
-		}
+        [EditableTestsRequired]
+        public ActionResult AddAssertion()
+        {
+            return PartialView("EditorTemplates/AssertionViewModel", new AssertionViewModel());
+        }
 
-		[EditableTestsRequired]
-		public ActionResult AddCapturedVariableItem()
-		{
-			return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
-		}
+        [EditableTestsRequired]
+        public ActionResult AddCapturedVariableItem()
+        {
+            return PartialView("EditorTemplates/CapturedVariableItem", new CapturedVariableItem());
+        }
 
-		[EditableTestsRequired]
-		public ActionResult AddHeaderItem()
-		{
-			return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
-		}
+        [EditableTestsRequired]
+        public ActionResult AddHeaderItem()
+        {
+            return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
+        }
 
-		public ActionResult ViewRawFile(string fileName)
-		{
+        public ActionResult ViewRawFile(string fileName)
+        {
             var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
-			return View("ViewRawFile", model);
-		}
+            return View("ViewRawFile", model);
+        }
 
-		private void AddPagingDataForBreadCrumb()
-		{
-			// Paging support for the breadcrumb trail
-			ViewBag.PageNumber = Request.QueryString["pageNumber"];
-			ViewBag.NoOfResults = Request.QueryString["noOfResults"];
-		}
-	}
+        private void AddPagingDataForBreadCrumb()
+        {
+            // Paging support for the breadcrumb trail
+            ViewBag.PageNumber = Request.QueryString["pageNumber"];
+            ViewBag.NoOfResults = Request.QueryString["noOfResults"];
+        }
+    }
 }

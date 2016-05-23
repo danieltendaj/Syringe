@@ -56,6 +56,13 @@ namespace Syringe.Service.Api
             return _testRepository.SaveTest(test);
         }
 
+        [Route("api/tests/EditTest")]
+        [HttpPost]
+        public bool EditTest(string filename, int position, [FromBody]Test test)
+        {
+            return _testRepository.SaveTest(filename, position, test);
+        }
+
         [Route("api/tests/CreateTest")]
         [HttpPost]
         public bool CreateTest([FromBody]Test test)

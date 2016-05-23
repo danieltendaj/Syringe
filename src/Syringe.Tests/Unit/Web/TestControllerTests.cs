@@ -75,12 +75,12 @@ namespace Syringe.Tests.Unit.Web
             // given
             const string expectedTestFileName = "gimme variables please";
             const int expectedPosition = 1;
-            
+
             var expectedTestFile = new TestFile();
             _testServiceMock
                 .Setup(x => x.GetTestFile(expectedTestFileName))
                 .Returns(expectedTestFile);
-            
+
             var expectedViewModel = new TestViewModel();
             _testFileMapperMock
                 .Setup(x => x.BuildTestViewModel(expectedTestFile, expectedPosition))
@@ -118,7 +118,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
-            _testServiceMock.Verify(x => x.EditTest(It.IsAny<Test>()), Times.Once);
+            _testServiceMock.Verify(x => x.EditTest(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
 
@@ -145,7 +145,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
-            _testServiceMock.Verify(x => x.EditTest(It.IsAny<Test>()), Times.Never);
+            _testServiceMock.Verify(x => x.EditTest(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Test>()), Times.Never);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
         }

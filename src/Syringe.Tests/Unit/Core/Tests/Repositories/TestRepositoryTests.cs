@@ -78,6 +78,23 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         }
 
         [Test]
+        public void SaveTest_should_return_true_when_test_is_saved()
+        {
+            // given
+            const string filename = "my expected filename.wzzup";
+            const int position = 0;
+
+            // when
+            bool success = _testRepository.SaveTest(filename, position, new Test());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(filename), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
+            Assert.IsTrue(success);
+        }
+
+        [Test]
         public void CreateTest_should_throw_ArgumentNullException_when_test_is_null()
         {
             // given + when + then
