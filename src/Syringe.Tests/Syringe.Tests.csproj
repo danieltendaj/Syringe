@@ -241,7 +241,6 @@
     <Compile Include="Unit\Web\TestControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileControllerTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\Xml\Writer\TestFileWriterTests.cs" />
-    <Compile Include="Integration\Core\Xml\TestFileRunnerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
     <Compile Include="StubsMocks\RestResponseStub.cs" />

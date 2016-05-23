@@ -8,7 +8,6 @@ using Syringe.Core.IO;
 
 namespace Syringe.Tests.Unit.Core.IO
 {
-    [TestFixture(TestFileFormat.Xml)]
     [TestFixture(TestFileFormat.Json)]
     public class FileHandlerTests
     {
@@ -79,7 +78,7 @@ namespace Syringe.Tests.Unit.Core.IO
         {
             // given
             FileHandler fileHandler = new FileHandler(_configurationMock.Object);
-            string fileName = "filedoesnotexist.xml";
+            string fileName = "filedoesnotexist.json";
 
             // when + then
             Assert.Throws<FileNotFoundException>(() => fileHandler.GetFileFullPath(fileName));
@@ -118,7 +117,7 @@ namespace Syringe.Tests.Unit.Core.IO
             FileHandler fileHandler = new FileHandler(_configurationMock.Object);
 
             // when
-            bool fileExists = fileHandler.FileExists("somefakepath/filedoesnotexist.xml");
+            bool fileExists = fileHandler.FileExists("somefakepath/filedoesnotexist.json");
 
             // then
             Assert.That(fileExists, Is.False);

@@ -12,7 +12,7 @@ using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
-using Syringe.Core.Tests.Repositories.Xml.Reader;
+using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 

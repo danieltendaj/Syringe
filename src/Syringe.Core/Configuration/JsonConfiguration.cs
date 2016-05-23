@@ -33,7 +33,7 @@ namespace Syringe.Core.Configuration
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
 			TestFilesBaseDirectory = @"D:\Syringe\";
-            TestFileFormat = TestFileFormat.Xml;
+            TestFileFormat = TestFileFormat.Json;
 			MongoDbDatabaseName = "Syringe";
 			ReadonlyMode = false;
 

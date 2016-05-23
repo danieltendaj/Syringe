@@ -96,10 +96,6 @@ namespace Syringe.Service.DependencyResolution
             // Test XML file readers and writers
             switch (configuration.TestFileFormat)
             {
-                case TestFileFormat.Xml:
-                    For<ITestFileReader>().Use<Core.Tests.Repositories.Xml.Reader.TestFileReader>();
-                    For<ITestFileWriter>().Use<Core.Tests.Repositories.Xml.Writer.TestFileWriter>();
-                    break;
                 case TestFileFormat.Json:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
