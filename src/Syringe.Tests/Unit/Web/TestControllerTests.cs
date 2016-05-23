@@ -73,14 +73,42 @@ namespace Syringe.Tests.Unit.Web
         [Test]
         public void Edit_should_return_correct_view_and_model()
         {
-            // given + when
-            var viewResult = _testController.Edit(It.IsAny<string>(), It.IsAny<int>()) as ViewResult;
+            // given
+            const string expectedTestFileName = "gimme variables please";
+            const int expectedPosition = 1;
+
+            var expectedTest = new Test {Position = 1};
+            var expectedTestFile = new TestFile
+            {
+                Tests = new List<Test>
+                {
+                    new Test(),
+                    expectedTest,
+                }
+            };
+            _testServiceMock
+                .Setup(x => x.GetTestFile(expectedTestFileName))
+                .Returns(expectedTestFile);
+
+            var expectedVariableViewModel = new List<VariableViewModel> { new VariableViewModel() };
+            _testFileMapperMock
+                .Setup(x => x.BuildVariableViewModel(expectedTestFile))
+                .Returns(expectedVariableViewModel);
+
+            var expectedViewModel = new TestViewModel();
+            _testFileMapperMock
+                .Setup(x => x.BuildViewModel(expectedTest))
+                .Returns(expectedViewModel);
+
+            // when
+            var viewResult = _testController.Edit(expectedTestFileName, expectedPosition) as ViewResult;
 
             // then
-            _testServiceMock.Verify(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
-            _testFileMapperMock.Verify(x => x.BuildViewModel(It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("Edit", viewResult.ViewName);
-            Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
+
+            var model = viewResult.Model as TestViewModel;
+            Assert.That(model, Is.EqualTo(expectedViewModel));
+            Assert.That(model.AvailableVariables, Is.EqualTo(expectedVariableViewModel));
         }
 
         [Test]
@@ -113,7 +141,7 @@ namespace Syringe.Tests.Unit.Web
         public void Edit_should_be_decorated_with_httpPost_and_ValidateInput_and_EditableTestsRequired()
         {
             // given + when
-            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(TestViewModel)});
+            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(TestViewModel) });
 
             // then
             Assert.IsTrue(editMethod.IsDefined(typeof(HttpPostAttribute), false));

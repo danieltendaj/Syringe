@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Web.Mvc;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
@@ -39,6 +37,40 @@ namespace Syringe.Web.Mappers
                 Filename = test.Filename,
                 AvailableVariables = test.AvailableVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList(),
                 BeforeExecuteScript = test.BeforeExecuteScript
+            };
+
+            return model;
+        }
+
+        public TestViewModel BuildTestViewModel(TestFile testFile, int position)
+        {
+            if (testFile == null)
+            {
+                throw new ArgumentNullException(nameof(testFile));
+            }
+
+            Test test = testFile.Tests.Skip(position).First();
+
+            MethodType methodType;
+            if (!Enum.TryParse(test.Method, true, out methodType))
+            {
+                methodType = MethodType.GET;
+            }
+
+            var model = new TestViewModel
+            {
+                Position = position,
+                Filename = testFile.Filename,
+                Headers = test.Headers.Select(x => new Models.HeaderItem { Key = x.Key, Value = x.Value }).ToList(),
+                CapturedVariables = test.CapturedVariables.Select(x => new CapturedVariableItem { Name = x.Name, Regex = x.Regex, PostProcessorType = x.PostProcessorType }).ToList(),
+                PostBody = test.PostBody,
+                Method = methodType,
+                ExpectedHttpStatusCode = test.ExpectedHttpStatusCode,
+                Description = test.Description,
+                Url = test.Url,
+                Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
+                AvailableVariables = BuildVariableViewModel(testFile),
+                BeforeExecuteScript = test.BeforeExecuteScript,
             };
 
             return model;
