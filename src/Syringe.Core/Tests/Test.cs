@@ -9,7 +9,6 @@ namespace Syringe.Core.Tests
     [BsonIgnoreExtraElements]
     public class Test
 	{
-		public int Position { get; set; }
 		public string Description { get; set; }
         public string Method { get; set; }
 		public string Url { get; set; }
@@ -19,9 +18,7 @@ namespace Syringe.Core.Tests
 
 		public List<CapturedVariable> CapturedVariables { get; set; }
 		public List<Assertion> Assertions { get; set; }
-
-		public string Filename { get; set; }
-	    public List<Variable> AvailableVariables { get; set; }
+        public List<Variable> AvailableVariables { get; set; }
 
 	    public string BeforeExecuteScript { get; set; }
 
@@ -36,6 +33,11 @@ namespace Syringe.Core.Tests
 		public void AddHeader(string key, string value)
 		{
 			Headers.Add(new HeaderItem(key, value));
-		}
-	}
+        }
+
+        [Obsolete("Please don't use this as it should be infered from the position in the list/array")]
+        public int Position { get; set; }
+        [Obsolete("Please don't use this as it should be infered from the parent")]
+        public string Filename { get; set; }
+    }
 }

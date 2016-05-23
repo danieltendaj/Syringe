@@ -76,28 +76,15 @@ namespace Syringe.Tests.Unit.Web
             // given
             const string expectedTestFileName = "gimme variables please";
             const int expectedPosition = 1;
-
-            var expectedTest = new Test {Position = 1};
-            var expectedTestFile = new TestFile
-            {
-                Tests = new List<Test>
-                {
-                    new Test(),
-                    expectedTest,
-                }
-            };
+            
+            var expectedTestFile = new TestFile();
             _testServiceMock
                 .Setup(x => x.GetTestFile(expectedTestFileName))
                 .Returns(expectedTestFile);
-
-            var expectedVariableViewModel = new List<VariableViewModel> { new VariableViewModel() };
-            _testFileMapperMock
-                .Setup(x => x.BuildVariableViewModel(expectedTestFile))
-                .Returns(expectedVariableViewModel);
-
+            
             var expectedViewModel = new TestViewModel();
             _testFileMapperMock
-                .Setup(x => x.BuildViewModel(expectedTest))
+                .Setup(x => x.BuildTestViewModel(expectedTestFile, expectedPosition))
                 .Returns(expectedViewModel);
 
             // when
@@ -108,7 +95,6 @@ namespace Syringe.Tests.Unit.Web
 
             var model = viewResult.Model as TestViewModel;
             Assert.That(model, Is.EqualTo(expectedViewModel));
-            Assert.That(model.AvailableVariables, Is.EqualTo(expectedVariableViewModel));
         }
 
         [Test]
