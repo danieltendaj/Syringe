@@ -17,6 +17,8 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         private Mock<ITestFileWriter> _testFileWriter;
         private Mock<IFileHandler> _fileHandler;
         private TestRepository _testRepository;
+        const string filename = "filepath.json";
+        const string jsonContent = "Do you know Json?";
 
         [SetUp]
         public void Setup()
@@ -26,13 +28,13 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler = new Mock<IFileHandler>();
 
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>())).Returns("path");
-            _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns("filepath.xml");
-            _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns("<xml></xml>");
-            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = "filepath.xml", Tests = new List<Test> { new Test() } });
+            _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns(filename);
+            _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(jsonContent);
+            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = filename, Tests = new List<Test> { new Test() } });
             _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
-            _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns("<xml></xml>");
+            _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns(jsonContent);
         }
 
         [Test]
@@ -61,7 +63,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
             Assert.IsTrue(success);
         }
-        
+
         [Test]
         public void CreateTest_should_return_true_when_test_is_saved()
         {
@@ -125,7 +127,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         public void DeleteTest_should_throw_NullReferenceException_when_test_does_not_exist()
         {
             // given + when + then
-            Assert.Throws<NullReferenceException>(() => _testRepository.DeleteTest(2, "filePath.xml"));
+            Assert.Throws<NullReferenceException>(() => _testRepository.DeleteTest(2, filename));
         }
 
         [Test]
@@ -147,7 +149,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Setup(x => x.FileExists(It.IsAny<string>())).Returns(true);
 
             // then
-            Assert.Throws<IOException>(() => _testRepository.CreateTestFile(new TestFile { Filename = "filePath.xml" }));
+            Assert.Throws<IOException>(() => _testRepository.CreateTestFile(new TestFile { Filename = filename }));
         }
 
         [Test]
@@ -155,7 +157,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         {
             // given + when
             _fileHandler.Setup(x => x.FileExists(It.IsAny<string>())).Returns(false);
-            var testFile = _testRepository.CreateTestFile(new TestFile { Filename = "filePath.xml" });
+            var testFile = _testRepository.CreateTestFile(new TestFile { Filename = filename });
 
             // then
             Assert.IsTrue(testFile);
@@ -171,7 +173,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         public void UpdateTestFile_should_return_true_if_file_exists()
         {
             // given + when
-            bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = "filePath.xml" });
+            bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = filename });
 
             // then
             Assert.IsTrue(success);
@@ -184,15 +186,15 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         }
 
         [Test]
-        public void GetRawFile_should_return_correct_xml()
+        public void GetRawFile_should_return_correct_content()
         {
             // given + when
-            var xml = _testRepository.GetRawFile("filePath.xml");
+            var xml = _testRepository.GetRawFile(filename);
 
             // then
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-            Assert.AreEqual("<xml></xml>", xml);
+            Assert.AreEqual(jsonContent, xml);
         }
 
         [Test]

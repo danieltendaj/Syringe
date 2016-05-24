@@ -6,12 +6,12 @@ namespace Syringe.Service
     public interface ITestFileQueue
     {
         /// <summary>
-        /// Adds a request to run a test XML file the queue of tasks to run.
+        /// Adds a request to run a test file the queue of tasks to run.
         /// </summary>
         int Add(TaskRequest item);
 
         /// <summary>
-        /// Shows minimal information about all test XML file requests in the queue, and their status,
+        /// Shows minimal information about all test file requests in the queue, and their status,
         /// and who started the run.
         /// </summary>
         IEnumerable<TaskDetails> GetRunningTasks();
@@ -23,7 +23,7 @@ namespace Syringe.Service
         TaskDetails GetRunningTaskDetails(int taskId);
 
         /// <summary>
-        /// Stops a test file XML request task in the queue, returning a message of whether the stop succeeded or not.
+        /// Stops a test file request task in the queue, returning a message of whether the stop succeeded or not.
         /// </summary>
         string Stop(int id);
 

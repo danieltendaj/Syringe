@@ -144,7 +144,7 @@ namespace Syringe.Service.Parallel
         }
 
         /// <summary>
-        /// Shows minimal information about all test XML file requests in the queue, and their status,
+        /// Shows minimal information about all test file requests in the queue, and their status,
         /// and who started the run.
         /// </summary>
         public IEnumerable<TaskDetails> GetRunningTasks()
@@ -192,7 +192,7 @@ namespace Syringe.Service.Parallel
         }
 
         /// <summary>
-        /// Stops a test XML request task in the queue, returning a message of whether the stop succeeded or not.
+        /// Stops a test request task in the queue, returning a message of whether the stop succeeded or not.
         /// </summary>
         public string Stop(int taskId)
         {
