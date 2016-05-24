@@ -93,15 +93,13 @@ namespace Syringe.Service.DependencyResolution
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
 
-            // Test file readers and writers
+            // Test file readers and writers - set to json by default as there is no alternative right now.
             switch (configuration.TestFileFormat)
             {
-                case TestFileFormat.Json:
+                default:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
                     break;
-                default:
-                    throw new NotImplementedException("Unknown test file format");
             }
         }
     }
