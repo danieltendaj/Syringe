@@ -283,42 +283,10 @@
     <Content Include="configuration.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\Core\Tests\Repositories\Json\JsonExamples\50-cases.xml" />
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\capturedvariables.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\all-attributes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\assertions.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\beforeExecuteScript.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\headers.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\large-file.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\postbody.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\variables.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full.xml" />
-    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\single-test.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <Content Include="Integration\Web\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
-    <None Include="Integration\Core\Tests\Repositories\Json\JsonExamples\capturedvariables.json" />
-    <None Include="Integration\Core\Tests\Repositories\Json\JsonExamples\50-cases.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

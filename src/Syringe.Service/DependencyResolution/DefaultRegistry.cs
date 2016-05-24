@@ -93,7 +93,7 @@ namespace Syringe.Service.DependencyResolution
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
 
-            // Test XML file readers and writers
+            // Test file readers and writers
             switch (configuration.TestFileFormat)
             {
                 case TestFileFormat.Json:
