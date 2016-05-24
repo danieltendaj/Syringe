@@ -253,7 +253,6 @@
     <Compile Include="Tests\Variables\CapturedVariable.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
-    <Compile Include="Tests\Repositories\Xml\XmlHelper.cs" />
     <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessor.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessorType.cs" />

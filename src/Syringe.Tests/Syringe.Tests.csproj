@@ -255,7 +255,6 @@
     <Compile Include="Unit\Core\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\Core\Xml\XmlHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
