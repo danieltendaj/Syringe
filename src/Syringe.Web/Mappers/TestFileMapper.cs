@@ -51,14 +51,23 @@ namespace Syringe.Web.Mappers
                 throw new ArgumentNullException(nameof(tests));
             }
 
-            return tests.Select(x => new TestViewModel()
+            Test[] testsArray = tests.ToArray();
+            var result = new List<TestViewModel>(testsArray.Length);
+            for (int i = 0; i < testsArray.Length; i++)
             {
-                Position = x.Position,
-                Description = x.Description,
-                Url = x.Url,
-                Assertions = x.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
-                CapturedVariables = x.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
-            });
+                var test = testsArray.ElementAt(i);
+
+                result.Add(new TestViewModel
+                {
+                    Position = i,
+                    Description = test.Description,
+                    Url = test.Url,
+                    Assertions = test.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
+                    CapturedVariables = test.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
+                });
+            }
+
+            return result;
         }
 
         public Test BuildCoreModel(TestViewModel testModel)
@@ -70,9 +79,7 @@ namespace Syringe.Web.Mappers
 
             return new Test
             {
-                Position = testModel.Position,
                 Headers = testModel.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList(),
-                Filename = testModel.Filename,
                 CapturedVariables = testModel.CapturedVariables.Select(x => new CapturedVariable(x.Name, x.Regex, x.PostProcessorType)).ToList(),
                 PostBody = testModel.PostBody,
                 Assertions = testModel.Assertions.Select(x => new Assertion(x.Description, x.Value, x.AssertionType, x.AssertionMethod)).ToList(),

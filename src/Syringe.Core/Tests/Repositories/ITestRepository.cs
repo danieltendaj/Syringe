@@ -7,8 +7,8 @@ namespace Syringe.Core.Tests.Repositories
         IEnumerable<string> ListFiles();
         TestFile GetTestFile(string filename);
         Test GetTest(string filename, int position);
-        bool SaveTest(Test test);
-        bool CreateTest(Test test);
+        bool SaveTest(string filename, int position, Test test);
+        bool CreateTest(string filename, Test test);
         bool DeleteTest(int position, string filename);
         bool CreateTestFile(TestFile testFile);
         bool UpdateTestVariables(TestFile testFile);

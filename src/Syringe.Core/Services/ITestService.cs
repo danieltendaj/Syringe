@@ -12,8 +12,8 @@ namespace Syringe.Core.Services
 		Test GetTest(string filename, int position);
 		TestFile GetTestFile(string filename);
 	    string GetRawFile(string filename);
-        bool EditTest(Test test);
-	    bool CreateTest(Test test);
+        bool EditTest(string filename, int position, Test test);
+	    bool CreateTest(string filename, Test test);
         bool DeleteTest(int position, string fileName);
         bool CopyTest(int position, string fileName);
         bool DeleteFile(string fileName);

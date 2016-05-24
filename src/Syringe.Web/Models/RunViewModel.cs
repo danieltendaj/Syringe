@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -28,22 +29,22 @@ namespace Syringe.Web.Models
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
-        public void RunTest(IUserContext userContext, string fileName, string environment, int index)
+        public void RunTest(IUserContext userContext, string fileName, string environment, int position)
         {
             FileName = fileName;
             Environment = fileName;
 
-            Test test = _testService.GetTest(fileName,  index);
+            Test test = _testService.GetTest(fileName,  position);
 
             var verifications = new List<Assertion>();
             verifications.AddRange(test.Assertions);
-            _runningTests.Add(new RunningTestViewModel(test.Position, test.Description, verifications));
+            _runningTests.Add(new RunningTestViewModel(position, test.Description, verifications));
 
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,
                 Username = userContext.FullName,
-                Position = index,
+                Position = position,
                 Environment = environment
             };
 
@@ -58,13 +59,14 @@ namespace Syringe.Web.Models
 
             TestFile testFile = _testService.GetTestFile(fileName);
 
-            foreach (Test test in testFile.Tests)
+            for (int i = 0; i < testFile.Tests.Count(); i++)
             {
+                Test test = testFile.Tests.ElementAt(i);
                 var verifications = new List<Assertion>();
                 verifications.AddRange(test.Assertions);
-                _runningTests.Add(new RunningTestViewModel(test.Position, test.Description, verifications));
+                _runningTests.Add(new RunningTestViewModel(i, test.Description, verifications));
             }
-
+            
             var taskRequest = new TaskRequest
             {
                 Filename = fileName,

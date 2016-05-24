@@ -128,7 +128,7 @@ namespace Syringe.Service.Parallel
 
                 if (item.Position.HasValue)
                 {
-                    testFile.Tests = testFile.Tests.Where(x => x.Position == item.Position);
+                    testFile.Tests = new []{ testFile.Tests.ElementAt(item.Position.Value) };
                 }
 
                 var httpClient = new HttpClient(new RestClient());

@@ -11,8 +11,6 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
     {
         private readonly string[] _propertiesToIgnore =
         {
-            GetPropertyFullName<Test>(x => x.Filename),
-            GetPropertyFullName<Test>(x => x.Position),
             GetPropertyFullName<Test>(x => x.AvailableVariables),
             GetPropertyFullName<TestFile>(x => x.Filename),
             GetPropertyFullName<TestFile>(x => x.Environment),
