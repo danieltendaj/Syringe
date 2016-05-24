@@ -240,7 +240,6 @@
     <Compile Include="Unit\Web\RunViewModelTests.cs" />
     <Compile Include="Unit\Web\TestControllerTests.cs" />
     <Compile Include="Unit\Web\TestFileControllerTests.cs" />
-    <Compile Include="Unit\Core\Tests\Repositories\Xml\Writer\TestFileWriterTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
     <Compile Include="StubsMocks\RestResponseStub.cs" />
@@ -279,12 +278,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\beforeExecuteScript.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\variables.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="app.config" />
     <Content Include="Integration\Core\Environments\environments.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -292,10 +285,38 @@
     <Content Include="configuration.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Integration\Core\Tests\Repositories\Json\JsonExamples\50-cases.xml" />
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\capturedvariables.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\all-attributes.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\assertions.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\beforeExecuteScript.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\headers.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\large-file.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\postbody.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\variables.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Integration\Web\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
+    <None Include="Integration\Core\Tests\Repositories\Json\JsonExamples\capturedvariables.json" />
+    <None Include="Integration\Core\Tests\Repositories\Json\JsonExamples\50-cases.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -304,48 +325,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Integration\Core\Xml\XmlExamples\Runner\capturedvariables.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\full.xml" />
     <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\single-test.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\all-attributes.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\headers.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\postbody.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\capturedvariables.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\assertions.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Integration\Core\Xml\XmlExamples\Runner\50-cases.xml" />
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Writer\XmlExamples\large-file.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
