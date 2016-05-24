@@ -43,10 +43,10 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void ListFiles_should_list_all_files()
         {
             // given
-            string testFilepath1 = Helpers.GetFullPath(Helpers.GetXmlFilename());
+            string testFilepath1 = Helpers.GetFullPath(Helpers.GetJsonFilename());
             File.WriteAllText(testFilepath1, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
-            string testFilepath2 = Helpers.GetFullPath(Helpers.GetXmlFilename());
+            string testFilepath2 = Helpers.GetFullPath(Helpers.GetJsonFilename());
             File.WriteAllText(testFilepath2, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
 
             TestsClient client = Helpers.CreateTestsClient();
@@ -94,7 +94,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         }
 
         [Test]
-        public void GetXml_should_return_expected_source()
+        public void GetRawFile_should_return_expected_source()
         {
             // given
             TestsClient client = Helpers.CreateTestsClient();
@@ -105,9 +105,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
             // then
             Assert.That(xml, Is.Not.Null);
-            Assert.That(xml, Is.StringContaining(@"<?xml version=""1.0"""));
-            Assert.That(xml, Is.StringContaining("<tests"));
-            Assert.That(xml, Is.StringContaining("<test"));
+            Assert.That(xml, Is.StringContaining(@"""Tests"": ["));
         }
 
         [Test]
@@ -133,7 +131,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void CreateTest_should_create_test_for_existing_file()
         {
             // given
-            string filename = Helpers.GetXmlFilename();
+            string filename = Helpers.GetJsonFilename();
             TestsClient client = Helpers.CreateTestsClient();
             client.CreateTestFile(new TestFile() { Filename = filename });
 
@@ -179,7 +177,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void CreateTestFile_should_write_file()
         {
             // given
-            string filename = Helpers.GetXmlFilename();
+            string filename = Helpers.GetJsonFilename();
             TestsClient client = Helpers.CreateTestsClient();
 
             // when
@@ -317,7 +315,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void DeleteFile_should_delete_file_from_disk()
         {
             // given
-            string filename = Helpers.GetXmlFilename();
+            string filename = Helpers.GetJsonFilename();
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
