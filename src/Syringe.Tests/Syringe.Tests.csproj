@@ -255,7 +255,6 @@
     <Compile Include="Unit\Core\Runner\TestSessionRunnerTests.cs" />
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
-    <Compile Include="Unit\Core\Tests\Repositories\Xml\Reader\TestFileReaderTests.cs" />
     <Compile Include="Unit\Core\Xml\XmlHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -311,6 +310,10 @@
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\variables.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full.xml" />
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\single-test.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="Integration\Web\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -323,12 +326,6 @@
     <Content Include="Integration\Web\websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\full.xml" />
-    <EmbeddedResource Include="Unit\Core\Tests\Repositories\Xml\Reader\XmlExamples\single-test.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
