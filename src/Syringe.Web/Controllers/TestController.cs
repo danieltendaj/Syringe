@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Services;
@@ -112,7 +111,7 @@ namespace Syringe.Web.Controllers
             if (ModelState.IsValid)
             {
                 Test test = _testFileMapper.BuildCoreModel(model);
-                _testsClient.CreateTest(test);
+                _testsClient.CreateTest(model.Filename, test);
                 return RedirectToAction("View", new { filename = model.Filename });
             }
 

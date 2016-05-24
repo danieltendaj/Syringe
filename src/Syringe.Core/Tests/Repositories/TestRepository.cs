@@ -34,8 +34,6 @@ namespace Syringe.Core.Tests.Repositories
 					throw new NullReferenceException("Could not find specified Test Case:" + position);
 				}
 
-				test.Filename = filename;
-
 				return test;
 			}
 		}
@@ -64,43 +62,27 @@ namespace Syringe.Core.Tests.Repositories
 			return _fileHandler.WriteAllText(fullPath, contents);
 		}
 
-		public bool SaveTest(Test test)
-		{
-			if (test == null)
-			{
-				throw new ArgumentNullException(nameof(test));
-			}
+	    public bool CreateTest(string filename, Test test)
+        {
 
-			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
-			string fileContents = _fileHandler.ReadAllText(fullPath);
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			TestFile collection;
+            TestFile collection;
 
-			using (var stringReader = new StringReader(fileContents))
-			{
-				collection = _testFileReader.Read(stringReader);
+            using (var stringReader = new StringReader(fileContents))
+            {
+                collection = _testFileReader.Read(stringReader);
 
-				Test singleTest = collection.Tests.ElementAt(test.Position);
+                collection.Tests = collection.Tests.Concat(new[] { test });
+            }
 
-				singleTest.Description = test.Description;
-			    singleTest.Headers = test.Headers.Select(x => new HeaderItem(x.Key, x.Value)).ToList();
-				singleTest.Method = test.Method;
-				singleTest.Filename = test.Filename;
-				singleTest.CapturedVariables = test.CapturedVariables;
-				singleTest.PostBody = test.PostBody;
-				singleTest.Assertions = test.Assertions;
-				singleTest.Description = test.Description;
-				singleTest.Url = test.Url;
-				singleTest.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
-				singleTest.BeforeExecuteScript = test.BeforeExecuteScript;
-			}
+            string contents = _testFileWriter.Write(collection);
 
-			string contents = _testFileWriter.Write(collection);
-
-			return _fileHandler.WriteAllText(fullPath, contents);
+            return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public bool SaveTest(string filename, int position, Test test)
+	    public bool SaveTest(string filename, int position, Test test)
         {
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);

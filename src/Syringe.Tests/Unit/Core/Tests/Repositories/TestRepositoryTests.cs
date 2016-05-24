@@ -46,38 +46,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         }
 
         [Test]
-        public void GetTest_should_set_parent_filename_when_testfile_is_found()
-        {
-            // given + when
-            var test = _testRepository.GetTest("parentFileName", It.IsAny<int>());
-
-            // then
-            Assert.AreEqual("parentFileName", test.Filename);
-            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-        }
-
-        [Test]
-        public void SaveTest_should_throw_null_reference_exception_when_position_is_invalid()
-        {
-            // given + when + then
-            Assert.Throws<ArgumentNullException>(() => _testRepository.SaveTest(null));
-        }
-
-        [Test]
-        public void SaveTest_should_return_true_when_testfile_is_saved()
-        {
-            // given + when
-            bool success = _testRepository.SaveTest(new Test());
-
-            // then
-            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
-            Assert.IsTrue(success);
-        }
-
-        [Test]
         public void SaveTest_should_return_true_when_test_is_saved()
         {
             // given
@@ -101,9 +69,8 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             Assert.Throws<ArgumentNullException>(() => _testRepository.CreateTest(null));
         }
 
-
         [Test]
-        public void CreateTest_should_return_true_when_test_is_saved()
+        public void CreateTest_should_return_true_when_test_is_saved_OLD()
         {
             // given + when
             _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile());
@@ -118,6 +85,23 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         }
 
         [Test]
+        public void CreateTest_should_return_true_when_test_is_saved()
+        {
+            // given
+            const string expectedFilename = "super awesome filename.wuzzups";
+            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile());
+
+            // when
+            bool success = _testRepository.CreateTest(expectedFilename, new Test());
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(expectedFilename), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
+            Assert.IsTrue(success);
+        }
+
+        [Test]
         public void GetTestFile_should_return_testfile()
         {
             // given
@@ -126,9 +110,9 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             {
                 Tests = new[]
                 {
-                    new Test { Position = 0 },
-                    new Test { Position = 0 },
-                    new Test { Position = 0 },
+                    new Test(),
+                    new Test(),
+                    new Test(),
                 }
             };
 
@@ -142,11 +126,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             // then
             Assert.That(testFile, Is.EqualTo(expectedTest));
             Assert.That(testFile.Tests.Count(), Is.EqualTo(3));
-
-            var tests = testFile.Tests.ToArray();
-            Assert.That(tests[0].Position, Is.EqualTo(0));
-            Assert.That(tests[1].Position, Is.EqualTo(1));
-            Assert.That(tests[2].Position, Is.EqualTo(2));
         }
 
         [Test]

@@ -73,8 +73,8 @@ namespace Syringe.Tests.Integration.ClientAndService
 
             // then
             Assert.That(actualTest, Is.Not.Null);
-            Assert.That(actualTest.Filename, Is.EqualTo(expectedTest.Filename));
             Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
+            Assert.That(actualTest.Method, Is.EqualTo(expectedTest.Method));
         }
 
         [Test]
@@ -111,25 +111,6 @@ namespace Syringe.Tests.Integration.ClientAndService
         }
 
         [Test]
-        public void EditTest_should_save_changes_to_test()
-        {
-            // given
-            TestsClient client = Helpers.CreateTestsClient();
-            TestFile testFile = Helpers.CreateTestFileAndTest(client);
-            Test expectedTest = testFile.Tests.FirstOrDefault();
-            expectedTest.Description = "new description";
-
-            // when
-            bool success = client.EditTest(expectedTest);
-
-            // then
-            Test actualTest = client.GetTest(testFile.Filename, 0);
-
-            Assert.True(success);
-            Assert.That(actualTest.Description, Is.StringContaining("new description"));
-        }
-
-        [Test]
         public void EditTest_should_save_changes_to_test_as_expected()
         {
             // given
@@ -158,7 +139,6 @@ namespace Syringe.Tests.Integration.ClientAndService
 
             var test = new Test()
             {
-                Filename = filename,
                 Assertions = new List<Assertion>(),
                 AvailableVariables = new List<Variable>(),
                 CapturedVariables = new List<CapturedVariable>(),
@@ -168,7 +148,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             };
 
             // when
-            bool success = client.CreateTest(test);
+            bool success = client.CreateTest(filename, test);
 
             // then
             string fullPath = Helpers.GetFullPath(filename);
