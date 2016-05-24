@@ -73,12 +73,11 @@ namespace Syringe.Core.Tests.Repositories.Xml.Reader
             var test = new Test();
 
             // Required Properties
-            test.Position = position;
 			test.Description = XmlHelper.GetOptionalAttribute(element, "description");
 
 			test.Url = XmlHelper.GetOptionalAttribute(element, "url");
             if (string.IsNullOrEmpty(test.Url))
-                throw new TestException("The url parameter is missing for test case {0}", test.Position);
+                throw new TestException("The url parameter is missing for test case {0}", position);
 
             // Optionals
             test.Method = XmlHelper.GetOptionalAttribute(element, "method", "get");

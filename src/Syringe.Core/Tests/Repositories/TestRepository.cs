@@ -38,30 +38,6 @@ namespace Syringe.Core.Tests.Repositories
 			}
 		}
 
-	    public bool CreateTest(Test test)
-		{
-			if (test == null)
-			{
-				throw new ArgumentNullException(nameof(test));
-			}
-
-			string fullPath = _fileHandler.GetFileFullPath(test.Filename);
-			string fileContents = _fileHandler.ReadAllText(fullPath);
-
-			TestFile collection;
-
-			using (var stringReader = new StringReader(fileContents))
-			{
-				collection = _testFileReader.Read(stringReader);
-
-				collection.Tests = collection.Tests.Concat(new[] { test });
-			}
-
-			string contents = _testFileWriter.Write(collection);
-
-			return _fileHandler.WriteAllText(fullPath, contents);
-		}
-
 	    public bool CreateTest(string filename, Test test)
         {
 
@@ -181,21 +157,10 @@ namespace Syringe.Core.Tests.Repositories
 				TestFile testFile = _testFileReader.Read(stringReader);
 				testFile.Filename = filename;
 
-			    SetTestsPositionValue(testFile.Tests);
-
 			    return testFile;
 			}
 		}
-
-	    private static void SetTestsPositionValue(IEnumerable<Test> givenTests)
-	    {
-	        Test[] tests = givenTests.ToArray();
-	        for (int i = 0; i < tests.Length; i++)
-	        {
-	            tests[i].Position = i;
-	        }
-	    }
-
+        
 	    public string GetRawFile(string filename)
 		{
 			var fullPath = _fileHandler.GetFileFullPath(filename);

@@ -61,29 +61,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
             Assert.IsTrue(success);
         }
-
-        [Test]
-        public void CreateTest_should_throw_ArgumentNullException_when_test_is_null()
-        {
-            // given + when + then
-            Assert.Throws<ArgumentNullException>(() => _testRepository.CreateTest(null));
-        }
-
-        [Test]
-        public void CreateTest_should_return_true_when_test_is_saved_OLD()
-        {
-            // given + when
-            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile());
-
-            bool success = _testRepository.CreateTest(new Test());
-
-            // then
-            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
-            Assert.IsTrue(success);
-        }
-
+        
         [Test]
         public void CreateTest_should_return_true_when_test_is_saved()
         {

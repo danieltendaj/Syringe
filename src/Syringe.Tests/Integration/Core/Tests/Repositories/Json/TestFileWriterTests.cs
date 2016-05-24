@@ -52,9 +52,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                 {
                     new Test
                     {
-                        Filename = BlackListText,
                         Method = "POST",
-                        Position = -2,
                         AvailableVariables = new List<Variable> {new Variable { Name = BlackListText} },
                         Assertions = new List<Assertion>
                         {

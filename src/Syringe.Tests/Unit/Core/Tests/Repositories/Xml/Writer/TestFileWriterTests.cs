@@ -39,7 +39,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 
 			var test = new Test()
 			{
-				Position = 1,
 				Description = "description",
 				Url = "http://myserver",
 				Method = "post",
@@ -61,7 +60,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("headers.xml", XmlExamplesFolder);
 
-			var test = new Test() { Position = 0 };
+			var test = new Test();
 			test.AddHeader("key1", "value1");
 			test.AddHeader("key2", "some <marvellous> HTML &&&&.");
 
@@ -81,7 +80,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("postbody.xml", XmlExamplesFolder);
 
-			var test = new Test() { Position = 0};
+			var test = new Test();
 			test.PostBody = "username=corey&password=welcome&myhtml=<body></body>";
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();
@@ -99,7 +98,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("capturedvariables.xml", XmlExamplesFolder);
 
-			var test = new Test() { Position = 0 };
+			var test = new Test();
             test.CapturedVariables.Add(new CapturedVariable("1", "here is (.*?) regex"));
             test.CapturedVariables.Add(new CapturedVariable("2", "plain text"));
             test.CapturedVariables.Add(new CapturedVariable("3", "This is encoded <test> &."));
@@ -120,7 +119,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("assertions.xml", XmlExamplesFolder);
 
-			var test = new Test() { Position = 0 };
+			var test = new Test();
             test.Assertions.Add(new Assertion("p90-1", "regex1", AssertionType.Positive, AssertionMethod.Regex));
             test.Assertions.Add(new Assertion("p90-2", "regex2", AssertionType.Positive, AssertionMethod.Regex));
             test.Assertions.Add(new Assertion("p90-3", "this 3rd positive needs CDATA as it has <html> & stuff in it (.*)", AssertionType.Positive, AssertionMethod.Regex));
@@ -152,7 +151,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			{
 				var test = new Test()
 				{
-                    Position = 0,
 					Description = "description" +i,
 					Url = "http://myserver",
 					Method = "post",
@@ -178,7 +176,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories.Xml.Writer
 			// Arrange
 			string expectedXml = TestHelpers.ReadEmbeddedFile("beforeExecuteScript.xml", XmlExamplesFolder);
 
-			var test = new Test() { Position = 0 };
+		    var test = new Test();
 			test.BeforeExecuteScript = "using Amazinglib;string name = \"<singletest>\";";
 			TestFile testFile = CreateTestFile(test);
 			TestFileWriter xmlWriter = CreateTestFileWriter();

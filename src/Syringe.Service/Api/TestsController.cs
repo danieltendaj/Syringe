@@ -76,7 +76,7 @@ namespace Syringe.Service.Api
         {
             Test test = _testRepository.GetTest(fileName, position);
             test.Description = $"Copy of {test.Description}";
-            return _testRepository.CreateTest(test);
+            return _testRepository.CreateTest(fileName, test);
         }
 
         [Route("api/tests/CreateTestFile")]
