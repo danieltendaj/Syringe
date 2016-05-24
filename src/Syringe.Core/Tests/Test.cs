@@ -34,10 +34,5 @@ namespace Syringe.Core.Tests
 		{
 			Headers.Add(new HeaderItem(key, value));
         }
-
-        [Obsolete("Please don't use this as it should be infered from the position in the list/array")]
-        public int Position { get; set; }
-        [Obsolete("Please don't use this as it should be infered from the parent")]
-        public string Filename { get; set; }
     }
 }

@@ -43,16 +43,14 @@ namespace Syringe.Tests.Unit.Web
 			{
 				// given
 				const string fileName = "Some file";
-			    int test1 = 1;
-			    int test2 = 2;
 				var testFile =
 					Mock.Of<TestFile>(
 						c =>
 							c.Tests ==
 							new[]
 							{
-								new Test { Position = test1, Description = "Desc1"},
-								new Test { Position = test2, Description = "Desc2"}
+								new Test { Description = "Desc1"},
+								new Test { Description = "Desc2"}
 							});
 
 				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == testFile);
@@ -65,8 +63,8 @@ namespace Syringe.Tests.Unit.Web
 				Assert.That(viewModel.Tests, Is.Not.Null);
 				Assert.That(viewModel.Tests.Select(c => new { Position = c.Position, c.Description }), Is.EquivalentTo(new[]
 				{
-					new { Position = test1, Description = "Desc1" },
-					new { Position = test2, Description = "Desc2" }
+					new { Position = 0, Description = "Desc1" },
+					new { Position = 1, Description = "Desc2" }
 				}));
             }
 

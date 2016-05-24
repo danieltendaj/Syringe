@@ -66,23 +66,26 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<string>(response);
         }
 
-        public bool EditTest(Test test)
+        public bool EditTest(string filename, int position, Test test)
         {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("EditTest");
             request.Method = Method.POST;
             request.AddJsonBody(test);
+            request.AddQueryParameter("filename", filename);
+            request.AddQueryParameter("position", Convert.ToString(position));
 
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-        public bool CreateTest(Test test)
+        public bool CreateTest(string filename, Test test)
         {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("CreateTest");
             request.Method = Method.POST;
             request.AddJsonBody(test);
+            request.AddQueryParameter("filename", filename);
 
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
@@ -119,7 +122,7 @@ namespace Syringe.Client
             IRestRequest request = _restSharpHelper.CreateRequest("CreateTestFile");
             request.Method = Method.POST;
             request.AddJsonBody(testFile);
-            request.AddQueryParameter("fileName", testFile.Filename);
+            request.AddQueryParameter("filename", testFile.Filename);
 
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<bool>(response);

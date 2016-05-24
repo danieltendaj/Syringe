@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Service.Api
                 .Returns(expectedExistingTest);
 
             testRepositoryMock
-                .Setup(x => x.CreateTest(expectedExistingTest))
+                .Setup(x => x.CreateTest(expectedFilename, expectedExistingTest))
                 .Returns(expectedResult);
 
             // when
