@@ -251,8 +251,6 @@
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\Variables\CapturedVariable.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
-    <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
-    <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessor.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessorType.cs" />
   </ItemGroup>
@@ -262,9 +260,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tests\Repositories\Xml\Reader\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
