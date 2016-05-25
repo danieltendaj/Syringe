@@ -223,7 +223,6 @@
     <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ITestService.cs" />
     <Compile Include="Services\ITasksService.cs" />
-    <Compile Include="Exceptions\XmlException.cs" />
     <Compile Include="Exceptions\TestException.cs" />
     <Compile Include="Exceptions\CodeEvaluationException2.cs" />
     <Compile Include="Tests\HeaderItem.cs" />
@@ -251,11 +250,7 @@
     <Compile Include="Tests\Test.cs" />
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\Variables\CapturedVariable.cs" />
-    <Compile Include="Tests\Repositories\Xml\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
-    <Compile Include="Tests\Repositories\Xml\Writer\Utf8StringWriter.cs" />
-    <Compile Include="Tests\Repositories\Xml\XmlHelper.cs" />
-    <Compile Include="Tests\Repositories\Xml\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessor.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessorType.cs" />
   </ItemGroup>

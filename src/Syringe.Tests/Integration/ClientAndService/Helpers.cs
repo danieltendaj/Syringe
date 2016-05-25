@@ -10,10 +10,10 @@ namespace Syringe.Tests.Integration.ClientAndService
 {
     public class Helpers
     {
-        public static string GetXmlFilename()
+        public static string GetJsonFilename()
         {
             Guid guid = Guid.NewGuid();
-            return $"{guid}.xml";
+            return $"{guid}.json";
         }
 
         public static string GetFullPath(string filename)
@@ -29,7 +29,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
         public static TestFile CreateTestFileAndTest(TestsClient client)
         {
-            string filename = GetXmlFilename();
+            string filename = GetJsonFilename();
             var test1 = new Test()
             {
                 Assertions = new List<Assertion>(),

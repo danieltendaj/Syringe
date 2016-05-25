@@ -93,5 +93,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             Assert.That(result.Replace("\r\n", "\n"), Is.EqualTo(expectedJson.Replace("\r\n", "\n")));
             Assert.That(result, Is.Not.StringContaining(BlackListText));
         }
+
+      
     }
 }
