@@ -44,7 +44,7 @@ namespace Syringe.Web.Mappers
             return model;
         }
 
-        public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests)
+        public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults)
         {
             if (tests == null)
             {
@@ -55,11 +55,12 @@ namespace Syringe.Web.Mappers
             var result = new List<TestViewModel>(testsArray.Length);
             for (int i = 0; i < testsArray.Length; i++)
             {
-                var test = testsArray.ElementAt(i);
+                Test test = testsArray.ElementAt(i);
+                int position = (pageNumber - 1) * noOfResults + i;
 
                 result.Add(new TestViewModel
                 {
-                    Position = i,
+                    Position = position,
                     Description = test.Description,
                     Url = test.Url,
                     Assertions = test.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),

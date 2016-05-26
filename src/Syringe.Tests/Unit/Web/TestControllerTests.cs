@@ -31,7 +31,7 @@ namespace Syringe.Tests.Unit.Web
             _environmentService = new Mock<IEnvironmentsService>();
             _configuration = new JsonConfiguration();
 
-            _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()));
+            _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()));
             _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             _testServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()));
@@ -49,7 +49,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("View", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
@@ -63,7 +63,7 @@ namespace Syringe.Tests.Unit.Web
 
             // then
             _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
             Assert.AreEqual("View-ReadonlyMode", viewResult.ViewName);
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }

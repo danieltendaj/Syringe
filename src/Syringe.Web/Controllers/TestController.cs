@@ -46,7 +46,7 @@ namespace Syringe.Web.Controllers
             var viewModel = new TestFileViewModel
             {
                 PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
-                Tests = _testFileMapper.BuildTests(tests),
+                Tests = _testFileMapper.BuildTests(tests, pageNumber, noOfResults),
                 Filename = filename,
                 PageNumber = pageNumber,
                 NoOfResults = noOfResults,
@@ -133,7 +133,7 @@ namespace Syringe.Web.Controllers
         {
             _testsClient.CopyTest(position, fileName);
 
-            return RedirectToAction("View", new { filename = fileName });
+            return RedirectToAction("View", new { filename = fileName });   
         }
 
         [EditableTestsRequired]
