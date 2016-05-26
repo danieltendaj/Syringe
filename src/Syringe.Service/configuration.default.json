@@ -1,7 +1,7 @@
 ﻿{
 	"ServiceUrl": "http://*:1981",
 	"WebsiteUrl": "http://localhost:1980",
-	"TestFilesBaseDirectory": "..\\..\\..\\..\\Xml-Examples",
+	"TestFilesBaseDirectory": "..\\..\\..\\..\\TestFile-Examples",
 	"TestFileFormat": "Json",
 	"MongoDbDatabaseName": "Syringe",
 	"ReadonlyMode": false,

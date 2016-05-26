@@ -106,7 +106,7 @@ namespace Syringe.Tests.Unit.Web
         {
             var testFileMapper = new TestFileMapper();
 
-            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTests(null));
+            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTests(null, 0, 0));
         }
 
         [Test]
@@ -114,6 +114,8 @@ namespace Syringe.Tests.Unit.Web
         {
             // given
             var testFileMapper = new TestFileMapper();
+            const int pageNumber = 2;
+            const int numberOfResults = 10;
             var testFile = new TestFile
             {
                 Tests = new List<Test>
@@ -136,14 +138,14 @@ namespace Syringe.Tests.Unit.Web
             };
 
             // when
-            IEnumerable<TestViewModel> viewModels = testFileMapper.BuildTests(testFile.Tests);
+            IEnumerable<TestViewModel> viewModels = testFileMapper.BuildTests(testFile.Tests, pageNumber, numberOfResults);
 
             // then
             Assert.NotNull(viewModels);
             Assert.AreEqual(2, viewModels.Count());
 
             var firstCase = viewModels.First();
-            Assert.AreEqual(0, firstCase.Position);
+            Assert.AreEqual(10, firstCase.Position);
             Assert.AreEqual("Description 1", firstCase.Description);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
             Assert.AreEqual("http://www.google.com", firstCase.Url);
@@ -151,7 +153,7 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(firstCase.CapturedVariables.Count, Is.EqualTo(2));
 
             var lastCase = viewModels.Last();
-            Assert.AreEqual(1, lastCase.Position);
+            Assert.AreEqual(11, lastCase.Position);
             Assert.AreEqual("Description 2", lastCase.Description);
             Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
             Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
