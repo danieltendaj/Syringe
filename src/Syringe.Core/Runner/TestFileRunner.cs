@@ -17,7 +17,7 @@ using HttpResponse = Syringe.Core.Http.HttpResponse;
 
 namespace Syringe.Core.Runner
 {
-    public class TestFileRunner : IObservable<TestResult>
+	public class TestFileRunner : IObservable<TestResult>
     {
         private readonly IHttpClient _httpClient;
         private readonly IConfiguration _configuration;

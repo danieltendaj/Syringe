@@ -64,59 +64,39 @@ namespace Syringe.Service.Parallel
             return taskId;
         }
 
-        /// <summary>
-        /// Hacky, will be fixed later.
-        /// </summary>
-        internal string RunTestFile(string filename, string environment)
-        {
-            try
-            {
-                string fullPath = Path.Combine(_configuration.TestFilesBaseDirectory, filename);
-                string testFileContents = File.ReadAllText(fullPath);
+		public async Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request)
+		{
+			var runnerTaskInfo = new TestFileRunnerTaskInfo(-1);
+			runnerTaskInfo.Request = request;
+			runnerTaskInfo.StartTime = DateTime.UtcNow;
+			runnerTaskInfo.Username = request.Username;
 
-                using (var stringReader = new StringReader(testFileContents))
-                {
-                    var testCaseReader = new TestFileReader();
-                    TestFile testFile = testCaseReader.Read(stringReader);
-                    testFile.Filename = filename;
-                    testFile.Environment = environment;
+			try
+			{
+				string filename = runnerTaskInfo.Request.Filename;
 
-                    var httpClient = new HttpClient(new RestClient());
+				TestFile testFile = _testRepository.GetTestFile(filename);
+				testFile.Filename = filename;
+				testFile.Environment = runnerTaskInfo.Request.Environment;
 
-                    var runner = new TestFileRunner(httpClient, _repository, _configuration);
-                    Task<TestFileResult> task = runner.RunAsync(testFile);
-                    bool success = task.Wait(TimeSpan.FromMinutes(3));
+				var httpClient = new HttpClient(new RestClient());
+				var runner = new TestFileRunner(httpClient, _repository, _configuration);
 
-                    if (success)
-                    {
-                        int failCount = runner.CurrentResults.Count(x => x.Success);
-                        if (failCount == 0)
-                        {
-                            return "success";
-                        }
-                        else
-                        {
-                            IEnumerable<TestResult> failedCases = runner.CurrentResults.Where(x => x.Success == false);
-                            string names = string.Join(",", failedCases.Select(x => "'" + x.Test.Description + "'"));
-                            return $"fail - tests that failed: {names}";
-                        }
-                    }
-                    else
-                    {
-                        return "fail - the runner timed out or crashed.";
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                return "fail - " + e.ToString();
-            }
-        }
+				runnerTaskInfo.Runner = runner;
+				await runner.RunAsync(testFile);
+			}
+			catch (Exception e)
+			{
+				runnerTaskInfo.Errors = e.ToString();
+			}
+
+			return runnerTaskInfo;
+		}
 
         /// <summary>
         /// Starts the test file run.
         /// </summary>
-        internal async Task StartSessionAsync(TestFileRunnerTaskInfo item)
+        public async Task StartSessionAsync(TestFileRunnerTaskInfo item)
         {
             try
             {
@@ -224,7 +204,7 @@ namespace Syringe.Service.Parallel
             return results;
         }
 
-        public TaskMonitoringInfo StartMonitoringTask(int taskId)
+	    public TaskMonitoringInfo StartMonitoringTask(int taskId)
         {
             TestFileRunnerTaskInfo task;
             _currentTasks.TryGetValue(taskId, out task);

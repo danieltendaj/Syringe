@@ -6,7 +6,7 @@ using Syringe.Core.Tasks;
 
 namespace Syringe.Service.Parallel
 {
-	internal class TestFileRunnerTaskInfo
+	public class TestFileRunnerTaskInfo
 	{
 		public TestFileRunnerTaskInfo(int id)
 		{
