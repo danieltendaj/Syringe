@@ -220,10 +220,8 @@
     <Compile Include="Tests\Variables\IVariablePostProcessor.cs" />
     <Compile Include="Tests\Variables\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
-    <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Services\ITestService.cs" />
     <Compile Include="Services\ITasksService.cs" />
-    <Compile Include="Exceptions\TestException.cs" />
     <Compile Include="Exceptions\CodeEvaluationException2.cs" />
     <Compile Include="Tests\HeaderItem.cs" />
     <Compile Include="Http\Logging\HttpLogWriter.cs" />
