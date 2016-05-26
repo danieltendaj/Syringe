@@ -72,7 +72,8 @@ namespace Syringe.Core.Tests.Results.Repositories
                         TotalPassed = x.TotalTestsPassed,
                         TotalFailed = x.TotalTestsFailed,
                         TotalRun = x.TotalTestsRun,
-                        Environment = x.Environment
+                        Environment = x.Environment,
+						Username = x.Username
                     })
             };
 

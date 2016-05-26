@@ -64,7 +64,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
@@ -89,7 +89,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
@@ -123,7 +123,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.TestResults.Single().AssertionResults[0].Success, Is.True);
@@ -191,7 +191,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.TestResults.ElementAt(1).AssertionResults[0].Success, Is.True);
@@ -215,7 +215,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.TestResults.Single().Success, Is.True);
@@ -239,7 +239,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(session.TestResults.Single().Success, Is.False);
@@ -261,7 +261,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(repository.SavedSession, Is.Not.Null);
@@ -291,7 +291,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// Act
-			TestFileResult session = await runner.RunAsync(testFile);
+			TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			var result = session.TestResults.Single();
@@ -318,7 +318,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Test() { Url = "foo3" }
 			});
 
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
@@ -345,7 +345,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Act
 			runner.Subscribe(r => { observedResults.Add(r); });
 
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
@@ -383,7 +383,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Act
 			subscription = runner.Subscribe(r => { observedResults.Add(r); });
 
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "http://foo1", "http://foo2" }), "Should not have included the result after having been disposed.");
@@ -409,7 +409,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			Assume.That(completed, Is.False);
 
 			// Act
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(completed, Is.True, "Should have notified of completion.");
@@ -439,7 +439,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			runner.Subscribe(r => capturedResult = r);
 
 			// Act
-			await runner.RunAsync(testFile);
+			await runner.RunAsync(testFile, "development", "bob");
 
 			// Assert
 			Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");

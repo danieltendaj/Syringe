@@ -77,13 +77,12 @@ namespace Syringe.Service.Parallel
 
 				TestFile testFile = _testRepository.GetTestFile(filename);
 				testFile.Filename = filename;
-				testFile.Environment = runnerTaskInfo.Request.Environment;
 
 				var httpClient = new HttpClient(new RestClient());
 				var runner = new TestFileRunner(httpClient, _repository, _configuration);
 
 				runnerTaskInfo.Runner = runner;
-				await runner.RunAsync(testFile);
+				await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
 			}
 			catch (Exception e)
 			{
@@ -104,7 +103,6 @@ namespace Syringe.Service.Parallel
 
                 TestFile testFile = _testRepository.GetTestFile(filename);
                 testFile.Filename = filename;
-                testFile.Environment = item.Request.Environment;
 
                 if (item.Position.HasValue)
                 {
@@ -115,7 +113,8 @@ namespace Syringe.Service.Parallel
 
                 var runner = new TestFileRunner(httpClient, _repository, _configuration);
                 item.Runner = runner;
-                await runner.RunAsync(testFile);
+
+                await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
             }
             catch (Exception e)
             {

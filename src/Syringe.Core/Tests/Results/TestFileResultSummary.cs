@@ -8,6 +8,7 @@ namespace Syringe.Core.Tests.Results
         public DateTime DateRun { get; set; }
         public string FileName { get; set; }
         public string Environment { get; set; }
+		public string Username { get; set; }
         public TimeSpan TotalRunTime { get; set; }
 	    public int TotalPassed { get; set; }
 	    public int TotalFailed { get; set; }
