@@ -82,8 +82,10 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnNext(message));
         }
 
-        private void NotifySubscribersOfCompletion()
+        private void NotifySubscribersOfCompletion(Guid resultId)
         {
+            IMessage message = new TestFileGuidMessage { ResultId = resultId };
+            NotifySubscribers(observer => observer.OnNext(message));
             NotifySubscribers(observer => observer.OnCompleted());
         }
 
@@ -187,13 +189,13 @@ namespace Syringe.Core.Runner
             testFileResult.TotalTestsRun = totalTestsRun;
             testFileResult.MinResponseTime = minResponseTime;
             testFileResult.MaxResponseTime = maxResponseTime;
-
+            
             if (shouldSave)
             {
                 await Repository.AddAsync(testFileResult);
             }
 
-            NotifySubscribersOfCompletion();
+            NotifySubscribersOfCompletion(testFileResult.Id);
 
             return testFileResult;
         }

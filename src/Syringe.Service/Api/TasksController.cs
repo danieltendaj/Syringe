@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using RestSharp;
-using Syringe.Core.Http;
-using Syringe.Core.Runner;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
-using Syringe.Core.Tests;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Api

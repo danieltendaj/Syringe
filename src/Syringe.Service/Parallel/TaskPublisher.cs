@@ -29,7 +29,8 @@ namespace Syringe.Service.Parallel
 
             switch (result.MessageType)
             {
-                case MessageType.TestCompletionResult: SendCompletedTask(clientGroup, result as TestResultMessage); break;
+                case MessageType.TestResult: SendCompletedTask(clientGroup, result as TestResultMessage); break;
+                case MessageType.TestFileGuid: SendTestFileGuid(clientGroup, result as TestFileGuidMessage); break;
             }
 
         }
@@ -49,6 +50,11 @@ namespace Syringe.Service.Parallel
             };
 
             clientGroup.OnTaskCompleted(info);
+        }
+
+        private void SendTestFileGuid(ITaskMonitorHubClient clientGroup, TestFileGuidMessage testFileGuidMessage)
+        {
+            clientGroup.OnTestFileGuid(testFileGuidMessage.ResultId.ToString());
         }
     }
 }

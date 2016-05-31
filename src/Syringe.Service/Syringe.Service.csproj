@@ -188,6 +188,7 @@
   <ItemGroup>
     <Compile Include="Api\HomeController.cs" />
     <Compile Include="Api\ConfigurationController.cs" />
+    <Compile Include="Api\Hubs\CompletedTaskInfo.cs" />
     <Compile Include="Api\Hubs\ITaskMonitorHubClient.cs" />
     <Compile Include="Api\Hubs\TaskGroupProvider.cs" />
     <Compile Include="Api\Hubs\TaskMonitorHub.cs" />

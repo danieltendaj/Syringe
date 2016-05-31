@@ -22,6 +22,12 @@ module Syringe.Web {
 
             this.proxy = $.connection.taskMonitorHub;
 
+            this.proxy.client.onTestFileGuid = (guid: string) => {
+                if (guid) {
+                    window.location.href = `/Results/ViewResult/${guid}`;
+                }
+            };
+
             this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
                 ++this.completedTests;
 
