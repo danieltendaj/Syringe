@@ -10,6 +10,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Runner;
+using Syringe.Core.Runner.Messaging;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
@@ -307,7 +308,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		public async Task Run_should_notify_observers_of_existing_results()
 		{
 			// Arrange
-			var observedResults = new List<TestResult>();
+			var observedResults = new List<TestResultMessage>();
 
 			TestFileRunner runner = CreateRunner();
 
@@ -321,10 +322,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 			await runner.RunAsync(testFile);
 
 			// Act
-			runner.Subscribe(r => { observedResults.Add(r); });
+			runner.Subscribe(r => { observedResults.Add(r as TestResultMessage); });
 
 			// Assert
-			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+			Assert.That(observedResults.Select(r => r.TestResult.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
 		}
 
 		[Test]
@@ -340,15 +341,15 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Test() { Url = "foo3" }
 			});
 
-			var observedResults = new List<TestResult>();
+			var observedResults = new List<TestResultMessage>();
 
 			// Act
-			runner.Subscribe(r => { observedResults.Add(r); });
+			runner.Subscribe(r => { observedResults.Add(r as TestResultMessage); });
 
 			await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
+			Assert.That(observedResults.Select(r => r.TestResult.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
 		}
 
 		[Test]
@@ -378,15 +379,15 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Test() { Url = "http://foo3" }
 			});
 
-			var observedResults = new List<TestResult>();
+			var observedResults = new List<TestResultMessage>();
 
 			// Act
-			subscription = runner.Subscribe(r => { observedResults.Add(r); });
+			subscription = runner.Subscribe(r => { observedResults.Add(r as TestResultMessage); });
 
 			await runner.RunAsync(testFile);
 
 			// Assert
-			Assert.That(observedResults.Select(r => r.ActualUrl), Is.EquivalentTo(new[] { "http://foo1", "http://foo2" }), "Should not have included the result after having been disposed.");
+			Assert.That(observedResults.Select(r => r.TestResult.ActualUrl), Is.EquivalentTo(new[] { "http://foo1", "http://foo2" }), "Should not have included the result after having been disposed.");
 		}
 
 		[Test]
@@ -435,15 +436,16 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Test() { Url = "foo3" }
 			});
 
-			TestResult capturedResult = null;
-			runner.Subscribe(r => capturedResult = r);
+			TestResultMessage capturedResult = null;
+			runner.Subscribe(r => capturedResult = r as TestResultMessage);
 
 			// Act
 			await runner.RunAsync(testFile);
 
-			// Assert
-			Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
-			Assert.That(capturedResult.Success, Is.False, "Should not have succeeded.");
+            // Assert
+            Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
+            Assert.That(capturedResult.TestResult, Is.Not.Null, "Should have test result.");
+            Assert.That(capturedResult.TestResult.Success, Is.False, "Should not have succeeded.");
 		}
 
 		private TestFileRunner CreateRunner()
