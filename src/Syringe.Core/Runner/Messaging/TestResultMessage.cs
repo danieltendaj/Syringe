@@ -4,7 +4,6 @@ namespace Syringe.Core.Runner.Messaging
 {
     public class TestResultMessage : IMessage
     {
-        public MessageType MessageType => MessageType.TestResult;
         public TestResult TestResult { get; set; }
     }
 }

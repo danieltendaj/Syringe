@@ -202,7 +202,6 @@
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Runner\Messaging\TestFileGuidMessage.cs" />
     <Compile Include="Runner\Messaging\IMessage.cs" />
-    <Compile Include="Runner\Messaging\MessageType.cs" />
     <Compile Include="Runner\Messaging\TestResultMessage.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />
     <Compile Include="Tests\Scripting\TestFileScriptEvaluator.cs" />
