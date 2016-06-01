@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNet.SignalR.Hubs;
 using Syringe.Core.Runner.Messaging;
 using Syringe.Core.Tests.Results;
@@ -10,11 +11,19 @@ namespace Syringe.Service.Parallel
     {
         private readonly ITaskGroupProvider _taskGroupProvider;
         private readonly IHubConnectionContext<ITaskMonitorHubClient> _hubConnectionContext;
+        private readonly Dictionary<Type, Action<ITaskMonitorHubClient, IMessage>> _messageMappings;
 
-        public TaskPublisher(ITaskGroupProvider taskGroupProvider, IHubConnectionContext<ITaskMonitorHubClient> hubConnectionContext)
+        public TaskPublisher(ITaskGroupProvider taskGroupProvider,
+            IHubConnectionContext<ITaskMonitorHubClient> hubConnectionContext)
         {
             _taskGroupProvider = taskGroupProvider;
             _hubConnectionContext = hubConnectionContext;
+
+            _messageMappings = new Dictionary<Type, Action<ITaskMonitorHubClient, IMessage>>
+            {
+                { typeof (TestResultMessage), SendCompletedTask },
+                { typeof (TestFileGuidMessage), SendTestFileGuid }
+            };
         }
 
         public void Start(int taskId, IObservable<IMessage> resultSource)
@@ -26,18 +35,12 @@ namespace Syringe.Service.Parallel
         private void OnMessage(string taskGroup, IMessage result)
         {
             ITaskMonitorHubClient clientGroup = _hubConnectionContext.Group(taskGroup);
-
-            switch (result.MessageType)
-            {
-                case MessageType.TestResult: SendCompletedTask(clientGroup, result as TestResultMessage); break;
-                case MessageType.TestFileGuid: SendTestFileGuid(clientGroup, result as TestFileGuidMessage); break;
-            }
-
+            _messageMappings[result.GetType()](clientGroup, result);
         }
 
-        private void SendCompletedTask(ITaskMonitorHubClient clientGroup, TestResultMessage message)
+        private void SendCompletedTask(ITaskMonitorHubClient clientGroup, IMessage message)
         {
-            TestResult result = message.TestResult;
+            TestResult result = ((TestResultMessage)message).TestResult;
             var info = new CompletedTaskInfo
             {
                 ActualUrl = result.ActualUrl,
@@ -52,8 +55,9 @@ namespace Syringe.Service.Parallel
             clientGroup.OnTaskCompleted(info);
         }
 
-        private void SendTestFileGuid(ITaskMonitorHubClient clientGroup, TestFileGuidMessage testFileGuidMessage)
+        private void SendTestFileGuid(ITaskMonitorHubClient clientGroup, IMessage message)
         {
+            var testFileGuidMessage = (TestFileGuidMessage)message;
             clientGroup.OnTestFileGuid(testFileGuidMessage.ResultId.ToString());
         }
     }
