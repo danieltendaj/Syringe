@@ -112,7 +112,7 @@ namespace Syringe.Core.Runner
             return new TestSessionRunnerSubscriber(observer, _subscribers);
         }
 
-        public async Task<TestFileResult> RunAsync(TestFile testFile)
+        public async Task<TestFileResult> RunAsync(TestFile testFile, string environment, string username)
         {
             _isStopPending = false;
             lock (_currentResults)
@@ -124,16 +124,16 @@ namespace Syringe.Core.Runner
             {
                 Filename = testFile.Filename,
                 StartTime = DateTime.UtcNow,
-                Environment = testFile.Environment
+                Environment = environment,
+				Username = username
             };
 
             // Add all config variables and ones in this <test>
-            var variables = new CapturedVariableProvider(testFile.Environment);
+            var variables = new CapturedVariableProvider(environment);
             variables.AddOrUpdateVariables(testFile.Variables);
 
             var verificationsMatcher = new AssertionsMatcher(variables);
 
-            // Ensure we loop atleast once:
             List<Test> tests = testFile.Tests.ToList();
 
             TimeSpan minResponseTime = TimeSpan.MaxValue;
@@ -142,7 +142,6 @@ namespace Syringe.Core.Runner
             TestsRun = 0;
             TotalTests = tests.Count;
             bool shouldSave = true;
-
 
             for (int i = 0; i < tests.Count; i++)
             {
@@ -189,7 +188,7 @@ namespace Syringe.Core.Runner
             testFileResult.TotalTestsRun = totalTestsRun;
             testFileResult.MinResponseTime = minResponseTime;
             testFileResult.MaxResponseTime = maxResponseTime;
-            
+
             if (shouldSave)
             {
                 await Repository.AddAsync(testFileResult);

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
@@ -15,12 +18,88 @@ namespace Syringe.Service.Api
 			_fileQueue = fileQueue;
 		}
 
-		[Route("api/tasks/RunTestFileAndWait")]
+		/// <summary>
+		/// Run a test file synchronously - waiting for the tests to finish.
+		/// </summary>
+		[Route("api/tasks/RunTestFile")]
 		[HttpGet]
-		public string RunTestFileAndWait(string filename, string environment)
+		public TestFileRunResult RunTestFile(string filename, string environment, string username)
 		{
-			string status = ((ParallelTestFileQueue) _fileQueue).RunTestFile(filename, environment);
-			return status;
+			DateTime startTime = DateTime.UtcNow;
+
+			var taskRequest = new TaskRequest()
+			{
+				Environment = environment,
+				Filename = filename,
+				Username = username
+			};
+
+			try
+			{
+				// Wait 2 minutes for the tests to run, this can be made configurable later
+				TimeSpan timeout = TimeSpan.FromMinutes(2);
+				Task<TestFileRunnerTaskInfo> task = _fileQueue.RunAsync(taskRequest);
+				bool completed = task.Wait(timeout);
+				TimeSpan timeTaken = DateTime.UtcNow - startTime;
+
+				if (completed)
+				{
+					if (!string.IsNullOrEmpty(task.Result.Errors))
+					{
+						return new TestFileRunResult()
+						{
+							Completed = false,
+							TimeTaken = timeTaken,
+							ErrorMessage = task.Result.Errors
+						};
+					}
+
+					int failCount = task.Result.Runner.CurrentResults.Count(x => !x.Success);
+
+					return new TestFileRunResult()
+					{
+						Completed = true,
+						TimeTaken = timeTaken,
+						HasFailedTests = (failCount > 0),
+						ErrorMessage = "",
+						TestResults = task.Result.Runner.CurrentResults.Select(result => new LightweightResult()
+						{
+							Success = result.Success,
+							Message = result.Message,
+							ExceptionMessage = result.ExceptionMessage,
+							AssertionsSuccess = result.AssertionsSuccess,
+							ScriptCompilationSuccess = result.ScriptCompilationSuccess,
+							ResponseTime = result.ResponseTime,
+							ResponseCodeSuccess = result.ResponseCodeSuccess,
+							ActualUrl = result.ActualUrl,
+							TestUrl = result.Test.Url,
+							TestDescription = result.Test.Description
+						})
+					};
+				}
+				else
+				{
+					// Error
+					return new TestFileRunResult()
+					{
+						Completed = false,
+						TimeTaken = timeTaken,
+						ErrorMessage = "The runner timed out."
+					};
+				}
+			}
+			catch (Exception ex)
+			{
+				TimeSpan timeTaken = DateTime.UtcNow - startTime;
+
+				// Error
+				return new TestFileRunResult()
+		{
+					Completed = false,
+					TimeTaken = timeTaken,
+					ErrorMessage = ex.ToString()
+				};
+			}
 		}
 
 		[Route("api/tasks/Start")]

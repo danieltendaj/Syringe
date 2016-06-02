@@ -11,8 +11,8 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
     [TestFixture]
     public class TestFileWriterTests
     {
-        private readonly string JsonExamplesFolder = typeof(TestFileWriterTests).Namespace + ".JsonExamples.";
-        private readonly string BlackListText = "I SHOULD NOT EXIST";
+        private readonly string _jsonExamplesFolder = typeof(TestFileWriterTests).Namespace + ".JsonExamples.";
+        private readonly string _blackListText = "I SHOULD NOT EXIST";
 
         [Test]
         public void should_output_expected_json_when_writing_test_file()
@@ -21,7 +21,6 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             var contract = new SerializationContract();
             var testFile = new TestFile
             {
-                Environment = BlackListText,
                 Filename = "I SHOULD ALSO NOT EXIST",
                 Variables = new List<Variable>
                 {
@@ -53,7 +52,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                     new Test
                     {
                         Method = "POST",
-                        AvailableVariables = new List<Variable> {new Variable { Name = BlackListText} },
+                        AvailableVariables = new List<Variable> {new Variable { Name = _blackListText} },
                         Assertions = new List<Assertion>
                         {
                             new Assertion
@@ -62,9 +61,9 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                                 AssertionMethod = AssertionMethod.CSQuery,
                                 AssertionType = AssertionType.Negative,
                                 Description = "I SHOULD DO A THING",
-                                Log = BlackListText,
+                                Log = _blackListText,
                                 Success = true,
-                                TransformedValue = BlackListText
+                                TransformedValue = _blackListText
                             }
                         },
                         Description = "Some Test",
@@ -89,11 +88,9 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             string result = writer.Write(testFile);
 
             // then
-            string expectedJson = TestHelpers.ReadEmbeddedFile("full-test-file.json", JsonExamplesFolder);
+            string expectedJson = TestHelpers.ReadEmbeddedFile("full-test-file.json", _jsonExamplesFolder);
             Assert.That(result.Replace("\r\n", "\n"), Is.EqualTo(expectedJson.Replace("\r\n", "\n")));
-            Assert.That(result, Is.Not.StringContaining(BlackListText));
+            Assert.That(result, Is.Not.StringContaining(_blackListText));
         }
-
-      
     }
 }

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Syringe.Core.Tasks;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Service
 {
@@ -31,5 +33,10 @@ namespace Syringe.Service
         /// Attempts to shut down all running tasks.
         /// </summary>
         List<string> StopAll();
+
+	    /// <summary>
+	    /// Runs a test file and waits.
+	    /// </summary>
+	    Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request);
     }
 }
