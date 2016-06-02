@@ -8,16 +8,18 @@ using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner.Assertions;
+using Syringe.Core.Runner.Messaging;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
+using IMessage = Syringe.Core.Runner.Messaging.IMessage;
 
 namespace Syringe.Core.Runner
 {
-	public class TestFileRunner : IObservable<TestResult>
+    public class TestFileRunner : IObservable<IMessage>
     {
         private readonly IHttpClient _httpClient;
         private readonly IConfiguration _configuration;
@@ -60,7 +62,7 @@ namespace Syringe.Core.Runner
             SessionId = Guid.NewGuid();
         }
 
-        private void NotifySubscribers(Action<IObserver<TestResult>> observerAction)
+        private void NotifySubscribers(Action<IObserver<IMessage>> observerAction)
         {
             IDictionary<Guid, TestSessionRunnerSubscriber> currentSubscribers;
             lock (_subscribers)
@@ -68,7 +70,7 @@ namespace Syringe.Core.Runner
                 currentSubscribers = _subscribers.ToDictionary(k => k.Key, v => v.Value);
             }
 
-            foreach (var subscriber in currentSubscribers.Values)
+            foreach (TestSessionRunnerSubscriber subscriber in currentSubscribers.Values)
             {
                 observerAction(subscriber.Observer);
             }
@@ -76,11 +78,14 @@ namespace Syringe.Core.Runner
 
         private void NotifySubscribersOfAddedResult(TestResult result)
         {
-            NotifySubscribers(observer => observer.OnNext(result));
+            IMessage message = new TestResultMessage { TestResult = result };
+            NotifySubscribers(observer => observer.OnNext(message));
         }
 
-        private void NotifySubscribersOfCompletion()
+        private void NotifySubscribersOfCompletion(Guid resultId)
         {
+            IMessage message = new TestFileGuidMessage { ResultId = resultId };
+            NotifySubscribers(observer => observer.OnNext(message));
             NotifySubscribers(observer => observer.OnCompleted());
         }
 
@@ -89,7 +94,7 @@ namespace Syringe.Core.Runner
             _isStopPending = true;
         }
 
-        public IDisposable Subscribe(IObserver<TestResult> observer)
+        public IDisposable Subscribe(IObserver<IMessage> observer)
         {
             // Notify of the observer of existing results.
             IEnumerable<TestResult> resultsCopy;
@@ -100,7 +105,8 @@ namespace Syringe.Core.Runner
 
             foreach (TestResult testResult in resultsCopy)
             {
-                observer.OnNext(testResult);
+                var message = new TestResultMessage { TestResult = testResult };
+                observer.OnNext(message);
             }
 
             return new TestSessionRunnerSubscriber(observer, _subscribers);
@@ -120,7 +126,7 @@ namespace Syringe.Core.Runner
                 StartTime = DateTime.UtcNow,
                 Environment = environment,
 				Username = username
-			};
+            };
 
             // Add all config variables and ones in this <test>
             var variables = new CapturedVariableProvider(environment);
@@ -183,12 +189,12 @@ namespace Syringe.Core.Runner
             testFileResult.MinResponseTime = minResponseTime;
             testFileResult.MaxResponseTime = maxResponseTime;
 
-            NotifySubscribersOfCompletion();
-
             if (shouldSave)
             {
                 await Repository.AddAsync(testFileResult);
             }
+
+            NotifySubscribersOfCompletion(testFileResult.Id);
 
             return testFileResult;
         }
@@ -309,7 +315,7 @@ namespace Syringe.Core.Runner
             private readonly Guid _key;
             private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscriptionList;
 
-            public TestSessionRunnerSubscriber(IObserver<TestResult> observer,
+            public TestSessionRunnerSubscriber(IObserver<IMessage> observer,
                 Dictionary<Guid, TestSessionRunnerSubscriber> subscriptionList)
             {
                 Observer = observer;
@@ -322,7 +328,7 @@ namespace Syringe.Core.Runner
                 }
             }
 
-            public IObserver<TestResult> Observer { get; private set; }
+            public IObserver<IMessage> Observer { get; private set; }
 
             public void Dispose()
             {

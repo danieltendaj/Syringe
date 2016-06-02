@@ -79,7 +79,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		}
 
 		[Test]
-		public void should_concatenate_multiple_matches_into_variable_value()
+		public void should_not_concatenate_multiple_matches_into_variable_value()
 		{
 			// Arrange
 			var parseResponses = new List<CapturedVariable>()
@@ -92,7 +92,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
 			// Assert
-			Assert.That(variables.ValueByName("var1"), Is.EqualTo("347"));
+			Assert.That(variables.ValueByName("var1"), Is.EqualTo("3"));
 		}
 	}
 }

@@ -7,6 +7,8 @@ namespace Syringe.Core.Helpers
     {
         public string AddUrlBase(string baseUrl, string content)
         {
+            content = content ?? string.Empty;
+
             if (!baseUrl.EndsWith("/"))
             {
                 baseUrl = string.Concat(baseUrl, "/");

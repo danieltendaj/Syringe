@@ -100,7 +100,7 @@ namespace Syringe.Core.Runner
 						int matchCount = 0;
 						foreach (Match match in matches)
 						{
-							if (match.Groups.Count > 1)
+						    if (match.Groups.Count > 1)
 							{
 							    string detectedValue = match.Groups[1].Value;
 							    simpleLogger.WriteIndentedLine($"Detected value: {detectedValue}");
@@ -108,13 +108,12 @@ namespace Syringe.Core.Runner
                                 string transformedValue = variablePostProcessor.Process(detectedValue, regexItem.PostProcessorType);
                                 simpleLogger.WriteIndentedLine($"Transformed value: {detectedValue}");
 
-                                capturedValue += transformedValue;
+                                capturedValue = transformedValue;
 								simpleLogger.WriteIndentedLine($"{++matchCount}. '{regexItem.Regex}' matched, updated variable to '{capturedValue}'");
+							    break;
 							}
-							else
-							{
-								simpleLogger.WriteIndentedLine("{0}. '{1}' matched, but the regex has no capture groups so the variable value wasn't updated.", ++matchCount, regexItem.Regex);
-							}
+
+						    simpleLogger.WriteIndentedLine("{0}. '{1}' matched, but the regex has no capture groups so the variable value wasn't updated.", ++matchCount, regexItem.Regex);
 						}
 					}
 					else
