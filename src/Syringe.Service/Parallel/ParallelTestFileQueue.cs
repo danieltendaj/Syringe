@@ -64,33 +64,33 @@ namespace Syringe.Service.Parallel
             return taskId;
         }
 
-		public async Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request)
-		{
-			var runnerTaskInfo = new TestFileRunnerTaskInfo(-1);
-			runnerTaskInfo.Request = request;
-			runnerTaskInfo.StartTime = DateTime.UtcNow;
-			runnerTaskInfo.Username = request.Username;
+        public async Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request)
+        {
+            var runnerTaskInfo = new TestFileRunnerTaskInfo(-1);
+            runnerTaskInfo.Request = request;
+            runnerTaskInfo.StartTime = DateTime.UtcNow;
+            runnerTaskInfo.Username = request.Username;
 
-			try
-			{
-				string filename = runnerTaskInfo.Request.Filename;
+            try
+            {
+                string filename = runnerTaskInfo.Request.Filename;
 
-				TestFile testFile = _testRepository.GetTestFile(filename);
-				testFile.Filename = filename;
+                TestFile testFile = _testRepository.GetTestFile(filename);
+                testFile.Filename = filename;
 
-				var httpClient = new HttpClient(new RestClient());
-				var runner = new TestFileRunner(httpClient, _repository, _configuration);
+                var httpClient = new HttpClient(new RestClient());
+                var runner = new TestFileRunner(httpClient, _repository, _configuration);
 
-				runnerTaskInfo.Runner = runner;
-				await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
-			}
-			catch (Exception e)
-			{
-				runnerTaskInfo.Errors = e.ToString();
-			}
+                runnerTaskInfo.Runner = runner;
+                runnerTaskInfo.TestFileResults = await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
+            }
+            catch (Exception e)
+            {
+                runnerTaskInfo.Errors = e.ToString();
+            }
 
-			return runnerTaskInfo;
-		}
+            return runnerTaskInfo;
+        }
 
         /// <summary>
         /// Starts the test file run.
@@ -106,7 +106,7 @@ namespace Syringe.Service.Parallel
 
                 if (item.Position.HasValue)
                 {
-                    testFile.Tests = new []{ testFile.Tests.ElementAt(item.Position.Value) };
+                    testFile.Tests = new[] { testFile.Tests.ElementAt(item.Position.Value) };
                 }
 
                 var httpClient = new HttpClient(new RestClient());
@@ -203,7 +203,7 @@ namespace Syringe.Service.Parallel
             return results;
         }
 
-	    public TaskMonitoringInfo StartMonitoringTask(int taskId)
+        public TaskMonitoringInfo StartMonitoringTask(int taskId)
         {
             TestFileRunnerTaskInfo task;
             _currentTasks.TryGetValue(taskId, out task);

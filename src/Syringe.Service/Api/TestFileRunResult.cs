@@ -5,6 +5,7 @@ namespace Syringe.Service.Api
 {
 	public class TestFileRunResult
 	{
+	    public Guid? ResultId { get; set; }
 		public bool Completed { get; set; }
 		public bool HasFailedTests { get; set; }
 		public TimeSpan TimeTaken { get; set; }
