@@ -1,3 +1,8 @@
 [submodule "Example-TestFiles"]
 	path = Example-TestFiles
 	url = https://github.com/TotalJobsGroup/Syringe-Examples.git
+
+[submodule "Syringe-Examples"]
+	path = Syringe-Examples
+	url = https://github.com/TotalJobsGroup/Syringe-Examples.git
+	
