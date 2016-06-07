@@ -12,10 +12,12 @@ namespace Syringe.Service.Api
     public class TasksController : ApiController, ITasksService
     {
         private readonly ITestFileQueue _fileQueue;
+        private readonly ITestFileResultFactory _testFileResultFactory;
 
-        public TasksController(ITestFileQueue fileQueue)
+        public TasksController(ITestFileQueue fileQueue, ITestFileResultFactory testFileResultFactory)
         {
             _fileQueue = fileQueue;
+            _testFileResultFactory = testFileResultFactory;
         }
 
         /// <summary>
@@ -42,52 +44,7 @@ namespace Syringe.Service.Api
                 bool completed = task.Wait(timeout);
                 TimeSpan timeTaken = DateTime.UtcNow - startTime;
 
-                if (completed)
-                {
-                    if (!string.IsNullOrEmpty(task.Result.Errors))
-                    {
-                        return new TestFileRunResult()
-                        {
-                            Completed = false,
-                            TimeTaken = timeTaken,
-                            ErrorMessage = task.Result.Errors
-                        };
-                    }
-
-                    int failCount = task.Result.Runner.CurrentResults.Count(x => !x.Success);
-
-                    return new TestFileRunResult()
-                    {
-                        ResultId = task.Result.TestFileResults.Id,
-                        Completed = true,
-                        TimeTaken = timeTaken,
-                        HasFailedTests = (failCount > 0),
-                        ErrorMessage = "",
-                        TestResults = task.Result.Runner.CurrentResults.Select(result => new LightweightResult()
-                        {
-                            Success = result.Success,
-                            Message = result.Message,
-                            ExceptionMessage = result.ExceptionMessage,
-                            AssertionsSuccess = result.AssertionsSuccess,
-                            ScriptCompilationSuccess = result.ScriptCompilationSuccess,
-                            ResponseTime = result.ResponseTime,
-                            ResponseCodeSuccess = result.ResponseCodeSuccess,
-                            ActualUrl = result.ActualUrl,
-                            TestUrl = result.Test.Url,
-                            TestDescription = result.Test.Description
-                        })
-                    };
-                }
-                else
-                {
-                    // Error
-                    return new TestFileRunResult()
-                    {
-                        Completed = false,
-                        TimeTaken = timeTaken,
-                        ErrorMessage = "The runner timed out."
-                    };
-                }
+                return _testFileResultFactory.Create(task, !completed, timeTaken);
             }
             catch (Exception ex)
             {
