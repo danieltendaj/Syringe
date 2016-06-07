@@ -16,6 +16,10 @@ Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
 Write-Host "Please read the README file before running this script. " -ForegroundColor DarkYellow
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 
+# Restore submodules
+git submodule init
+git submodule update
+
 # Install nuget
 Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
