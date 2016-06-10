@@ -7,6 +7,7 @@ using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
+using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Web.Controllers
 {
@@ -22,9 +23,9 @@ namespace Syringe.Web.Controllers
             _environmentsService = environmentsService;
         }
 
-		[HttpGet]
-		[EditableTestsRequired]
-		public ActionResult Add()
+        [HttpGet]
+        [EditableTestsRequired]
+        public ActionResult Add()
         {
             var model = new TestFileViewModel();
             return View("Add", model);
@@ -63,8 +64,8 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-		[HttpGet]
-		[EditableTestsRequired]
+        [HttpGet]
+        [EditableTestsRequired]
         public ActionResult Update(string fileName)
         {
             TestFile testFile = _testsClient.GetTestFile(fileName);
@@ -118,10 +119,19 @@ namespace Syringe.Web.Controllers
                 }
             }
 
+            if (model.Variables != null)
+            {
+                SelectListItem[] availableEnvironments = GetEnvironmentsDropDown();
+                foreach (var variable in model.Variables)
+                {
+                    variable.AvailableEnvironments = availableEnvironments;
+                }
+            }
+
             return View("Update", model);
         }
 
-		[HttpGet]
+        [HttpGet]
         [EditableTestsRequired]
         public ActionResult AddVariableItem()
         {
@@ -144,7 +154,8 @@ namespace Syringe.Web.Controllers
 
         private SelectListItem[] GetEnvironmentsDropDown()
         {
-            var environments = _environmentsService.List();
+            List<Environment> environments = _environmentsService.List().ToList();
+            environments.Insert(0, new Environment());
 
             return environments
                 .OrderBy(x => x.Order)
