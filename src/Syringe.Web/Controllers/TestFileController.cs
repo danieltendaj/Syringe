@@ -16,7 +16,7 @@ namespace Syringe.Web.Controllers
     {
         private readonly ITestService _testsClient;
         private readonly IEnvironmentsService _environmentsService;
-        private const string DEFAULT_ENV_TEXT = "--[[Default Environment]]--";
+        internal const string DEFAULT_ENV_VAL = "--[[Default Environment]]--";
 
         public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService)
         {
@@ -107,10 +107,10 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var variables = new List<Variable>(model.Variables.Count);
-                foreach (var variableModel in model.Variables)
+                var variables = new List<Variable>();
+                foreach (var variableModel in model.Variables ?? new List<VariableViewModel>())
                 {
-                    string environment = variableModel.Environment == DEFAULT_ENV_TEXT ? string.Empty : variableModel.Environment;
+                    string environment = variableModel.Environment == DEFAULT_ENV_VAL ? string.Empty : variableModel.Environment;
                     variables.Add(new Variable(variableModel.Name, variableModel.Value, environment));
                 }
 
@@ -169,7 +169,7 @@ namespace Syringe.Web.Controllers
                 .Select(x => new SelectListItem { Value = x.Name, Text = x.Name })
                 .ToList();
 
-            items.Insert(0, new SelectListItem { Value = DEFAULT_ENV_TEXT, Text = string.Empty });
+            items.Insert(0, new SelectListItem { Value = DEFAULT_ENV_VAL, Text = string.Empty });
             return items.ToArray();
         }
     }
