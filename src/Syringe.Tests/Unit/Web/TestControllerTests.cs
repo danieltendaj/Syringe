@@ -20,16 +20,12 @@ namespace Syringe.Tests.Unit.Web
         private TestController _testController;
         private Mock<ITestService> _testServiceMock;
         private Mock<ITestFileMapper> _testFileMapperMock;
-        private Mock<IEnvironmentsService> _environmentService;
-        private JsonConfiguration _configuration;
 
         [SetUp]
         public void Setup()
         {
             _testServiceMock = new Mock<ITestService>();
             _testFileMapperMock = new Mock<ITestFileMapper>();
-            _environmentService = new Mock<IEnvironmentsService>();
-            _configuration = new JsonConfiguration();
 
             _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()));
             _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
@@ -38,36 +34,9 @@ namespace Syringe.Tests.Unit.Web
             _testServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>()));
             _testServiceMock.Setup(x => x.CreateTest(It.IsAny<string>(), It.IsAny<Test>()));
 
-            _testController = new TestController(_testServiceMock.Object, _testFileMapperMock.Object, _environmentService.Object, _configuration);
+            _testController = new TestController(_testServiceMock.Object, _testFileMapperMock.Object);
         }
-
-        [Test]
-        public void View_should_return_correct_view_and_model()
-        {
-            // given + when
-            var viewResult = _testController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
-
-            // then
-            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("View", viewResult.ViewName);
-            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
-        }
-
-        [Test]
-        public void View_should_return_readonly_view_when_configuration_is_readonly()
-        {
-            // given + when
-            _configuration.ReadonlyMode = true;
-            var viewResult = _testController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
-
-            // then
-            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
-            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("View-ReadonlyMode", viewResult.ViewName);
-            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
-        }
-
+        
         [Test]
         public void Edit_should_return_correct_view_and_model()
         {

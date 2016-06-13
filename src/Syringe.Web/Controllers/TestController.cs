@@ -17,49 +17,17 @@ namespace Syringe.Web.Controllers
     {
         private readonly ITestService _testsClient;
         private readonly ITestFileMapper _testFileMapper;
-        private readonly IEnvironmentsService _environmentsService;
-        private readonly IConfiguration _configuration;
 
-        public TestController(
-            ITestService testsClient,
-            ITestFileMapper testFileMapper,
-            IEnvironmentsService environmentsService,
-            IConfiguration configuration)
+        public TestController(ITestService testsClient, ITestFileMapper testFileMapper)
         {
             _testsClient = testsClient;
             _testFileMapper = testFileMapper;
-            _environmentsService = environmentsService;
-            _configuration = configuration;
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             AddPagingDataForBreadCrumb();
             base.OnActionExecuting(filterContext);
-        }
-
-        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
-        {
-            TestFile testFile = _testsClient.GetTestFile(filename);
-            IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
-
-            var viewModel = new TestFileViewModel
-            {
-                PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
-                Tests = _testFileMapper.BuildTests(tests, pageNumber, noOfResults),
-                Filename = filename,
-                PageNumber = pageNumber,
-                NoOfResults = noOfResults,
-                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
-            };
-
-            string viewName = "View";
-            if (_configuration.ReadonlyMode)
-            {
-                viewName = "View-ReadonlyMode";
-            }
-
-            return View(viewName, viewModel);
         }
 
         [HttpGet]
@@ -81,7 +49,7 @@ namespace Syringe.Web.Controllers
             {
                 Test test = _testFileMapper.BuildCoreModel(model);
                 _testsClient.EditTest(model.Filename, model.Position, test);
-                return RedirectToAction("View", new { filename = model.Filename });
+                return RedirectToAction("View", "TestFile", new { filename = model.Filename });
             }
 
             return View("Edit", model);
@@ -112,7 +80,7 @@ namespace Syringe.Web.Controllers
             {
                 Test test = _testFileMapper.BuildCoreModel(model);
                 _testsClient.CreateTest(model.Filename, test);
-                return RedirectToAction("View", new { filename = model.Filename });
+                return RedirectToAction("View", "TestFile", new { filename = model.Filename });
             }
 
             return View("Edit", model);
@@ -124,7 +92,7 @@ namespace Syringe.Web.Controllers
         {
             _testsClient.DeleteTest(position, fileName);
 
-            return RedirectToAction("View", new { filename = fileName });
+            return RedirectToAction("View", "TestFile", new { filename = fileName });
         }
 
         [HttpPost]
@@ -133,7 +101,7 @@ namespace Syringe.Web.Controllers
         {
             _testsClient.CopyTest(position, fileName);
 
-            return RedirectToAction("View", new { filename = fileName });   
+            return RedirectToAction("View", "TestFile", new { filename = fileName });
         }
 
         [EditableTestsRequired]

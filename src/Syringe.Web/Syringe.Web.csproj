@@ -406,7 +406,7 @@
     <Compile Include="Startup.cs" />
     <Content Include="Scripts\Syringe.js" />
     <Content Include="Views\Shared\Partials\_ResultsPager.cshtml" />
-    <Content Include="Views\Test\View-ReadonlyMode.cshtml" />
+    <Content Include="Views\TestFile\View-ReadonlyMode.cshtml" />
     <Content Include="Views\Home\Index-ReadonlyMode.cshtml" />
     <Content Include="websiteconfig.json" />
     <Content Include="Views\Results\Html.cshtml" />
@@ -481,7 +481,7 @@
     <Content Include="Views\Test\EditorTemplates\CapturedVariableItem.cshtml" />
     <Content Include="Views\Test\EditorTemplates\AssertionViewModel.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
-    <Content Include="Views\Test\View.cshtml" />
+    <Content Include="Views\TestFile\View.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootbox.d.ts" />
