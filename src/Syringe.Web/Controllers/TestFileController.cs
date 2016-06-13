@@ -110,7 +110,6 @@ namespace Syringe.Web.Controllers
                 var variables = new List<Variable>(model.Variables.Count);
                 foreach (var variableModel in model.Variables)
                 {
-                    //Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
                     string environment = variableModel.Environment == DEFAULT_ENV_TEXT ? string.Empty : variableModel.Environment;
                     variables.Add(new Variable(variableModel.Name, variableModel.Value, environment));
                 }
