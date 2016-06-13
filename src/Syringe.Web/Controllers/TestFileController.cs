@@ -16,6 +16,7 @@ namespace Syringe.Web.Controllers
     {
         private readonly ITestService _testsClient;
         private readonly IEnvironmentsService _environmentsService;
+        private const string DEFAULT_ENV_TEXT = "--[[Default Environment]]--";
 
         public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService)
         {
@@ -106,10 +107,18 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var variables = new List<Variable>(model.Variables.Count);
+                foreach (var variableModel in model.Variables)
+                {
+                    //Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
+                    string environment = variableModel.Environment == DEFAULT_ENV_TEXT ? string.Empty : variableModel.Environment;
+                    variables.Add(new Variable(variableModel.Name, variableModel.Value, environment));
+                }
+
                 var testFile = new TestFile
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
+                    Variables = variables
                 };
 
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
@@ -155,12 +164,14 @@ namespace Syringe.Web.Controllers
         private SelectListItem[] GetEnvironmentsDropDown()
         {
             List<Environment> environments = _environmentsService.List().ToList();
-            environments.Insert(0, new Environment());
 
-            return environments
+            List<SelectListItem> items = environments
                 .OrderBy(x => x.Order)
                 .Select(x => new SelectListItem { Value = x.Name, Text = x.Name })
-                .ToArray();
+                .ToList();
+
+            items.Insert(0, new SelectListItem { Value = DEFAULT_ENV_TEXT, Text = string.Empty });
+            return items.ToArray();
         }
     }
 }

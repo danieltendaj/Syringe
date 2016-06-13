@@ -88,32 +88,78 @@ namespace Syringe.Tests.Unit.Core.Runner
 			// Assert
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb"));
-		}
+        }
 
-		[Test]
-		public void AddOrUpdateVariables_should_update_variable_when_already_set()
-		{
-			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+        [Test]
+        public void AddOrUpdateVariables_should_update_variable_when_already_set_and_original_is_set_as_default_variable()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
 
-			// Act
-			sessionVariables.AddOrUpdateVariables(new List<Variable>()
-			{
-				new Variable("nano", "leaf", _devEnvironment),
-				new Variable("light", "bulb", _devEnvironment),
-			});
-			sessionVariables.AddOrUpdateVariables(new List<Variable>()
-			{
-				new Variable("nano", "leaf2", _devEnvironment),
-				new Variable("light", "bulb2", _devEnvironment)
-			});
+            // Act
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf", string.Empty),
+                new Variable("light", "bulb", string.Empty),
+            });
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf2", _devEnvironment),
+                new Variable("light", "bulb2", _devEnvironment)
+            });
 
-			// Assert
-			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
-			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
-		}
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
+            Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
+        }
 
-		[Test]
+        [Test]
+        public void AddOrUpdateVariables_should_not_update_variable_when_setting_as_default_and_has_existing_variable_set_against_a_specific_environment()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+
+            // Act
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf", _devEnvironment),
+                new Variable("light", "bulb", _devEnvironment),
+            });
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf2", string.Empty),
+                new Variable("light", "bulb2", string.Empty)
+            });
+
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
+            Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb"));
+        }
+
+        [Test]
+        public void AddOrUpdateVariables_should_update_variable_when_both_existing_and_new_variable_have_environment_set()
+        {
+            // Arrange
+            var sessionVariables = new CapturedVariableProvider(_devEnvironment);
+
+            // Act
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf", _devEnvironment),
+                new Variable("light", "bulb", _devEnvironment),
+            });
+            sessionVariables.AddOrUpdateVariables(new List<Variable>()
+            {
+                new Variable("nano", "leaf2", _devEnvironment),
+                new Variable("light", "bulb2", _devEnvironment)
+            });
+
+            // Assert
+            Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
+            Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
+        }
+
+        [Test]
 		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
 		{
 			// Arrange
