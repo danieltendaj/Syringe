@@ -161,15 +161,19 @@ namespace Syringe.Tests.Unit.Web
             Assert.IsInstanceOf<VariableViewModel>(viewResult.Model);
 
             var variableViewModel = viewResult.Model as VariableViewModel;
-            Assert.That(variableViewModel.AvailableEnvironments.Length, Is.EqualTo(2));
+            Assert.That(variableViewModel.AvailableEnvironments.Length, Is.EqualTo(3));
 
-            Assert.That(variableViewModel.AvailableEnvironments[0].Text, Is.EqualTo("Env3"));
-            Assert.That(variableViewModel.AvailableEnvironments[0].Value, Is.EqualTo("Env3"));
+            Assert.That(variableViewModel.AvailableEnvironments[0].Text, Is.EqualTo(""));
+            Assert.That(variableViewModel.AvailableEnvironments[0].Value, Is.EqualTo(TestFileController.DEFAULT_ENV_VAL));
             Assert.That(variableViewModel.AvailableEnvironments[0].Disabled, Is.False);
 
-            Assert.That(variableViewModel.AvailableEnvironments[1].Text, Is.EqualTo("Env2"));
-            Assert.That(variableViewModel.AvailableEnvironments[1].Value, Is.EqualTo("Env2"));
+            Assert.That(variableViewModel.AvailableEnvironments[1].Text, Is.EqualTo("Env3"));
+            Assert.That(variableViewModel.AvailableEnvironments[1].Value, Is.EqualTo("Env3"));
             Assert.That(variableViewModel.AvailableEnvironments[1].Disabled, Is.False);
+
+            Assert.That(variableViewModel.AvailableEnvironments[2].Text, Is.EqualTo("Env2"));
+            Assert.That(variableViewModel.AvailableEnvironments[2].Value, Is.EqualTo("Env2"));
+            Assert.That(variableViewModel.AvailableEnvironments[2].Disabled, Is.False);
         }
 
         [Test]

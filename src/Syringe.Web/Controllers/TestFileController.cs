@@ -7,6 +7,7 @@ using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
+using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Web.Controllers
 {
@@ -15,6 +16,7 @@ namespace Syringe.Web.Controllers
     {
         private readonly ITestService _testsClient;
         private readonly IEnvironmentsService _environmentsService;
+        internal const string DEFAULT_ENV_VAL = "--[[Default Environment]]--";
 
         public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService)
         {
@@ -22,9 +24,9 @@ namespace Syringe.Web.Controllers
             _environmentsService = environmentsService;
         }
 
-		[HttpGet]
-		[EditableTestsRequired]
-		public ActionResult Add()
+        [HttpGet]
+        [EditableTestsRequired]
+        public ActionResult Add()
         {
             var model = new TestFileViewModel();
             return View("Add", model);
@@ -63,8 +65,8 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-		[HttpGet]
-		[EditableTestsRequired]
+        [HttpGet]
+        [EditableTestsRequired]
         public ActionResult Update(string fileName)
         {
             TestFile testFile = _testsClient.GetTestFile(fileName);
@@ -105,10 +107,17 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var variables = new List<Variable>();
+                foreach (var variableModel in model.Variables ?? new List<VariableViewModel>())
+                {
+                    string environment = variableModel.Environment == DEFAULT_ENV_VAL ? string.Empty : variableModel.Environment;
+                    variables.Add(new Variable(variableModel.Name, variableModel.Value, environment));
+                }
+
                 var testFile = new TestFile
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
+                    Variables = variables
                 };
 
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
@@ -118,10 +127,19 @@ namespace Syringe.Web.Controllers
                 }
             }
 
+            if (model.Variables != null)
+            {
+                SelectListItem[] availableEnvironments = GetEnvironmentsDropDown();
+                foreach (var variable in model.Variables)
+                {
+                    variable.AvailableEnvironments = availableEnvironments;
+                }
+            }
+
             return View("Update", model);
         }
 
-		[HttpGet]
+        [HttpGet]
         [EditableTestsRequired]
         public ActionResult AddVariableItem()
         {
@@ -144,12 +162,15 @@ namespace Syringe.Web.Controllers
 
         private SelectListItem[] GetEnvironmentsDropDown()
         {
-            var environments = _environmentsService.List();
+            List<Environment> environments = _environmentsService.List().ToList();
 
-            return environments
+            List<SelectListItem> items = environments
                 .OrderBy(x => x.Order)
                 .Select(x => new SelectListItem { Value = x.Name, Text = x.Name })
-                .ToArray();
+                .ToList();
+
+            items.Insert(0, new SelectListItem { Value = DEFAULT_ENV_VAL, Text = string.Empty });
+            return items.ToArray();
         }
     }
 }
