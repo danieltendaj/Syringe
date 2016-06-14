@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
-using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Runner
@@ -53,11 +52,7 @@ namespace Syringe.Core.Runner
         public string GetVariableValue(string name)
         {
             var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-
-            if (variable != null)
-                return variable.Value;
-
-            return "";
+            return variable != null ? variable.Value : string.Empty;
         }
 
         public string ReplacePlainTextVariablesIn(string text)
@@ -74,6 +69,8 @@ namespace Syringe.Core.Runner
 
         public string ReplaceVariablesIn(string text)
         {
+            text = text ?? string.Empty;
+
             foreach (Variable variable in _currentVariables)
             {
                 text = text.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));

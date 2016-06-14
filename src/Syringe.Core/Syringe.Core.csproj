@@ -220,7 +220,13 @@
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\IReservedVariable.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\IReservedVariableProvider.cs" />
+    <Compile Include="Tests\Variables\IVariable.cs" />
+    <Compile Include="Tests\Variables\IVariableContainer.cs" />
     <Compile Include="Tests\Variables\IVariablePostProcessor.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\RandomNumberVariable.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\ReservedVariableProvider.cs" />
     <Compile Include="Tests\Variables\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
     <Compile Include="Services\ITestService.cs" />
