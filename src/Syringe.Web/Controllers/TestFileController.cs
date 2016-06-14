@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Syringe.Core.Security;
+using Syringe.Core.Configuration;
+using Syringe.Core.Extensions;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using Environment = Syringe.Core.Environment.Environment;
 
@@ -17,11 +18,15 @@ namespace Syringe.Web.Controllers
         private readonly ITestService _testsClient;
         private readonly IEnvironmentsService _environmentsService;
         internal const string DEFAULT_ENV_VAL = "--[[Default Environment]]--";
+        private readonly IConfiguration _configuration;
+        private readonly ITestFileMapper _testFileMapper;
 
-        public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService)
+        public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService, IConfiguration configuration, ITestFileMapper testFileMapper)
         {
             _testsClient = testsClient;
             _environmentsService = environmentsService;
+            _configuration = configuration;
+            _testFileMapper = testFileMapper;
         }
 
         [HttpGet]
@@ -63,6 +68,30 @@ namespace Syringe.Web.Controllers
             }
 
             return View("Add", model);
+        }
+
+        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
+        {
+            TestFile testFile = _testsClient.GetTestFile(filename);
+            IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
+
+            var viewModel = new TestFileViewModel
+            {
+                PageNumbers = testFile.Tests.GetPageNumbersToShow(noOfResults),
+                Tests = _testFileMapper.BuildTests(tests, pageNumber, noOfResults),
+                Filename = filename,
+                PageNumber = pageNumber,
+                NoOfResults = noOfResults,
+                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
+            };
+
+            string viewName = "View";
+            if (_configuration.ReadonlyMode)
+            {
+                viewName = "View-ReadonlyMode";
+            }
+
+            return View(viewName, viewModel);
         }
 
         [HttpGet]
@@ -123,7 +152,7 @@ namespace Syringe.Web.Controllers
                 bool updateTestFile = _testsClient.UpdateTestVariables(testFile);
                 if (updateTestFile)
                 {
-                    return RedirectToAction("View", "Test", new { filename = model.Filename });
+                    return RedirectToAction("View", "TestFile", new { filename = model.Filename });
                 }
             }
 

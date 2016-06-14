@@ -18,7 +18,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-xs-12">
-			<a class="btn btn-primary pull-right" target="_blank" href="@Url.Action("View", "Test", new {filename = Model.FileName})">View Tests</a>
+			<a class="btn btn-primary pull-right" target="_blank" href="@Url.Action("View", "TestFile", new {filename = Model.FileName})">View Tests</a>
 			@using (Html.BeginForm("Run", "Home"))
 			{
 				@Html.HiddenFor(x => x.Environment)

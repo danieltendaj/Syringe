@@ -1,10 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
+using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web
@@ -15,18 +18,25 @@ namespace Syringe.Tests.Unit.Web
         private TestFileController _testFileController;
         private Mock<ITestService> _testServiceMock;
         private Mock<IEnvironmentsService> _environmentsService;
+        private JsonConfiguration _configuration;
+        private Mock<ITestFileMapper> _testFileMapperMock;
 
         [SetUp]
         public void Setup()
         {
             _testServiceMock = new Mock<ITestService>();
             _environmentsService = new Mock<IEnvironmentsService>();
+            _configuration = new JsonConfiguration();
+            _testFileMapperMock = new Mock<ITestFileMapper>();
 
+            _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()));
+            _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
+            _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             _testServiceMock.Setup(x => x.UpdateTestVariables(It.IsAny<TestFile>())).Returns(true);
             _testServiceMock.Setup(x => x.CreateTestFile(It.IsAny<TestFile>())).Returns(true);
             _testServiceMock.Setup(x => x.DeleteFile(It.IsAny<string>())).Returns(true);
-            _testFileController = new TestFileController(_testServiceMock.Object, _environmentsService.Object);
+            _testFileController = new TestFileController(_testServiceMock.Object, _environmentsService.Object, _configuration, _testFileMapperMock.Object);
         }
 
         [Test]
@@ -84,6 +94,32 @@ namespace Syringe.Tests.Unit.Web
             Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
         }
 
+        [Test]
+        public void View_should_return_correct_view_and_model()
+        {
+            // given + when
+            var viewResult = _testFileController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+
+            // then
+            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            Assert.AreEqual("View", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
+        }
+
+        [Test]
+        public void View_should_return_readonly_view_when_configuration_is_readonly()
+        {
+            // given + when
+            _configuration.ReadonlyMode = true;
+            var viewResult = _testFileController.View(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()) as ViewResult;
+
+            // then
+            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            Assert.AreEqual("View-ReadonlyMode", viewResult.ViewName);
+            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
+        }
 
         [Test]
         public void Update_should_return_correct_view_and_model()
@@ -106,7 +142,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testServiceMock.Verify(x => x.UpdateTestVariables(It.IsAny<TestFile>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
-            Assert.AreEqual("Test", redirectToRouteResult.RouteValues["controller"]);
+            Assert.AreEqual("TestFile", redirectToRouteResult.RouteValues["controller"]);
         }
 
         [Test]
