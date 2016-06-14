@@ -225,6 +225,7 @@
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\ReservedVariables\RandomNumberVariableTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariableContainerTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariablePostProcessorTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
