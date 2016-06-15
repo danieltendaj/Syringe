@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RestSharp;
 using Syringe.Core.Configuration;
-using Syringe.Core.Http;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
-using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 
@@ -27,14 +23,16 @@ namespace Syringe.Service.Parallel
         private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
         private readonly IConfiguration _configuration;
         private readonly ITestRepository _testRepository;
+        private readonly ITestFileRunnerFactory _testFileRunnerFactory;
         private readonly ITestFileResultRepository _repository;
         private readonly ITaskPublisher _taskPublisher;
 
-        public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestRepository testRepository)
+        public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestRepository testRepository, ITestFileRunnerFactory testFileRunnerFactory)
         {
             _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
             _configuration = configuration;
             _testRepository = testRepository;
+            _testFileRunnerFactory = testFileRunnerFactory;
 
             _repository = repository;
             _taskPublisher = taskPublisher;
@@ -78,8 +76,7 @@ namespace Syringe.Service.Parallel
                 TestFile testFile = _testRepository.GetTestFile(filename);
                 testFile.Filename = filename;
 
-                var httpClient = new HttpClient(new RestClient());
-                var runner = new TestFileRunner(httpClient, _repository, _configuration);
+                TestFileRunner runner = _testFileRunnerFactory.Create();
 
                 runnerTaskInfo.Runner = runner;
                 runnerTaskInfo.TestFileResults = await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
@@ -108,10 +105,8 @@ namespace Syringe.Service.Parallel
                 {
                     testFile.Tests = new[] { testFile.Tests.ElementAt(item.Position.Value) };
                 }
-
-                var httpClient = new HttpClient(new RestClient());
-
-                var runner = new TestFileRunner(httpClient, _repository, _configuration);
+                
+                TestFileRunner runner = _testFileRunnerFactory.Create();
                 item.Runner = runner;
 
                 await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
@@ -163,9 +158,9 @@ namespace Syringe.Service.Parallel
                 TaskId = task.Id,
                 Username = task.Username,
                 Status = task.CurrentTask.Status.ToString(),
-                Results = (runner != null) ? runner.CurrentResults.ToList() : new List<TestResult>(),
-                CurrentIndex = (runner != null) ? runner.TestsRun : 0,
-                TotalTests = (runner != null) ? runner.TotalTests : 0,
+                Results = runner?.CurrentResults.ToList() ?? new List<TestResult>(),
+                CurrentIndex = runner?.TestsRun ?? 0,
+                TotalTests = runner?.TotalTests ?? 0,
                 Errors = task.Errors
             };
         }
@@ -186,7 +181,7 @@ namespace Syringe.Service.Parallel
             task.Runner.Stop();
             task.CancelTokenSource.Cancel(false);
 
-            return string.Format("OK - Task {0} stopped and removed", task.Id);
+            return $"OK - Task {task.Id} stopped and removed";
         }
 
         /// <summary>

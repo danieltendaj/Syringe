@@ -24,11 +24,13 @@ namespace Syringe.Tests.Unit.Core.Runner
     {
         private HttpClientMock _httpClientMock;
         private HttpResponse _httpResponse;
+        private Mock<ICapturedVariableProviderFactory> _capturedVariableProvider;
 
         [SetUp]
         public void Setup()
         {
             TestHelpers.EnableLogging();
+            _capturedVariableProvider = new Mock<ICapturedVariableProviderFactory>();
         }
 
         private ITestFileResultRepository GetRepository()
@@ -54,7 +56,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             };
             httpClient.Response = response;
 
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration());
+            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -82,7 +84,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             response.ResponseTime = TimeSpan.FromSeconds(5);
 
             HttpClientMock httpClient = new HttpClientMock(response);
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration());
+            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -403,7 +405,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), It.IsAny<HttpLogWriter>()))
                 .Returns(Task.FromResult(new HttpResponse()));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration());
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -460,7 +462,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), new HttpLogWriter()))
                 .Throws(new InvalidOperationException("Bad"));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration());
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -490,7 +492,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             _httpResponse = new HttpResponse();
             _httpClientMock = new HttpClientMock(_httpResponse);
 
-            return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration());
+            return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
         }
 
         private TestFile CreateTestFile(Test[] tests)

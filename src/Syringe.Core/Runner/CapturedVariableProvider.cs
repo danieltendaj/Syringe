@@ -7,7 +7,7 @@ using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Runner
 {
-    internal class CapturedVariableProvider
+    public class CapturedVariableProvider
     {
         private readonly string _environment;
         private readonly List<Variable> _currentVariables;
