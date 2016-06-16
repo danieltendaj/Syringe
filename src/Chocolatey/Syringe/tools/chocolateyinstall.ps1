@@ -76,7 +76,6 @@ if (!(test-path "$serviceDir\configuration.json"))
         "ServiceUrl": "http://*:1981",
         "WebsiteUrl": "http://{WEBSITEURL}",
         "TestFilesBaseDirectory": "{TESTFILES-DIR}",
-        "TestFileFormat": "Xml",
         "MongoDbDatabaseName": "Syringe",
         "ReadonlyMode": false,
         "OAuthConfiguration": {
