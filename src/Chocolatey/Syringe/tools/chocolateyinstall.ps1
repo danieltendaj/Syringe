@@ -16,7 +16,7 @@ $syringeUsername = "SyringeUser"
 $syringePassword = "Passw0rd123"
 
 $version = "{{VERSION}}"
-$url = "https://yetanotherchris.blob.core.windows.net/syringe/Syringe-$version.zip"
+$url = "https://portalvhdshhv3xmk8gh157.blob.core.windows.net/syringe/Syringe-$version.zip"
 $url64 = $url
 
 . "$toolsDir\common.ps1"
