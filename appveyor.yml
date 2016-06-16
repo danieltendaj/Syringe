@@ -7,7 +7,7 @@ environment:
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     AZURE_ACCESS_KEY:
-       secure: wmZaNtbPMfVDAKh+ZzDO67SYu4fXoGDsp4rzGGn5zYPZq7sr8IacOCVXrHpaZuePRMRuC+xwiUfQte2Q8SavMek7dTrIJZ1DysuMUufB76dXnBEtrN7U/Vyd/DQZWeih
+       secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
     MYGET_ACCESS_KEY:
        secure: syrbd00vj9tSxTdWxrecqIKfGnKzNXhVb+R1oyGR3jBtLmDz5JtCRnaEaeJwkeI7
 
