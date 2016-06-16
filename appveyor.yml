@@ -65,7 +65,7 @@ artifacts:
 # Explorer: http://clumsyleaf.com/products/downloads
 deploy:
   provider: AzureBlob
-  storage_account_name: yetanotherchris
+  storage_account_name: portalvhdshhv3xmk8gh157
   storage_access_key: $(AZURE_ACCESS_KEY)
   container: syringe
   folder: 
