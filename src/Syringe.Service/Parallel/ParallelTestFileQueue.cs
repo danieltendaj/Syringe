@@ -4,13 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Syringe.Core.Configuration;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results;
-using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Parallel
 {
@@ -21,20 +19,16 @@ namespace Syringe.Service.Parallel
     {
         private int _lastTaskId;
         private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
-        private readonly IConfiguration _configuration;
         private readonly ITestRepository _testRepository;
         private readonly ITestFileRunnerFactory _testFileRunnerFactory;
-        private readonly ITestFileResultRepository _repository;
         private readonly ITaskPublisher _taskPublisher;
 
-        public ParallelTestFileQueue(ITestFileResultRepository repository, ITaskPublisher taskPublisher, IConfiguration configuration, ITestRepository testRepository, ITestFileRunnerFactory testFileRunnerFactory)
+        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestRepository testRepository, ITestFileRunnerFactory testFileRunnerFactory)
         {
             _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
-            _configuration = configuration;
             _testRepository = testRepository;
             _testFileRunnerFactory = testFileRunnerFactory;
 
-            _repository = repository;
             _taskPublisher = taskPublisher;
         }
 

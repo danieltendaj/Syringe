@@ -130,7 +130,7 @@ namespace Syringe.Core.Runner
             };
 
             // Add all config variables and ones in this <test>
-            CapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
+            ICapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
             variables.AddOrUpdateVariables(testFile.Variables);
 
             var verificationsMatcher = new AssertionsMatcher(variables);
@@ -215,7 +215,7 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnError(exception));
         }
 
-        internal async Task<TestResult> RunTestAsync(Test test, int position, CapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
         {
             var testResult = new TestResult
             {

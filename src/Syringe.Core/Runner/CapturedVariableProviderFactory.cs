@@ -11,9 +11,9 @@ namespace Syringe.Core.Runner
             _variableContainer = variableContainer;
         }
 
-        public CapturedVariableProvider Create(string environment)
+        public ICapturedVariableProvider Create(string environment)
         {
-            return new CapturedVariableProvider(environment);
+            return new CapturedVariableProvider(_variableContainer, environment);
         }
     }
 }

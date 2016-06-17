@@ -2,6 +2,6 @@
 {
     public interface ICapturedVariableProviderFactory
     {
-        CapturedVariableProvider Create(string environment);
+        ICapturedVariableProvider Create(string environment);
     }
 }

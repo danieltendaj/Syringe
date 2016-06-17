@@ -201,6 +201,7 @@
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Runner\CapturedVariableProviderFactory.cs" />
+    <Compile Include="Runner\ICapturedVariableProvider.cs" />
     <Compile Include="Runner\ICapturedVariableProviderFactory.cs" />
     <Compile Include="Runner\ITestFileRunnerFactory.cs" />
     <Compile Include="Runner\Messaging\TestFileGuidMessage.cs" />

@@ -7,12 +7,12 @@ using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Runner
 {
-    public class CapturedVariableProvider
+    public class CapturedVariableProvider : ICapturedVariableProvider
     {
         private readonly string _environment;
         private readonly List<Variable> _currentVariables;
 
-        public CapturedVariableProvider(string environment)
+        public CapturedVariableProvider(IVariableContainer variableContainer, string environment)
         {
             _environment = environment;
             _currentVariables = new List<Variable>();

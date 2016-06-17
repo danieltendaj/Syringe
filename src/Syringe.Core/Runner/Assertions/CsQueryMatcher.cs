@@ -6,10 +6,10 @@ namespace Syringe.Core.Runner.Assertions
 {
 	internal class CsQueryMatcher
 	{
-		private readonly CapturedVariableProvider _variableProvider;
+		private readonly ICapturedVariableProvider _variableProvider;
 		private readonly AssertionLogger _assertionLogger;
 
-		public CsQueryMatcher(CapturedVariableProvider variableProvider, AssertionLogger assertionLogger)
+		public CsQueryMatcher(ICapturedVariableProvider variableProvider, AssertionLogger assertionLogger)
 		{
 			_variableProvider = variableProvider;
 			_assertionLogger = assertionLogger;

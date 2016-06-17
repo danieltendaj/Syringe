@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using Org.XmlUnit.Util;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
@@ -24,13 +25,19 @@ namespace Syringe.Tests.Unit.Core.Runner
     {
         private HttpClientMock _httpClientMock;
         private HttpResponse _httpResponse;
-        private Mock<ICapturedVariableProviderFactory> _capturedVariableProvider;
+        private Mock<ICapturedVariableProviderFactory> _capturedVariableProviderFactory;
+        private CapturedVariableProviderStub _capturedVariableProvider;
 
         [SetUp]
         public void Setup()
         {
             TestHelpers.EnableLogging();
-            _capturedVariableProvider = new Mock<ICapturedVariableProviderFactory>();
+            _capturedVariableProviderFactory = new Mock<ICapturedVariableProviderFactory>();
+            _capturedVariableProvider = new CapturedVariableProviderStub();
+
+            _capturedVariableProviderFactory
+                .Setup(x => x.Create(It.IsAny<string>()))
+                .Returns(_capturedVariableProvider);
         }
 
         private ITestFileResultRepository GetRepository()
@@ -56,7 +63,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             };
             httpClient.Response = response;
 
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
+            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -84,7 +91,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             response.ResponseTime = TimeSpan.FromSeconds(5);
 
             HttpClientMock httpClient = new HttpClientMock(response);
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
+            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -104,8 +111,11 @@ namespace Syringe.Tests.Unit.Core.Runner
         public async Task Run_should_set_capturedvariables()
         {
             // Arrange
+            const string environment = "big-daddy-doo-dah";
+            const string httpContent = "THIS IS SOME CONTENT - content coming to you 24/7, 365, every and all init yeah.";
+
             TestFileRunner runner = CreateRunner();
-            _httpClientMock.Response.Content = "some content";
+            _httpClientMock.Response.Content = httpContent;
             _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
             var testFile = CreateTestFile(new[]
@@ -116,26 +126,33 @@ namespace Syringe.Tests.Unit.Core.Runner
                     ExpectedHttpStatusCode = HttpStatusCode.OK,
                     CapturedVariables = new List<CapturedVariable>()
                     {
-                        new CapturedVariable("var1", "some content")
+                        new CapturedVariable("var1", "some content (.*?every)")
                     },
                     Assertions = new List<Assertion>()
                     {
-                        new Assertion("positive-1", "{var1}", AssertionType.Positive, AssertionMethod.Regex)
+                        new Assertion("positive-1", httpContent.Substring(0, 10), AssertionType.Positive, AssertionMethod.Regex)
                     },
                 }
             });
 
             // Act
-            TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
+            TestFileResult session = await runner.RunAsync(testFile, environment, "bob");
 
             // Assert
-            Assert.That(session.TestResults.Single().AssertionResults[0].Success, Is.True);
+            var addedVariable = _capturedVariableProvider.Variables.FirstOrDefault(x => x.Name == "var1");
+            Assert.That(addedVariable, Is.Not.Null);
+            Assert.That(addedVariable.Value, Is.EqualTo("- content coming to you 24/7, 365, every"));
+
+            var testResult = session.TestResults.Single();
+            Assert.That(testResult.AssertionResults[0].Success, Is.True);
         }
 
         [Test]
         public async Task Run_should_set_capturedvariables_across_tests()
         {
             // Arrange
+            const string environment = "big-daddy-doo-dah";
+
             TestFileRunner runner = CreateRunner();
             _httpClientMock.Responses = new List<HttpResponse>()
             {
@@ -194,11 +211,16 @@ namespace Syringe.Tests.Unit.Core.Runner
             });
 
             // Act
-            TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
+            await runner.RunAsync(testFile, environment, "bob");
 
             // Assert
-            Assert.That(session.TestResults.ElementAt(1).AssertionResults[0].Success, Is.True);
-            Assert.That(session.TestResults.ElementAt(2).AssertionResults[0].Success, Is.True);
+            var addedVariable = _capturedVariableProvider.Variables.FirstOrDefault(x => x.Name == "var1");
+            Assert.That(addedVariable, Is.Not.Null);
+            Assert.That(addedVariable.Value, Is.EqualTo("SECRET_KEY"));
+
+            addedVariable = _capturedVariableProvider.Variables.FirstOrDefault(x => x.Name == "var2");
+            Assert.That(addedVariable, Is.Not.Null);
+            Assert.That(addedVariable.Value, Is.EqualTo("SECRET_KEY"));
         }
 
         [Test]
@@ -405,7 +427,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), It.IsAny<HttpLogWriter>()))
                 .Returns(Task.FromResult(new HttpResponse()));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -462,7 +484,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), new HttpLogWriter()))
                 .Throws(new InvalidOperationException("Bad"));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -492,7 +514,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             _httpResponse = new HttpResponse();
             _httpClientMock = new HttpClientMock(_httpResponse);
 
-            return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration(), _capturedVariableProvider.Object);
+            return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
         }
 
         private TestFile CreateTestFile(Test[] tests)
