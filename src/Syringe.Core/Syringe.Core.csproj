@@ -200,9 +200,14 @@
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
+    <Compile Include="Runner\CapturedVariableProviderFactory.cs" />
+    <Compile Include="Runner\ICapturedVariableProvider.cs" />
+    <Compile Include="Runner\ICapturedVariableProviderFactory.cs" />
+    <Compile Include="Runner\ITestFileRunnerFactory.cs" />
     <Compile Include="Runner\Messaging\TestFileGuidMessage.cs" />
     <Compile Include="Runner\Messaging\IMessage.cs" />
     <Compile Include="Runner\Messaging\TestResultMessage.cs" />
+    <Compile Include="Runner\TestFileRunnerFactory.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />
     <Compile Include="Tests\Scripting\TestFileScriptEvaluator.cs" />
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
@@ -220,7 +225,14 @@
     <Compile Include="Security\OAuth2\UrnLookup.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\IReservedVariable.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\IReservedVariableProvider.cs" />
+    <Compile Include="Tests\Variables\IVariable.cs" />
+    <Compile Include="Tests\Variables\IVariableContainer.cs" />
     <Compile Include="Tests\Variables\IVariablePostProcessor.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\RandomNumberVariable.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\ReservedVariableProvider.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\TestRunVariable.cs" />
     <Compile Include="Tests\Variables\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
     <Compile Include="Services\ITestService.cs" />
@@ -252,6 +264,7 @@
     <Compile Include="Tests\TestFile.cs" />
     <Compile Include="Tests\Variables\CapturedVariable.cs" />
     <Compile Include="Tests\Repositories\ITestFileWriter.cs" />
+    <Compile Include="Tests\Variables\VariableContainer.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessor.cs" />
     <Compile Include="Tests\Variables\VariablePostProcessorType.cs" />
   </ItemGroup>
