@@ -29,7 +29,7 @@ Write-Host "Installing MongoDB" -ForegroundColor Green
 $mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
 $oldSysDrive = $env:systemdrive
 $env:systemdrive = $mongoDataDir
-choco install mongodb -y
+choco install mongodb -version 3.0.3
 $env:systemdrive = $oldSysDrive
 
 

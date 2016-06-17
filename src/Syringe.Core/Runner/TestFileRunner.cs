@@ -23,11 +23,11 @@ namespace Syringe.Core.Runner
     {
         private readonly IHttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
         private bool _isStopPending;
         private List<TestResult> _currentResults;
 
-        private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers =
-            new Dictionary<Guid, TestSessionRunnerSubscriber>();
+        private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers = new Dictionary<Guid, TestSessionRunnerSubscriber>();
 
         public ITestFileResultRepository Repository { get; set; }
         public Guid SessionId { get; internal set; }
@@ -46,7 +46,7 @@ namespace Syringe.Core.Runner
         public int TestsRun { get; set; }
         public int TotalTests { get; set; }
 
-        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository, IConfiguration configuration)
+        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
         {
             if (httpClient == null)
                 throw new ArgumentNullException(nameof(httpClient));
@@ -56,6 +56,7 @@ namespace Syringe.Core.Runner
 
             _httpClient = httpClient;
             _configuration = configuration;
+            _capturedVariableProviderFactory = capturedVariableProviderFactory;
             _currentResults = new List<TestResult>();
             Repository = repository;
 
@@ -129,7 +130,7 @@ namespace Syringe.Core.Runner
             };
 
             // Add all config variables and ones in this <test>
-            var variables = new CapturedVariableProvider(environment);
+            ICapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
             variables.AddOrUpdateVariables(testFile.Variables);
 
             var verificationsMatcher = new AssertionsMatcher(variables);
@@ -214,7 +215,7 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnError(exception));
         }
 
-        internal async Task<TestResult> RunTestAsync(Test test, int position, CapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
         {
             var testResult = new TestResult
             {

@@ -1,16 +1,13 @@
-using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Syringe.Core.Logging;
 using Syringe.Core.Tests;
 
 namespace Syringe.Core.Runner.Assertions
 {
     internal class AssertionsMatcher
     {
-        private readonly CapturedVariableProvider _variableProvider;
+        private readonly ICapturedVariableProvider _variableProvider;
 
-	    public AssertionsMatcher(CapturedVariableProvider variableProvider)
+	    public AssertionsMatcher(ICapturedVariableProvider variableProvider)
 	    {
 		    _variableProvider = variableProvider;
 	    }
