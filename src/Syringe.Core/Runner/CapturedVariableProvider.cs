@@ -71,14 +71,14 @@ namespace Syringe.Core.Runner
 
         public string ReplaceVariablesIn(string text)
         {
-            text = text ?? string.Empty;
+            string result = text ?? string.Empty;
 
             foreach (Variable variable in _currentVariables)
             {
-                text = text.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
+                result = result.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
             }
 
-            return text;
+            return result;
         }
 
         /// <summary>
