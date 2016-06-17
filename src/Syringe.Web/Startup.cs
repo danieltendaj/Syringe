@@ -78,11 +78,23 @@ namespace Syringe.Web
 			{
 				// Console:  https://github.com/settings/developers
 				// Set the callback url in the Github console to the same as the homepage url.
-				app.UseGitHubAuthentication(new GitHubAuthenticationOptions()
-				{
-					ClientId = config.OAuthConfiguration.GithubAuthClientId,
-					ClientSecret = config.OAuthConfiguration.GithubAuthClientSecret
-				});
+			    var githubConfig = new GitHubAuthenticationOptions()
+			    {
+			        ClientId = config.OAuthConfiguration.GithubAuthClientId,
+			        ClientSecret = config.OAuthConfiguration.GithubAuthClientSecret,
+			    };
+
+			    if (config.OAuthConfiguration.ContainsGithubEnterpriseSettings())
+			    {
+			        githubConfig.Endpoints = new GitHubAuthenticationOptions.GitHubAuthenticationEndpoints()
+			        {
+			            AuthorizationEndpoint = config.OAuthConfiguration.GithubEnterpriseAuthorizationEndpoint,
+			            TokenEndpoint = config.OAuthConfiguration.GithubEnterpriseTokenEndpoint,
+			            UserInfoEndpoint = config.OAuthConfiguration.GithubEnterpriseUserInfoEndpoint
+                    };
+			    }
+
+                app.UseGitHubAuthentication(githubConfig);
 			}
 		}
 	}
