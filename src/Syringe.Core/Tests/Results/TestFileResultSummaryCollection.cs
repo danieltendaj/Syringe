@@ -10,5 +10,6 @@ namespace Syringe.Core.Tests.Results
 	    public int NoOfResults { get; set; }
 	    public double PageNumbers { get; set; }
 	    public IEnumerable<string> Environments { get; set; }
+	    public string Environment { get; set; }
 	}
 }
