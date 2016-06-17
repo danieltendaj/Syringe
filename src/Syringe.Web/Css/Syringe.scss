@@ -1,20 +1,20 @@
 ﻿// Bootstrap and material design
+@import "bootswatch/_variables";
 @import "bootstrap-sass/stylesheets/_bootstrap";
-@import "materialdesign/materialdesign";
 
-// Social buttons needs font-awesome and bootstrap mixins
-@import "bootstrap-sass/stylesheets/bootstrap/_mixins";
-@import "font-awesome-4.4.0/css/font-awesome.min.css";
-@import "bootstrap-social/bootstrap-social"; 
+@import "bootswatch/_bootswatch";
 
-body {
+
+
+
+/*body {
     background-color: rgb(239,239,239);
     font-family: 'Roboto', sans-serif;
 }
 
 h1, h2, h3, h4, h5, div, p {
     font-family: 'Roboto', sans-serif;
-}
+}*/
 
 // All test case files
 #test-cases {
@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, div, p {
 #edit-test {
     .control-label {
         font-weight: normal;
-        color: #858585;
+        //color: #858585;
     }
 
     h3.panel-title {
@@ -126,7 +126,7 @@ h1, h2, h3, h4, h5, div, p {
 .panel {
 
     .form-control {
-        border: 1px solid #d2d2d2 !important;
+        //border: 1px solid #d2d2d2 !important;
         background-image: none;
         padding: inherit;
 
@@ -173,7 +173,7 @@ h1, h2, h3, h4, h5, div, p {
         display: inline;
     }
 }
-
+ 
 .variable-update {
     margin-top: 25px;
 
