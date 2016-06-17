@@ -25,7 +25,7 @@ namespace Syringe.Tests.StubsMocks
             throw new NotImplementedException();
         }
 
-        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20)
+        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             return Task.FromResult(new TestFileResultSummaryCollection());
         }
