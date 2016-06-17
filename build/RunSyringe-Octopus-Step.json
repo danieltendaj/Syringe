@@ -1,0 +1,49 @@
+{
+  "Id": "ActionTemplates-61",
+  "Name": "Run syringe tests",
+  "Description": "Runs a syringe test file",
+  "ActionType": "Octopus.Script",
+  "Version": 5,
+  "Properties": {
+    "Octopus.Action.Script.Syntax": "PowerShell",
+    "Octopus.Action.Script.ScriptSource": "Inline",
+    "Octopus.Action.Script.ScriptBody": "$syringeWebUrl = \"http://ENTER-SYRINGE-URL.com\"\n$syringeApiUrl = \"http://ENTER-SYRINGE-URL.com:1981\"\n$testResult = invoke-restmethod \"$syringeApiUrl/api/tasks/RunTestFile?filename=$filename&environment=$environment&username=$username\"\n\n$resultId  = $testResult.ResultId\n$resultUrl = \"$syringeWebUrl/Results/ViewResult/$resultId\"\n\nWrite-Host \"View this test's results at $resultUrl\"\n\nif (!$testResult.HasFailedTests)\n{\n    Write-Host \"Tests passed\"\n    exit 0\n}\nelse\n{\n    Write-Host \"Tests failed\"\n    Write-Host $testResult\n    exit 1\n}",
+    "Octopus.Action.Script.ScriptFileName": null,
+    "Octopus.Action.Package.NuGetFeedId": null,
+    "Octopus.Action.Package.NuGetPackageId": null
+  },
+  "Parameters": [
+    {
+      "Name": "filename",
+      "Label": "Test filename",
+      "HelpText": null,
+      "DefaultValue": null,
+      "DisplaySettings": {
+        "Octopus.ControlType": "SingleLineText"
+      }
+    },
+    {
+      "Name": "environment",
+      "Label": "Environment",
+      "HelpText": null,
+      "DefaultValue": "",
+      "DisplaySettings": {
+        "Octopus.ControlType": "SingleLineText"
+      }
+    },
+    {
+      "Name": "username",
+      "Label": "Username",
+      "HelpText": "The user deploying the package",
+      "DefaultValue": null,
+      "DisplaySettings": {
+        "Octopus.ControlType": "SingleLineText"
+      }
+    }
+  ],
+  "$Meta": {
+    "ExportedAt": "2016-06-17T11:11:16.990Z",
+    "OctopusVersion": "3.3.15",
+    "Type": "ActionTemplate"
+  }
+}
