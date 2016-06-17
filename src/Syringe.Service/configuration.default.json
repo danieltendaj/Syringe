@@ -8,6 +8,9 @@
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
 		"GithubAuthClientSecret": "",
+		"GithubEnterpriseAuthorizationEndpoint": "",
+		"GithubEnterpriseTokenEndpoint": "",
+		"GithubEnterpriseUserInfoEndpoint": "",
 		"GoogleAuthClientId": "",
 		"GoogleAuthClientSecret": "",
 		"MicrosoftAuthClientId": "",

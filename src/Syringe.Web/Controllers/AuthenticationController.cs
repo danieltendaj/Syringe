@@ -78,7 +78,7 @@ namespace Syringe.Web.Controllers
 
 			if (nameIdentifier == null || uidIdentifier == null)
 			{
-				string debugInfo = "";
+				string debugInfo = ""; 
 				foreach (Claim claim in claims)
 				{
 					debugInfo += $"{claim.Type} : {claim.Value}\n";
