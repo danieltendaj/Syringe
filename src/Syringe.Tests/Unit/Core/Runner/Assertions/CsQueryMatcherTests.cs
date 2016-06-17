@@ -4,21 +4,22 @@ using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Runner.Assertions
 {
     [TestFixture]
     public class CsQueryMatcherTests
     {
-        private Mock<IVariableContainer> _variableContainerMock;
+        private VariableContainerStub _variableContainerStub;
         private CapturedVariableProvider _variableProvider;
         private AssertionLogger _assertionLogger;
 
         [SetUp]
         public void Setup()
         {
-            _variableContainerMock = new Mock<IVariableContainer>();
-            _variableProvider = new CapturedVariableProvider(_variableContainerMock.Object, "development");
+            _variableContainerStub = new VariableContainerStub();
+            _variableProvider = new CapturedVariableProvider(_variableContainerStub, "development");
             _assertionLogger = new AssertionLogger();
         }
 

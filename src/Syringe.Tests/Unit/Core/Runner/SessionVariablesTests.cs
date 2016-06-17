@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests.Variables;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Runner
 {
@@ -10,22 +11,22 @@ namespace Syringe.Tests.Unit.Core.Runner
     {
 	    private const string _devEnvironment = "DEV";
 	    private const string _prodEnvironment = "PROD";
-	    private Mock<IVariableContainer> _variableContainerMock;
+	    private VariableContainerStub _variableContainer;
 
 	    [SetUp]
 	    public void Setup()
 	    {
-            _variableContainerMock = new Mock<IVariableContainer>();
+            _variableContainer = new VariableContainerStub();
         }
 
         [Test]
         public void AddOrUpdateVariable_should_set_variable()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
             var variable = new Variable("nano", "leaf", _devEnvironment);
 
-            // Act
+            // ActS
             sessionVariables.AddOrUpdateVariable(variable);
 
             // Assert
@@ -36,7 +37,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariable_should_not_set_variable_when_in_different_environments()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
             var variable = new Variable("nano", "leaf", _prodEnvironment);
 
             // Act
@@ -50,7 +51,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariable_should_update_variable_when_already_set()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
             var variable1 = new Variable("nano", "leaf", _devEnvironment);
             var variable2 = new Variable("nano", "leaf2", _devEnvironment);
 
@@ -66,7 +67,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariable_should_not_update_variable_when_already_set_and_in_different_environments()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _prodEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _prodEnvironment);
             var variable1 = new Variable("nano", "leaf", _prodEnvironment);
             var variable2 = new Variable("nano", "leaf2", _devEnvironment);
 
@@ -82,7 +83,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		public void AddOrUpdateVariables_should_set_variable()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 
 			// Act
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -101,7 +102,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariables_should_update_variable_when_already_set_and_original_is_set_as_default_variable()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 
             // Act
             sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -124,7 +125,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariables_should_not_update_variable_when_setting_as_default_and_has_existing_variable_set_against_a_specific_environment()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 
             // Act
             sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -147,7 +148,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         public void AddOrUpdateVariables_should_update_variable_when_both_existing_and_new_variable_have_environment_set()
         {
             // Arrange
-            var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+            var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 
             // Act
             sessionVariables.AddOrUpdateVariables(new List<Variable>()
@@ -170,7 +171,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 			sessionVariables.AddOrUpdateVariable(new Variable("nano", "leaf", _devEnvironment));
 			sessionVariables.AddOrUpdateVariable(new Variable("two", "ten", _devEnvironment));
 
@@ -188,7 +189,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, _devEnvironment);
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment);
 			sessionVariables.AddOrUpdateVariable(new Variable("nano", "$var leaf", _devEnvironment));
 			sessionVariables.AddOrUpdateVariable(new Variable("two", "(.*?) [a-z] ^perlmagic", _devEnvironment));
 

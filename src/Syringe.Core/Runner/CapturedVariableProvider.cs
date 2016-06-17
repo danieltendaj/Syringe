@@ -9,13 +9,15 @@ namespace Syringe.Core.Runner
 {
     public class CapturedVariableProvider : ICapturedVariableProvider
     {
+        private readonly IVariableContainer _currentVariables;
         private readonly string _environment;
-        private readonly List<Variable> _currentVariables;
+        //private readonly List<Variable> _currentVariables;
 
         public CapturedVariableProvider(IVariableContainer variableContainer, string environment)
         {
+            _currentVariables = variableContainer;
             _environment = environment;
-            _currentVariables = new List<Variable>();
+            //_currentVariables = new List<Variable>();
         }
 
         public void AddOrUpdateVariables(List<Variable> variables)

@@ -219,6 +219,7 @@
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="StubsMocks\VariableContainerStub.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />

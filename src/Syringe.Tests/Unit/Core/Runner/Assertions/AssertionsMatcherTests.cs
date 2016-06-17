@@ -5,17 +5,18 @@ using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Runner.Assertions
 {
 	public class AssertionsMatcherTests
     {
-        private Mock<IVariableContainer> _variableContainerMock;
+        private VariableContainerStub _variableContainer;
 
         [SetUp]
 		public void Setup()
 		{
-            _variableContainerMock = new Mock<IVariableContainer>();
+            _variableContainer = new VariableContainerStub();
             TestHelpers.EnableLogging();
 		}
 
@@ -23,7 +24,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_invalid_regex_should_set_success_to_false()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, "");
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, "");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -43,7 +44,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_return_veriftype_positives_in_list()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, "");
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, "");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -65,7 +66,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_match_text_in_content()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, "");
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, "");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -92,7 +93,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_not_match_text_that_is_not_in_content()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, "");
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, "");
 			var matcher = new AssertionsMatcher(sessionVariables);
 
 			var verifications = new List<Assertion>();
@@ -119,7 +120,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_replace_variables_in_value()
 		{
 			// Arrange
-			var sessionVariables = new CapturedVariableProvider(_variableContainerMock.Object, "dev");
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, "dev");
 			sessionVariables.AddOrUpdateVariable(new Variable("password", "tedx123", "dev"));
 
 			var matcher = new AssertionsMatcher(sessionVariables);
