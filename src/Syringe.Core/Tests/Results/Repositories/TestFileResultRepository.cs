@@ -45,7 +45,7 @@ namespace Syringe.Core.Tests.Results.Repositories
             await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.StartTime));
             await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.Environment));
             string env = environment?.ToLower();
-            Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate);
+            Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env));
 
             Task<List<TestFileResult>> testFileCollection = _collection
                 .Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env))
