@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Security.Policy;
+using Moq;
 using NUnit.Framework;
-using RestSharp;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Tests.StubsMocks;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
@@ -16,6 +17,20 @@ namespace Syringe.Tests.Unit.Web
     [TestFixture]
     public class TestFileMapperTests
     {
+        private Mock<IReservedVariableProvider> _reservedVariablesProvider;
+        private TestFileMapper _mapper;
+
+        [SetUp]
+        public void Setup()
+        {
+            _reservedVariablesProvider = new Mock<IReservedVariableProvider>();
+            _mapper = new TestFileMapper(_reservedVariablesProvider.Object);
+
+            _reservedVariablesProvider
+                .Setup(x => x.ListAvailableVariables())
+                .Returns(new IReservedVariable[0]);
+        }
+
         private TestViewModel _testViewModel
         {
             get
@@ -45,10 +60,9 @@ namespace Syringe.Tests.Unit.Web
         public void Build_should_set_correct_properties_when_model_is_populated()
         {
             // given
-            var testFileMapper = new TestFileMapper();
 
             // when
-            Test test = testFileMapper.BuildCoreModel(_testViewModel);
+            Test test = _mapper.BuildCoreModel(_testViewModel);
 
             // then
             Assert.AreEqual(_testViewModel.Headers.Count, test.Headers.Count);
@@ -66,10 +80,9 @@ namespace Syringe.Tests.Unit.Web
         public void Build_should_set_assertion_properties()
         {
             // given
-            var testFileMapper = new TestFileMapper();
 
             // when
-            Test test = testFileMapper.BuildCoreModel(_testViewModel);
+            Test test = _mapper.BuildCoreModel(_testViewModel);
 
             // then
             Assertion firstAssertion = test.Assertions.First();
@@ -88,32 +101,25 @@ namespace Syringe.Tests.Unit.Web
         [Test]
         public void BuildCoreModel_should_throw_argumentnullexception_when_test_is_null()
         {
-            var testFileMapper = new TestFileMapper();
-
-            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildCoreModel(null));
+            Assert.Throws<ArgumentNullException>(() => _mapper.BuildCoreModel(null));
         }
 
         [Test]
         public void BuildViewModel_should_throw_argumentnullexception_when_test_is_null()
         {
-            var testFileMapper = new TestFileMapper();
-
-            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTestViewModel(null, 0));
+            Assert.Throws<ArgumentNullException>(() => _mapper.BuildTestViewModel(null, 0));
         }
 
         [Test]
         public void BuildTests_should_throw_argumentnullexception_when_test_is_null()
         {
-            var testFileMapper = new TestFileMapper();
-
-            Assert.Throws<ArgumentNullException>(() => testFileMapper.BuildTests(null, 0, 0));
+            Assert.Throws<ArgumentNullException>(() => _mapper.BuildTests(null, 0, 0));
         }
 
         [Test]
         public void BuildTests_should_return_correct_model_values_from_testfile()
         {
             // given
-            var testFileMapper = new TestFileMapper();
             const int pageNumber = 2;
             const int numberOfResults = 10;
             var testFile = new TestFile
@@ -138,7 +144,7 @@ namespace Syringe.Tests.Unit.Web
             };
 
             // when
-            IEnumerable<TestViewModel> viewModels = testFileMapper.BuildTests(testFile.Tests, pageNumber, numberOfResults);
+            IEnumerable<TestViewModel> viewModels = _mapper.BuildTests(testFile.Tests, pageNumber, numberOfResults);
 
             // then
             Assert.NotNull(viewModels);
@@ -158,13 +164,12 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
             Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
         }
-        
+
         [Test]
         public void BuildTestViewModel_should_return_correct_model_values_from_test()
         {
             // given
             const int testPosition = 1;
-            var fileMapper = new TestFileMapper();
             var expectedTest = new Test
             {
                 Description = "Short Description",
@@ -200,7 +205,7 @@ namespace Syringe.Tests.Unit.Web
             };
 
             // when
-            TestViewModel result = fileMapper.BuildTestViewModel(testFile, testPosition);
+            TestViewModel result = _mapper.BuildTestViewModel(testFile, testPosition);
 
             // then
             Assert.NotNull(result);
@@ -238,24 +243,56 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
+        public void should_include_reserved_variables_in_available_variable_list()
+        {
+            // given
+            var testFile = new TestFile
+            {
+                Tests = new[]
+                {
+                    new Test()
+                }
+            };
+
+            var reservedVariables = new IReservedVariable[]
+            {
+                new ReservedVariableStub
+                {
+                    Name = "some name that should exist",
+                    Description = "super awesome description"
+                }
+            };
+
+            _reservedVariablesProvider
+                .Setup(x => x.ListAvailableVariables())
+                .Returns(reservedVariables);
+
+            // when
+            TestViewModel result = _mapper.BuildTestViewModel(testFile, 0);
+
+            // then
+            VariableViewModel variable = result.AvailableVariables.FirstOrDefault(x => x.Name == reservedVariables[0].Name);
+            Assert.That(variable, Is.Not.Null);
+            Assert.That(variable.Value, Is.EqualTo(variable.Value));
+        }
+
+        [Test]
         public void BuildVariableViewModel_should_throw_exception_when_test_is_null()
         {
             // given
-            var fileMapper = new TestFileMapper();
 
             // when + then
-            Assert.Throws<ArgumentNullException>(() => fileMapper.BuildVariableViewModel(null));
+            Assert.Throws<ArgumentNullException>(() => _mapper.BuildVariableViewModel(null));
         }
 
         [Test]
         public void BuildVariableViewModel_should_return_base_variables_if_they_exist()
         {
             // given
-            var fileMapper = new TestFileMapper();
             var testFile = new TestFile { Variables = new List<Variable> { new Variable { Name = "test", Value = "value" } } };
 
             // when + then
-            var buildVariableViewModel = fileMapper.BuildVariableViewModel(testFile);
+            var buildVariableViewModel = _mapper.BuildVariableViewModel(testFile);
             Assert.AreEqual(1, buildVariableViewModel.Count);
             Assert.AreEqual("test", buildVariableViewModel[0].Name);
             Assert.AreEqual("value", buildVariableViewModel[0].Value);
@@ -265,7 +302,6 @@ namespace Syringe.Tests.Unit.Web
         public void BuildVariableViewModel_should_return_captured_variables_if_they_exist()
         {
             // given
-            var fileMapper = new TestFileMapper();
             var testFile = new TestFile
             {
                 Tests = new List<Test>
@@ -282,7 +318,7 @@ namespace Syringe.Tests.Unit.Web
             };
 
             // when + then
-            List<VariableViewModel> buildVariableViewModel = fileMapper.BuildVariableViewModel(testFile);
+            List<VariableViewModel> buildVariableViewModel = _mapper.BuildVariableViewModel(testFile);
             Assert.That(buildVariableViewModel.Count, Is.EqualTo(1));
             Assert.That(buildVariableViewModel[0].Name, Is.EqualTo("name"));
             Assert.That(buildVariableViewModel[0].Value, Is.EqualTo("regex"));

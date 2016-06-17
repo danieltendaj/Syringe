@@ -41,6 +41,7 @@ namespace Syringe.Service.DependencyResolution
                 scan =>
                 {
                     scan.TheCallingAssembly();
+                    scan.Assembly("Syringe.Core");
                     scan.WithDefaultConventions();
                 });
 

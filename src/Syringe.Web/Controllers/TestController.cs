@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
-using Syringe.Core.Configuration;
-using Syringe.Core.Extensions;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Mappers;

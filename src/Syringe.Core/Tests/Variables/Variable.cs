@@ -2,8 +2,8 @@
 
 namespace Syringe.Core.Tests.Variables
 {
-	public class Variable
-	{
+	public class Variable : IVariable
+    {
 		public string Name { get; set; }
 		public string Value { get; set; }
 		public Environment.Environment Environment { get; set; }

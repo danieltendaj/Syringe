@@ -27,7 +27,6 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.DependencyResolution
 {
-    using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 
     public class DefaultRegistry : Registry
@@ -38,6 +37,7 @@ namespace Syringe.Web.DependencyResolution
                 scan =>
                 {
                     scan.TheCallingAssembly();
+                    scan.Assembly("Syringe.Core");
                     scan.WithDefaultConventions();
                     scan.With(new ControllerConvention());
                 });

@@ -216,8 +216,11 @@
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
     <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
+    <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
+    <Compile Include="StubsMocks\ReservedVariableStub.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="StubsMocks\VariableContainerStub.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
@@ -225,6 +228,8 @@
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\ReservedVariables\RandomNumberVariableTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\VariableContainerTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariablePostProcessorTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
     <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
