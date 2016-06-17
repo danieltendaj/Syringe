@@ -21,7 +21,7 @@ namespace Syringe.Core.Tests.Results.Repositories
 
             _database = mongoClient.GetDatabase(_mongoDbConfiguration.DatabaseName);
             _collection = _database.GetCollection<TestFileResult>(MONGDB_COLLECTION_NAME);
-		}
+        }
 
         public async Task AddAsync(TestFileResult testFileResult)
         {
@@ -38,17 +38,17 @@ namespace Syringe.Core.Tests.Results.Repositories
             return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20)
+        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-			// Ensure TestFileResult has indexes on the date it was run and the environment.
-			// These index commands don't rebuild the index, they just send the command.
-			await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.StartTime));
-			await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.Environment));
-
-			Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate);
+            // Ensure TestFileResult has indexes on the date it was run and the environment.
+            // These index commands don't rebuild the index, they just send the command.
+            await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.StartTime));
+            await _collection.Indexes.CreateOneAsync(Builders<TestFileResult>.IndexKeys.Ascending(x => x.Environment));
+            string env = environment?.ToLower();
+            Task<long> fileResult = _collection.CountAsync(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env));
 
             Task<List<TestFileResult>> testFileCollection = _collection
-                .Find(x => x.StartTime >= fromDate)
+                .Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env))
                 .Sort(Builders<TestFileResult>.Sort.Descending(x => x.StartTime))
                 .Skip((pageNumber - 1) * noOfResults)
                 .Limit(noOfResults)
@@ -73,7 +73,7 @@ namespace Syringe.Core.Tests.Results.Repositories
                         TotalFailed = x.TotalTestsFailed,
                         TotalRun = x.TotalTestsRun,
                         Environment = x.Environment,
-						Username = x.Username
+                        Username = x.Username
                     })
             };
 

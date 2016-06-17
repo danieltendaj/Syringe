@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Syringe.Core.Tests.Results
 {
@@ -10,5 +9,7 @@ namespace Syringe.Core.Tests.Results
         public IEnumerable<TestFileResultSummary> PagedResults { get; set; }
 	    public int NoOfResults { get; set; }
 	    public double PageNumbers { get; set; }
+	    public IEnumerable<string> Environments { get; set; }
+	    public string Environment { get; set; }
 	}
 }

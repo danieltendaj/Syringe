@@ -11,18 +11,20 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
-	[AuthorizeWhenOAuth]
-	public class ResultsController : Controller
+    [AuthorizeWhenOAuth]
+    public class ResultsController : Controller
     {
         private readonly ITasksService _tasksClient;
         private readonly IUrlHelper _urlHelper;
         private readonly ITestService _testsClient;
+        private readonly IEnvironmentsService _environmentsService;
 
-        public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient)
+        public ResultsController(ITasksService tasksClient, IUrlHelper urlHelper, ITestService testsClient, IEnvironmentsService environmentsService)
         {
             _tasksClient = tasksClient;
             _urlHelper = urlHelper;
             _testsClient = testsClient;
+            _environmentsService = environmentsService;
         }
 
         public ActionResult Html(int taskId, int position)
@@ -71,19 +73,23 @@ namespace Syringe.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-	        ViewBag.Title = "All results";
+            ViewBag.Title = "All results";
 
-            TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults);
+            TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults, environment);
+            result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
+            result.Environment = environment;
             return View("Index", result);
         }
 
-        public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20)
+        public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-			ViewBag.Title = "Today's results";
+            ViewBag.Title = "Today's results";
 
-			TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults);
+            TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults, environment);
+            result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
+            result.Environment = environment;
             return View("Index", result);
         }
 

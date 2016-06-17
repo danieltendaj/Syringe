@@ -152,7 +152,7 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20)
+        public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             var client = new RestClient(_serviceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("GetSummaries");
@@ -160,6 +160,7 @@ namespace Syringe.Client
             request.AddQueryParameter("pageNumber", pageNumber.ToString());
             request.AddQueryParameter("noOfResults", noOfResults.ToString());
             request.AddQueryParameter("fromDateTime", fromDateTime.ToString(CultureInfo.InvariantCulture));
+            request.AddQueryParameter("environment", environment);
             IRestResponse response = await client.ExecuteGetTaskAsync(request);
             return _restSharpHelper.DeserializeOrThrow<TestFileResultSummaryCollection>(response);
         }

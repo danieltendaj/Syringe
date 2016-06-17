@@ -4,52 +4,70 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>@ViewBag.Title</h2>
+            <div class="row">
+                <div class="col-xs-10">
+                    @Html.Partial("Partials/_ResultsPager")
+                </div>
+
+                <div class="col-xs-2">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Environment</button>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="@Url.Action("Index", "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults})">All</a></li>
+                            @foreach (string environment in Model.Environments)
+                            {
+                                <li><a href="@Url.Action("Index", "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults, environment})">@environment</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            @foreach (var groupedSummary in Model.PagedResults.GroupBy(x => x.Environment).OrderBy(x => x.Key))
+            {
+                <div class="label label-material-indigo">@groupedSummary.Key</div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Date and user</th>
+                                <td>Name</td>
+                                <td>Result</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (TestFileResultSummary summary in groupedSummary)
+                            {
+                                string className = "success";
+                                if (summary.TotalFailed > 0)
+                                {
+                                    className = "danger";
+                                }
+
+                                <tr class="@className">
+                                    <td>
+                                        @summary.DateRun.ToLocalTime().ToString("ddd dd MMMM HH:mm") <br />
+                                        <em>Ran by @summary.Username</em>
+                                    </td>
+                                    <td>
+                                        @summary.FileName
+                                    </td>
+                                    <td>
+                                        <span class="label label-success results-label">Total Passed: @summary.TotalPassed</span>
+                                        <span class="label label-danger results-label">Total Failed: @summary.TotalFailed</span>
+                                        <span class="label label-info results-label">Run Time: @summary.TotalRunTime.MinutesAndSecondsFormat()</span>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Results", new {id = summary.Id})">View</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+            }
             @Html.Partial("Partials/_ResultsPager")
-
-			@foreach (var groupedSummary in Model.PagedResults.GroupBy(x => x.Environment).OrderBy(x => x.Key))
-			{
-				<br/>
-				<div class="label label-material-indigo">@groupedSummary.Key</div>
-				<table class="table table-bordered table-striped">
-					<thead>
-					<tr>
-						<th>Date and user</th>
-						<td>Name</td>
-						<td>Result</td>
-						<td></td>
-					</tr>
-					</thead>
-					<tbody>
-					@foreach (TestFileResultSummary summary in groupedSummary)
-					{
-						string className = "success";
-						if (summary.TotalFailed > 0)
-						{
-							className = "danger";
-						}
-
-						<tr class="@className">
-							<td>
-								@summary.DateRun.ToLocalTime().ToString("ddd dd MMMM HH:mm") <br/>
-								<em>Ran by @summary.Username</em>
-							</td>
-							<td>
-								@summary.FileName
-							</td>
-							<td>
-								<span class="label label-success results-label">Total Passed: @summary.TotalPassed</span>
-								<span class="label label-danger results-label">Total Failed: @summary.TotalFailed</span>
-								<span class="label label-info results-label">Run Time: @summary.TotalRunTime.MinutesAndSecondsFormat()</span>
-							</td>
-							<td>
-								<a class="btn btn-sm btn-primary" href="@Url.Action("ViewResult", "Results", new {id = summary.Id})">View</a>
-							</td>
-						</tr>
-					}
-					</tbody>
-				</table>
-			}
-           @Html.Partial("Partials/_ResultsPager")
         </div>
     </div>
 </div>

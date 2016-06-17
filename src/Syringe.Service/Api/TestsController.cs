@@ -106,9 +106,9 @@ namespace Syringe.Service.Api
 
         [Route("api/tests/GetSummaries")]
         [HttpGet]
-        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20)
+        public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-            return _testFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults);
+            return _testFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
         }
 
         [Route("api/tests/GetById")]
