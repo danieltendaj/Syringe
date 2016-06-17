@@ -207,3 +207,4 @@ TestResult.xml
 TextTransform.exe
 src/Syringe.Web/Scripts/typings/Hubs.d.ts
 src/Syringe.Service/configuration.json
+src/Syringe.Service/shared-variables.json
