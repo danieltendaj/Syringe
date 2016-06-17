@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
 
@@ -10,6 +11,13 @@ namespace Syringe.Web.Mappers
 {
     public class TestFileMapper : ITestFileMapper
     {
+        private readonly IReservedVariableProvider _reservedVariableProvider;
+
+        public TestFileMapper(IReservedVariableProvider reservedVariableProvider)
+        {
+            _reservedVariableProvider = reservedVariableProvider;
+        }
+
         public TestViewModel BuildTestViewModel(TestFile testFile, int position)
         {
             if (testFile == null)
@@ -100,8 +108,9 @@ namespace Syringe.Web.Mappers
             }
 
             var variables = new List<VariableViewModel>();
-            variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }).ToList());
-            variables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new VariableViewModel { Name = x.Name, Value = x.Regex }).ToList());
+            variables.AddRange(_reservedVariableProvider.ListAvailableVariables().Select(x => new VariableViewModel { Name = x.Name, Value = x.Description }));
+            variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }));
+            variables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new VariableViewModel { Name = x.Name, Value = x.Regex }));
             return variables;
         }
     }
