@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 using CsQuery;
 
 namespace Syringe.Web.ValidationAttributes
 {
-    public class ValidCsQueryAttribute :ValidationAttribute
+    public class ValidCsQueryAttribute : ValidationAttribute
     {
-       
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -17,9 +12,9 @@ namespace Syringe.Web.ValidationAttributes
                 return false;
             }
 
-            CQ cq = CQ.Create("");
             try
             {
+                CQ cq = CQ.Create("");
                 cq.Find(value.ToString());
             }
             catch
@@ -29,7 +24,5 @@ namespace Syringe.Web.ValidationAttributes
 
             return true;
         }
-
-      
     }
 }

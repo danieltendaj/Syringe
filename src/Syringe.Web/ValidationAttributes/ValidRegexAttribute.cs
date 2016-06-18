@@ -5,7 +5,6 @@ namespace Syringe.Web.ValidationAttributes
 {
     public class ValidRegexAttribute : ValidationAttribute
     {
-
         public override bool IsValid(object value)
         {
             if (value == null)

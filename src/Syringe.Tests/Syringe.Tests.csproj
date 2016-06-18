@@ -131,6 +131,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.StackTrace, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -261,6 +262,8 @@
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Web\ValidCsQueryAttributesTests.cs" />
+    <Compile Include="Unit\Web\ValidationAttributesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj">
