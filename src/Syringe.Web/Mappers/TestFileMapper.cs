@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
-using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
 
@@ -11,11 +11,11 @@ namespace Syringe.Web.Mappers
 {
     public class TestFileMapper : ITestFileMapper
     {
-        private readonly IReservedVariableProvider _reservedVariableProvider;
+        private readonly IConfigurationService _configurationService;
 
-        public TestFileMapper(IReservedVariableProvider reservedVariableProvider)
+        public TestFileMapper(IConfigurationService configurationService)
         {
-            _reservedVariableProvider = reservedVariableProvider;
+            _configurationService = configurationService;
         }
 
         public TestViewModel BuildTestViewModel(TestFile testFile, int position)
@@ -108,8 +108,10 @@ namespace Syringe.Web.Mappers
             }
 
             var variables = new List<VariableViewModel>();
-            variables.AddRange(_reservedVariableProvider.ListAvailableVariables().Select(x => new VariableViewModel { Name = x.Name, Value = x.Description }));
-            variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value }));
+
+            IEnumerable<Variable> systemVariables = _configurationService.GetSystemVariables();
+            variables.AddRange(systemVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment?.Name }));//TODO: Add in shared
+            variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment?.Name }));
             variables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new VariableViewModel { Name = x.Name, Value = x.Regex }));
             return variables;
         }

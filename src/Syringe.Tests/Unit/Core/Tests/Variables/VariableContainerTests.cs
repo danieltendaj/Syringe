@@ -16,7 +16,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables
         public void Setup()
         {
             _reservedVariableProvider = new Mock<IReservedVariableProvider>();
-            _variableContainer = new VariableContainer(_reservedVariableProvider.Object);
+            _variableContainer = new VariableContainer(_reservedVariableProvider.Object, null);
         }
 
         [Test]

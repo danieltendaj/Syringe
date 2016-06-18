@@ -1,5 +1,6 @@
 ﻿using Syringe.Core.Tests.Variables;
 using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Core.Tests.Variables.SharedVariables;
 
 namespace Syringe.Core.Runner
 {
@@ -7,7 +8,7 @@ namespace Syringe.Core.Runner
     {
         public ICapturedVariableProvider Create(string environment)
         {
-            var container = new VariableContainer(new ReservedVariableProvider());
+            var container = new VariableContainer(new ReservedVariableProvider(), new SharedVariablesProvider());
             return new CapturedVariableProvider(container, environment);
         }
     }

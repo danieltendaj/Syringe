@@ -233,6 +233,8 @@
     <Compile Include="Tests\Variables\ReservedVariables\RandomNumberVariable.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\ReservedVariableProvider.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\TestRunVariable.cs" />
+    <Compile Include="Tests\Variables\SharedVariables\ISharedVariablesProvider.cs" />
+    <Compile Include="Tests\Variables\SharedVariables\SharedVariablesProvider.cs" />
     <Compile Include="Tests\Variables\Variable.cs" />
     <Compile Include="Tasks\TaskRequest.cs" />
     <Compile Include="Services\ITestService.cs" />
