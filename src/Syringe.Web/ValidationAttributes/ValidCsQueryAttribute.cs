@@ -7,8 +7,9 @@ using CsQuery;
 
 namespace Syringe.Web.ValidationAttributes
 {
-    public class CsQueryAttribute :ValidationAttribute
+    public class ValidCsQueryAttribute :ValidationAttribute
     {
+       
         public override bool IsValid(object value)
         {
             if (value == null)
@@ -25,6 +26,7 @@ namespace Syringe.Web.ValidationAttributes
             {
                 return false;
             }
+
             return true;
         }
 

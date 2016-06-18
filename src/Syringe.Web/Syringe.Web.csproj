@@ -220,7 +220,8 @@
     <Compile Include="Models\AuthenticationViewModel.cs" />
     <Compile Include="Models\AssertionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidationAttributes\CsQueryAttribute.cs" />
+    <Compile Include="ValidationAttributes\AssertionTypeValidationAttribute.cs" />
+    <Compile Include="ValidationAttributes\ValidCsQueryAttribute.cs" />
     <Compile Include="ValidationAttributes\ValidRegexAttribute.cs" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Css\bootstrap-sass\javascripts\bootstrap-sprockets.js" />
