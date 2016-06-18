@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Syringe.Core.Tests.Variables;
+using Syringe.Web.ValidationAttributes;
 
 namespace Syringe.Web.Models
 {
@@ -9,6 +11,7 @@ namespace Syringe.Web.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [ValidRegex(ErrorMessage = "Regex is not valid")]
         public string Regex { get; set; }
         [Required]
         [Display(Name = "Post Processor")]
