@@ -215,6 +215,7 @@
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
+    <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
     <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
@@ -292,6 +293,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
+    <EmbeddedResource Include="Integration\Core\Tests\Variables\SharedVariables\JsonExamples\shared-variables-example.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

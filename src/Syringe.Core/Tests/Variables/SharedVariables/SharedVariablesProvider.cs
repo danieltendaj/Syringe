@@ -9,6 +9,7 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
     public class SharedVariablesProvider : ISharedVariablesProvider
     {
         private readonly string _configPath;
+        private Variable[] _sharedVariables;
 
         public SharedVariablesProvider()
         {
@@ -22,15 +23,21 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
 
         public IEnumerable<Variable> ListSharedVariables()
         {
-            if (File.Exists(_configPath))
+            if (_sharedVariables == null)
             {
-                string json = File.ReadAllText(_configPath);
-                List<SharedVariable> variables = JsonConvert.DeserializeObject<List<SharedVariable>>(json);
-
-                return variables.Select(x => new Variable(x.Name, x.Value, x.Environment));
+                if (File.Exists(_configPath))
+                {
+                    string json = File.ReadAllText(_configPath);
+                    List<SharedVariable> variables = JsonConvert.DeserializeObject<List<SharedVariable>>(json);
+                    _sharedVariables = variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToArray();
+                }
+                else
+                {
+                    _sharedVariables = new Variable[0];
+                }
             }
 
-            return new Variable[0];
+            return _sharedVariables;
         }
 
         private class SharedVariable
