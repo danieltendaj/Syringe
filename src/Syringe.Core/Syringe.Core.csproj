@@ -230,6 +230,7 @@
     <Compile Include="Tests\Variables\IVariable.cs" />
     <Compile Include="Tests\Variables\IVariableContainer.cs" />
     <Compile Include="Tests\Variables\IVariablePostProcessor.cs" />
+    <Compile Include="Tests\Variables\ReservedVariables\EnvironmentVariable.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\RandomNumberVariable.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\ReservedVariableProvider.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\TestRunVariable.cs" />

@@ -8,7 +8,7 @@ namespace Syringe.Core.Runner
     {
         public ICapturedVariableProvider Create(string environment)
         {
-            var container = new VariableContainer(new ReservedVariableProvider(), new SharedVariablesProvider());
+            var container = new VariableContainer(new ReservedVariableProvider(environment), new SharedVariablesProvider());
             return new CapturedVariableProvider(container, environment);
         }
     }
