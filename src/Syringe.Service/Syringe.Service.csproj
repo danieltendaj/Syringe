@@ -232,6 +232,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <None Include="shared-variables.default.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
