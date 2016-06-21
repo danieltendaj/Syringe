@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace Syringe.Core.Tests.Variables.ReservedVariables
+﻿namespace Syringe.Core.Tests.Variables.ReservedVariables
 {
     public class EnvironmentVariable : IReservedVariable
     {

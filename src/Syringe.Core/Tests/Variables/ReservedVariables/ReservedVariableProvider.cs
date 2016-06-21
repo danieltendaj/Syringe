@@ -17,7 +17,7 @@ namespace Syringe.Core.Tests.Variables.ReservedVariables
             return new IReservedVariable[]
             {
                 new RandomNumberVariable(),
-                new TestRunVariable(_createdDate),  //THESE ARENT LISTING??? TODO
+                new TestRunVariable(_createdDate),
                 new EnvironmentVariable(_environment), 
             };
         }
