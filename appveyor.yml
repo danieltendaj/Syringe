@@ -27,7 +27,7 @@ install:
   - gem install sass
   - cd .\src\Syringe.Web\
   - npm install --global gulp-cli
-  - npm install 
+  - npm install  --loglevel=error
   - gulp
   - cd ..\..\
 
