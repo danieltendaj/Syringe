@@ -3,7 +3,7 @@ shallow_clone: true
 clone_depth: 1
 
 environment:
-    nodejs_version: "4.3.0"
+    nodejs_version: " 6.2.2" # This is the Choco version number
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     AZURE_ACCOUNT_NAME: portalvhdshhv3xmk8gh157
