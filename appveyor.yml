@@ -3,7 +3,7 @@ shallow_clone: true
 clone_depth: 1
 
 environment:
-    nodejs_version: "5.10.1" # This is the Choco version number
+    nodejs_version: "6.2.2" # This is the Choco version number
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     AZURE_ACCOUNT_NAME: portalvhdshhv3xmk8gh157
@@ -26,8 +26,8 @@ services:
 install:
   - gem install sass
   - cd .\src\Syringe.Web\
-  - npm install --global gulp-cli
-  - npm install  --loglevel=error
+  - npm install --global gulp-cli --loglevel=error
+  - npm install --loglevel=error
   - gulp
   - cd ..\..\
 
