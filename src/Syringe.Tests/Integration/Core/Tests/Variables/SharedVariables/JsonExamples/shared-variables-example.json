@@ -1,0 +1,12 @@
+﻿[
+  {
+    "Name": "test-name",
+    "Value": "test-value",
+    "Environment": "Development"
+  },
+  {
+    "Name": "some-ther-name",
+    "Value": "something else",
+    "Environment": "UAT"
+  }
+]

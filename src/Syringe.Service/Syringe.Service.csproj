@@ -232,6 +232,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <None Include="shared-variables.default.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
@@ -247,7 +248,9 @@
   <PropertyGroup>
     <PostBuildEvent>$(SolutionDir)\packages\SignalrTypescriptGenerator.1.0.11\tools\SignalrTypescriptGenerator.exe -a "$(TargetPath)"  -o "$(SolutionDir)src\Syringe.Web\Scripts\typings\Hubs.d.ts"
 
-IF EXIST "$(ProjectDir)configuration.json" xcopy "$(ProjectDir)configuration.json" $(TargetDir) /Y</PostBuildEvent>
+IF EXIST "$(ProjectDir)configuration.json" xcopy "$(ProjectDir)configuration.json" $(TargetDir) /Y
+
+IF EXIST "$(ProjectDir)shared-variables.json" xcopy "$(ProjectDir)shared-variables.json" $(TargetDir) /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">

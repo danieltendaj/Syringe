@@ -4,10 +4,9 @@ using System.Linq;
 using System.Net;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
-using Syringe.Core.Tests.Variables.ReservedVariables;
-using Syringe.Tests.StubsMocks;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
@@ -17,18 +16,18 @@ namespace Syringe.Tests.Unit.Web
     [TestFixture]
     public class TestFileMapperTests
     {
-        private Mock<IReservedVariableProvider> _reservedVariablesProvider;
+        private Mock<IConfigurationService> _variableContainerMock;
         private TestFileMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
-            _reservedVariablesProvider = new Mock<IReservedVariableProvider>();
-            _mapper = new TestFileMapper(_reservedVariablesProvider.Object);
+            _variableContainerMock = new Mock<IConfigurationService>();
+            _mapper = new TestFileMapper(_variableContainerMock.Object);
 
-            _reservedVariablesProvider
-                .Setup(x => x.ListAvailableVariables())
-                .Returns(new IReservedVariable[0]);
+            _variableContainerMock
+                .Setup(x => x.GetSystemVariables())
+                .Returns(new List<Variable>());
         }
 
         private TestViewModel _testViewModel
@@ -254,17 +253,13 @@ namespace Syringe.Tests.Unit.Web
                 }
             };
 
-            var reservedVariables = new IReservedVariable[]
+            var reservedVariables = new List<Variable>
             {
-                new ReservedVariableStub
-                {
-                    Name = "some name that should exist",
-                    Description = "super awesome description"
-                }
+                new Variable("some name that should exist", "super awesome description", "evil environment")
             };
 
-            _reservedVariablesProvider
-                .Setup(x => x.ListAvailableVariables())
+            _variableContainerMock
+                .Setup(x => x.GetSystemVariables())
                 .Returns(reservedVariables);
 
             // when
@@ -273,7 +268,8 @@ namespace Syringe.Tests.Unit.Web
             // then
             VariableViewModel variable = result.AvailableVariables.FirstOrDefault(x => x.Name == reservedVariables[0].Name);
             Assert.That(variable, Is.Not.Null);
-            Assert.That(variable.Value, Is.EqualTo(variable.Value));
+            Assert.That(variable.Value, Is.EqualTo(reservedVariables[0].Value));
+            Assert.That(variable.Environment, Is.EqualTo(reservedVariables[0].Environment.Name));
         }
 
         [Test]

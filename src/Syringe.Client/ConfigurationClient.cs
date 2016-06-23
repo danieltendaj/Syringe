@@ -1,6 +1,8 @@
-﻿using RestSharp;
+﻿using System.Collections.Generic;
+using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Client
 {
@@ -23,5 +25,14 @@ namespace Syringe.Client
 			IRestResponse response = client.Execute(request);
 			return _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
 		}
+
+	    public IEnumerable<Variable> GetSystemVariables()
+        {
+            var client = new RestClient(_serviceUrl);
+            IRestRequest request = _restSharpHelper.CreateRequest("systemvariables");
+
+            IRestResponse response = client.Execute(request);
+            return _restSharpHelper.DeserializeOrThrow<List<Variable>>(response);
+        }
 	}
 }
