@@ -20,7 +20,7 @@ if (!(Test-Path $msbuild))
 }
 
 # Add NodeJS/Gulp in development environments
-if ($configuration -neq "Release")
+if ($configuration -ne "Release")
 {
 	# NodeJS is needed for Gulp
 	Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
