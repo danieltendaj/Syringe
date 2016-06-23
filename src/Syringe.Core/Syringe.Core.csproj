@@ -212,6 +212,7 @@
     <Compile Include="Runner\Messaging\IMessage.cs" />
     <Compile Include="Runner\Messaging\TestResultMessage.cs" />
     <Compile Include="Runner\TestFileRunnerFactory.cs" />
+    <Compile Include="Tests\Results\Repositories\LiteDbTestFileRepository.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />
     <Compile Include="Tests\Scripting\TestFileScriptEvaluator.cs" />
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />

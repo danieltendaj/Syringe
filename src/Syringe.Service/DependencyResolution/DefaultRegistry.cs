@@ -57,7 +57,7 @@ namespace Syringe.Service.DependencyResolution
             For<IConfigurationStore>().Use(configStore).Singleton();
             For<IConfiguration>().Use(configuration);
 
-            For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
+            For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
