@@ -25,11 +25,11 @@ services:
 # Add NodeJS/Gulp for the SASS compilation
 install:
   - gem install sass
-  - pushd src\Syringe.Web\
+  - cd .\src\Syringe.Web\
   - npm install --global gulp-cli --loglevel=error
   - npm install --loglevel=error
   - gulp
-  - popd
+  - cd ..\..\
 
 # Update the assembly version numbers with the Appveyor version
 assembly_info:
