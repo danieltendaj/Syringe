@@ -29,7 +29,7 @@ namespace Syringe.Service.Api
 		{
 			try
 			{
-				var repository = new TestFileResultRepository(new MongoDbConfiguration(_configuration));
+				var repository = new MongoTestFileResultRepository(new MongoDbConfiguration(_configuration));
 				repository.Wipe();
 
 				return "done";

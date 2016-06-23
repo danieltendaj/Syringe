@@ -33,7 +33,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void Setup()
         {
             Console.WriteLine("Wiping MongoDB results database {0}", ServiceStarter.MongodbDatabaseName);
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new MongoTestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
             repository.Wipe();
 
             ServiceStarter.RecreateXmlDirectory();
@@ -217,7 +217,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new MongoTestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
             var result1 = new TestFileResult()
             {
@@ -249,7 +249,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new MongoTestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
             var result1 = new TestFileResult()
             {
@@ -282,7 +282,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
+            var repository = new MongoTestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
 
             var result1 = new TestFileResult()
             {

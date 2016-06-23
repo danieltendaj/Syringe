@@ -7,14 +7,14 @@ using Syringe.Core.MongoDB;
 
 namespace Syringe.Core.Tests.Results.Repositories
 {
-    public class TestFileResultRepository : ITestFileResultRepository
+    public class MongoTestFileResultRepository : ITestFileResultRepository
     {
         private static readonly string MONGDB_COLLECTION_NAME = "TestFileResults";
         private readonly MongoDbConfiguration _mongoDbConfiguration;
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<TestFileResult> _collection;
 
-        public TestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
+        public MongoTestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
         {
             _mongoDbConfiguration = mongoDbConfiguration;
             var mongoClient = new MongoClient(_mongoDbConfiguration.ConnectionString);
