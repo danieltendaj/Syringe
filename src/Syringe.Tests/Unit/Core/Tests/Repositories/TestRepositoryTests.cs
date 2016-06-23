@@ -164,7 +164,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.CreateFileFullPath(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.FileExists(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.CreateFilename(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.GetFilenameWithExtension(It.IsAny<string>()), Times.Once);
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
         }
 

@@ -10,7 +10,7 @@ namespace Syringe.Core.IO
         IEnumerable<string> GetFileNames();
         bool FileExists(string filePath);
         string CreateFileFullPath(string fileName);
-        string CreateFilename(string filename);
+        string GetFilenameWithExtension(string filename);
         bool DeleteFile(string path);
     }
 }

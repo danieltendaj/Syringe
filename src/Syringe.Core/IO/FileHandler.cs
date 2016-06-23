@@ -67,7 +67,7 @@ namespace Syringe.Core.IO
             }
         }
 
-        public string CreateFilename(string filename)
+        public string GetFilenameWithExtension(string filename)
         {
             if (string.IsNullOrEmpty(filename))
             {

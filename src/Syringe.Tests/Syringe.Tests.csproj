@@ -85,6 +85,7 @@
       <HintPath>..\..\packages\Microsoft.Owin.Testing.3.0.1\lib\net45\Microsoft.Owin.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -208,7 +209,9 @@
     <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
     <Compile Include="Integration\ClientAndService\Helpers.cs" />
     <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
+    <Compile Include="Integration\Core\IO\FileHandlerTests.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\SetUpFixture.cs" />
+    <Compile Include="Integration\Core\Repository\MongoDB\TestRepositoryTests.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
     <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
@@ -233,7 +236,6 @@
     <Compile Include="Unit\Core\Tests\Variables\VariableContainerTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariablePostProcessorTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
-    <Compile Include="Unit\Core\IO\FIleHandlerTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Service\Api\TestsControllerTests.cs" />
     <Compile Include="Unit\Web\AuthorizeWhenOAuthAttributeTests.cs" />

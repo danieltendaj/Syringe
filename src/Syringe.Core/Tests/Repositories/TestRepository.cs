@@ -40,7 +40,6 @@ namespace Syringe.Core.Tests.Repositories
 
 	    public bool CreateTest(string filename, Test test)
         {
-
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);
 
@@ -116,7 +115,7 @@ namespace Syringe.Core.Tests.Repositories
 
 		public bool CreateTestFile(TestFile testFile)
 		{
-			testFile.Filename = _fileHandler.CreateFilename(testFile.Filename);
+			testFile.Filename = _fileHandler.GetFilenameWithExtension(testFile.Filename);
 
 			string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
 			bool fileExists = _fileHandler.FileExists(filePath);
