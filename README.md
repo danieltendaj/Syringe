@@ -1,6 +1,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/l8lcjqu5q0ld1je9?svg=true)](https://ci.appveyor.com/project/yetanotherchris/syringe-4kmo4)
 [![Coverage Status](https://coveralls.io/repos/github/TotalJobsGroup/syringe/badge.svg?branch=master)](https://coveralls.io/github/TotalJobsGroup/syringe?branch=master)
 [![MyGet](https://img.shields.io/myget/syringe/v/Syringe.svg?maxAge=2592000)]()
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/TotalJobsGroup/Syringe.svg)](http://isitmaintained.com/project/TotalJobsGroup/Syringe "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/TotalJobsGroup/Syringe.svg)](http://isitmaintained.com/project/TotalJobsGroup/Syringe "Percentage of issues still open")
 
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests.

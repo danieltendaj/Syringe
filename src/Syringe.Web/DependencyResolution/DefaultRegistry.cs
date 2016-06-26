@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using StructureMap;
+using StructureMap.Graph;
 using Syringe.Client;
 using Syringe.Client.RestSharpHelpers;
 using Syringe.Core.Configuration;
@@ -27,8 +28,6 @@ using Syringe.Web.Models;
 
 namespace Syringe.Web.DependencyResolution
 {
-    using StructureMap.Graph;
-
     public class DefaultRegistry : Registry
     {
         public DefaultRegistry()
@@ -42,32 +41,33 @@ namespace Syringe.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-			//
-			// Configration - load from the service at startup, cache it.
-			//
-			MvcConfiguration mvcConfig = MvcConfiguration.Load();
-			string serviceUrl = mvcConfig.ServiceUrl;
-			For<MvcConfiguration>().Use(mvcConfig);
+            //
+            // Configration - load from the service at startup, cache it.
+            //
+            MvcConfiguration mvcConfig = MvcConfiguration.Load();
+            string serviceUrl = mvcConfig.ServiceUrl;
+            For<MvcConfiguration>().Use(mvcConfig);
+            
+            For<IConfigurationService>().Use(x => new ConfigurationClient(serviceUrl));
+            For<IConfiguration>()
+                .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
+                .Singleton();
 
-			var configClient = new ConfigurationClient(serviceUrl);
-			IConfiguration config = configClient.GetConfiguration();
-			For<IConfiguration>().Use(config).Singleton();
-
-			//
-			// Model helpers
-			//
-			For<IRunViewModel>().Use<RunViewModel>();
+            //
+            // Model helpers
+            //
+            For<IRunViewModel>().Use<RunViewModel>();
             For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();
             For<IUrlHelper>().Use<UrlHelper>();
 
-			//
-			// REST API clients
-			//
-			For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
+            //
+            // REST API clients
+            //
+            For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
             For<ITestService>().Use(x => new TestsClient(serviceUrl, x.GetInstance<IRestSharpClientFactory>()));
             For<ITasksService>().Use(() => new TasksClient(serviceUrl));
-	        For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
+            For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
             For<IEnvironmentsService>().Use(() => new EnvironmentsClient(serviceUrl));
         }
     }

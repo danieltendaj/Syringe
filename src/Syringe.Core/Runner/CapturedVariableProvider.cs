@@ -11,13 +11,11 @@ namespace Syringe.Core.Runner
     {
         private readonly IVariableContainer _currentVariables;
         private readonly string _environment;
-        //private readonly List<Variable> _currentVariables;
 
         public CapturedVariableProvider(IVariableContainer variableContainer, string environment)
         {
             _currentVariables = variableContainer;
             _environment = environment;
-            //_currentVariables = new List<Variable>();
         }
 
         public void AddOrUpdateVariables(List<Variable> variables)
@@ -63,7 +61,10 @@ namespace Syringe.Core.Runner
 
             foreach (Variable variable in _currentVariables)
             {
-                text = text.Replace("{" + variable.Name + "}", variable.Value);
+                if (variable.MatchesEnvironment(_environment))
+                {
+                    text = text.Replace("{" + variable.Name + "}", variable.Value);
+                }
             }
 
             return text;
@@ -75,7 +76,10 @@ namespace Syringe.Core.Runner
 
             foreach (Variable variable in _currentVariables)
             {
-                result = result.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
+                if (variable.MatchesEnvironment(_environment))
+                {
+                    result = result.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
+                }
             }
 
             return result;

@@ -13,7 +13,7 @@ $serviceDir  = Resolve-Path ".\src\Syringe.Service\"
 
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 Write-Host "Syringe setup script. " -ForegroundColor DarkYellow
-Write-Host "Please read the README file before running this script. " -ForegroundColor DarkYellow
+Write-Host "For troubleshooting please read the README file. " -ForegroundColor DarkYellow
 Write-host "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" -ForegroundColor DarkYellow
 
 # Restore submodules
@@ -32,14 +32,36 @@ $env:systemdrive = $mongoDataDir
 choco install mongodb -version 3.0.3
 $env:systemdrive = $oldSysDrive
 
-
 if(!(Test-Path "$serviceDir\configuration.json"))
 {
 	Write-Host "Restoring config file from default..." -ForegroundColor Green
 	Copy-Item "$serviceDir\configuration.default.json" "$serviceDir\configuration.json"
 }
 
-# Build
+# NodeJS is needed for Gulp
+Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
+choco install nodejs -y
+
+# Refresh the path vars for npm
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+
+try
+{
+    pushd src\Syringe.Web
+    npm install
+    npm install gulp -g
+
+    # Refresh the path vars for Gulp
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+
+    gulp -b ".\" --gulpfile "gulpfile.js" default
+}
+finally
+{
+    popd
+}
+
+# Build the csproj
 Write-Host "Building solution." -ForegroundColor Green
 .\build\build.ps1 "Debug"
 

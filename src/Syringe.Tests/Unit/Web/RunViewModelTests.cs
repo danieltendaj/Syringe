@@ -10,132 +10,128 @@ using Syringe.Web.Models;
 
 namespace Syringe.Tests.Unit.Web
 {
-	public static class RunViewModelTests
-	{
-		private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
-		{
-			tasksService = tasksService ?? Mock.Of<ITasksService>();
-			testService = testService ?? Mock.Of<ITestService>();
+    [TestFixture]
+    public class RunViewModelTests
+    {
+        [Test]
+        public void should_set_filename_to_specified_file()
+        {
+            // given
+            const string fileName = "Some file";
+            ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
+            RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
-			return new RunViewModel(tasksService, testService, new MvcConfiguration());
-		}
+            // when
+            viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
 
-		[TestFixture]
-		public class when_running
-		{
-			[Test]
-			public void should_set_filename_to_specified_file()
-			{
-				// given
-				const string fileName = "Some file";
-				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
-				RunViewModel viewModel = GivenARunViewModel(testService: testService);
+            // then
+            Assert.That(viewModel.FileName, Is.EqualTo(fileName));
+        }
 
-				// when
-				viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
+        [Test]
+        public void should_populate_tests_using_specified_filename_and_environment()
+        {
+            // given
+            const string fileName = "Some file";
+            var testFile =
+                Mock.Of<TestFile>(
+                    c =>
+                        c.Tests ==
+                        new[]
+                        {
+                                new Test { Description = "Desc1"},
+                                new Test { Description = "Desc2"}
+                        });
 
-				// then
-				Assert.That(viewModel.FileName, Is.EqualTo(fileName));
-			}
+            ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == testFile);
+            RunViewModel viewModel = GivenARunViewModel(testService: testService);
 
-			[Test]
-			public void should_populate_tests_using_specified_filename_and_environment()
-			{
-				// given
-				const string fileName = "Some file";
-				var testFile =
-					Mock.Of<TestFile>(
-						c =>
-							c.Tests ==
-							new[]
-							{
-								new Test { Description = "Desc1"},
-								new Test { Description = "Desc2"}
-							});
+            // when
+            viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
 
-				ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == testFile);
-                RunViewModel viewModel = GivenARunViewModel(testService: testService);
-
-				// when
-				viewModel.Run(Mock.Of<IUserContext>(), fileName, null);
-
-				// then
-				Assert.That(viewModel.Tests, Is.Not.Null);
-				Assert.That(viewModel.Tests.Select(c => new { Position = c.Position, c.Description }), Is.EquivalentTo(new[]
-				{
-					new { Position = 0, Description = "Desc1" },
-					new { Position = 1, Description = "Desc2" }
-				}));
-            }
-
-            [Test]
-            public void should_start_task_using_current_user_context_and_file_name_when_running_tests()
+            // then
+            Assert.That(viewModel.Tests, Is.Not.Null);
+            Assert.That(viewModel.Tests.Select(c => new { Position = c.Position, c.Description }), Is.EquivalentTo(new[]
             {
-                // given
-                const string fileName = "MyFile";
-                const string environment = "Chris loves a bit of environment if you know what I mean...";
-                const string userName = "Me";
+                    new { Position = 0, Description = "Desc1" },
+                    new { Position = 1, Description = "Desc2" }
+                }));
+        }
 
-                ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == Mock.Of<TestFile>());
-                var tasksService = new Mock<ITasksService>();
-                RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+        [Test]
+        public void should_start_task_using_current_user_context_and_file_name_when_running_tests()
+        {
+            // given
+            const string fileName = "MyFile";
+            const string environment = "Chris loves a bit of environment if you know what I mean...";
+            const string userName = "Me";
 
-                // when
-                viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment);
+            ITestService testService = Mock.Of<ITestService>(s => s.GetTestFile(fileName) == Mock.Of<TestFile>());
+            var tasksService = new Mock<ITasksService>();
+            RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
 
-                // then
-                tasksService.Verify(
+            // when
+            viewModel.Run(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment);
+
+            // then
+            tasksService.Verify(
+                s =>
+                    s.Start(
+                        It.Is<TaskRequest>(
+                            r => r.Filename == fileName && r.Username == userName && r.Environment == environment)),
+                "Should have requested for the correct task to start.");
+        }
+
+        [Test]
+        public void should_start_task_using_current_user_context_and_filename_and_environment_and_position_when_running_test()
+        {
+            // given
+            const string fileName = "MyFile";
+            const string environment = "Chris loves a bit of environment if you know what I mean...";
+            const string userName = "Me";
+            const int position = 432;
+
+            ITestService testService = Mock.Of<ITestService>(s => s.GetTest(fileName, position) == Mock.Of<Test>());
+            var tasksService = new Mock<ITasksService>();
+            RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+
+            // when
+            viewModel.RunTest(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment, position);
+
+            // then
+            tasksService.Verify(
+                s =>
+                    s.Start(
+                        It.Is<TaskRequest>(
+                            r => r.Filename == fileName && r.Username == userName && r.Environment == environment && r.Position == position)),
+                "Should have requested for the correct task to start.");
+        }
+
+        [Test]
+        public void should_set_current_task_id_to_running_task_id()
+        {
+            // given
+            const int taskId = 121;
+            var testService =
+                Mock.Of<ITestService>(
                     s =>
-                        s.Start(
-                            It.Is<TaskRequest>(
-                                r => r.Filename == fileName && r.Username == userName && r.Environment == environment)),
-                    "Should have requested for the correct task to start.");
-            }
+                        s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
 
-            [Test]
-            public void should_start_task_using_current_user_context_and_filename_and_environment_and_position_when_running_test()
-            {
-                // given
-                const string fileName = "MyFile";
-                const string environment = "Chris loves a bit of environment if you know what I mean...";
-                const string userName = "Me";
-                const int position = 432;
+            var tasksService = Mock.Of<ITasksService>(s => s.Start(It.IsAny<TaskRequest>()) == taskId);
+            var viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService);
 
-                ITestService testService = Mock.Of<ITestService>(s => s.GetTest(fileName, position) == Mock.Of<Test>());
-                var tasksService = new Mock<ITasksService>();
-                RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
+            // when
+            viewModel.Run(Mock.Of<IUserContext>(), "My test file", "something");
 
-                // when
-                viewModel.RunTest(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment, position);
+            // then
+            Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));
+        }
+        private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
+        {
+            tasksService = tasksService ?? Mock.Of<ITasksService>();
+            testService = testService ?? Mock.Of<ITestService>();
 
-                // then
-                tasksService.Verify(
-                    s =>
-                        s.Start(
-                            It.Is<TaskRequest>(
-                                r => r.Filename == fileName && r.Username == userName && r.Environment == environment && r.Position == position)),
-                    "Should have requested for the correct task to start.");
-            }
-
-            [Test]
-			public void should_set_current_task_id_to_running_task_id()
-			{
-				// given
-				const int taskId = 121;
-				var testService =
-					Mock.Of<ITestService>(
-						s =>
-							s.GetTestFile(It.IsAny<string>()) == Mock.Of<TestFile>());
-
-				var tasksService = Mock.Of<ITasksService>(s => s.Start(It.IsAny<TaskRequest>()) == taskId);
-				var viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService);
-
-				// when
-				viewModel.Run(Mock.Of<IUserContext>(), "My test file", "something");
-
-				// then
-				Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));
-			}
-		}
-	}
+            return new RunViewModel(tasksService, testService, new MvcConfiguration());
+        }
+    }
 }

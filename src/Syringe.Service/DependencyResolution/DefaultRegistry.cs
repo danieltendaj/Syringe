@@ -27,6 +27,7 @@ using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service.Api.Hubs;
 using Syringe.Service.Parallel;
 using WebApiContrib.IoC.StructureMap;
@@ -63,6 +64,8 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
+
+            For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
             SetupTestFileFormat(configuration);
             SetupEnvironmentSource(configuration);
