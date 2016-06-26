@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Syringe.Core.Tests.Results.Repositories
 {
-	public interface ITestFileResultRepository
+	public interface ITestFileResultRepository : IDisposable
 	{
 		Task AddAsync(TestFileResult testFileResult);
 		Task DeleteAsync(Guid testFileResultId);

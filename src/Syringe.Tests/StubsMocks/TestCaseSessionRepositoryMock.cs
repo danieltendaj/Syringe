@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
@@ -34,6 +33,11 @@ namespace Syringe.Tests.StubsMocks
         {
             SavedSession = testFileResult;
             return Task.FromResult<object>(null);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

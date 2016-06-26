@@ -11,21 +11,22 @@ namespace Syringe.Core.Tests.Results.Repositories
     // TODO: I think the IDs are wrong, should be moved to BSONId?
     public class LiteDbTestFileRepository : ITestFileResultRepository
     {
-        private readonly string _database;
+        private readonly object _lock = new Object();
+        private readonly string _databaseLocation;
+        private LiteDatabase _database;
 
         public LiteDbTestFileRepository()
         {
-            _database = Path.Combine(System.Environment.CurrentDirectory, "syringe.db");
+            _databaseLocation = Path.Combine(System.Environment.CurrentDirectory, "syringe.db");
         }
 
         public async Task AddAsync(TestFileResult testFileResult)
         {
             await Task.Run(() =>
             {
-                using (var db = new LiteDatabase(_database))
+                lock (_lock)
                 {
-                    //testFileResult.Id = Guid.NewGuid(); //TODO: we might need this
-                    LiteCollection<TestFileResult> collection = GetCollection(db);
+                    LiteCollection<TestFileResult> collection = GetCollection();
                     collection.Insert(testFileResult);
                 }
             });
@@ -35,9 +36,9 @@ namespace Syringe.Core.Tests.Results.Repositories
         {
             await Task.Run(() =>
             {
-                using (var db = new LiteDatabase(_database))
+                lock (_lock)
                 {
-                    LiteCollection<TestFileResult> collection = GetCollection(db);
+                    LiteCollection<TestFileResult> collection = GetCollection();
                     collection.Delete(x => x.Id == testFileResultId);
                 }
             });
@@ -46,25 +47,28 @@ namespace Syringe.Core.Tests.Results.Repositories
         // TODO: Why isn't this async and all the other are?
         public TestFileResult GetById(Guid id)
         {
-            using (var db = new LiteDatabase(_database))
+            lock (_lock)
             {
-                LiteCollection<TestFileResult> collection = GetCollection(db);
+                LiteCollection<TestFileResult> collection = GetCollection();
                 return collection.FindOne(x => x.Id == id);
             }
         }
 
         public void Wipe()
         {
-            throw new NotImplementedException();
+            lock (_lock)
+            {
+                _database?.DropCollection("results");
+            }
         }
 
         public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             return await Task.Run(() =>
             {
-                using (var db = new LiteDatabase(_database))
+                lock (_lock)
                 {
-                    LiteCollection<TestFileResult> collection = GetCollection(db);
+                    LiteCollection<TestFileResult> collection = GetCollection();
                     //x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env)
                     //string env = environment ?? string.Empty;//?.ToLower();
                     //long fileResult = collection
@@ -78,8 +82,8 @@ namespace Syringe.Core.Tests.Results.Repositories
                     long totalResults = collection
                                             .Find(Query.All())
                                             .Count();
-                                            //.Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env))
-                                            //.Count();
+                    //.Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env))
+                    //.Count();
 
 
                     List<TestFileResult> testFileCollection = collection
@@ -89,7 +93,7 @@ namespace Syringe.Core.Tests.Results.Repositories
                         .Skip((pageNumber - 1) * noOfResults)
                         .Take(noOfResults)
                         .ToList();
-                    
+
                     var result = new TestFileResultSummaryCollection
                     {
                         TotalFileResults = totalResults,
@@ -116,10 +120,26 @@ namespace Syringe.Core.Tests.Results.Repositories
             });
         }
 
-        private static LiteCollection<TestFileResult> GetCollection(LiteDatabase db)
+        private LiteCollection<TestFileResult> GetCollection()
         {
-            var collection = db.GetCollection<TestFileResult>("results");
+            if (_database == null)
+            {
+                _database = new LiteDatabase(_databaseLocation);
+            }
+
+            var collection = _database.GetCollection<TestFileResult>("results");
             return collection;
+        }
+
+        public void Dispose()
+        {
+            if (_database != null)
+            {
+                lock (_lock)
+                {
+                    _database.Dispose();
+                }
+            }
         }
     }
 }

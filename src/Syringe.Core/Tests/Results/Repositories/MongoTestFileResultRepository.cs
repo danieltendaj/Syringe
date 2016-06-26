@@ -87,5 +87,8 @@ namespace Syringe.Core.Tests.Results.Repositories
         {
             _database.DropCollectionAsync(MONGDB_COLLECTION_NAME).Wait();
         }
+
+        public void Dispose()
+        { }
     }
 }
