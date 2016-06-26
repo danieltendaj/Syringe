@@ -7,17 +7,15 @@ using LiteDB;
 
 namespace Syringe.Core.Tests.Results.Repositories
 {
-    // TODO: No async methods, so wrapping them up
-    // TODO: I think the IDs are wrong, should be moved to BSONId?
     public class LiteDbTestFileRepository : ITestFileResultRepository
     {
-        private readonly object _lock = new Object();
+        private readonly object _lock = new object();
         private readonly string _databaseLocation;
         private LiteDatabase _database;
 
         public LiteDbTestFileRepository()
         {
-            _databaseLocation = Path.Combine(System.Environment.CurrentDirectory, "syringe.db");
+            _databaseLocation = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "syringe.db");
         }
 
         public async Task AddAsync(TestFileResult testFileResult)
@@ -71,7 +69,9 @@ namespace Syringe.Core.Tests.Results.Repositories
                     LiteCollection<TestFileResult> collection = GetCollection();
 
                     var startTimeQuery = Query.GTE("StartTime", fromDate);
-                    var query = string.IsNullOrEmpty(environment) ? startTimeQuery : Query.And(startTimeQuery, Query.EQ("Environment", environment));
+                    var query = string.IsNullOrEmpty(environment) 
+                                            ? startTimeQuery
+                                            : Query.And(startTimeQuery, Query.EQ("Environment", environment));
                     
                     long totalResults = collection
                                             .Find(query)
