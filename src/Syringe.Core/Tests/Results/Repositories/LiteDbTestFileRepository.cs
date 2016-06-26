@@ -69,26 +69,16 @@ namespace Syringe.Core.Tests.Results.Repositories
                 lock (_lock)
                 {
                     LiteCollection<TestFileResult> collection = GetCollection();
-                    //x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env)
-                    //string env = environment ?? string.Empty;//?.ToLower();
-                    //long fileResult = collection
-                    //                    .Find(Query.And(
-                    //                            Query.GTE("StartTime", fromDate),
-                    //                            Query.Or(Query.EQ("Environment", env), Query.EQ("Environment", string.Empty))
-                    //                        ))
-                    //                    .Count();
 
-                    string env = environment?.ToLower();
+                    var startTimeQuery = Query.GTE("StartTime", fromDate);
+                    var query = string.IsNullOrEmpty(environment) ? startTimeQuery : Query.And(startTimeQuery, Query.EQ("Environment", environment));
+                    
                     long totalResults = collection
-                                            .Find(Query.All())
+                                            .Find(query)
                                             .Count();
-                    //.Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(environment) || x.Environment.ToLower() == env))
-                    //.Count();
-
-
+            
                     List<TestFileResult> testFileCollection = collection
-                        .Find(Query.All())
-                        //.Find(x => x.StartTime >= fromDate && (string.IsNullOrEmpty(env) || x.Environment == env))
+                        .Find(query)
                         .OrderByDescending(x => x.StartTime)
                         .Skip((pageNumber - 1) * noOfResults)
                         .Take(noOfResults)
