@@ -10,5 +10,6 @@
 		OAuthConfiguration OAuthConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }
 		bool ReadonlyMode { get; }
-    }
+	    DataStoreType DataStore { get; set; }
+	}
 }

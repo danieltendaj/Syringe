@@ -188,6 +188,7 @@
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
     <Compile Include="Configuration\OctopusConfiguration.cs" />
+    <Compile Include="Configuration\DataStoreType.cs" />
     <Compile Include="Configuration\TestFileFormat.cs" />
     <Compile Include="Environment\Environment.cs" />
     <Compile Include="Environment\EnvironmentRole.cs" />

@@ -27,7 +27,11 @@ namespace Syringe.Core.Configuration
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public bool ReadonlyMode { get; set; }
 
-		public JsonConfiguration()
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(StringEnumConverter))]
+        public DataStoreType DataStore { get; set; }
+
+	    public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
@@ -36,6 +40,7 @@ namespace Syringe.Core.Configuration
             TestFileFormat = TestFileFormat.Json;
 			MongoDbDatabaseName = "Syringe";
 			ReadonlyMode = false;
+            DataStore = DataStoreType.MongoDb;
 
 			OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();
