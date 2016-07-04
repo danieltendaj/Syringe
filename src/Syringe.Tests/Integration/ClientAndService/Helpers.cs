@@ -18,7 +18,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
         public static string GetFullPath(string filename)
         {
-            return Path.Combine(ServiceStarter.XmlDirectoryPath, filename);
+            return Path.Combine(ServiceStarter.TestFilesDirectoryPath, filename);
         }
 
         public static TestsClient CreateTestsClient()

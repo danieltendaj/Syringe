@@ -58,7 +58,7 @@ namespace Syringe.Service.DependencyResolution
             For<IConfigurationStore>().Use(configStore).Singleton();
             For<IConfiguration>().Use(configuration);
 
-            For<ITestFileResultRepository>().Use<TestFileResultRepository>().Singleton();
+            SetupDataStore(configuration);
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
@@ -100,9 +100,23 @@ namespace Syringe.Service.DependencyResolution
             // Test file readers and writers - set to json by default as there is no alternative right now.
             switch (configuration.TestFileFormat)
             {
-                default:
+                case TestFileFormat.Json:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
+                    break;
+            }
+        }
+
+        private void SetupDataStore(IConfiguration configuration)
+        {
+            // Test file readers and writers - set to json by default as there is no alternative right now.
+            switch (configuration.DataStore)
+            {
+                case DataStoreType.MongoDb:
+                    For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
+                    break;
+                case DataStoreType.LiteDb:
+                    For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
                     break;
             }
         }
