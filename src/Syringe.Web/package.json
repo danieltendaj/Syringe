@@ -4,12 +4,12 @@
 	"private": true,
 	"dependencies": { },
 	"devDependencies": {
+		"graceful-fs": "^4.1.4",
 		"bower": "^1.6.5",
 		"gulp": "^3.9.1",
 		"gulp-sass": "^2.2.0",
 		"gulp-clean-css": "^2.0.4",
 		"del": "^2.2.0",
-		"vinyl": "^1.1.1",
 		"vinyl-paths": "^2.1.0"
 	},
 	"engines": {

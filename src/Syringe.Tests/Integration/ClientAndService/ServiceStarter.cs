@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Web.Http.Dependencies;
 using Microsoft.Owin.Hosting;
+using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
@@ -13,12 +14,13 @@ namespace Syringe.Tests.Integration.ClientAndService
 	public class ServiceStarter
 	{
 		private static string _baseUrl;
-		private static string _xmlDirectoryPath;
+		private static string _testFilesDirectoryPath;
 
 		public static string MongodbDatabaseName => "Syringe-Tests";
 		public static IDisposable OwinServer;
+        public static IContainer Container;
 
-		public static int Port { get; set; }
+	    public static int Port { get; set; }
 
 		public static string BaseUrl
 		{
@@ -43,51 +45,68 @@ namespace Syringe.Tests.Integration.ClientAndService
 		}
 
 		/// <summary>
-		/// The full path, e.g. ...\bin\debug\integration\xml
+		/// The full path, e.g. ...\bin\debug\integration\testfiles
 		/// </summary>
-		public static string XmlDirectoryPath
+		public static string TestFilesDirectoryPath
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_xmlDirectoryPath))
+				if (string.IsNullOrEmpty(_testFilesDirectoryPath))
 				{
-					_xmlDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Xml");
+					_testFilesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "TestFiles");
 				}
 
-				return _xmlDirectoryPath;
+				return _testFilesDirectoryPath;
 			}
 		}
 
 		public static void StartSelfHostedOwin()
 		{
-			string xmlFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Xml");
-
-			var jsonConfiguration = new JsonConfiguration()
+            var jsonConfiguration = new JsonConfiguration()
 			{
 				MongoDbDatabaseName = MongodbDatabaseName,
-				TestFilesBaseDirectory = xmlFolder,
+				TestFilesBaseDirectory = TestFilesDirectoryPath,
 				ServiceUrl = BaseUrl
 			};
 
-			// Use the service's IoC container
-			var container = IoC.Initialize();
-			container.Configure(x => x.For<IConfiguration>().Use(jsonConfiguration));
+		    StopSelfHostedOwin();
+
+            // Use the service's IoC container
+            Container = IoC.Initialize();
+			Container.Configure(x => x.For<IConfiguration>().Use(jsonConfiguration));
 
 			// Inject instances into it
-			var service = new Startup(container.GetInstance<IDependencyResolver>(), jsonConfiguration, container.GetInstance<ITestFileQueue>(), container.GetInstance<Microsoft.AspNet.SignalR.IDependencyResolver>());
+			var service = new Startup(Container.GetInstance<IDependencyResolver>(), jsonConfiguration, Container.GetInstance<ITestFileQueue>(), Container.GetInstance<Microsoft.AspNet.SignalR.IDependencyResolver>());
 
 			// Start it up
 			OwinServer = WebApp.Start(BaseUrl, service.Configuration);
 		}
 
-		public static void RecreateXmlDirectory()
-		{
-			Console.WriteLine("Deleting and creating {0}", ServiceStarter.XmlDirectoryPath);
+	    public static void StopSelfHostedOwin()
+	    {
+	        if (OwinServer != null)
+	        {
+	            OwinServer.Dispose();
+	            OwinServer = null;
+	        }
 
-			if (Directory.Exists(XmlDirectoryPath))
-				Directory.Delete(XmlDirectoryPath, true);
+	        if (Container != null)
+	        {
+	            Container.Dispose();
+	            Container = null;
+	        }
+	    }
+
+		public static void RecreateTestFileDirectory()
+		{
+			Console.WriteLine("Deleting and creating {0}", TestFilesDirectoryPath);
+
+		    if (Directory.Exists(TestFilesDirectoryPath))
+		    {
+		        Directory.Delete(TestFilesDirectoryPath, true);
+		    }
 			
-			Directory.CreateDirectory(XmlDirectoryPath);
+			Directory.CreateDirectory(TestFilesDirectoryPath);
 		}
 	}
 }

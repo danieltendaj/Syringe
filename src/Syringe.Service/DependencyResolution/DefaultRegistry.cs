@@ -27,6 +27,7 @@ using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service.Api.Hubs;
 using Syringe.Service.Parallel;
 using WebApiContrib.IoC.StructureMap;
@@ -57,12 +58,14 @@ namespace Syringe.Service.DependencyResolution
             For<IConfigurationStore>().Use(configStore).Singleton();
             For<IConfiguration>().Use(configuration);
 
-            For<ITestFileResultRepository>().Use<TestFileResultRepository>().Singleton();
+            SetupDataStore(configuration);
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
+
+            For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
             SetupTestFileFormat(configuration);
             SetupEnvironmentSource(configuration);
@@ -97,9 +100,23 @@ namespace Syringe.Service.DependencyResolution
             // Test file readers and writers - set to json by default as there is no alternative right now.
             switch (configuration.TestFileFormat)
             {
-                default:
+                case TestFileFormat.Json:
                     For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
                     For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
+                    break;
+            }
+        }
+
+        private void SetupDataStore(IConfiguration configuration)
+        {
+            // Test file readers and writers - set to json by default as there is no alternative right now.
+            switch (configuration.DataStore)
+            {
+                case DataStoreType.MongoDb:
+                    For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
+                    break;
+                case DataStoreType.LiteDb:
+                    For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
                     break;
             }
         }

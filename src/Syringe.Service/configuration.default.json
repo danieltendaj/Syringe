@@ -3,6 +3,7 @@
 	"WebsiteUrl": "http://localhost:1980",
 	"TestFilesBaseDirectory": "..\\..\\..\\..\\Example-TestFiles",
 	"TestFileFormat": "Json",
+	"DataStore": "MongoDb",
 	"MongoDbDatabaseName": "Syringe",
 	"ReadonlyMode": false,
 	"OAuthConfiguration": {

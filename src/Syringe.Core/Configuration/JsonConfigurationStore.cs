@@ -19,8 +19,10 @@ namespace Syringe.Core.Configuration
 		{
 			if (_configuration == null)
 			{
-				if (!File.Exists(_configPath))
-					throw new ConfigurationException("The REST service configuration.json file does not exist: '{0}'", _configPath);
+			    if (!File.Exists(_configPath))
+			    {
+			        throw new ConfigurationException("The REST service configuration.json file does not exist: '{0}'", _configPath);
+			    }
 
 				string json = File.ReadAllText(_configPath);
 				JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);

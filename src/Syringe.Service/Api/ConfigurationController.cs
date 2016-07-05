@@ -1,19 +1,20 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core.Configuration;
-using Syringe.Core.MongoDB;
 using Syringe.Core.Services;
-using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Service.Api
 {
 	public class ConfigurationController : ApiController, IConfigurationService
 	{
 		private readonly IConfiguration _configuration;
+        private readonly IVariableContainer _variableContainer;
 
-		public ConfigurationController(IConfiguration configuration)
+        public ConfigurationController(IConfiguration configuration, IVariableContainer variableContainer)
 		{
 			_configuration = configuration;
+            _variableContainer = variableContainer;
 		}
 
 		[Route("api/configuration/")]
@@ -23,21 +24,11 @@ namespace Syringe.Service.Api
 			return _configuration;
 		}
 
-		[Route("api/WipeDatabase/")]
+        [Route("api/configuration/systemvariables")]
 		[HttpGet]
-		public string WipeDatabase()
+        public IEnumerable<Variable> GetSystemVariables()
 		{
-			try
-			{
-				var repository = new TestFileResultRepository(new MongoDbConfiguration(_configuration));
-				repository.Wipe();
-
-				return "done";
-			}
-			catch (Exception ex)
-			{
-				return ex.ToString();
-			}
+            return _variableContainer;
 		}
 	}
 }

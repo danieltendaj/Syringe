@@ -17,9 +17,9 @@ namespace Syringe.Tests.Integration.ClientAndService
 
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
-		{
-			ServiceStarter.OwinServer.Dispose();
-		}
+        {
+            ServiceStarter.StopSelfHostedOwin();
+        }
 
 		[Test]
 		public void List_should_return_list_of_environments()

@@ -5,8 +5,6 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Client;
-using Syringe.Core.Configuration;
-using Syringe.Core.MongoDB;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
@@ -26,17 +24,16 @@ namespace Syringe.Tests.Integration.ClientAndService
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-            ServiceStarter.OwinServer.Dispose();
+            ServiceStarter.StopSelfHostedOwin();
         }
 
         [SetUp]
         public void Setup()
         {
-            Console.WriteLine("Wiping MongoDB results database {0}", ServiceStarter.MongodbDatabaseName);
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
-            repository.Wipe();
+            Console.WriteLine("Wiping db results database");
+            ServiceStarter.Container.GetInstance<ITestFileResultRepository>().Wipe();
 
-            ServiceStarter.RecreateXmlDirectory();
+            ServiceStarter.RecreateTestFileDirectory();
         }
 
         [Test]
@@ -44,10 +41,10 @@ namespace Syringe.Tests.Integration.ClientAndService
         {
             // given
             string testFilepath1 = Helpers.GetFullPath(Helpers.GetJsonFilename());
-            File.WriteAllText(testFilepath1, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
+            File.WriteAllText(testFilepath1, @"ANY DATA1");
 
             string testFilepath2 = Helpers.GetFullPath(Helpers.GetJsonFilename());
-            File.WriteAllText(testFilepath2, @"<?xml version=""1.0"" encoding=""utf-8"" ?><tests/>");
+            File.WriteAllText(testFilepath2, @"ANY DATA2");
 
             TestsClient client = Helpers.CreateTestsClient();
 
@@ -101,11 +98,11 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
             // when
-            string xml = client.GetRawFile(testFile.Filename);
+            string rawFile = client.GetRawFile(testFile.Filename);
 
             // then
-            Assert.That(xml, Is.Not.Null);
-            Assert.That(xml, Is.StringContaining(@"""Tests"": ["));
+            Assert.That(rawFile, Is.Not.Null);
+            Assert.That(rawFile, Is.StringContaining(@"""Tests"": ["));
         }
 
         [Test]
@@ -217,8 +214,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
-
+            var repository = ServiceStarter.Container.GetInstance<ITestFileResultRepository>();
             var result1 = new TestFileResult()
             {
                 StartTime = DateTime.Now,
@@ -249,8 +245,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
-
+            var repository = ServiceStarter.Container.GetInstance<ITestFileResultRepository>();
             var result1 = new TestFileResult()
             {
                 StartTime = DateTime.Now,
@@ -282,8 +277,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestsClient client = Helpers.CreateTestsClient();
             TestFile testFile = Helpers.CreateTestFileAndTest(client);
 
-            var repository = new TestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = ServiceStarter.MongodbDatabaseName });
-
+            var repository = ServiceStarter.Container.GetInstance<ITestFileResultRepository>();
             var result1 = new TestFileResult()
             {
                 StartTime = DateTime.Now,

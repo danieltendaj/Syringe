@@ -19,26 +19,6 @@ if (!(Test-Path $msbuild))
 	$msbuild = "C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
 }
 
-# NodeJS is needed for Gulp
-Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
-choco install nodejs -y
-
-try
-{
-	pushd src\Syringe.Web
-	npm install
-	npm install gulp -g
-
-	# Refresh the path vars for Gulp
-	$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
-
-	gulp -b ".\" --gulpfile "gulpfile.js" default
-}
-finally
-{
-	popd
-}
-
 # Nuget restore
 Write-Host "Performing Nuget restore" -ForegroundColor Green
 nuget restore $solutionFile

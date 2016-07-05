@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Tests.Variables;
 using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Core.Tests.Variables.SharedVariables;
 
 namespace Syringe.Tests.Unit.Core.Tests.Variables
 {
@@ -10,13 +11,15 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables
     public class VariableContainerTests
     {
         private Mock<IReservedVariableProvider> _reservedVariableProvider;
+        private Mock<ISharedVariablesProvider> _sharedVariableProvider;
         private VariableContainer _variableContainer;
 
         [SetUp]
         public void Setup()
         {
             _reservedVariableProvider = new Mock<IReservedVariableProvider>();
-            _variableContainer = new VariableContainer(_reservedVariableProvider.Object);
+            _sharedVariableProvider = new Mock<ISharedVariablesProvider>();
+            _variableContainer = new VariableContainer(_reservedVariableProvider.Object, _sharedVariableProvider.Object);
         }
 
         [Test]
@@ -46,6 +49,22 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables
             _reservedVariableProvider
                 .Setup(x => x.ListAvailableVariables())
                 .Returns(new[] { reservedVariable.Object });
+
+            // when
+            var result = _variableContainer.FirstOrDefault(x => x == expectedVariable);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+        }
+
+        [Test]
+        public void should_return_system_variable()
+        {
+            // given
+            var expectedVariable = new Variable("some-other-name", "jingle-jangle", "innit");
+            _sharedVariableProvider
+                .Setup(x => x.ListSharedVariables())
+                .Returns(new[] { expectedVariable });
 
             // when
             var result = _variableContainer.FirstOrDefault(x => x == expectedVariable);
