@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using Syringe.Core.Tests;
 using Syringe.Web.Models;
 
@@ -9,6 +10,9 @@ namespace Syringe.Web.ValidationAttributes
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             var model = (AssertionViewModel)context.ObjectInstance;
+
+            // replace variables so they don't interfere with validation
+            value = ReplaceVariables(value.ToString());
 
             if (model.AssertionMethod == AssertionMethod.CSQuery)
             {
@@ -23,6 +27,12 @@ namespace Syringe.Web.ValidationAttributes
 
             //no assertion type so always valid
             return ValidationResult.Success;
+        }
+
+
+        private static string ReplaceVariables(string value)
+        {
+            return Regex.Replace(value, "{.+}", string.Empty, RegexOptions.Compiled);
         }
     }
 }
