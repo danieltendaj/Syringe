@@ -34,7 +34,7 @@ namespace Syringe.Web.Models
         public List<AssertionViewModel> Assertions { get; set; }
         public List<VariableViewModel> AvailableVariables { get; set; }
 
-		public string BeforeExecuteScript { get; set; }
+		public string BeforeExecuteScriptFilename { get; set; }
 
 		[Required]
         public string Filename { get; set; }

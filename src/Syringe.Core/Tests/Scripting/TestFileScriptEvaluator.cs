@@ -5,21 +5,43 @@ using Microsoft.CodeAnalysis.Scripting;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
+using System.IO;
 
 namespace Syringe.Core.Tests.Scripting
 {
 	public class TestFileScriptEvaluator
 	{
+		private ISnippetFileReader _snippetReader;
+
 		public RequestGlobals RequestGlobals { get; set; }
 
-		public TestFileScriptEvaluator(IConfiguration configuration)
+		public TestFileScriptEvaluator(IConfiguration configuration, ISnippetFileReader snippetReader)
 		{
 			RequestGlobals = new RequestGlobals();
 			RequestGlobals.Configuration = configuration;
+
+			_snippetReader = snippetReader;
 		}
 
 		public void EvaluateBeforeExecute(Test test, IRestRequest request)
 		{
+            if (string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
+            {
+                return;
+            }
+
+			string scriptContent = "";
+
+			try
+			{
+				scriptContent = _snippetReader.ReadFile(test.ScriptSnippets.BeforeExecuteFilename);
+			}
+			catch (IOException ex)
+			{
+				string message = "An exception occurred loading the snippet {0} for test '{1}': \n{2}";
+				throw new CodeEvaluationException(ex, message, test.ScriptSnippets.BeforeExecuteFilename, test.Description, ex.ToString());
+			}
+			
 			RequestGlobals.Test = test;
 			RequestGlobals.Request = request;
 
@@ -29,7 +51,7 @@ namespace Syringe.Core.Tests.Scripting
 
 			try
 			{
-				CSharpScript.EvaluateAsync(test.BeforeExecuteScript, options: scriptOptions, globals: RequestGlobals).Wait();
+				CSharpScript.EvaluateAsync(scriptContent, options: scriptOptions, globals: RequestGlobals).Wait();
 			}
 			catch (CompilationErrorException ex)
 			{

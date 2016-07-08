@@ -20,7 +20,7 @@ namespace Syringe.Core.Tests
 		public List<Assertion> Assertions { get; set; }
         public List<Variable> AvailableVariables { get; set; }
 
-	    public string BeforeExecuteScript { get; set; }
+        public ScriptSnippets ScriptSnippets { get; set; }
 
 	    public Test()
 		{
@@ -28,6 +28,7 @@ namespace Syringe.Core.Tests
 			CapturedVariables = new List<CapturedVariable>();
 			Assertions = new List<Assertion>();
             AvailableVariables = new List<Variable>();
+            ScriptSnippets = new ScriptSnippets();
 		}
 
 		public void AddHeader(string key, string value)

@@ -50,7 +50,7 @@ namespace Syringe.Tests.Unit.Web
                     Url = "url",
                     Method = MethodType.POST,
                     ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-                    BeforeExecuteScript = "ISomething something = new Something();"
+                    BeforeExecuteScriptFilename = "ISomething something = new Something();"
                 };
             }
         }
@@ -72,7 +72,7 @@ namespace Syringe.Tests.Unit.Web
             Assert.AreEqual(_testViewModel.Url, test.Url);
             Assert.AreEqual(_testViewModel.Method.ToString(), test.Method);
             Assert.AreEqual(_testViewModel.ExpectedHttpStatusCode, test.ExpectedHttpStatusCode);
-            Assert.AreEqual(_testViewModel.BeforeExecuteScript, test.BeforeExecuteScript);
+            Assert.AreEqual(_testViewModel.BeforeExecuteScriptFilename, test.ScriptSnippets.BeforeExecuteFilename);
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Syringe.Tests.Unit.Web
                 Headers = new List<Syringe.Core.Tests.HeaderItem> { new Syringe.Core.Tests.HeaderItem() },
                 CapturedVariables = new List<CapturedVariable> { new CapturedVariable { Name = "CV-2" } },
                 Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
-                BeforeExecuteScript = "// this is some script"
+                ScriptSnippets = new ScriptSnippets() { BeforeExecuteFilename = "// this is some script" }
             };
 
             var testFile = new TestFile
@@ -215,7 +215,7 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(result.Method, Is.EqualTo(MethodType.GET));
             Assert.That(result.ExpectedHttpStatusCode, Is.EqualTo(expectedTest.ExpectedHttpStatusCode));
             Assert.That(result.Filename, Is.EqualTo(testFile.Filename));
-            Assert.That(result.BeforeExecuteScript, Is.EqualTo(expectedTest.BeforeExecuteScript));
+            Assert.That(result.BeforeExecuteScriptFilename, Is.EqualTo(expectedTest.ScriptSnippets.BeforeExecuteFilename));
 
             Assert.That(result.CapturedVariables.Count, Is.EqualTo(1));
             Assert.That(result.Assertions.Count, Is.EqualTo(1));

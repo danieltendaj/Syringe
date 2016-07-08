@@ -48,7 +48,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             Assert.AreEqual(AssertionType.Negative, test.Assertions[0].AssertionType);
             Assert.AreEqual(VariablePostProcessorType.HtmlDecode, test.CapturedVariables[0].PostProcessorType);
 
-            Assert.AreEqual("Some script thing that Chris did", test.BeforeExecuteScript);
+            Assert.AreEqual("Some script thing that Chris did.snippet", test.ScriptSnippets.BeforeExecuteFilename);
 
             Assert.AreEqual(2, result.Variables.Count);
             Assert.AreEqual("Variable 1", result.Variables[0].Name);

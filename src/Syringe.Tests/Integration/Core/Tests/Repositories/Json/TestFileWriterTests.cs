@@ -67,7 +67,10 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                             }
                         },
                         Description = "Some Test",
-                        BeforeExecuteScript = "Some script thing that Chris did",
+                        ScriptSnippets = new ScriptSnippets()
+						{
+							BeforeExecuteFilename = "Some script thing that Chris did.snippet"
+						},
                         CapturedVariables = new List<CapturedVariable>
                         {
                             new CapturedVariable { Name = "Captured Var 1", Regex = "/w/t/SOMETHING", PostProcessorType = VariablePostProcessorType.HtmlDecode}
