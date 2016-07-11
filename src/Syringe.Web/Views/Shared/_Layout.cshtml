@@ -61,9 +61,13 @@
     <script src="~/Scripts/ripples.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
     <script src="~/Scripts/Syringe.js"></script>
+    <script src="~/Scripts/cheet.min.js"></script>
     <script>
         $.material.init();
         $.material.ripples();
+        cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
+            window.open("/img/kmi.jpg");
+        });
     </script>
     @RenderSection("Scripts", false)
 </body>
