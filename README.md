@@ -67,3 +67,7 @@ Once you've cloned the repository, run `setup.ps`, this will:
 * Create C:\syringe folder with an example file.
 
 Follow the "Configure OAuth" and "Start the service" steps above
+
+#### LiteDB data dump example:
+
+ 	tools\LiteDB.Shell.exe --exec "open ../syringe.db" --exec "dump export.json" --exit
