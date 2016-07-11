@@ -7,6 +7,8 @@ namespace Syringe.Web.ValidationAttributes
 {
     public class AssertionTypeValidationAttribute : ValidationAttribute
     {
+        private static readonly Regex _variableReplacer = new Regex("{.+}", RegexOptions.Compiled);
+
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             var model = (AssertionViewModel)context.ObjectInstance;
@@ -32,7 +34,7 @@ namespace Syringe.Web.ValidationAttributes
 
         private static string ReplaceVariables(string value)
         {
-            return Regex.Replace(value, "{.+}", string.Empty, RegexOptions.Compiled);
+            return _variableReplacer.Replace(value, string.Empty);
         }
     }
 }
