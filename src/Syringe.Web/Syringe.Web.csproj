@@ -243,6 +243,7 @@
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
+    <Content Include="img\clippy.svg" />
     <Content Include="Scripts\ace\ace.js" />
     <Content Include="Scripts\ace\ext-beautify.js" />
     <Content Include="Scripts\ace\ext-chromevox.js" />
@@ -266,6 +267,7 @@
     <Content Include="Scripts\ace\keybinding-emacs.js" />
     <Content Include="Scripts\ace\keybinding-vim.js" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\clipboard.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
