@@ -55,7 +55,7 @@
                             <h6>@test.Url</h6>
                         </td>
                         <td class="actions">
-                            <a class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
+                            <a title="Edit Test" class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
                                 <i class="material-icons">mode_edit</i>
                             </a>
                             @using (Html.BeginForm("RunTest", "Home"))
@@ -69,7 +69,7 @@
                             {
                                 <input type="hidden" name="filename" value="@Model.Filename"/>
                                 <input type="hidden" name="position" value="@test.Position"/>
-                                <button class="btn btn-sm btn-material-pink" type="submit">
+                                <button title="Copy Test" class="btn btn-sm btn-material-pink" type="submit">
                                     <i class="material-icons">content_copy</i>
                                 </button>
                             }
@@ -78,7 +78,7 @@
                             {
                                 <input type="hidden" name="filename" value="@Model.Filename"/>
                                 <input type="hidden" name="position" value="@test.Position"/>
-                                <button class="btn btn-sm btn-danger delete-button" type="submit">
+                                <button title="Delete Test" class="btn btn-sm btn-danger delete-button" type="submit">
                                     <i class="material-icons">delete</i>
                                 </button>
                             }

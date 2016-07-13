@@ -42,9 +42,9 @@ h1, h2, h3, h4, h5, div, p {
         }
     }
 
-    .primary-actions{
-        form{
-            display:inline;
+    .primary-actions {
+        form {
+            display: inline;
         }
     }
 }
@@ -63,7 +63,8 @@ h1, h2, h3, h4, h5, div, p {
 
 // Test results page
 .results-label {
-	display: inline-block;padding: 5px;
+    display: inline-block;
+    padding: 5px;
 }
 
 #testcase-result {
@@ -173,11 +174,11 @@ h1, h2, h3, h4, h5, div, p {
         display: inline;
     }
 }
- 
+
 .variable-update {
     margin-top: 25px;
 
-    .form-group{
+    .form-group {
         margin-top: 0;
     }
 }
@@ -186,4 +187,17 @@ h1, h2, h3, h4, h5, div, p {
     margin-top: -3px;
     position: relative;
     top: 3px;
+}
+
+.available-variables-title {
+    .glyphicon {
+            transition-duration: 0.8s;
+            transition-property: transform;
+    }
+
+    &[aria-expanded="true"] {
+        .glyphicon {
+            transform: rotate(180deg);
+        }
+    }
 }
