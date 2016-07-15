@@ -42,7 +42,7 @@
                         <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                             <li class="active"><a href="#request-tab-headers" data-toggle="tab">Headers</a></li>
                             <li><a href="#request-tab-postbody" data-toggle="tab">Post Body</a></li>
-                            <li><a href="#request-tab-scripts" data-toggle="tab">Scripts</a></li>
+                            <li class="disabled"><a href="#request-tab-scripts" data-toggle="tab">Scripts</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="request-tab-headers">
@@ -64,12 +64,31 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="request-tab-postbody">
-                                <h1>Post Body</h1>
-                                <p>orange orange orange orange orange</p>
+                                <div class="row">                                    
+                                    <div class="col-sm-12">
+                                        @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body", wrap = "hard" })
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="request-tab-scripts">
-                                <h1>Scripts</h1>
-                                <p>yellow yellow yellow yellow yellow</p>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-danger" role="alert"><strong>WARNING!</strong> Advanced Featurino - plis no use</div>
+                                    </div>
+                                </div>   
+                                <div class="row">                                                   
+                                    <div class="col-sm-12">
+                                        <p>
+                                            You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
+                                        </p>
+
+                                        <ul>
+                                            <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+                                            <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+                                        </ul>
+                                        @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
