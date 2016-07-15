@@ -16,4 +16,5 @@ In order to change this you must do the following:
  1. Click on the "Environment" Button
  2. Choose the environment from the drop down to get an updated view of the results.
 
-Results are limited to 20 per page. You can change this by adding/changing the noOfResults parameter in the query string to a different number. 
+####Paging
+Results are limited to 20 per page. You can change this by adding/changing the noOfResults parameter in the query string to a different number. We will probably add this as a feature later on. 
