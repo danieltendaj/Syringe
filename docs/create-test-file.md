@@ -8,7 +8,7 @@
 
 There is an optional variables section which allows you to set predefined variables that you want to use across all the test cases. 
 
-### steps to add variables
+### Steps to add variables
 
  1. Click on the + button on the Variables Header. This will add an empty row.
  2. Select the environment that you want this variable to be available for.
