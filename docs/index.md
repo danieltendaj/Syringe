@@ -1,9 +1,9 @@
 ---
-title: home
+title: Getting started
 layout: page
 menu:
   parent: main
-  position: 0
+  position: 1
 ---
 
 Welcome!
