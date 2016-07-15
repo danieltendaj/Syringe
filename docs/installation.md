@@ -1,9 +1,8 @@
 ---
-title: home
+title: installation
 layout: page
 menu:
   parent: main
-  position: 0
 ---
 
-Welcome!
+Let's install syringe
