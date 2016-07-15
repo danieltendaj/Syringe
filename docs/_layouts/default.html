@@ -22,13 +22,11 @@
 
 <div id="topbar" class="container-fluid">
 	<div id="logo" class="pull-right">
-		<h5><a href="/">{{ site.title }}</a></h5>
+		<h3><a href="/">{{ site.title }}</a></h5>
 	</div>
 </div>
 
 <div id="wrapper">
-    <div class="overlay"></div>
-
     <!-- Sidebar -->
     <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
 		<ul class="nav sidebar-nav">
@@ -38,13 +36,16 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
-            <span class="hamb-top"></span>
-            <span class="hamb-middle"></span>
-            <span class="hamb-bottom"></span>
-        </button>
-        <div class="container" id="content">
-            {{ content }}
+        <div class="container">
+
+            <div id="content" class="row">
+              <div id="edit-on-github" class="pull-right">
+                <a href="{{ site.github-url }}{{ page.path }}" title="Edit on Github">
+                <img src="/img/github.png" width="32" height="32"></a>
+              </div>
+
+              {{ content }}
+            </div>
 
             <div class="row">
 	            <hr />
@@ -59,38 +60,6 @@
 </div>
 
 </body>
-
-<!-- Navbar hamburger toggle -->
-<script>
-$(document).ready(function () {
-  var trigger = $('.hamburger'),
-      overlay = $('.overlay'),
-     isClosed = false;
-
-    trigger.click(function () {
-      hamburger_cross();      
-    });
-
-    function hamburger_cross() {
-
-      if (isClosed == true) {          
-        overlay.hide();
-        trigger.removeClass('is-open');
-        trigger.addClass('is-closed');
-        isClosed = false;
-      } else {   
-        overlay.show();
-        trigger.removeClass('is-closed');
-        trigger.addClass('is-open');
-        isClosed = true;
-      }
-  }
-  
-  $('[data-toggle="offcanvas"]').click(function () {
-        $('#wrapper').toggleClass('toggled');
-  });  
-});
-</script>
 
 <!-- Custom font -->
 <link href="//fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
