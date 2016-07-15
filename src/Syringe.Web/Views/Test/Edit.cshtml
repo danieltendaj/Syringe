@@ -22,6 +22,12 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
+                        @Html.LabelFor(x => x.Description, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Enter a description" })
+                        </div>
+                    </div>
+                    <div class="form-group">
                         @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
                         <div class="col-sm-10">
                             <div class="input-group">
@@ -30,12 +36,6 @@
                                     @Html.EnumDropDownListFor(x => x.Method, new { @class = "btn btn-default" })
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Description, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-4">
-                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Enter a description" })
                         </div>
                     </div>
                     <div>
@@ -130,92 +130,6 @@
                     </div>
                 </div>
             </div>
-
-
-            @*<div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">General</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Description, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-4">
-                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Enter a description" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-10">
-                            @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.Method, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-4">
-                            @Html.EnumDropDownListFor(x => x.Method, new { @class = "form-control" })
-                        </div>
-                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-4">
-                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.PostBody, new { @class = "col-sm-2 control-label" })
-                        <div class="col-sm-10">
-                            @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body" })
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Headers</h3>
-                    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addHeaderItem"></button>
-                </div>
-                <div class="panel-body">
-                    <p>Enter HTTP headers that are sent to the server, for example <code>cookies</code> or <code>content-type</code>.</p>
-                    @Html.EditorFor(x => x.Headers)
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Test file variables</h3>
-                </div>
-                <div class="panel-body">
-                    @Html.EditorFor(x => x.CapturedVariables)
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Assertions</h3>
-                    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVerification"></button>
-                </div>
-                <div class="panel-body">
-                    <p>These are items you want to check exist on the HTML page or resource.</p>
-                    @Html.EditorFor(x => x.Assertions)
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Script (before)</h3>
-                </div>
-                <div class="panel-body">
-                    <p>You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:</p>
-
-                    <ul>
-                        <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
-                        <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
-                    </ul>
-                    @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
-                </div>
-            </div>*@
 
             <div class="pull-right">
                 <a href="@Url.Action("View", "TestFile", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
