@@ -129,11 +129,9 @@ h1, h2, h3, h4, h5, div, p {
     .form-control {
         //border: 1px solid #d2d2d2 !important;
         background-image: none;
-        padding: inherit;
 
         &:focus {
             background-image: none;
-            padding: inherit;
         }
 
         &.input-validation-error {
@@ -191,8 +189,8 @@ h1, h2, h3, h4, h5, div, p {
 
 .available-variables-title {
     .glyphicon {
-            transition-duration: 0.8s;
-            transition-property: transform;
+        transition-duration: 0.8s;
+        transition-property: transform;
     }
 
     &[aria-expanded="true"] {
@@ -200,4 +198,15 @@ h1, h2, h3, h4, h5, div, p {
             transform: rotate(180deg);
         }
     }
+}
+
+.tab-content {
+    border-left: 1px solid $gray-lighter;
+    border-right: 1px solid $gray-lighter;
+    border-bottom: 1px solid $gray-lighter;
+    padding: 25px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
 }
