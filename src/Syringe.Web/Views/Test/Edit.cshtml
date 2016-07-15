@@ -117,11 +117,22 @@
                     <div style="padding-top: 15px">
                         @Html.EditorFor(x => x.Assertions)
                     </div>
+                    <div>
+                        <h3>Captured Variables</h3>
+                        <p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
+                        <button type="submit" class="btn btn-success btn-sm" id="addParsedItem">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add new captured variable
+                        </button>
+                    </div>
+                    <div style="padding-top: 15px">
+                        @Html.EditorFor(x => x.CapturedVariables)
+                    </div>
                 </div>
             </div>
 
 
-            <div class="panel panel-default">
+            @*<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">General</h3>
                 </div>
@@ -174,10 +185,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">Test file variables</h3>
-                    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addParsedItem"></button>
                 </div>
                 <div class="panel-body">
-                    <p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
                     @Html.EditorFor(x => x.CapturedVariables)
                 </div>
             </div>
@@ -206,7 +215,7 @@
                     </ul>
                     @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
                 </div>
-            </div>
+            </div>*@
 
             <div class="pull-right">
                 <a href="@Url.Action("View", "TestFile", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
