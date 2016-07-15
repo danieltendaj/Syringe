@@ -59,12 +59,12 @@
                                         Add new header
                                     </button>
                                 </div>
-                                <div>                                    
+                                <div>
                                     @Html.EditorFor(x => x.Headers)
                                 </div>
                             </div>
                             <div class="tab-pane" id="request-tab-postbody">
-                                <div class="row">                                    
+                                <div class="row">
                                     <div class="col-sm-12">
                                         @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body", wrap = "hard" })
                                     </div>
@@ -75,8 +75,8 @@
                                     <div class="col-sm-12">
                                         <div class="alert alert-danger" role="alert"><strong>WARNING!</strong> Advanced Featurino - plis no use</div>
                                     </div>
-                                </div>   
-                                <div class="row">                                                   
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-12">
                                         <p>
                                             You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
@@ -94,6 +94,32 @@
                     </div>
                 </div>
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Response</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Assertions</h3>
+                        <p>These are items you want to check exist on the HTML page or resource.</p>
+                        <button type="submit" class="btn btn-success btn-sm" id="addVerification">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add new assertion
+                        </button>
+                    </div>
+                    <div style="padding-top: 15px">
+                        @Html.EditorFor(x => x.Assertions)
+                    </div>
+                </div>
+            </div>
+
 
             <div class="panel panel-default">
                 <div class="panel-heading">
