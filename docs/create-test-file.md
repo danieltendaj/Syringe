@@ -18,3 +18,4 @@ There is an optional variables section which allows you to set predefined variab
 
 Once you have finished giving the file a name and added any variables that you wanted to add, press the Save button.
 
+**Please note** each filename has to be unique.
