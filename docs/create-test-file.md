@@ -1,5 +1,9 @@
-# Create Test File
-
+---
+title: Creating test files
+layout: page
+menu:
+  parent: main
+---
  1. Click on the home link
  2. Click on the + button
  3. Enter a filename in the textbox for the file.
