@@ -3,7 +3,7 @@
 <div class="btn-group environment-selection">
     @Html.Hidden("environment")
 
-    <a class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+    <a title="Run Tests" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" href="#">
         @if (Model.RunButtonType == RunButtonType.PlayButton)
         {
             <i class="material-icons">play_arrow</i>

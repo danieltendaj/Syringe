@@ -60,6 +60,7 @@
     <script src="~/Scripts/material.js"></script>
     <script src="~/Scripts/ripples.js"></script>
     <script src="~/Scripts/bootbox.min.js"></script>
+    <script src="~/Scripts/clipboard.js"></script>
     <script src="~/Scripts/Syringe.js"></script>
     <script src="~/Scripts/cheet.min.js"></script>
     <script>
@@ -68,6 +69,8 @@
         cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
             window.open("/img/kmi.jpg");
         });
+
+        var clipboard = new Clipboard('.btn');
     </script>
     @RenderSection("Scripts", false)
 </body>
