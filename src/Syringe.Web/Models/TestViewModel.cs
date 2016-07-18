@@ -26,7 +26,7 @@ namespace Syringe.Web.Models
         public MethodType Method { get; set; }
 
         [Required]
-        [Display(Name = "Expected HTTP status code")]
+        [Display(Name = "Expected HTTP code")]
         public HttpStatusCode ExpectedHttpStatusCode { get; set; }
 
         public List<HeaderItem> Headers { get; set; }
