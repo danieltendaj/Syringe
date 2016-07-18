@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
@@ -47,6 +48,7 @@ namespace Syringe.Web.Mappers
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
+				BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute)
             };
 
             return model;

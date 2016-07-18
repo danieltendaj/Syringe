@@ -2,6 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using Syringe.Client;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.ClientAndService
@@ -20,6 +21,13 @@ namespace Syringe.Tests.Integration.ClientAndService
         {
             ServiceStarter.StopSelfHostedOwin();
         }
+
+		[SetUp]
+		public void Setup()
+		{
+			ServiceStarter.RecreateTestFileDirectory();
+			ServiceStarter.RecreateScriptSnippetDirectories();
+		}
 
 		[Test]
 		public void GetConfiguration_should_get_full_config_object()
@@ -48,5 +56,20 @@ namespace Syringe.Tests.Integration.ClientAndService
             Assert.That(variables, Is.Not.Empty);
             Assert.That(variables.FirstOrDefault(x => x.Name == "_randomNumber"), Is.Not.Null);
         }
-    }
+
+		[Test]
+		public void GetScriptSnippetFilenames_should_return_expected_variables()
+		{
+			// given
+			var client = new ConfigurationClient(ServiceStarter.BaseUrl);
+
+			// when
+			IEnumerable<string> snippetFilenames = client.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
+
+			// then
+			Assert.That(snippetFilenames, Is.Not.Null);
+			Assert.That(snippetFilenames, Is.Not.Empty);
+			Assert.That(snippetFilenames, Contains.Item("snippet1.snippet"));
+		}
+	}
 }
