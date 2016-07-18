@@ -1,112 +1,140 @@
 ﻿@model TestViewModel
 @{
-	ViewBag.Title = "Editing " + Model.Filename;
+    ViewBag.Title = "Editing " + Model.Filename;
 }
 <div class="container" id="edit-test">
-	<div class="row">
+    <div class="row">
 
-	    <ul class="breadcrumb">
-	        <li><a title="View" href="/">Test Files</a></li>
-	        <li><a title="View" href="@Url.Action("View", "TestFile", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
-	        <li>@(Model.Description ?? "Add")</li>
-	    </ul>
+        <ul class="breadcrumb">
+            <li><a title="View" href="/">Test Files</a></li>
+            <li><a title="View" href="@Url.Action("View", "TestFile", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
+            <li>@(Model.Description ?? "Add")</li>
+        </ul>
 
-       
         @Html.Partial("Partials/_Variables", Model.AvailableVariables)
-	    <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
+        <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
 
-			@Html.ValidationSummary(false, "", new {@class = "alert alert-danger"})
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">General</h3>
-				</div>
-				<div class="panel-body">
-					<div class="form-group">
-						@Html.LabelFor(x => x.Description, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							@Html.TextBoxFor(x => x.Description, new {@class = "form-control", placeholder = "Enter a description"})
-						</div>
-					</div>
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
 
-					<div class="form-group">
-						@Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
-						<div class="col-sm-10">
-							@Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
-						</div>
-					</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Request</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Description, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.Description, new { @class = "form-control", placeholder = "Enter a description" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
+                                <div class="input-group-btn">
+                                    @Html.EnumDropDownListFor(x => x.Method, new { @class = "btn btn-default" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                            <li class="active"><a href="#request-tab-headers" data-toggle="tab">Headers</a></li>
+                            <li><a href="#request-tab-postbody" data-toggle="tab">Post Body</a></li>
+                            <li class="disabled"><a href="#request-tab-scripts" data-toggle="tab">Scripts</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="request-tab-headers">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p>
+                                            Enter HTTP headers that are sent to the server, for example <code>cookies</code> or <code>content-type</code>.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div style="padding-bottom: 15px;">
+                                    <button type="submit" class="btn btn-success btn-sm" id="addHeaderItem">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        Add new header
+                                    </button>
+                                </div>
+                                <div>
+                                    @Html.EditorFor(x => x.Headers)
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="request-tab-postbody">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body", wrap = "hard" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="request-tab-scripts">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-danger" role="alert"><strong>WARNING!</strong> Advanced Featurino - plis no use</div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p>
+                                            You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
+                                        </p>
 
-					<div class="form-group">
-						@Html.LabelFor(x => x.Method, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
-							@Html.EnumDropDownListFor(x => x.Method, new {@class = "form-control"})
-						</div>
-						@Html.LabelFor(x => x.ExpectedHttpStatusCode, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-4">
+                                        <ul>
+                                            <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+                                            <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+                                        </ul>
+                                        @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Response</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-4">
                             @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
-						</div>
-					</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Assertions</h3>
+                        <p>These are items you want to check exist on the HTML page or resource.</p>
+                        <button type="submit" class="btn btn-success btn-sm" id="addVerification">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add new assertion
+                        </button>
+                    </div>
+                    <div style="padding-top: 15px">
+                        @Html.EditorFor(x => x.Assertions)
+                    </div>
+                    <div>
+                        <h3>Captured Variables</h3>
+                        <p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
+                        <button type="submit" class="btn btn-success btn-sm" id="addParsedItem">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            Add new captured variable
+                        </button>
+                    </div>
+                    <div style="padding-top: 15px">
+                        @Html.EditorFor(x => x.CapturedVariables)
+                    </div>
+                </div>
+            </div>
 
-					<div class="form-group">
-						@Html.LabelFor(x => x.PostBody, new {@class = "col-sm-2 control-label"})
-						<div class="col-sm-10">
-							@Html.TextAreaFor(x => x.PostBody, new {@class = "form-control", placeholder = "Enter Post Body"})
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Headers</h3>
-					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addHeaderItem"></button>
-				</div>
-				<div class="panel-body">
-					<p>Enter HTTP headers that are sent to the server, for example <code>cookies</code> or <code>content-type</code>.</p>
-					@Html.EditorFor(x => x.Headers)
-				</div>
-			</div>
-
-			<div class="panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Test file variables</h3>
-					<button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addParsedItem"></button>
-				</div>
-				<div class="panel-body">
-					<p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
-					@Html.EditorFor(x => x.CapturedVariables)
-				</div>
-			</div>
-
-		    <div class="panel panel-default">
-			    <div class="panel-heading clearfix">
-				    <h3 class="panel-title pull-left">Assertions</h3>
-				    <button type="submit" class="btn btn-primary glyphicon glyphicon-plus pull-right" id="addVerification"></button>
-			    </div>
-			    <div class="panel-body">
-				    <p>These are items you want to check exist on the HTML page or resource.</p>
-				    @Html.EditorFor(x => x.Assertions)
-			    </div>
-		    </div>
-
-		    <div class="panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Script (before)</h3>
-				</div>
-			    <div class="panel-body">
-				    <p>You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:</p>
-
-				    <ul>
-					    <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
-						<li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
-				    </ul>
-				    @Html.TextAreaFor(x => x.BeforeExecuteScript, new {@class = "form-control", placeholder = "Enter C#"})
-			    </div>
-		    </div>
-
-		    <div class="pull-right">
-				<a href="@Url.Action("View", "TestFile", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
-				<input type="submit" value="Save" class="btn btn-primary" />    
-		    </div>
-		</form>
-	</div>
+            <div class="pull-right">
+                <a href="@Url.Action("View", "TestFile", new {filename = Model.Filename})" class="btn btn-primary">Cancel</a>
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
