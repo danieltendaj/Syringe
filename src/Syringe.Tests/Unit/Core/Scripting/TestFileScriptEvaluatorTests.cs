@@ -28,7 +28,7 @@ namespace Syringe.Tests.Unit.Core.Scripting
 			return _content;
 		}
 
-		public IEnumerable<string> GetSnippetFilenames()
+		public IEnumerable<string> GetSnippetFilenames(ScriptSnippetType snippetType)
 		{
 			return new string[] {"file1", "file2"};
 		}
