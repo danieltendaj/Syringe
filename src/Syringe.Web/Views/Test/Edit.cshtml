@@ -82,11 +82,11 @@
                                             You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
                                         </p>
 
-                                        <ul>
-                                            <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
-                                            <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
-                                        </ul>
-                                        @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
+	                                    <ul>
+		                                    <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+		                                    <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+	                                    </ul>
+										@Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptSnippets, Model.BeforeExecuteScriptSnippets, null)
                                     </div>
                                 </div>
                             </div>
