@@ -24,14 +24,16 @@ namespace Syringe.Web.Extensions
             return htmlHelper.DropDownListFor(expression, selectList, null, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-		public static MvcHtmlString GenerateScriptSnippetsDropdown<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<string> snippets, object htmlAttributes)
+		public static MvcHtmlString GenerateScriptSnippetsDropdown<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,  object htmlAttributes)
 			where TProperty: IEnumerable<string>
 		{
 			var items = new List<SelectListItem>();
 			items.Add(new SelectListItem { Text = "None", Value = "" });
 
+			var call = expression.Compile();
+			var snippetItems = call(htmlHelper.ViewData.Model);
 
-			foreach (var item in snippets)
+			foreach (var item in snippetItems)
 			{
 				items.Add(new SelectListItem { Text = $"{item}", Value = item });
 			}
