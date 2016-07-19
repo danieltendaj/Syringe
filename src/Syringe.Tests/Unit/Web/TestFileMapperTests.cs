@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
@@ -179,7 +180,7 @@ namespace Syringe.Tests.Unit.Web
                 Headers = new List<Syringe.Core.Tests.HeaderItem> { new Syringe.Core.Tests.HeaderItem() },
                 CapturedVariables = new List<CapturedVariable> { new CapturedVariable { Name = "CV-2" } },
                 Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
-                ScriptSnippets = new ScriptSnippets() { BeforeExecuteFilename = "// this is some script" }
+                ScriptSnippets = new ScriptSnippets() { BeforeExecuteFilename = "// this is some script" },
             };
 
             var testFile = new TestFile
@@ -241,7 +242,32 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(testVariable.Value, Is.EqualTo("V-1-Value"));
         }
 
-        [Test]
+		[Test]
+		public void should_populate_snippets_from_snippetreader()
+		{
+			// given
+			var testFile = new TestFile
+			{
+				Tests = new[]
+				{
+					new Test()
+				}
+			};
+
+			_variableContainerMock
+				.Setup(x => x.GetScriptSnippetFilenames(It.IsAny<ScriptSnippetType>()))
+				.Returns(new string[] { "snippet1", "snippet2" });
+
+			// when
+			TestViewModel result = _mapper.BuildTestViewModel(testFile, 0);
+
+			// then
+			Assert.That(result.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
+			Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet1"));
+			Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet2"));
+		}
+
+		[Test]
         public void should_include_reserved_variables_in_available_variable_list()
         {
             // given
