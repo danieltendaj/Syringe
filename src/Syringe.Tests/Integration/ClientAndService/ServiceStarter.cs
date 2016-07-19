@@ -140,6 +140,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
 			Directory.CreateDirectory(snippetDirectory);
 			File.WriteAllText(Path.Combine(snippetDirectory, "snippet1.snippet"), "snippet1");
+			File.WriteAllText(Path.Combine(snippetDirectory, "snippet2.snippet"), "snippet2");
 		}
 	}
 }

@@ -70,6 +70,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Assert.That(snippetFilenames, Is.Not.Null);
 			Assert.That(snippetFilenames, Is.Not.Empty);
 			Assert.That(snippetFilenames, Contains.Item("snippet1.snippet"));
+			Assert.That(snippetFilenames, Contains.Item("snippet2.snippet"));
 		}
 	}
 }
