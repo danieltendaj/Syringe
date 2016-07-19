@@ -62,7 +62,7 @@ namespace Syringe.Tests.Unit.Web
             // given
 
             // when
-            Test test = _mapper.BuildCoreModel(_testViewModel);
+            Test test = _mapper.BuildTestObject(_testViewModel);
 
             // then
             Assert.AreEqual(_testViewModel.Headers.Count, test.Headers.Count);
@@ -82,7 +82,7 @@ namespace Syringe.Tests.Unit.Web
             // given
 
             // when
-            Test test = _mapper.BuildCoreModel(_testViewModel);
+            Test test = _mapper.BuildTestObject(_testViewModel);
 
             // then
             Assertion firstAssertion = test.Assertions.First();
@@ -99,9 +99,9 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void BuildCoreModel_should_throw_argumentnullexception_when_test_is_null()
+        public void BuildTestObject_should_throw_argumentnullexception_when_test_is_null()
         {
-            Assert.Throws<ArgumentNullException>(() => _mapper.BuildCoreModel(null));
+            Assert.Throws<ArgumentNullException>(() => _mapper.BuildTestObject(null));
         }
 
         [Test]

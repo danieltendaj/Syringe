@@ -81,7 +81,7 @@ namespace Syringe.Web.Mappers
             return result;
         }
 
-        public Test BuildCoreModel(TestViewModel testModel)
+        public Test BuildTestObject(TestViewModel testModel)
         {
             if (testModel == null)
             {

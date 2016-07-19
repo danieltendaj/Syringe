@@ -9,7 +9,7 @@ namespace Syringe.Web.Mappers
     {
         TestViewModel BuildTestViewModel(TestFile testFile, int position);
         IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults);
-        Test BuildCoreModel(TestViewModel testModel);
+        Test BuildTestObject(TestViewModel testModel);
         List<VariableViewModel> BuildVariableViewModel(TestFile test);
     }
 }

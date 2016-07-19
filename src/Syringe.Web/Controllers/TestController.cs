@@ -43,7 +43,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Test test = _testFileMapper.BuildCoreModel(model);
+                Test test = _testFileMapper.BuildTestObject(model);
                 _testsClient.EditTest(model.Filename, model.Position, test);
                 return RedirectToAction("View", "TestFile", new { filename = model.Filename });
             }
@@ -74,7 +74,7 @@ namespace Syringe.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Test test = _testFileMapper.BuildCoreModel(model);
+                Test test = _testFileMapper.BuildTestObject(model);
                 _testsClient.CreateTest(model.Filename, test);
                 return RedirectToAction("View", "TestFile", new { filename = model.Filename });
             }
