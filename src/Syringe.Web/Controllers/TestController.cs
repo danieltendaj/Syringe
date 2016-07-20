@@ -64,6 +64,8 @@ namespace Syringe.Web.Controllers
                 ExpectedHttpStatusCode = HttpStatusCode.OK
             };
 
+            _testFileMapper.PopulateScriptSnippets(model);
+
             return View("Edit", model);
         }
 

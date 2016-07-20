@@ -1,4 +1,5 @@
-﻿@model TestViewModel
+﻿@using Syringe.Web.HtmlHelpers
+@model TestViewModel
 @{
     ViewBag.Title = "Editing " + Model.Filename;
 }
@@ -79,7 +80,7 @@
                                 <div class="row">
 	                                <div class="col-sm-12">
 		                                Script to run before execution:
-		                                @Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptSnippets, null)
+		                                @Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptFilename, x => x.BeforeExecuteScriptSnippets, null)
 	                                </div>
                                 </div>
                             </div>

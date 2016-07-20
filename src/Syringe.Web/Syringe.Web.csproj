@@ -185,7 +185,7 @@
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
     <Compile Include="Controllers\AuthorizeWhenOAuthAttribute.cs" />
     <Compile Include="Controllers\EditableTestsRequiredAttribute.cs" />
-    <Compile Include="Extensions\DropdownExtensions.cs" />
+    <Compile Include="HtmlHelpers\DropdownExtensions.cs" />
     <Compile Include="HtmlHelpers\NavLinks.cs" />
     <Compile Include="Models\EnvironmentSelectorViewModel.cs" />
     <Compile Include="MvcConfiguration.cs" />

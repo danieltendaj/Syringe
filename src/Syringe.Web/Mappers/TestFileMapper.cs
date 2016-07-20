@@ -48,10 +48,16 @@ namespace Syringe.Web.Mappers
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
-				BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute)
             };
 
+            PopulateScriptSnippets(model);
+
             return model;
+        }
+
+        public void PopulateScriptSnippets(TestViewModel model)
+        {
+			model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
         }
 
         public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults)
