@@ -354,5 +354,24 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(buildVariableViewModel[0].Name, Is.EqualTo("name"));
             Assert.That(buildVariableViewModel[0].Value, Is.EqualTo("regex"));
         }
+
+        [Test]
+        public void PopulateScriptSnippets_should_populate_items_from_config_service()
+        {
+            // given
+            _configurationServiceMock
+                .Setup(x => x.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute))
+                .Returns(new string[] { "snippet1.snippet", "snippet2.snippet" });
+
+            var testViewModel = new TestViewModel();
+
+            // when
+            _mapper.PopulateScriptSnippets(testViewModel);
+
+            // then
+            Assert.That(testViewModel.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
+            Assert.That(testViewModel.BeforeExecuteScriptSnippets, Contains.Item("snippet1.snippet"));
+            Assert.That(testViewModel.BeforeExecuteScriptSnippets, Contains.Item("snippet2.snippet"));
+        }
     }
 }
