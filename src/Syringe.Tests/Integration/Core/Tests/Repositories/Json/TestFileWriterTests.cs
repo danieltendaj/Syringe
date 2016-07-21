@@ -70,7 +70,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         Description = "Some Test",
                         ScriptSnippets = new ScriptSnippets()
 						{
-							BeforeExecuteFilename = "Some script thing that Chris did.snippet"
+							BeforeExecuteFilename = "uploadfile.snippet"
 						},
                         CapturedVariables = new List<CapturedVariable>
                         {

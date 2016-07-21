@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,30 +10,11 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Scripting;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Scripting
 {
-	public class SnippetFileReaderMock : ISnippetFileReader
-	{
-		private string _content;
-
-		public SnippetFileReaderMock(string content)
-		{
-			_content = content;
-		}
-
-		public string ReadFile(string path)
-		{
-			return _content;
-		}
-
-		public IEnumerable<string> GetSnippetFilenames(ScriptSnippetType snippetType)
-		{
-			return new string[] {"file1", "file2"};
-		}
-	}
-
-	public class TestFileScriptEvaluatorTests
+    public class TestFileScriptEvaluatorTests
 	{
 		[Test]
 		public void Should_throw_CodeEvaluationException_with_test_and_compilation_information_in_exception_message()
@@ -77,7 +57,8 @@ namespace Syringe.Tests.Unit.Core.Scripting
 			test.ScriptSnippets.BeforeExecuteFilename = "path-doesnt-matter.snippet";
 
 			// when + then
-			evaluator.EvaluateBeforeExecute(test, new RestRequest());
+			bool result = evaluator.EvaluateBeforeExecute(test, new RestRequest());
+            Assert.That(result, Is.True);
 		}
 
 		[Test]
@@ -93,9 +74,10 @@ namespace Syringe.Tests.Unit.Core.Scripting
 			test.ScriptSnippets.BeforeExecuteFilename = "filename-doesnt-matter.snippet";
 
 			// when
-			evaluator.EvaluateBeforeExecute(test, new RestRequest());
+			bool result = evaluator.EvaluateBeforeExecute(test, new RestRequest());
 
 			// then
+            Assert.That(result, Is.True);
 			Assert.That(evaluator.RequestGlobals.Test.Description, Is.EqualTo("it worked"));
 			Assert.That(evaluator.RequestGlobals.Request.Method, Is.EqualTo(Method.PUT));
 		}

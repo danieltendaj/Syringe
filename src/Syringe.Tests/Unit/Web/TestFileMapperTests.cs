@@ -17,16 +17,16 @@ namespace Syringe.Tests.Unit.Web
     [TestFixture]
     public class TestFileMapperTests
     {
-        private Mock<IConfigurationService> _variableContainerMock;
+        private Mock<IConfigurationService> _configurationServiceMock;
         private TestFileMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
-            _variableContainerMock = new Mock<IConfigurationService>();
-            _mapper = new TestFileMapper(_variableContainerMock.Object);
+            _configurationServiceMock = new Mock<IConfigurationService>();
+            _mapper = new TestFileMapper(_configurationServiceMock.Object);
 
-            _variableContainerMock
+            _configurationServiceMock
                 .Setup(x => x.GetSystemVariables())
                 .Returns(new List<Variable>());
         }
@@ -170,6 +170,10 @@ namespace Syringe.Tests.Unit.Web
         {
             // given
             const int testPosition = 1;
+            _configurationServiceMock
+                .Setup(x => x.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute))
+                .Returns(new string[] {"snippet1.snippet", "snippet2.snippet"});
+
             var expectedTest = new Test
             {
                 Description = "Short Description",
@@ -180,7 +184,10 @@ namespace Syringe.Tests.Unit.Web
                 Headers = new List<Syringe.Core.Tests.HeaderItem> { new Syringe.Core.Tests.HeaderItem() },
                 CapturedVariables = new List<CapturedVariable> { new CapturedVariable { Name = "CV-2" } },
                 Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
-                ScriptSnippets = new ScriptSnippets() { BeforeExecuteFilename = "// this is some script" },
+                ScriptSnippets = new ScriptSnippets()
+                {
+                    BeforeExecuteFilename = "// this is some script"
+                },
             };
 
             var testFile = new TestFile
@@ -205,44 +212,46 @@ namespace Syringe.Tests.Unit.Web
             };
 
             // when
-            TestViewModel result = _mapper.BuildTestViewModel(testFile, testPosition);
+            TestViewModel actualModel = _mapper.BuildTestViewModel(testFile, testPosition);
 
             // then
-            Assert.NotNull(result);
-            Assert.That(result.Position, Is.EqualTo(testPosition));
-            Assert.That(result.Description, Is.EqualTo(expectedTest.Description));
-            Assert.That(result.Url, Is.EqualTo(expectedTest.Url));
-            Assert.That(result.PostBody, Is.EqualTo(expectedTest.PostBody));
-            Assert.That(result.Method, Is.EqualTo(MethodType.GET));
-            Assert.That(result.ExpectedHttpStatusCode, Is.EqualTo(expectedTest.ExpectedHttpStatusCode));
-            Assert.That(result.Filename, Is.EqualTo(testFile.Filename));
-            Assert.That(result.BeforeExecuteScriptFilename, Is.EqualTo(expectedTest.ScriptSnippets.BeforeExecuteFilename));
+            Assert.NotNull(actualModel);
+            Assert.That(actualModel.Position, Is.EqualTo(testPosition));
+            Assert.That(actualModel.Description, Is.EqualTo(expectedTest.Description));
+            Assert.That(actualModel.Url, Is.EqualTo(expectedTest.Url));
+            Assert.That(actualModel.PostBody, Is.EqualTo(expectedTest.PostBody));
+            Assert.That(actualModel.Method, Is.EqualTo(MethodType.GET));
+            Assert.That(actualModel.ExpectedHttpStatusCode, Is.EqualTo(expectedTest.ExpectedHttpStatusCode));
+            Assert.That(actualModel.Filename, Is.EqualTo(testFile.Filename));
 
-            Assert.That(result.CapturedVariables.Count, Is.EqualTo(1));
-            Assert.That(result.Assertions.Count, Is.EqualTo(1));
-            Assert.That(result.Headers.Count, Is.EqualTo(1));
+            Assert.That(actualModel.CapturedVariables.Count, Is.EqualTo(1));
+            Assert.That(actualModel.Assertions.Count, Is.EqualTo(1));
+            Assert.That(actualModel.Headers.Count, Is.EqualTo(1));
 
-            AssertionViewModel assertionViewModel = result.Assertions.FirstOrDefault();
+            AssertionViewModel assertionViewModel = actualModel.Assertions.FirstOrDefault();
             Assert.That(assertionViewModel.Description, Is.EqualTo("Desc"));
             Assert.That(assertionViewModel.Value, Is.EqualTo("Val"));
             Assert.That(assertionViewModel.AssertionType, Is.EqualTo(AssertionType.Negative));
             Assert.That(assertionViewModel.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
 
-            Assert.That(result.AvailableVariables.Count, Is.EqualTo(3));
+            Assert.That(actualModel.AvailableVariables.Count, Is.EqualTo(3));
 
-            VariableViewModel capturedVar = result.AvailableVariables.Find(x => x.Name == "CV-1");
+            VariableViewModel capturedVar = actualModel.AvailableVariables.Find(x => x.Name == "CV-1");
             Assert.That(capturedVar, Is.Not.Null);
             Assert.That(capturedVar.Value, Is.EqualTo("CV-1-Value"));
 
-            capturedVar = result.AvailableVariables.Find(x => x.Name == "CV-2");
+            capturedVar = actualModel.AvailableVariables.Find(x => x.Name == "CV-2");
             Assert.That(capturedVar, Is.Not.Null);
 
-            VariableViewModel testVariable = result.AvailableVariables.Find(x => x.Name == "V-1");
+            VariableViewModel testVariable = actualModel.AvailableVariables.Find(x => x.Name == "V-1");
             Assert.That(testVariable, Is.Not.Null);
             Assert.That(testVariable.Value, Is.EqualTo("V-1-Value"));
+
+            Assert.That(actualModel.BeforeExecuteScriptFilename, Is.EqualTo(expectedTest.ScriptSnippets.BeforeExecuteFilename));
+            Assert.That(actualModel.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
         }
 
-		[Test]
+        [Test]
 		public void should_populate_snippets_from_snippetreader()
 		{
 			// given
@@ -254,7 +263,7 @@ namespace Syringe.Tests.Unit.Web
 				}
 			};
 
-			_variableContainerMock
+			_configurationServiceMock
 				.Setup(x => x.GetScriptSnippetFilenames(It.IsAny<ScriptSnippetType>()))
 				.Returns(new string[] { "snippet1", "snippet2" });
 
@@ -284,7 +293,7 @@ namespace Syringe.Tests.Unit.Web
                 new Variable("some name that should exist", "super awesome description", "evil environment")
             };
 
-            _variableContainerMock
+            _configurationServiceMock
                 .Setup(x => x.GetSystemVariables())
                 .Returns(reservedVariables);
 
