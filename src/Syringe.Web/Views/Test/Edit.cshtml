@@ -102,33 +102,45 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new { @class = "col-sm-2 control-label" })
+                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new {@class = "col-sm-2 control-label"})
                         <div class="col-sm-4">
-                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
+                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new {@class = "form-control"})
                         </div>
                     </div>
-                    <div>
-                        <h3>Assertions</h3>
-                        <p>These are items you want to check exist on the HTML page or resource.</p>
-                        <button type="submit" class="btn btn-success btn-sm" id="addVerification">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Add new assertion
-                        </button>
+                    <ul id="responseTabs" class="nav nav-tabs" data-tabs="responseTabs">
+                        <li class="active"><a href="#response-tab-assertions" data-toggle="tab">Assertions</a></li>
+                        <li><a href="#response-tab-variables" data-toggle="tab">Captured Variables</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="response-tab-assertions">
+                            <div>
+                                <h3>Assertions</h3>
+                                <p>These are items you want to check exist on the HTML page or resource.</p>
+                                <button type="submit" class="btn btn-success btn-sm" id="addVerification">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Add new assertion
+                                </button>
+                            </div>
+                            <div class="component">
+                                @Html.EditorFor(x => x.Assertions)
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="response-tab-variables">
+                            <div>
+                                <h3>Captured Variables</h3>
+                                <p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
+                                <button type="submit" class="btn btn-success btn-sm" id="addParsedItem">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    Add new captured variable
+                                </button>
+                            </div>
+                            <div class="component">
+                                @Html.EditorFor(x => x.CapturedVariables)
+                            </div>
+                        </div>
                     </div>
-                    <div class="component">
-                        @Html.EditorFor(x => x.Assertions)
-                    </div>
-                    <div>
-                        <h3>Captured Variables</h3>
-                        <p>These variables can be referenced across tests in this test file, using the syntax <code>{VARIABLE-NAME}</code>.</p>
-                        <button type="submit" class="btn btn-success btn-sm" id="addParsedItem">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            Add new captured variable
-                        </button>
-                    </div>
-                    <div class="component">
-                        @Html.EditorFor(x => x.CapturedVariables)
-                    </div>
+
+
                 </div>
             </div>
 
