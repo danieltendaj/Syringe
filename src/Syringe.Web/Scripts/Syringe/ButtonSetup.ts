@@ -1,4 +1,6 @@
 ﻿/// <reference path="../typings/bootbox.d.ts" />
+/// <reference path="../typings/jquery/jquery.textcomplete.d.ts" />
+
 $(document).ready(function () {
     const rowsToAdd = [
         { $Button: $("#addVerification"), URL: "/Test/AddAssertion", Prefix: "Assertions" },
@@ -6,12 +8,39 @@ $(document).ready(function () {
         { $Button: $("#addHeaderItem"), URL: "/Test/AddHeaderItem", Prefix: "Headers" },
         { $Button: $("#addVariableItem"), URL: "/TestFile/AddVariableItem", Prefix: "Variables" }
     ];
-    let rowHandler = new RowHandler(rowsToAdd);
-    rowHandler.setupButtons();
 
     function getFileExtension(fileName: string) {
         return fileName.split(".").pop().toLowerCase();
     }
+
+    function bindVariablesAutoComplete() {
+        var availableVariables = $("#available-variables-json");
+
+        if (availableVariables && availableVariables.length === 1) {
+            availableVariables = JSON.parse(availableVariables.val());
+
+            $('.variable-compatible').textcomplete([
+                {
+                    words: availableVariables,
+                    match: /\B{([\-+\w]*)$/,
+                    search: function(term, callback) {
+                        callback($.map(this.words, function(word) {
+                            return word.indexOf(term) === 0 ? word : null;
+                        }));
+                    },
+                    index: 1,
+                    replace: function(word) {
+                        return `{${word}}`;
+                    }
+                }
+            ]);
+        }
+    }
+
+    let rowHandler = new RowHandler(rowsToAdd, bindVariablesAutoComplete);
+    rowHandler.setupButtons();
+
+    bindVariablesAutoComplete();
 
     $("body").on("click", "#removeRow", function (e) {
         e.preventDefault();

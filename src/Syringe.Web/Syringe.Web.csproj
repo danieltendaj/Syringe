@@ -279,6 +279,7 @@
     <Content Include="Scripts\clipboard.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.textcomplete-1.6.1.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />
@@ -459,6 +460,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootbox.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.textcomplete.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
