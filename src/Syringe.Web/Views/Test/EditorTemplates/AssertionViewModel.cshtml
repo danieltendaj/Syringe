@@ -1,31 +1,31 @@
 ﻿@model AssertionViewModel
 
-<div class="form-group">
-	<div class="row">
-		@Html.LabelFor(x => Model.Description, new { @class = "col-sm-1 control-label" })
-		<div class="col-sm-2">
-			@Html.TextBoxFor(x => Model.Description, new { @class = "form-control", placeholder = "Description" })
-		</div>
+<div class="form-group" style="padding-top: 15px">
+    <div class="row">
+        @Html.LabelFor(x => Model.Description, new { @class = "control-label col-sm-2" })
 
-		@Html.LabelFor(x => Model.Value, new { @class = "col-sm-1 col-md-1 control-label" })
-		<div class="col-sm-7">
-			@Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
-		</div>
-	</div>
+        <div class="col-sm-2">
+            @Html.TextBoxFor(x => Model.Description, new { @class = "form-control", placeholder = "Description" })
+        </div>
 
-	<div class="row">
-		@Html.LabelFor(x => Model.AssertionType, new { @class = "col-sm-1 col-md-1 control-label" })
-		<div class="col-sm-2">
-			@Html.EnumDropDownListFor(x => Model.AssertionType, new { @class = "form-control", placeholder = "Assertion type" })
-		</div>
+        @Html.LabelFor(x => Model.AssertionType, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-2">
+            @Html.EnumDropDownListFor(x => Model.AssertionType, new { @class = "form-control", placeholder = "Assertion type" })
+        </div>
 
-		@Html.LabelFor(x => Model.AssertionMethod, new { @class = "col-sm-1 col-md-1 control-label" })
-		<div class="col-sm-2">
-			@Html.EnumDropDownListFor(x => Model.AssertionMethod, new { @class = "form-control", placeholder = "Assertion method" })
-		</div>
+        @Html.LabelFor(x => Model.AssertionMethod, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-2">
+            @Html.EnumDropDownListFor(x => Model.AssertionMethod, new { @class = "form-control", placeholder = "Assertion method" })
+        </div>
+    </div>
 
-		<div class="col-sm-1">
-			@Html.Partial("Partials/_RemoveRow")
-		</div>
-	</div>
+    <div class="row">
+        @Html.LabelFor(x => Model.Value, new { @class = "control-label col-sm-2" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control variable-compatible", placeholder = "Value" })
+        </div>
+        <div class="col-sm-1">
+            @Html.Partial("Partials/_RemoveRow")
+        </div>
+    </div>
 </div>
