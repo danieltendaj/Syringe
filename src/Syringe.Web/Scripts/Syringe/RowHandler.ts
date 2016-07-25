@@ -15,11 +15,11 @@
 
         $.get(test.URL, html => {
             var panelBody = test.$Button.parent().next();
-            var formGroup = panelBody.find(".form-group").last();
+            var group = panelBody.find(".group").last();
             var rowNumber = 0;
 
-            if (formGroup.length !== 0) {
-                var firstInputName = formGroup.find("input:first").attr("name");
+            if (group.length !== 0) {
+                var firstInputName = group.find("input:first").attr("name");
 
                 // get the last index number of the row and increment it by 1
                 rowNumber = parseInt(firstInputName.match(/\d/g)) + 1;
