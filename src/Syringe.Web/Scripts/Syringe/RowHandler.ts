@@ -1,7 +1,9 @@
 ﻿class RowHandler {
+    private rowsToAdd: IRowAdder[];
+    private bindVariablesAutoComplete: () => void;
 
-    rowsToAdd: IRowAdder[];
-    constructor(i: IRowAdder[]) {
+    constructor(i: IRowAdder[], bindVariablesAutoComplete: () => void) {
+        this.bindVariablesAutoComplete = bindVariablesAutoComplete;
         this.rowsToAdd = i;
     }
 
@@ -9,8 +11,9 @@
         e.preventDefault();
 
         var test = e.data.test;
+        var bindVariablesAutoComplete = this.bindVariablesAutoComplete;
 
-        $.get(test.URL, function (html) {
+        $.get(test.URL, html => {
             var panelBody = test.$Button.parent().next();
             var formGroup = panelBody.find(".form-group").last();
             var rowNumber = 0;
@@ -25,6 +28,8 @@
             // replace the name value with the correct prefix and row number so it can be posted to the server 
             var newHtml = html.replace(/name="/g, "name=\"" + test.Prefix + "[" + rowNumber + "].");
             panelBody.append(newHtml);
+
+            bindVariablesAutoComplete();
         });
     }
 

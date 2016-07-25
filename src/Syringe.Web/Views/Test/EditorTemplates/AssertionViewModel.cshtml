@@ -22,7 +22,7 @@
     <div class="row">
         @Html.LabelFor(x => Model.Value, new { @class = "control-label col-sm-2" })
         <div class="col-sm-9">
-            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
+            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control variable-compatible", placeholder = "Value" })
         </div>
         <div class="col-sm-1">
             @Html.Partial("Partials/_RemoveRow")

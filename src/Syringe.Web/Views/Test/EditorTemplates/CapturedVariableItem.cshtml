@@ -8,7 +8,7 @@
         </div>
         @Html.LabelFor(x => Model.Regex, new {@class = "col-sm-1 control-label"})
         <div class="col-xs-6 col-sm-5 col-lg-6">
-            @Html.TextBoxFor(x => Model.Regex, new {@class = "form-control", placeholder = "Regex"})
+            @Html.TextBoxFor(x => Model.Regex, new {@class = "form-control variable-compatible", placeholder = "Regex"})
         </div>
         <div class="col-xs-1 col-sm-2 col-lg-1">
             @Html.Partial("Partials/_RemoveRow")
