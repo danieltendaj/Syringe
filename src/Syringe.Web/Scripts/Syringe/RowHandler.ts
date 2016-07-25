@@ -14,6 +14,7 @@
         var bindVariablesAutoComplete = this.bindVariablesAutoComplete;
 
         $.get(test.URL, html => {
+            // get the closest component class, needs a rewrite, too easy to break.
             var panelBody = test.$Button.parent().next();
             var group = panelBody.find(".group").last();
             var rowNumber = 0;
