@@ -198,12 +198,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xmlunit-constraints">
-      <HintPath>..\..\packages\xmlunit-constraints.2.0.0-alpha-01\lib\net35\xmlunit-constraints.dll</HintPath>
-    </Reference>
-    <Reference Include="xmlunit-core">
-      <HintPath>..\..\packages\xmlunit-core.2.0.0-alpha-01\lib\net35\xmlunit-core.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\VariableExtensions.cs" />

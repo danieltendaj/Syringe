@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using Org.XmlUnit.Util;
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;

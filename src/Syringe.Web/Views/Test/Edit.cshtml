@@ -1,4 +1,4 @@
-﻿@using Syringe.Web.Extensions.HtmlHelpers
+﻿@using Newtonsoft.Json
 @model TestViewModel
 @{
     ViewBag.Title = "Editing " + Model.Filename;
@@ -32,10 +32,10 @@
                         @Html.LabelFor(x => x.Url, new { @class = "col-sm-2 control-label" })
                         <div class="col-sm-10">
                             <div class="input-group">
-                                @Html.TextBoxFor(x => x.Url, new { @class = "form-control", placeholder = "Enter URL" })
                                 <div class="input-group-btn">
                                     @Html.EnumDropDownListFor(x => x.Method, new { @class = "btn btn-default" })
                                 </div>
+                                @Html.TextBoxFor(x => x.Url, new { @class = "form-control variable-compatible", placeholder = "Enter URL", autocomplete = "off" })
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                             <div class="tab-pane" id="request-tab-postbody">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control", placeholder = "Enter Post Body", wrap = "hard" })
+                                        @Html.TextAreaFor(x => x.PostBody, new { @class = "form-control variable-compatible", placeholder = "Enter Post Body", wrap = "hard" })
                                     </div>
                                 </div>
                             </div>
@@ -78,10 +78,17 @@
                                     </div>
                                 </div>
                                 <div class="row">
-	                                <div class="col-sm-12">
-		                                Script to run before execution:
-		                                @Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptFilename, x => x.BeforeExecuteScriptSnippets, null)
-	                                </div>
+                                    <div class="col-sm-12">
+                                        <p>
+                                            You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
+                                        </p>
+
+                                        <ul>
+                                            <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+                                            <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+                                        </ul>
+                                        @Html.TextAreaFor(x => x.BeforeExecuteScript, new { @class = "form-control", placeholder = "Enter C#" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,3 +139,5 @@
         </form>
     </div>
 </div>
+
+<input id="available-variables-json" type="hidden" value="@JsonConvert.SerializeObject(Model.AvailableVariables.Select(x => x.Name))" />
