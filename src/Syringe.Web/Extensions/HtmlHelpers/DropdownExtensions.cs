@@ -5,7 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace Syringe.Web.HtmlHelpers
+namespace Syringe.Web.Extensions.HtmlHelpers
 {
     public static class DropdownExtensions
     {
@@ -45,8 +45,9 @@ namespace Syringe.Web.HtmlHelpers
 		    }
 
 		    var selectList = new SelectList(items, "Value", "Text", propertyValue);
+			//htmlAttributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
 
-			return htmlHelper.DropDownListFor(propertyValueExpression, selectList, null, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+			return htmlHelper.DropDownListFor(propertyValueExpression, selectList, null, htmlAttributes);
 		}
 	}
 }
