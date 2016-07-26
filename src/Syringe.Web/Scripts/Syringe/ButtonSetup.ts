@@ -44,22 +44,19 @@ $(document).ready(function () {
 
     $("body").on("click", "#removeRow", function (e) {
         e.preventDefault();
-        var formGroup = $(this).closest(".form-group");
-        var parentPanelBody = formGroup.closest(".panel-body");
-        $(this).closest(".form-group").remove();
+        var group = $(this).closest(".group");
+        var component = group.closest(".component");
+        $(this).closest(".group").remove();
 
-        parentPanelBody.find(".form-group").each(function (i, ev) {
+        component.find(".group").each(function (i, ev) {
             $(ev).find("label").each(function () {
                 rowHandler.updateElementValue($(this), i, "for");
             });
 
             $(ev).find("input, select").each(function () {
-
                 rowHandler.updateElementValue($(this), i, "name");
                 rowHandler.updateElementValue($(this), i, "id");
-
             });
-
         });
 
     });
