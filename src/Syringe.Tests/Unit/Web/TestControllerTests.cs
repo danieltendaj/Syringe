@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Configuration;
-using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
@@ -198,10 +195,10 @@ namespace Syringe.Tests.Unit.Web
         public void Add_should_return_correct_view_and_model()
         {
             // given
-            const string expectedFilename = "This is my filename.DONT STOP ME NOW";
+            const string expectedFilename = "This is Wayne's filename";
             var expectedTestFile = new TestFile();
 
-            _testServiceMock
+			_testServiceMock
                 .Setup(x => x.GetTestFile(expectedFilename))
                 .Returns(expectedTestFile);
 
@@ -223,9 +220,11 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(model.AvailableVariables, Is.EqualTo(expectedVariable));
             Assert.That(model.ExpectedHttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(model.Method, Is.EqualTo(MethodType.GET));
-        }
 
-        [Test]
+			_testFileMapperMock.Verify(x => x.PopulateScriptSnippets(model), Times.Once);
+		}
+
+		[Test]
         public void Add_should_be_decorated_with_httpGet_and_EditableTestsRequired()
         {
             // given + when
