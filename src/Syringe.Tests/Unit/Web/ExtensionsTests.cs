@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Web
         }
 
 	    [Test]
-	    public void x()
+	    public void GenerateScriptSnippetsDropdown_should_generate_dropdown_list_with_items()
 	    {
 			// given (some ridiculous amount of setup for a HtmlHelper extension method)
 			var helper = MvcHelper.GetHtmlHelper<TestViewModel>(new TestViewModel());
@@ -58,15 +58,27 @@ namespace Syringe.Tests.Unit.Web
 
 		    helper.ViewData.Model = testViewModel;
 
+		    string expectedHtml =
+			    @"<select class=""myclass"" id=""BeforeExecuteScriptFilename"" name=""BeforeExecuteScriptFilename""><option value="""">None</option>
+<option value=""snippet1.snippet"">snippet1.snippet</option>
+<option selected=""selected"" value=""snippet2.snippet"">snippet2.snippet</option>
+<option value=""snippet3.snippet"">snippet3.snippet</option>
+</select>";
+
+			expectedHtml = expectedHtml.Replace("\n", "").Replace("\r", "");
 
 			// when
-		    MvcHtmlString htmlString = helper.GenerateScriptSnippetsDropdown(
+			MvcHtmlString htmlString = helper.GenerateScriptSnippetsDropdown(
 				m => m.BeforeExecuteScriptFilename, 
 				m => m.BeforeExecuteScriptSnippets,
 			    new {@class = "myclass"});
 
 			// then
-			Assert.That(htmlString.ToHtmlString(), Contains.Substring("<list>"));
+		    string actualHtml = htmlString.ToHtmlString();
+		    Assert.That(actualHtml, Is.Not.Null.Or.Empty);
+
+		    actualHtml = actualHtml.Replace("\n", "").Replace("\r", "");
+			Assert.That(actualHtml, Contains.Substring(expectedHtml));
 	    }
     }
 
