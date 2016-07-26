@@ -247,12 +247,14 @@ namespace Syringe.Core.Runner
                     {
 						var snippetReader = new SnippetFileReader(_configuration);
                         var evaluator = new TestFileScriptEvaluator(_configuration, snippetReader);
-                        evaluator.EvaluateBeforeExecute(test, request);
+                        bool success = evaluator.EvaluateBeforeExecute(test, request);
 
-                        request = evaluator.RequestGlobals.Request;
-                        test = evaluator.RequestGlobals.Test;
-                        logger.WriteIndentedLine("Compilation successful.");
-
+                        if (success)
+                        {
+                            request = evaluator.RequestGlobals.Request;
+                            test = evaluator.RequestGlobals.Test;
+                            logger.WriteIndentedLine("Compilation successful.");
+                        }
                     }
                     catch (Exception ex)
                     {

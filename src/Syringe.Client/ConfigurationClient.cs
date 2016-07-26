@@ -2,6 +2,7 @@
 using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Client
@@ -34,5 +35,15 @@ namespace Syringe.Client
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<List<Variable>>(response);
         }
+
+		public IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType)
+		{
+			var client = new RestClient(_serviceUrl);
+			IRestRequest request = _restSharpHelper.CreateRequest("scriptsnippetfilenames");
+			request.AddQueryParameter("snippetType", snippetType.ToString());
+
+			IRestResponse response = client.Execute(request);
+			return _restSharpHelper.DeserializeOrThrow<List<string>>(response);
+		}
 	}
 }

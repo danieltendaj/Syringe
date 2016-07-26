@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Core.Tests.HeaderItem;
@@ -49,7 +50,14 @@ namespace Syringe.Web.Mappers
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
             };
 
+            PopulateScriptSnippets(model);
+
             return model;
+        }
+
+        public void PopulateScriptSnippets(TestViewModel model)
+        {
+			model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
         }
 
         public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults)
@@ -79,7 +87,7 @@ namespace Syringe.Web.Mappers
             return result;
         }
 
-        public Test BuildCoreModel(TestViewModel testModel)
+        public Test BuildTestObject(TestViewModel testModel)
         {
             if (testModel == null)
             {

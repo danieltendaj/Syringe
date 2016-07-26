@@ -216,6 +216,8 @@
     <Compile Include="Tests\Results\Repositories\LiteDbTestFileRepository.cs" />
     <Compile Include="Tests\Scripting\ISnippetFileReader.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />
+    <Compile Include="Tests\Scripting\ScriptSnippetType.cs" />
+    <Compile Include="Tests\Scripting\SnippetFileReader.cs" />
     <Compile Include="Tests\Scripting\TestFileScriptEvaluator.cs" />
     <Compile Include="Tests\Repositories\Json\Reader\TestFileReader.cs" />
     <Compile Include="Tests\Repositories\Json\Writer\SerializationContract.cs" />

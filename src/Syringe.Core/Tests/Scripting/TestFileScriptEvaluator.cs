@@ -23,11 +23,11 @@ namespace Syringe.Core.Tests.Scripting
 			_snippetReader = snippetReader;
 		}
 
-		public void EvaluateBeforeExecute(Test test, IRestRequest request)
+		public bool EvaluateBeforeExecute(Test test, IRestRequest request)
 		{
             if (string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
             {
-                return;
+                return false;
             }
 
 			string scriptContent = "";
@@ -52,7 +52,8 @@ namespace Syringe.Core.Tests.Scripting
 			try
 			{
 				CSharpScript.EvaluateAsync(scriptContent, options: scriptOptions, globals: RequestGlobals).Wait();
-			}
+                return true;
+            }
 			catch (CompilationErrorException ex)
 			{
 				string message = "An exception occurred evaluating the before script for test '{0}': \n{1}";

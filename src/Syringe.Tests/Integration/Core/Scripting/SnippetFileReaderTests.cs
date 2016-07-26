@@ -18,19 +18,23 @@ namespace Syringe.Tests.Integration.Core.Scripting
 		public void TestFixtureSetUp()
 		{
 			_snippetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "ScriptSnippets");
-			if (Directory.Exists(_snippetDirectory))
+			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
+
+			if (Directory.Exists(typeDirectory))
 			{
-				Directory.Delete(_snippetDirectory, true);
+				Directory.Delete(typeDirectory, true);
 			}
 
-			Directory.CreateDirectory(_snippetDirectory);
+			Directory.CreateDirectory(typeDirectory);
 		}
 
 		[Test]
 		public void should_read_text_file()
 		{
 			// Arrange
-			string filename1 = Path.Combine(_snippetDirectory, "snippet1.snippet");
+			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
+
+			string filename1 = Path.Combine(typeDirectory, "snippet1.snippet");
 			File.WriteAllText(filename1, "snippet 1");
 
 			var config = new JsonConfiguration();
@@ -49,8 +53,10 @@ namespace Syringe.Tests.Integration.Core.Scripting
 		public void should_get_snippet_filenames_from_directory()
 		{
 			// Arrange
-			string filename1 = Path.Combine(_snippetDirectory, "snippet1.snippet");
-			string filename2 = Path.Combine(_snippetDirectory, "snippet2.snippet");
+			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
+
+			string filename1 = Path.Combine(typeDirectory, "snippet1.snippet");
+			string filename2 = Path.Combine(typeDirectory, "snippet2.snippet");
 
 			File.WriteAllText(filename1, "snippet 1");
 			File.WriteAllText(filename2, "snippet 2");
@@ -60,7 +66,7 @@ namespace Syringe.Tests.Integration.Core.Scripting
 			var snippetReader = new SnippetFileReader(config);
 
 			// Act
-			IEnumerable<string> files = snippetReader.GetSnippetFilenames();
+			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
 
 			// Assert
 			Assert.That(files.Count(), Is.EqualTo(2));

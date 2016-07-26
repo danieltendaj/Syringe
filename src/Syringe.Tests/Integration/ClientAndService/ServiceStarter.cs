@@ -6,6 +6,7 @@ using System.Web.Http.Dependencies;
 using Microsoft.Owin.Hosting;
 using StructureMap;
 using Syringe.Core.Configuration;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
 
@@ -19,8 +20,9 @@ namespace Syringe.Tests.Integration.ClientAndService
 		public static string MongodbDatabaseName => "Syringe-Tests";
 		public static IDisposable OwinServer;
         public static IContainer Container;
+		private static string _scriptSnippetDirectoryPath;
 
-	    public static int Port { get; set; }
+		public static int Port { get; set; }
 
 		public static string BaseUrl
 		{
@@ -53,10 +55,24 @@ namespace Syringe.Tests.Integration.ClientAndService
 			{
 				if (string.IsNullOrEmpty(_testFilesDirectoryPath))
 				{
-					_testFilesDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "TestFiles");
+					string baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "ClientAndService");
+					_testFilesDirectoryPath = Path.Combine(baseDirectory, "TestFiles");
 				}
 
 				return _testFilesDirectoryPath;
+			}
+		}
+
+		public static string ScriptSnippetDirectoryPath
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(_scriptSnippetDirectoryPath))
+				{
+					_scriptSnippetDirectoryPath = Path.Combine(TestFilesDirectoryPath, "ScriptSnippets");
+				}
+
+				return _scriptSnippetDirectoryPath;
 			}
 		}
 
@@ -66,6 +82,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			{
 				MongoDbDatabaseName = MongodbDatabaseName,
 				TestFilesBaseDirectory = TestFilesDirectoryPath,
+				ScriptSnippetDirectory = ScriptSnippetDirectoryPath,
 				ServiceUrl = BaseUrl
 			};
 
@@ -107,6 +124,23 @@ namespace Syringe.Tests.Integration.ClientAndService
 		    }
 			
 			Directory.CreateDirectory(TestFilesDirectoryPath);
+		}
+
+		public static void RecreateScriptSnippetDirectories()
+		{
+			// If there are more enum values in the future, this can iterate them.
+			string snippetDirectory = Path.Combine(ScriptSnippetDirectoryPath, ScriptSnippetType.BeforeExecute.ToString());
+
+			Console.WriteLine("Deleting and creating {0}", snippetDirectory);
+
+			if (Directory.Exists(snippetDirectory))
+			{
+				Directory.Delete(snippetDirectory, true);
+			}
+
+			Directory.CreateDirectory(snippetDirectory);
+			File.WriteAllText(Path.Combine(snippetDirectory, "snippet1.snippet"), "snippet1");
+			File.WriteAllText(Path.Combine(snippetDirectory, "snippet2.snippet"), "snippet2");
 		}
 	}
 }

@@ -147,6 +147,35 @@ namespace Syringe.Tests.Unit.Core.Runner
         }
 
         [Test]
+        public async Task Run_should_ignore_null_scriptevaluator_output()
+        {
+            // Arrange
+            const string environment = "knights-of-the-white-table";
+            const string httpContent = "im lowercase";
+
+            TestFileRunner runner = CreateRunner();
+            _httpClientMock.Response.Content = httpContent;
+            _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
+
+            var testFile = CreateTestFile(new[]
+            {
+                new Test()
+                {
+                    Url = "test1",
+                    ExpectedHttpStatusCode = HttpStatusCode.OK,
+                }
+            });
+
+            // Act
+            TestFileResult session = await runner.RunAsync(testFile, environment, "bob");
+
+            // Assert
+            Assert.That(testFile, Is.Not.Null);
+            Assert.That(testFile.Tests.FirstOrDefault(), Is.Not.Null);
+            Assert.That(session.TestResults.First().HttpResponse, Is.Not.Null);
+        }
+
+        [Test]
         public async Task Run_should_set_capturedvariables_across_tests()
         {
             // Arrange

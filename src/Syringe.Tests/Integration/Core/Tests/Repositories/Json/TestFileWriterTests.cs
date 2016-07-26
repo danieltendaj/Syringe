@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Environment;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories.Json.Writer;
+using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
@@ -69,7 +70,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         Description = "Some Test",
                         ScriptSnippets = new ScriptSnippets()
 						{
-							BeforeExecuteFilename = "Some script thing that Chris did.snippet"
+							BeforeExecuteFilename = "uploadfile.snippet"
 						},
                         CapturedVariables = new List<CapturedVariable>
                         {

@@ -225,6 +225,7 @@
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
+    <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />
