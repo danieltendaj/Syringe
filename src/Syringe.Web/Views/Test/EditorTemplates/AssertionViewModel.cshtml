@@ -1,7 +1,7 @@
 ﻿@model AssertionViewModel
 
-<div class="form-group" style="padding-top: 15px">
-    <div class="row">
+<div class="group">
+    <div class="form-group">
         @Html.LabelFor(x => Model.Description, new { @class = "control-label col-sm-2" })
 
         <div class="col-sm-2">
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="form-group">
         @Html.LabelFor(x => Model.Value, new { @class = "control-label col-sm-2" })
         <div class="col-sm-9">
             @Html.TextBoxFor(x => Model.Value, new { @class = "form-control variable-compatible", placeholder = "Value" })
