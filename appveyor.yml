@@ -44,7 +44,6 @@ build_script:
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
-  - echo %APPVEYOR_BUILD_VERSION% > currentversion.txt
 
 # Generate test coverage and upload it to Coveralls.IO
 after_test: 
