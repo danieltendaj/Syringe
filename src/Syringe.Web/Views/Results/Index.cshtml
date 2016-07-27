@@ -27,7 +27,10 @@
 
             @foreach (var groupedSummary in Model.PagedResults.GroupBy(x => x.Environment).OrderBy(x => x.Key))
             {
-                <div class="label label-material-indigo environment-name">@groupedSummary.Key</div>
+                if (string.IsNullOrEmpty(Model.Environment))
+                {
+                    <div class="label label-material-indigo environment-name">@groupedSummary.Key</div>
+                }
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
