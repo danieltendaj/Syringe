@@ -58,12 +58,6 @@
                             <a title="Edit Test" class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">
                                 <i class="material-icons">mode_edit</i>
                             </a>
-                            @using (Html.BeginForm("RunTest", "Home"))
-                            {
-                                <input type="hidden" name="filename" value="@Model.Filename"/>
-                                <input type="hidden" name="position" value="@test.Position"/>
-                                @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
-                            }
 
                             @using (Html.BeginForm("Copy", "Test"))
                             {

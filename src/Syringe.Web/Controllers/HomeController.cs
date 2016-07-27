@@ -67,16 +67,6 @@ namespace Syringe.Web.Controllers
             runViewModel.Run(context, filename, environment);
             return View("Run", runViewModel);
         }
-        
-        [HttpPost]
-        public ActionResult RunTest(string filename, int position, string environment)
-        {
-            UserContext context = UserContext.GetFromFormsAuth(HttpContext);
-
-            var runViewModel = _runViewModelFactory();
-            runViewModel.RunTest(context, filename, environment, position);
-            return View("Run", runViewModel);
-        }
 
         private void RunHealthChecks()
         {
