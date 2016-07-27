@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Syringe.Tests.Integration.Core.Scripting
 {
@@ -14,8 +12,8 @@ namespace Syringe.Tests.Integration.Core.Scripting
 	{
 		private string _snippetDirectory;
 
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
+		[SetUp]
+		public void SetUp()
 		{
 			_snippetDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "ScriptSnippets");
 			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
@@ -47,6 +45,46 @@ namespace Syringe.Tests.Integration.Core.Scripting
 
 			// Assert
 			Assert.That(snippetText, Is.EqualTo("snippet 1"));
+		}
+
+
+		[Test]
+		public void should_return_empty_list_when_snippet_directory_does_not_exist(string path)
+		{
+			// Arrange
+			var config = new JsonConfiguration();
+			config.ScriptSnippetDirectory = "doesnt-exist";
+			var snippetReader = new SnippetFileReader(config);
+
+			// Act
+			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
+
+			// Assert
+			Assert.That(files.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void should_return_empty_list_when_snippet_sub_directory_does_not_exist(string path)
+		{
+			// Arrange
+			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
+			try
+			{
+				Directory.Delete(typeDirectory);
+			}
+			catch (IOException)
+			{
+			}
+
+			var config = new JsonConfiguration();
+			config.ScriptSnippetDirectory = _snippetDirectory;
+			var snippetReader = new SnippetFileReader(config);
+
+			// Act
+			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
+
+			// Assert
+			Assert.That(files.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
