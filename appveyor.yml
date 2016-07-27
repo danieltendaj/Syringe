@@ -14,7 +14,7 @@ cache:
 
 branches:
   only:
-    - master
+    - publish-to-github-in-appveyor
 
 services:
   - mongodb
@@ -61,7 +61,7 @@ deploy:
   artifact: CurrentVersionZip
   force_update: false
   on:
-    branch: master
+    branch: publish-to-github-in-appveyor
 
 # Clean old Azure Blob zip files, update their content types, and then push to Myget
 after_deploy:
