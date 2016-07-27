@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Configuration;
-using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
@@ -85,7 +82,7 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = _testController.Edit(new TestViewModel()) as RedirectToRouteResult;
 
             // then
-            _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTestObject(It.IsAny<TestViewModel>()), Times.Once);
             _testServiceMock.Verify(x => x.EditTest(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
@@ -112,7 +109,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Edit(new TestViewModel()) as ViewResult;
 
             // then
-            _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
+            _testFileMapperMock.Verify(x => x.BuildTestObject(It.IsAny<TestViewModel>()), Times.Never);
             _testServiceMock.Verify(x => x.EditTest(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Test>()), Times.Never);
             Assert.AreEqual("Edit", viewResult.ViewName);
             Assert.IsInstanceOf<TestViewModel>(viewResult.Model);
@@ -198,10 +195,10 @@ namespace Syringe.Tests.Unit.Web
         public void Add_should_return_correct_view_and_model()
         {
             // given
-            const string expectedFilename = "This is my filename.DONT STOP ME NOW";
+            const string expectedFilename = "This is Wayne's filename";
             var expectedTestFile = new TestFile();
 
-            _testServiceMock
+			_testServiceMock
                 .Setup(x => x.GetTestFile(expectedFilename))
                 .Returns(expectedTestFile);
 
@@ -223,9 +220,11 @@ namespace Syringe.Tests.Unit.Web
             Assert.That(model.AvailableVariables, Is.EqualTo(expectedVariable));
             Assert.That(model.ExpectedHttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(model.Method, Is.EqualTo(MethodType.GET));
-        }
 
-        [Test]
+			_testFileMapperMock.Verify(x => x.PopulateScriptSnippets(model), Times.Once);
+		}
+
+		[Test]
         public void Add_should_be_decorated_with_httpGet_and_EditableTestsRequired()
         {
             // given + when
@@ -246,7 +245,7 @@ namespace Syringe.Tests.Unit.Web
             var redirectToRouteResult = _testController.Add(new TestViewModel()) as RedirectToRouteResult;
 
             // then
-            _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Once);
+            _testFileMapperMock.Verify(x => x.BuildTestObject(It.IsAny<TestViewModel>()), Times.Once);
             _testServiceMock.Verify(x => x.CreateTest(It.IsAny<string>(), It.IsAny<Test>()), Times.Once);
             Assert.AreEqual("View", redirectToRouteResult.RouteValues["action"]);
         }
@@ -273,7 +272,7 @@ namespace Syringe.Tests.Unit.Web
             var viewResult = _testController.Add(new TestViewModel()) as ViewResult;
 
             // then
-            _testFileMapperMock.Verify(x => x.BuildCoreModel(It.IsAny<TestViewModel>()), Times.Never);
+            _testFileMapperMock.Verify(x => x.BuildTestObject(It.IsAny<TestViewModel>()), Times.Never);
             _testServiceMock.Verify(x => x.CreateTest(It.IsAny<string>(), It.IsAny<Test>()), Times.Never);
             Assert.AreEqual("Edit", viewResult.ViewName);
 

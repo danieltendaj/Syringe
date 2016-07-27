@@ -239,19 +239,22 @@ namespace Syringe.Core.Runner
                 var logger = new SimpleLogger();
 
                 // Scripting part
-                if (!string.IsNullOrEmpty(test.BeforeExecuteScript))
+                if (test.ScriptSnippets != null)
                 {
                     logger.WriteLine("Evaluating C# script");
 
                     try
                     {
-                        var evaluator = new TestFileScriptEvaluator(_configuration);
-                        evaluator.EvaluateBeforeExecute(test, request);
+						var snippetReader = new SnippetFileReader(_configuration);
+                        var evaluator = new TestFileScriptEvaluator(_configuration, snippetReader);
+                        bool success = evaluator.EvaluateBeforeExecute(test, request);
 
-                        request = evaluator.RequestGlobals.Request;
-                        test = evaluator.RequestGlobals.Test;
-                        logger.WriteIndentedLine("Compilation successful.");
-
+                        if (success)
+                        {
+                            request = evaluator.RequestGlobals.Request;
+                            test = evaluator.RequestGlobals.Test;
+                            logger.WriteIndentedLine("Compilation successful.");
+                        }
                     }
                     catch (Exception ex)
                     {

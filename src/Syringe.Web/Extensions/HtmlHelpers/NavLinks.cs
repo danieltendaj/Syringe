@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Syringe.Web.HtmlHelpers
+namespace Syringe.Web.Extensions.HtmlHelpers
 {
     public static class NavLinks
     {

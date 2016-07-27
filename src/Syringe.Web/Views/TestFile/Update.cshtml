@@ -1,36 +1,38 @@
 ﻿@model TestFileViewModel
 
 @{
-	ViewBag.Title = "Update test";
+    ViewBag.Title = "Update test";
 }
 <div class="container" id="edit-test">
-	<div class="row">
-		<form action="@(Request.RawUrl)" method="post" class="form-horizontal">
-			@Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    <div class="row">
+        <form action="@(Request.RawUrl)" method="post" class="form-horizontal">
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
 
-			@Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
+            @Html.HiddenFor(x => x.Filename, new { @class = "form-control" })
 
-			<ul class="breadcrumb">
-				<li><a title="View" href="/">Test Files</a></li>
-				<li><a title="View" href="@Url.Action("View", "TestFile", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
-				<li>Variables</li>
-			</ul>
+            <ul class="breadcrumb">
+                <li><a title="View" href="/">Test Files</a></li>
+                <li><a title="View" href="@Url.Action("View", "TestFile", new {filename = Model.Filename, pageNumber = ViewBag.PageNumber, noOfResults = ViewBag.NoOfResults})">@Model.Filename</a></li>
+                <li>Variables</li>
+            </ul>
 
-			<div class="panel panel-default">
-				<div class="panel-heading clearfix">
-					<h3 class="panel-title pull-left">Variables</h3>
-					<button type="submit" class="btn btn-sm btn-primary pull-right" id="addVariableItem">
-						<i class="material-icons">add</i>
-					</button>
-				</div>
-				<div class="panel-body">
-					@Html.EditorFor(x => x.Variables)
-				</div>
-			</div>
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Variables</h3>
+                    <button type="submit" class="btn btn-sm btn-primary pull-right" id="addVariableItem">
+                        <i class="material-icons">add</i>
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <div class="component">
+                        @Html.EditorFor(x => x.Variables)
+                    </div>
+                </div>
+            </div>
 
-			<div class="pull-right">
-				<input type="submit" value="save" class="btn btn-primary" />
-			</div>
-		</form>
-	</div>
+            <div class="pull-right">
+                <input type="submit" value="save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>

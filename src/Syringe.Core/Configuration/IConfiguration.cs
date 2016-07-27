@@ -11,5 +11,6 @@
         OctopusConfiguration OctopusConfiguration { get; }
 		bool ReadonlyMode { get; }
 	    DataStoreType DataStore { get; set; }
+        string ScriptSnippetDirectory { get; set; }
 	}
 }

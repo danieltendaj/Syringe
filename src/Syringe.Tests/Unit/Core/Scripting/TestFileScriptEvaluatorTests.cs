@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,20 +10,25 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Scripting;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Scripting
 {
-	public class TestFileScriptEvaluatorTests
+    public class TestFileScriptEvaluatorTests
 	{
 		[Test]
 		public void Should_throw_CodeEvaluationException_with_test_and_compilation_information_in_exception_message()
 		{
 			// given
-			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration());
 			string code = "this won't compile";
+			var snippetReader = new SnippetFileReaderMock(code);
+			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration(), snippetReader);
 			var test = new Test()
 			{
-				BeforeExecuteScript = code,
+                ScriptSnippets = new ScriptSnippets()
+                {
+                    BeforeExecuteFilename = "filepath-isnt-used.snippet"  
+                },
 				Description = "My test"
 			};
 
@@ -47,28 +51,33 @@ namespace Syringe.Tests.Unit.Core.Scripting
 		public void EvaluateBeforeExecute_should_add_required_references()
 		{
 			// given
-			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration());
+			var snippetReader = new SnippetFileReaderMock("IRestRequest request = new RestRequest();");
+			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration(), snippetReader);
 			var test = new Test();
-			test.BeforeExecuteScript = "IRestRequest request = new RestRequest();";
+			test.ScriptSnippets.BeforeExecuteFilename = "path-doesnt-matter.snippet";
 
 			// when + then
-			evaluator.EvaluateBeforeExecute(test, new RestRequest());
+			bool result = evaluator.EvaluateBeforeExecute(test, new RestRequest());
+            Assert.That(result, Is.True);
 		}
 
 		[Test]
 		public void EvaluateBeforeExecute_should_set_globals()
 		{
 			// given
-			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration());
 			string code = "Test.Description = \"it worked\";" +
 						  "Request.Method = Method.PUT;";
+
+			var snippetReader = new SnippetFileReaderMock(code);
+			var evaluator = new TestFileScriptEvaluator(new JsonConfiguration(), snippetReader);
 			var test = new Test();
-			test.BeforeExecuteScript = code;
+			test.ScriptSnippets.BeforeExecuteFilename = "filename-doesnt-matter.snippet";
 
 			// when
-			evaluator.EvaluateBeforeExecute(test, new RestRequest());
+			bool result = evaluator.EvaluateBeforeExecute(test, new RestRequest());
 
 			// then
+            Assert.That(result, Is.True);
 			Assert.That(evaluator.RequestGlobals.Test.Description, Is.EqualTo("it worked"));
 			Assert.That(evaluator.RequestGlobals.Request.Method, Is.EqualTo(Method.PUT));
 		}

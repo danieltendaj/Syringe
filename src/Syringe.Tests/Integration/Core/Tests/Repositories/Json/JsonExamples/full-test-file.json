@@ -27,7 +27,9 @@
           "AssertionType": 1
         }
       ],
-      "BeforeExecuteScript": "Some script thing that Chris did"
+      "ScriptSnippets": {
+        "BeforeExecuteFilename": "uploadfile.snippet"
+      }
     }
   ],
   "Variables": [

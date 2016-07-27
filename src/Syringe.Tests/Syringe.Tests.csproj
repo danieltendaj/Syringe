@@ -211,6 +211,7 @@
     <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
+    <Compile Include="Integration\Core\Scripting\SnippetFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
     <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
+    <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
     <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
     <Compile Include="Unit\Core\Security\UserContextTests.cs" />

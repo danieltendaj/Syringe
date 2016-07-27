@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.IO;
 
 namespace Syringe.Core.Configuration
 {
@@ -31,16 +32,20 @@ namespace Syringe.Core.Configuration
         [JsonConverter(typeof(StringEnumConverter))]
         public DataStoreType DataStore { get; set; }
 
-	    public JsonConfiguration()
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string ScriptSnippetDirectory { get; set; }
+
+        public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
-			TestFilesBaseDirectory = @"D:\Syringe\";
+			TestFilesBaseDirectory = @"C:\Syringe\";
             TestFileFormat = TestFileFormat.Json;
 			MongoDbDatabaseName = "Syringe";
 			ReadonlyMode = false;
             DataStore = DataStoreType.MongoDb;
+            ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
 
 			OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();

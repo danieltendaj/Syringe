@@ -34,12 +34,13 @@ namespace Syringe.Web.Models
         public List<AssertionViewModel> Assertions { get; set; }
         public List<VariableViewModel> AvailableVariables { get; set; }
 
-		public string BeforeExecuteScript { get; set; }
-
 		[Required]
         public string Filename { get; set; }
 
-        public TestViewModel()
+		public string BeforeExecuteScriptFilename { get; set; }
+	    public IEnumerable<string> BeforeExecuteScriptSnippets { get; set; }
+
+	    public TestViewModel()
         {
             Headers = new List<HeaderItem>();
             CapturedVariables = new List<CapturedVariableItem>();
