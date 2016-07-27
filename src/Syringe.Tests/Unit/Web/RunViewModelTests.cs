@@ -83,31 +83,6 @@ namespace Syringe.Tests.Unit.Web
         }
 
         [Test]
-        public void should_start_task_using_current_user_context_and_filename_and_environment_and_position_when_running_test()
-        {
-            // given
-            const string fileName = "MyFile";
-            const string environment = "Chris loves a bit of environment if you know what I mean...";
-            const string userName = "Me";
-            const int position = 432;
-
-            ITestService testService = Mock.Of<ITestService>(s => s.GetTest(fileName, position) == Mock.Of<Test>());
-            var tasksService = new Mock<ITasksService>();
-            RunViewModel viewModel = GivenARunViewModel(testService: testService, tasksService: tasksService.Object);
-
-            // when
-            viewModel.RunTest(Mock.Of<IUserContext>(c => c.FullName == userName), fileName, environment, position);
-
-            // then
-            tasksService.Verify(
-                s =>
-                    s.Start(
-                        It.Is<TaskRequest>(
-                            r => r.Filename == fileName && r.Username == userName && r.Environment == environment && r.Position == position)),
-                "Should have requested for the correct task to start.");
-        }
-
-        [Test]
         public void should_set_current_task_id_to_running_task_id()
         {
             // given
@@ -126,6 +101,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             Assert.That(viewModel.CurrentTaskId, Is.EqualTo(taskId));
         }
+
         private static RunViewModel GivenARunViewModel(ITasksService tasksService = null, ITestService testService = null)
         {
             tasksService = tasksService ?? Mock.Of<ITasksService>();

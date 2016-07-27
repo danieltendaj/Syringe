@@ -24,8 +24,7 @@ namespace Syringe.Service.Parallel
         public Task CurrentTask { get; set; }
 
         public string Errors { get; set; }
-
-        public int? Position { get; set; }
+        
         public TestFileResult TestFileResults { get; set; }
     }
 }
