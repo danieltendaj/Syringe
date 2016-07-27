@@ -75,7 +75,7 @@ namespace Syringe.Web.Controllers
 
         public async Task<ActionResult> Index(int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-            ViewBag.Title =  string.IsNullOrEmpty(environment) ? "All" : environment;
+            ViewBag.Title = "All results";
 
             TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults, environment);
             result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
@@ -85,7 +85,7 @@ namespace Syringe.Web.Controllers
 
         public async Task<ActionResult> Today(int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-            ViewBag.Title = string.IsNullOrEmpty(environment) ? "All" : environment;
+            ViewBag.Title = "Today's results";
 
             TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults, environment);
             result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();

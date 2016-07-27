@@ -102,7 +102,7 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("Index", viewResult.ViewName);
-            Assert.AreEqual(viewResult.ViewBag.Title, "All");
+            Assert.AreEqual(viewResult.ViewBag.Title, "All results");
             Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
         }
 
@@ -115,32 +115,8 @@ namespace Syringe.Tests.Unit.Web
             // then
             _testsClient.Verify(x => x.GetSummaries(It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual("Index", viewResult.ViewName);
-            Assert.AreEqual(viewResult.ViewBag.Title, "All");
+            Assert.AreEqual(viewResult.ViewBag.Title, "Today's results");
             Assert.IsInstanceOf<TestFileResultSummaryCollection>(viewResult.Model);
-        }
-
-        [Test]
-        [TestCase("Chris Loves Simon")]
-        [TestCase("Hemang is Superman")]
-        public void Index_should_return_correct_viewbag_title_based_on_environment(string environment)
-        {
-            // given + when
-            var viewResult = _resultsController.Index(1, 20, environment).Result as ViewResult;
-
-            // then
-            Assert.AreEqual("Index", viewResult.ViewName);
-        }
-
-        [Test]
-        [TestCase("Chris Loves Simon")]
-        [TestCase("Hemang is Superman")]
-        public void Today_should_return_correct_viewbag_title_based_on_environment(string environment)
-        {
-            // given + when
-            var viewResult = _resultsController.Today(1, 20, environment).Result as ViewResult;
-
-            // then
-            Assert.AreEqual("Index", viewResult.ViewName);
         }
 
 
