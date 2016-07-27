@@ -14,10 +14,10 @@
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">Environment</button>
 
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="@Url.Action("Index", "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults})">All</a></li>
+                            <li><a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults})">All</a></li>
                             @foreach (string environment in Model.Environments)
                             {
-                                <li><a href="@Url.Action("Index", "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults, environment})">@environment</a></li>
+                                <li><a href="@Url.Action(ViewContext.RouteData.Values["action"].ToString(), "Results", new {pageNumber = 1, noOfResults = Model.NoOfResults, environment})">@environment</a></li>
                             }
                         </ul>
                     </div>
@@ -27,7 +27,7 @@
 
             @foreach (var groupedSummary in Model.PagedResults.GroupBy(x => x.Environment).OrderBy(x => x.Key))
             {
-                <div class="label label-material-indigo">@groupedSummary.Key</div>
+                <div class="label label-material-indigo environment-name">@groupedSummary.Key</div>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
