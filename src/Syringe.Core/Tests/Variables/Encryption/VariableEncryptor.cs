@@ -26,7 +26,7 @@
 
 		public string Decrypt(string encryptedValue)
 		{
-			return "";
+			return _encryption.Decrypt(encryptedValue);
 		}
 	}
 }
