@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Syringe.Core.Tests.Variables.Encryption;
 
 namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
@@ -7,9 +6,31 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 	public class RijndaelEncryptionTests
 	{
 		[Test]
-		public void ctor_should_throw_exception_for_empty_password()
+		public void encrypt_should_return_value_when_password_is_empty()
 		{
-			Assert.Throws<ArgumentNullException>(() => new RijndaelEncryption(""));
+			// given
+			string plainText = "hands on your head";
+			var encryption = new RijndaelEncryption("");
+
+			// when
+			string actualValue = encryption.Encrypt(plainText);
+
+			// then
+			Assert.That(actualValue, Is.EqualTo(plainText));
+		}
+
+		[Test]
+		public void decrypt_should_return_value_when_password_is_empty()
+		{
+			// given
+			string plainText = "touch my what?!";
+			var encryption = new RijndaelEncryption("");
+
+			// when
+			string actualValue = encryption.Decrypt(plainText);
+
+			// then
+			Assert.That(actualValue, Is.EqualTo(plainText));
 		}
 
 		[Test]

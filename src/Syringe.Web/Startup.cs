@@ -45,8 +45,24 @@ namespace Syringe.Web
 			};
 
 			app.UseCookieAuthentication(cookieOptions);
-			app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
 
+			// Only enable if there are credentials
+			if ((!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientSecret))
+				||
+				(!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientSecret))
+				||
+				(!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientId) &&
+				!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientSecret))
+				)
+
+			{
+				
+				app.SetDefaultSignInAsAuthenticationType(cookieOptions.AuthenticationType);
+			}
+
+			
 			//
 			// OAuth2 Integrations
 			//

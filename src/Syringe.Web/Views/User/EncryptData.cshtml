@@ -1,0 +1,30 @@
+﻿@model EncryptedDataViewModel
+@{
+	ViewBag.Title = "Encrypt data";
+}
+<div class="container">
+    <div class="row">
+	    <h1>Encrypt variable data</h1>
+	    <p>
+		    This form allows you to encrypt sensitive data before saving it into a shared variables.
+	    </p>
+
+		@if (Model.IsEnabled)
+		{
+			using (Html.BeginForm())
+			{
+				<input type="text" name="plainText"/>
+				<input type="submit" value="Encrypt" class="btn btn-primary">
+			}
+		}
+		else
+		{
+			<div class="alert alert-warning">
+				<p>
+					Encryption is not enabled. You can enable it by entering an encryption key in the service configuration file.
+				</p>
+			</div>
+		}
+
+    </div>
+</div>

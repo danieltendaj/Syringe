@@ -116,8 +116,16 @@ namespace Syringe.Web.DependencyResolution {
 					object instance = container.TryGetInstance(serviceType);
 
 					// Throw an error
-					if (instance == null)
-						container.GetInstance(serviceType);
+					try
+					{
+						if (instance == null)
+							container.GetInstance(serviceType);
+					}
+					catch (Exception ex)
+					{
+						string msg = container.WhatDoIHave();
+						throw new Exception(msg + Environment.NewLine + ex.Message);
+					}
 				}
 				else
 				{

@@ -13,12 +13,12 @@ namespace Syringe.Core.Tests.Variables.Encryption
 	{
 		private static readonly byte[] SALT = new byte[] { 0x3c, 0x8b, 0x08, 0x00, 0x35, 0xe9, 0xf7, 0x45, 0x6e, 0xa8, 0xbb, 0xe4, 0x6b, 0x4a, 0xd0, 0x0b };
 
-		private Rijndael _rijndael;
+		private readonly Rijndael _rijndael;
 
 		public RijndaelEncryption(string password)
 		{
 			if (string.IsNullOrEmpty(password))
-				throw new ArgumentNullException(nameof(password), "The encryption password is empty");
+				return;
 
 			_rijndael = Rijndael.Create();
 			_rijndael.Padding = PaddingMode.Zeros;
@@ -43,6 +43,9 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		public string Encrypt(string plainValue)
 		{
+			if (_rijndael == null)
+				return plainValue;
+
 			using (var encryptor = _rijndael.CreateEncryptor())
 			using (var stream = new MemoryStream())
 			using (var crypto = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
@@ -61,6 +64,9 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		public string Decrypt(string encryptedValue)
 		{
+			if (_rijndael == null)
+				return encryptedValue;
+
 			try
 			{
 				using (var decryptor = _rijndael.CreateDecryptor())
