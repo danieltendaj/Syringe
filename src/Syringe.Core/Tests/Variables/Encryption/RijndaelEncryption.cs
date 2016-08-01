@@ -46,19 +46,27 @@ namespace Syringe.Core.Tests.Variables.Encryption
 			if (_rijndael == null)
 				return plainValue;
 
-			using (var encryptor = _rijndael.CreateEncryptor())
-			using (var stream = new MemoryStream())
-			using (var crypto = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
+			try
 			{
-				byte[] bytes = Encoding.UTF8.GetBytes(plainValue);
+				using (var encryptor = _rijndael.CreateEncryptor())
+				using (var stream = new MemoryStream())
+				using (var crypto = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
+				{
+					byte[] bytes = Encoding.UTF8.GetBytes(plainValue);
 
-				crypto.Write(bytes, 0, bytes.Length);
-				crypto.FlushFinalBlock();
-				stream.Position = 0;
-				var encrypted = new byte[stream.Length];
-				stream.Read(encrypted, 0, encrypted.Length);
+					crypto.Write(bytes, 0, bytes.Length);
+					crypto.FlushFinalBlock();
+					stream.Position = 0;
+					var encrypted = new byte[stream.Length];
+					stream.Read(encrypted, 0, encrypted.Length);
 
-				return Convert.ToBase64String(encrypted);
+					return Convert.ToBase64String(encrypted);
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, "Error decrypting value {0}", plainValue);
+				return plainValue;
 			}
 		}
 
@@ -84,7 +92,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 					return Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
 				}
 			}
-			catch (FormatException ex)
+			catch (Exception ex)
 			{
 				Log.Error(ex, "Error decrypting value {0}", encryptedValue);
 				return encryptedValue;
