@@ -29,29 +29,6 @@ namespace Syringe.Web.Models
 			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
-        public void RunTest(IUserContext userContext, string fileName, string environment, int position)
-        {
-            FileName = fileName;
-            Environment = fileName;
-
-            Test test = _testService.GetTest(fileName,  position);
-
-            var verifications = new List<Assertion>();
-            verifications.AddRange(test.Assertions);
-            _runningTests.Add(new RunningTestViewModel(position, test.Description, verifications));
-
-            var taskRequest = new TaskRequest
-            {
-                Filename = fileName,
-                Username = userContext.FullName,
-                Position = position,
-                Environment = environment
-            };
-
-            CurrentTaskId = _tasksService.Start(taskRequest);
-        }
-
-
         public void Run(IUserContext userContext, string fileName, string environment)
         {
             FileName = fileName;

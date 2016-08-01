@@ -157,6 +157,7 @@ h1, h2, h3, h4, h5, div, p {
 
 .validation-summary-valid {
     padding: 0px !important;
+    border:0;
 }
 
 .form-horizontal {
@@ -237,4 +238,23 @@ h1, h2, h3, h4, h5, div, p {
 			border-radius: 0 4px 0 4px;
 		}
 	}
+}
+
+.panel-body{
+
+    .group{
+        margin-bottom:40px;
+    }
+}
+
+.environment-name{
+    color: $gray-dark;
+    font-size:100%;
+    margin-bottom:10px;
+    display: block;
+    text-align: left;
+}
+
+.navbar {
+    border-radius:0;
 }

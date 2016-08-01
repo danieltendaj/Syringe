@@ -45,7 +45,6 @@ namespace Syringe.Service.Parallel
             taskInfo.Request = item;
             taskInfo.StartTime = DateTime.UtcNow;
             taskInfo.Username = item.Username;
-            taskInfo.Position = item.Position;
 
             Task childTask = StartSessionAsync(taskInfo);
 
@@ -94,11 +93,6 @@ namespace Syringe.Service.Parallel
 
                 TestFile testFile = _testRepository.GetTestFile(filename);
                 testFile.Filename = filename;
-
-                if (item.Position.HasValue)
-                {
-                    testFile.Tests = new[] { testFile.Tests.ElementAt(item.Position.Value) };
-                }
                 
                 TestFileRunner runner = _testFileRunnerFactory.Create();
                 item.Runner = runner;

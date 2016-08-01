@@ -6,9 +6,6 @@ environment:
     nodejs_version: "6.2.2" # This is the Choco version number
     COVERALLS_REPO_TOKEN:  
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
-    AZURE_ACCOUNT_NAME: portalvhdshhv3xmk8gh157
-    AZURE_ACCESS_KEY:
-       secure: f99SukwJNZYbqSSR1ve8UFSq1Fc/0VRxUIiT/uK0diatTIP8MCsK8GWZu5ipzn8RwxXsR9ovVu6+kLGEKYyiBSlC7K9hlnidEhO4KO+G6STzsKXkDs1lzyk9hqEEDxFo
     MYGET_ACCESS_KEY:
        secure: syrbd00vj9tSxTdWxrecqIKfGnKzNXhVb+R1oyGR3jBtLmDz5JtCRnaEaeJwkeI7
 
@@ -47,7 +44,6 @@ build_script:
 after_build:
   - ps: .\build\nupkg-to-zip.ps1
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
-  - echo %APPVEYOR_BUILD_VERSION% > currentversion.txt
 
 # Generate test coverage and upload it to Coveralls.IO
 after_test: 
@@ -57,23 +53,16 @@ after_test:
 artifacts:
   - path: Syringe-$(APPVEYOR_BUILD_VERSION).zip
     name: CurrentVersionZip
-    
-  - path: currentversion.txt
-    name: CurrentVersionTxt
 
-# Upload to Azure Blob Storage.
-# Url: https://yetanotherchris.blob.core.windows.net/syringe/currentversion.txt
-# Explorer: http://clumsyleaf.com/products/downloads
 deploy:
-  provider: AzureBlob
-  storage_account_name: $(AZURE_ACCOUNT_NAME)
-  storage_access_key: $(AZURE_ACCESS_KEY)
-  container: syringe
-  folder: 
-  artifact: 
-  unzip: false
+- provider: GitHub
+  auth_token:
+    secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
+  artifact: CurrentVersionZip
+  force_update: false
+  on:
+    branch: master
 
 # Clean old Azure Blob zip files, update their content types, and then push to Myget
 after_deploy:
-  - ps: tools\AzureStorageCleanup\AzureStorageCleanup.exe -storagename $env:AZURE_ACCOUNT_NAME -storagekey $env:AZURE_ACCESS_KEY -container syringe -mindaysold 3 -recursive
   - ps: .\build\push-chocopackage.ps1 -version $env:APPVEYOR_BUILD_VERSION -apiKey $env:MYGET_ACCESS_KEY
