@@ -3,7 +3,6 @@
 	public class VariableEncryptor : IVariableEncryptor
 	{
 		private readonly IEncryption _encryption;
-
 		public static string ValuePrefix => "enc:";
 
 		public VariableEncryptor(IEncryption encryption)
