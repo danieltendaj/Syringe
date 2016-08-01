@@ -3,8 +3,7 @@
 @import "bootstrap-sass/stylesheets/_bootstrap";
 
 @import "bootswatch/_bootswatch";
-
-
+@import "primer-tooltips/index.scss";
 
 
 /*body {
@@ -209,4 +208,33 @@ h1, h2, h3, h4, h5, div, p {
 
 .nav-tabs {
     margin-bottom: 0;
+}
+
+#encrypt-data {
+	.form-group{ 
+		margin-left: 0px !important;
+	}
+	
+	#encrypted-value-container {
+		padding-top:25px;
+
+		.zero-clipboard {
+			position: relative;
+		}
+
+		.btn-clipboard {
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 10;
+			display: block;
+			padding: 5px 8px;
+			font-size: 12px;
+			color: #767676;
+			cursor: pointer;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			border-radius: 0 4px 0 4px;
+		}
+	}
 }

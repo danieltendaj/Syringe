@@ -141,3 +141,11 @@
 </div>
 
 <input id="available-variables-json" type="hidden" value="@JsonConvert.SerializeObject(Model.AvailableVariables.Select(x => x.Name))" />
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var clipboard = new Clipboard(".btn");
+		});
+	</script>
+}

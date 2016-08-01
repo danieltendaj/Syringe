@@ -1,12 +1,7 @@
-﻿using System.Net;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Syringe.Core.Configuration;
-using Syringe.Core.Services;
-using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables.Encryption;
-using Syringe.Web.Mappers;
 using Syringe.Web.Models;
-
 
 namespace Syringe.Web.Controllers
 {
@@ -36,10 +31,18 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public ActionResult EncryptData(string variableValue)
         {
+	        string encryptedValue = "";
+
+	        if (!string.IsNullOrEmpty(variableValue))
+	        {
+		        encryptedValue = _encryptor.Encrypt(variableValue);
+	        }
+
 			var model = new EncryptedDataViewModel()
 			{
 				IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey),
-				EncryptedValue = "foo"
+				PlainValue = variableValue,
+				EncryptedValue = encryptedValue
 			};
 
             return View("EncryptData", model);
