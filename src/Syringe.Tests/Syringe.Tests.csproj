@@ -255,7 +255,6 @@
     <Compile Include="Unit\Core\Http\HttpClientTests.cs" />
     <Compile Include="Unit\Core\Tests\Results\TestResultTests.cs" />
     <Compile Include="Unit\Core\Runner\CapturedVariableProviderTests.cs" />
-    <Compile Include="Unit\Core\Runner\SessionVariablesTests.cs" />
     <Compile Include="Unit\Core\Runner\TestFileResultsBuilder.cs" />
     <Compile Include="Unit\Core\Runner\TestFileResultTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\AssertionsMatcherTests.cs" />
