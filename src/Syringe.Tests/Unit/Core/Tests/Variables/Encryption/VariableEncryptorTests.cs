@@ -6,25 +6,25 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 	public class VariableEncryptorTests
 	{
 		[Test]
-		public void should_ignore_value_that_doesnt_start_with_identifier()
+		public void decrypt_should_ignore_value_that_doesnt_start_with_identifier()
 		{
 			// given
-			string value = "shut the door";
+			string value = "jcydwHTHkdPHlUZudXKhcw==";
 			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
 
 			// when
-			string actualValue = encryptor.Encrypt(value);
+			string actualValue = encryptor.Decrypt(value);
 
 			// then
 			Assert.That(actualValue, Is.EqualTo(value));
 		}
 
 		[Test]
-		public void should_encrypt_when_value_starts_with_encryption_identifier()
+		public void should_encrypt_value_and_add_prefix()
 		{
 			// given
-			string plainText = "enc:shut the door";
-			string expectedValue = "jcydwHTHkdPHlUZudXKhcw==";
+			string plainText = "shut the door";
+			string expectedValue = "enc:jcydwHTHkdPHlUZudXKhcw==";
 
 			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
 
@@ -36,11 +36,11 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 		}
 
 		[Test]
-		public void should_decrypt_value()
+		public void should_decrypt_value_when_value_starts_with_encryption_identifier()
 		{
 			// given
 			string expectedValue = "shut the door";
-			string plainText = "jcydwHTHkdPHlUZudXKhcw==";
+			string plainText = "enc:jcydwHTHkdPHlUZudXKhcw==";
 
 			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
 
