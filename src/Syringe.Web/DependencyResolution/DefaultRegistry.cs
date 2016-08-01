@@ -23,6 +23,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Helpers;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
@@ -52,6 +53,9 @@ namespace Syringe.Web.DependencyResolution
             For<IConfiguration>()
                 .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
                 .Singleton();
+	        For<IEncryption>()
+				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+	        For<IVariableEncryptor>().Use<VariableEncryptor>();
 
             //
             // Model helpers

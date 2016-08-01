@@ -8,7 +8,10 @@ var vinylPaths = require('vinyl-paths');
 
 gulp.task('default', function () {
 	return gulp.src('./css/Syringe.scss')
-		.pipe(sass().on('error', sass.logError))
+		.pipe(sass({
+			includePaths: ['node_modules']
+		})
+			.on('error', sass.logError))
 		.pipe(vinylPaths(del))
 		.pipe(cleanCss())
 		.pipe(gulp.dest('./css/'));

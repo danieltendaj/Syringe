@@ -19,7 +19,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
         public void Setup()
         {
             _variableContainerStub = new VariableContainerStub();
-            _variableProvider = new CapturedVariableProvider(_variableContainerStub, "development");
+            _variableProvider = new CapturedVariableProvider(_variableContainerStub, "development", new VariableEncryptorStub());
             _assertionLogger = new AssertionLogger();
         }
 
