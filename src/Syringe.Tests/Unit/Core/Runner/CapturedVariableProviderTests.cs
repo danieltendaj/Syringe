@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Logging;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests.Variables;
+using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Tests.Extensions;
 using Syringe.Tests.StubsMocks;
 
@@ -267,6 +268,29 @@ namespace Syringe.Tests.Unit.Core.Runner
 		}
 
 		[Test]
+		public void ReplacePlainTextVariablesIn_should_call_decrypt()
+		{
+			// Arrange
+			string variableValue = "leaf";
+
+			var mock = new Mock<IVariableEncryptor>();
+			mock.Setup(x => x.Decrypt(It.IsAny<string>()))
+				.Returns(variableValue)
+				.Verifiable("decrypt not called");
+
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, mock.Object);
+			sessionVariables.AddOrUpdateVariable(new Variable("nano", variableValue, _devEnvironment));
+
+			string template = "{nano}";
+
+			// Act
+			string actualText = sessionVariables.ReplacePlainTextVariablesIn(template);
+
+			// Assert
+			mock.Verify(x => x.Decrypt(variableValue));
+		}
+
+		[Test]
 		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
 		{
 			// Arrange
@@ -282,6 +306,29 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// Assert
 			Assert.That(actualText, Is.EqualTo(expectedText));
+		}
+
+		[Test]
+		public void ReplaceVariablesIn_should_call_decrypt()
+		{
+			// Arrange
+			string variableValue = "leaf";
+
+			var mock = new Mock<IVariableEncryptor>();
+			mock.Setup(x => x.Decrypt(It.IsAny<string>()))
+				.Returns(variableValue)
+				.Verifiable("decrypt not called");
+
+			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, mock.Object);
+			sessionVariables.AddOrUpdateVariable(new Variable("nano", variableValue, _devEnvironment));
+
+			string template = "{nano}";
+
+			// Act
+			sessionVariables.ReplaceVariablesIn(template);
+
+			// Assert
+			mock.Verify(x => x.Decrypt(variableValue));
 		}
 	}
 }
