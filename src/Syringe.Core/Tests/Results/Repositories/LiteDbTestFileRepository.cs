@@ -15,7 +15,7 @@ namespace Syringe.Core.Tests.Results.Repositories
 
         public LiteDbTestFileRepository()
         {
-            _databaseLocation = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "syringe.db");
+            _databaseLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "syringe.db");
         }
 
         public async Task AddAsync(TestFileResult testFileResult)

@@ -5,7 +5,6 @@
 	"ScriptSnippetDirectory": "..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets",
 	"TestFileFormat": "Json",
 	"DataStore": "LiteDb",
-	"MongoDbDatabaseName": "Syringe",
 	"ReadonlyMode": false,
 	"EncryptionKey" :  "", 
 	"OAuthConfiguration": {

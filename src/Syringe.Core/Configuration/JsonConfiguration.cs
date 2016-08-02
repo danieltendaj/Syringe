@@ -19,10 +19,8 @@ namespace Syringe.Core.Configuration
         [JsonConverter(typeof(StringEnumConverter))]
         public TestFileFormat TestFileFormat { get; set; }
 
-		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-		public string MongoDbDatabaseName { get; set; }
-
 		public OAuthConfiguration OAuthConfiguration { get; set; }
+
         public OctopusConfiguration OctopusConfiguration { get; set; }
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -45,7 +43,6 @@ namespace Syringe.Core.Configuration
 			ServiceUrl = "http://*:1981";
 			TestFilesBaseDirectory = @"C:\Syringe\";
             TestFileFormat = TestFileFormat.Json;
-			MongoDbDatabaseName = "Syringe";
 			ReadonlyMode = false;
             DataStore = DataStoreType.LiteDb;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");

@@ -31,19 +31,6 @@ if(!(Test-Path $configJsonPath))
 		Copy-Item "$serviceDir\configuration.default.json" $configJsonPath
 }
 
-$installMongo = (Read-Host "Would you like to use MongoDb? (y/n)").toLower() -eq 'y'
-$dataStoreType = "LiteDb"
-if ($installMongo -eq $true)
-{
-		Write-Host "Installing MongoDB" -ForegroundColor Green
-		$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
-		$oldSysDrive = $env:systemdrive
-		$env:systemdrive = $mongoDataDir
-		choco install mongodb -version 3.0.3
-		$env:systemdrive = $oldSysDrive
-
-		$dataStoreType = "MongoDb"
-}
 
 $configJson = Get-Content -Path $configJsonPath | ConvertFrom-Json
 $configJson.DataStore = $dataStoreType
@@ -53,8 +40,8 @@ ConvertTo-Json $configJson | Set-Content $configJsonPath
 Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
 choco install nodejs -y
 
-# Refresh the path vars for npm
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+# Refresh the path vars for npm (Chocolatey 0.98+)
+refreshenv
 
 try
 {
