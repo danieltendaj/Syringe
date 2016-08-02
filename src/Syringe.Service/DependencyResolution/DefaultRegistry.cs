@@ -114,12 +114,8 @@ namespace Syringe.Service.DependencyResolution
 
         private void SetupDataStore(IConfiguration configuration)
         {
-            // Test file readers and writers - set to json by default as there is no alternative right now.
             switch (configuration.DataStore)
             {
-                case DataStoreType.MongoDb:
-                    For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
-                    break;
                 case DataStoreType.LiteDb:
                     For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
                     break;

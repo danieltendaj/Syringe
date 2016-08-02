@@ -47,7 +47,7 @@ namespace Syringe.Core.Configuration
             TestFileFormat = TestFileFormat.Json;
 			MongoDbDatabaseName = "Syringe";
 			ReadonlyMode = false;
-            DataStore = DataStoreType.MongoDb;
+            DataStore = DataStoreType.LiteDb;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
 
 			OAuthConfiguration = new OAuthConfiguration();
