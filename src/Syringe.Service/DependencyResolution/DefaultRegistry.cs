@@ -27,6 +27,7 @@ using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service.Api.Hubs;
 using Syringe.Service.Parallel;
@@ -58,7 +59,11 @@ namespace Syringe.Service.DependencyResolution
             For<IConfigurationStore>().Use(configStore).Singleton();
             For<IConfiguration>().Use(configuration);
 
-            SetupDataStore(configuration);
+			For<IEncryption>()
+				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+			For<IVariableEncryptor>().Use<VariableEncryptor>();
+
+			SetupDataStore(configuration);
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 

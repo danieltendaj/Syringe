@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.CodeAnalysis.Scripting;
+using Moq;
 using NUnit.Framework;
 using RestSharp;
 using Syringe.Core.Configuration;
@@ -80,6 +77,28 @@ namespace Syringe.Tests.Unit.Core.Scripting
             Assert.That(result, Is.True);
 			Assert.That(evaluator.RequestGlobals.Test.Description, Is.EqualTo("it worked"));
 			Assert.That(evaluator.RequestGlobals.Request.Method, Is.EqualTo(Method.PUT));
+		}
+
+		[Test]
+		public void EvaluateBeforeExecute_should_call_read_with_snippet_type_in_the_path()
+		{
+			// given
+			var snippetReader = new Mock<ISnippetFileReader>();
+			var configuration = new JsonConfiguration();
+			configuration.ScriptSnippetDirectory = @"C:\foo";
+
+			var evaluator = new TestFileScriptEvaluator(configuration, snippetReader.Object);
+			var test = new Test();
+			test.ScriptSnippets.BeforeExecuteFilename = "path-doesnt-matter.snippet";
+
+			string typeName = ScriptSnippetType.BeforeExecute.ToString().ToLower();
+			string expectedPath = Path.Combine(configuration.ScriptSnippetDirectory, typeName, test.ScriptSnippets.BeforeExecuteFilename);
+
+			// when
+			evaluator.EvaluateBeforeExecute(test, new RestRequest());
+			
+			// then
+			snippetReader.Verify(x => x.ReadFile(expectedPath));
 		}
 	}
 }

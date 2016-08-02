@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Syringe.Core.Logging;
 using Syringe.Core.Tests.Variables;
+using Syringe.Core.Tests.Variables.Encryption;
 
 namespace Syringe.Core.Runner
 {
@@ -11,11 +12,13 @@ namespace Syringe.Core.Runner
     {
         private readonly IVariableContainer _currentVariables;
         private readonly string _environment;
+	    private readonly IVariableEncryptor _encryptor;
 
-        public CapturedVariableProvider(IVariableContainer variableContainer, string environment)
+	    public CapturedVariableProvider(IVariableContainer variableContainer, string environment, IVariableEncryptor encryptor)
         {
             _currentVariables = variableContainer;
             _environment = environment;
+		    _encryptor = encryptor;
         }
 
         public void AddOrUpdateVariables(List<Variable> variables)
@@ -63,7 +66,10 @@ namespace Syringe.Core.Runner
             {
                 if (variable.MatchesEnvironment(_environment))
                 {
-                    text = text.Replace("{" + variable.Name + "}", variable.Value);
+	                string value = variable.Value;
+	                value = _encryptor.Decrypt(value);
+
+                    text = text.Replace("{" + variable.Name + "}", value);
                 }
             }
 
@@ -78,7 +84,10 @@ namespace Syringe.Core.Runner
             {
                 if (variable.MatchesEnvironment(_environment))
                 {
-                    result = result.Replace("{" + variable.Name + "}", Regex.Escape(variable.Value));
+					string value = variable.Value;
+					value = _encryptor.Decrypt(value);
+
+					result = result.Replace("{" + variable.Name + "}", Regex.Escape(value));
                 }
             }
 

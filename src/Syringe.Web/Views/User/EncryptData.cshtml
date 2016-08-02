@@ -1,0 +1,68 @@
+﻿@model EncryptedDataViewModel
+@{
+	ViewBag.Title = "Encrypt data";
+}
+<div class="container">
+	<div class="row" id="encrypt-data">
+		<div class="col-sm-12">
+			<h1>Encrypt variable data</h1>
+			<p>
+				This form allows you to encrypt sensitive data before saving it into a shared variables.
+			</p>
+
+			@if (Model.IsEnabled)
+			{
+				<form action="@(Request.RawUrl)" method="post" class="form-horizontal">
+					<div class="form-group">
+						<input type="text" id="variableValue" name="variableValue" value="@Model.PlainValue" class="form-control" placeholder="Variable data" />
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Encrypt" class="btn btn-primary">
+					</div>
+				</form>
+
+				if (!string.IsNullOrEmpty(Model.EncryptedValue))
+				{
+					<div class="form-group" id="encrypted-value-container">
+						<h3>Encrypted value</h3>
+						<p>
+							Copy this value, including the "enc:" bit into the variable value text box.
+						</p>
+						
+						<div class="zero-clipboard" data-clipboard-target="#encryptedValue">
+							<span class="btn-clipboard" aria-label="Copied to clipboard.">Copy</span>
+						</div>
+						<pre id="encryptedValue">@Model.EncryptedValue</pre>
+					</div>
+				}
+			}
+			else
+			{
+				<div class="alert alert-warning">
+					<p>
+						Encryption is not enabled. You can enable it by entering an encryption key in the service configuration file.
+					</p>
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			var clipboard = new Clipboard(".zero-clipboard");
+
+			clipboard.on('success', function (e) {
+				e.clearSelection();
+				$('.btn-clipboard').addClass('tooltipped tooltipped-s tooltipped-no-delay');
+
+				setTimeout(function() {
+						$('.btn-clipboard').removeClass('tooltipped tooltipped-s tooltipped-no-delay');
+					},1500);
+			});
+
+		});
+	</script>
+}
