@@ -24,26 +24,37 @@ git submodule update
 Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
 
-# Install MongoDB
-Write-Host "Installing MongoDB" -ForegroundColor Green
-$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
-$oldSysDrive = $env:systemdrive
-$env:systemdrive = $mongoDataDir
-choco install mongodb -version 3.0.3
-$env:systemdrive = $oldSysDrive
-
-if(!(Test-Path "$serviceDir\configuration.json"))
+$configJsonPath = "$serviceDir\configuration.json"
+if(!(Test-Path $configJsonPath))
 {
-	Write-Host "Restoring config file from default..." -ForegroundColor Green
-	Copy-Item "$serviceDir\configuration.default.json" "$serviceDir\configuration.json"
+		Write-Host "Restoring config file from default..." -ForegroundColor Green
+		Copy-Item "$serviceDir\configuration.default.json" $configJsonPath
 }
+
+$installMongo = (Read-Host "Would you like to use MongoDb? (y/n)").toLower() -eq 'y'
+$dataStoreType = "LiteDb"
+if ($installMongo -eq $true)
+{
+		Write-Host "Installing MongoDB" -ForegroundColor Green
+		$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
+		$oldSysDrive = $env:systemdrive
+		$env:systemdrive = $mongoDataDir
+		choco install mongodb -version 3.0.3
+		$env:systemdrive = $oldSysDrive
+
+		$dataStoreType = "MongoDb"
+}
+
+$configJson = Get-Content -Path $configJsonPath | ConvertFrom-Json
+$configJson.DataStore = $dataStoreType
+ConvertTo-Json $configJson | Set-Content $configJsonPath
 
 # NodeJS is needed for Gulp
 Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
 choco install nodejs -y
 
 # Refresh the path vars for npm
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 try
 {
@@ -52,7 +63,7 @@ try
     npm install gulp -g
 
     # Refresh the path vars for Gulp
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
     gulp -b ".\" --gulpfile "gulpfile.js" default
 }
