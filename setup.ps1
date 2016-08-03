@@ -31,7 +31,7 @@ if(!(Test-Path $configJsonPath))
 		Copy-Item "$serviceDir\configuration.default.json" $configJsonPath
 }
 
-$installMongo = (Read-Host "Would you like to use MongoDb? (y/n)").toLower() -eq 'y'
+$installMongo = (Read-Host "Would you like to use MongoDb? (if no then LiteDb will be used) [y/n]").toLower() -eq 'y'
 $dataStoreType = "LiteDb"
 if ($installMongo -eq $true)
 {
@@ -45,6 +45,7 @@ if ($installMongo -eq $true)
 		$dataStoreType = "MongoDb"
 }
 
+Write-Host "Updating service configuration..."
 $configJson = Get-Content -Path $configJsonPath | ConvertFrom-Json
 $configJson.DataStore = $dataStoreType
 ConvertTo-Json $configJson | Set-Content $configJsonPath
