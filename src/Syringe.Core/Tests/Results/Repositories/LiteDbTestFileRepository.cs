@@ -52,14 +52,6 @@ namespace Syringe.Core.Tests.Results.Repositories
             }
         }
 
-        public void Wipe()
-        {
-            lock (_lock)
-            {
-                _database?.DropCollection("results");
-            }
-        }
-
         public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDate, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             return await Task.Run(() =>
@@ -119,6 +111,19 @@ namespace Syringe.Core.Tests.Results.Repositories
 
             var collection = _database.GetCollection<TestFileResult>("results");
             return collection;
+        }
+
+        public void Wipe()
+        {
+            lock (_lock)
+            {
+                if (_database == null)
+                {
+                    _database = new LiteDatabase(_databaseLocation);
+                }
+
+                _database?.DropCollection("results");
+            }
         }
 
         public void Dispose()
