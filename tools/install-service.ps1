@@ -1,21 +1,31 @@
-$debugPath = "$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe"
-$releasePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
+#Requires -RunAsAdministrator
 
-if(Test-Path $debugPath)
+param(
+	[switch]$uninstall
+)
+
+$servicePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe"
+
+if(!(Test-Path $servicePath))
 {
-		Write-Host "Running DEBUG" -foreground red
-		& $debugPath stop
-		& $debugPath uninstall
-		& $debugPath install
-		& $debugPath start
+		Write-Host "Detected RELEASE binaries" -foreground red
+		$servicePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
 }
-elseif(Test-Path $releasePath)
+
+if(Test-Path $servicePath)
 {
-		Write-Host "Running RELEASE" -foreground red
-		& $releasePath stop
-		& $releasePath uninstall
-		& $releasePath install
-		& $releasePath start
+		Write-Host "Uninstalling Syringe service..." -foreground green
+		& $servicePath stop
+		& $servicePath uninstall
+
+		if($uninstall -eq $false)
+		{
+				Write-Host "Installing Syringe service..." -foreground green
+				& $servicePath install
+				& $servicePath start
+		}
+
+		Write-Host "All done :-)" -foreground green
 }
 else
 {

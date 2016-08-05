@@ -16,14 +16,17 @@ namespace Syringe.Core.Tests.Scripting
 
 		public IEnumerable<string> GetSnippetFilenames(ScriptSnippetType snippetType)
 		{
-			if (!Directory.Exists(_configuration.ScriptSnippetDirectory))
-				return new string[] {};
+			string fullPath = Path.Combine(_configuration.ScriptSnippetDirectory, snippetType.ToString().ToLower());
 
-			string fullPath = Path.Combine(_configuration.ScriptSnippetDirectory,
-											snippetType.ToString().ToLower());
+            IEnumerable<string> fileNames = new string[0];
+		    if (Directory.Exists(fullPath))
+		    {
+                fileNames = Directory
+                                .EnumerateFiles(fullPath, "*.snippet")
+		                        .Select(x => new FileInfo(x).Name);
+		    }
 
-			return Directory.EnumerateFiles(fullPath, "*.snippet")
-					.Select(x => new FileInfo(x).Name);
+		    return fileNames;
 		}
 
 		public string ReadFile(string path)

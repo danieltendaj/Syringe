@@ -1,3 +1,5 @@
+#Requires -RunAsAdministrator
+
 # ===============================================================================
 #
 # Syringe developer setup script.
