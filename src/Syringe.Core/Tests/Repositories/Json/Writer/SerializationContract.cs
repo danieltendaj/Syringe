@@ -14,7 +14,6 @@ namespace Syringe.Core.Tests.Repositories.Json.Writer
             GetPropertyFullName<Test>(x => x.AvailableVariables),
             GetPropertyFullName<TestFile>(x => x.Filename),
             GetPropertyFullName<Environment.Environment>(x => x.Order),
-            GetPropertyFullName<Environment.Environment>(x => x.Roles),
             GetPropertyFullName<Assertion>(x => x.TransformedValue),
             GetPropertyFullName<Assertion>(x => x.Log),
             GetPropertyFullName<Assertion>(x => x.Success),
