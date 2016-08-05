@@ -49,7 +49,7 @@ namespace Syringe.Tests.Integration.Core.Scripting
 
 
 		[Test]
-		public void should_return_empty_list_when_snippet_directory_does_not_exist(string path)
+		public void should_return_empty_list_when_snippet_directory_does_not_exist()
 		{
 			// Arrange
 			var config = new JsonConfiguration();
@@ -64,7 +64,7 @@ namespace Syringe.Tests.Integration.Core.Scripting
 		}
 
 		[Test]
-		public void should_return_empty_list_when_snippet_sub_directory_does_not_exist(string path)
+		public void should_return_empty_list_when_snippet_sub_directory_does_not_exist()
 		{
 			// Arrange
 			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
