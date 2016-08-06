@@ -36,10 +36,10 @@ namespace Syringe.Core.Http
 			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
-			List<KeyValuePair<string, string>> keyvaluePairs = new List<KeyValuePair<string, string>>();
+			var headers = new List<HttpHeader>();
 			if (response.Headers != null)
 			{ 
-				keyvaluePairs = response.Headers.Select(x => new KeyValuePair<string, string>(x.Name, Convert.ToString(x.Value)))
+				headers = response.Headers.Select(x => new HttpHeader(x.Name, Convert.ToString(x.Value)))
 												.ToList();
 			}
 
@@ -51,7 +51,7 @@ namespace Syringe.Core.Http
 			{
 				StatusCode = response.StatusCode,
 				Content = response.Content,
-				Headers = keyvaluePairs,
+				Headers = headers,
                 ResponseTime = responseTime
 			};
 		}

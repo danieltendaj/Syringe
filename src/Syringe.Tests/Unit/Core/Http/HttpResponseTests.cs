@@ -24,12 +24,12 @@ namespace Syringe.Tests.Unit.Core.Http
 		{
 			// Arrange
 			var response = new HttpResponse();
-			response.Headers = new List<KeyValuePair<string, string>>()
+			response.Headers = new List<HttpHeader>()
 			{
-				new KeyValuePair<string, string>("Server", "Apache"),
-				new KeyValuePair<string, string>("Cache-Control", "private, s-maxage=0, max-age=0, must-revalidate"),
-				new KeyValuePair<string, string>("Date", "Sun, 12 Apr 2015 19:18:21 GMT"),
-				new KeyValuePair<string, string>("Content-Type", "text/html; charset=UTF-8")
+				new HttpHeader("Server", "Apache"),
+				new HttpHeader("Cache-Control", "private, s-maxage=0, max-age=0, must-revalidate"),
+				new HttpHeader("Date", "Sun, 12 Apr 2015 19:18:21 GMT"),
+				new HttpHeader("Content-Type", "text/html; charset=UTF-8")
 			};
 
 			response.Content = "<html><body></body></html>";

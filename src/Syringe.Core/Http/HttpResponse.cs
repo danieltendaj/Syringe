@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
+using LiteDB;
 
 namespace Syringe.Core.Http
 {
-	public class HttpResponse
+    public class HttpResponse
 	{
 		public HttpStatusCode StatusCode { get; set; }
 		public string Content { get; set; }
-		public List<KeyValuePair<string, string>> Headers { get; set; } // *not a dictionary* - it can have duplicate keys
-		public TimeSpan ResponseTime { get; set; }
+        public TimeSpan ResponseTime { get; set; }
+	    public List<HttpHeader> Headers { get; set; }
+        // end work arounds
 
-		public HttpResponse()
-		{
-			Headers = new List<KeyValuePair<string, string>>();
+        public HttpResponse()
+        {
+            Headers = new List<HttpHeader>();
 		}
 
 		public override string ToString()
@@ -22,7 +25,7 @@ namespace Syringe.Core.Http
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(string.Format("HTTP/1.1 {0} OK", (int)StatusCode));
 
-			foreach (KeyValuePair<string, string> keyValuePair in Headers)
+			foreach (HttpHeader keyValuePair in Headers)
 			{
 				stringBuilder.AppendLine(string.Format("{0}: {1}", keyValuePair.Key, keyValuePair.Value));
 			}
@@ -32,5 +35,5 @@ namespace Syringe.Core.Http
 
 			return stringBuilder.ToString();
 		}
-	}
+    }
 }
