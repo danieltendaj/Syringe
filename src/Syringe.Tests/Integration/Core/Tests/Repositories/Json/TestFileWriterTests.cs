@@ -30,8 +30,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         Environment = new Environment
                         {
                             Name = "Env1",
-                            Order = 1234,
-                            Roles = new []{ new EnvironmentRole {Name = "HUH?", HostName = "Something host", Role = "King"} }
+                            Order = 1234
                         },
                         Name = "Variable 1",
                         Value = "Value 1"
@@ -41,8 +40,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         Environment = new Environment
                         {
                             Name = "Env2",
-                            Order = 4321,
-                            Roles = new [] { new EnvironmentRole { Name = "BURP?", HostName = "BRAP", Role = "Hemang & Dicks" }}
+                            Order = 4321
                         },
                         Name = "Variable 2",
                         Value = "Value 2"
