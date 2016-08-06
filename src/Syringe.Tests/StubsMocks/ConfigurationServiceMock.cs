@@ -12,6 +12,13 @@ namespace Syringe.Tests.StubsMocks
 		public List<Variable> SystemVariables { get; set; }
 		public List<string> SnippetFilenames { get; set; }
 
+		public ConfigurationServiceMock()
+		{
+			Configuration = new JsonConfiguration();
+			SystemVariables = new List<Variable>();
+			SnippetFilenames = new List<string>();
+		}
+
 		public IConfiguration GetConfiguration()
 		{
 			return Configuration;
