@@ -9,18 +9,18 @@ namespace Syringe.Client
 {
 	public class ConfigurationClient : IConfigurationService
 	{
-		private readonly string _serviceUrl;
+		internal readonly string ServiceUrl;
 		private readonly RestSharpHelper _restSharpHelper;
 
 		public ConfigurationClient(string serviceUrl)
 		{
-			_serviceUrl = serviceUrl;
+			ServiceUrl = serviceUrl;
 			_restSharpHelper = new RestSharpHelper("/api/configuration");
 		}
 
 		public IConfiguration GetConfiguration()
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			IRestRequest request = _restSharpHelper.CreateRequest("");
 
 			IRestResponse response = client.Execute(request);
@@ -29,7 +29,7 @@ namespace Syringe.Client
 
 	    public IEnumerable<Variable> GetSystemVariables()
         {
-            var client = new RestClient(_serviceUrl);
+            var client = new RestClient(ServiceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("systemvariables");
 
             IRestResponse response = client.Execute(request);
@@ -38,7 +38,7 @@ namespace Syringe.Client
 
 		public IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType)
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			IRestRequest request = _restSharpHelper.CreateRequest("scriptsnippetfilenames");
 			request.AddQueryParameter("snippetType", snippetType.ToString());
 

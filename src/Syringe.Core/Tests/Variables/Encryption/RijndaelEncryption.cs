@@ -15,11 +15,14 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		private readonly Rijndael _rijndael;
 
+		internal string Password { get; set; }
+
 		public RijndaelEncryption(string password)
 		{
 			if (string.IsNullOrEmpty(password))
 				return;
 
+			Password = password;
 			_rijndael = Rijndael.Create();
 			_rijndael.Padding = PaddingMode.Zeros;
 			Rfc2898DeriveBytes pdb = null;
