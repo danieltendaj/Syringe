@@ -31,7 +31,11 @@ namespace Syringe.Web.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry()
+	    public DefaultRegistry() : this(null, null)
+	    {
+	    }
+
+		internal DefaultRegistry(MvcConfiguration mvcConfig, IConfigurationService configurationService)
         {
             Scan(
                 scan =>
@@ -45,11 +49,16 @@ namespace Syringe.Web.DependencyResolution
             //
             // Configration - load from the service at startup, cache it.
             //
-            MvcConfiguration mvcConfig = MvcConfiguration.Load();
+			if (mvcConfig == null)
+				mvcConfig = MvcConfiguration.Load();
+
             string serviceUrl = mvcConfig.ServiceUrl;
             For<MvcConfiguration>().Use(mvcConfig);
             
-            For<IConfigurationService>().Use(x => new ConfigurationClient(serviceUrl));
+			if (configurationService == null)
+				configurationService = new ConfigurationClient(serviceUrl);
+
+            For<IConfigurationService>().Use(x => configurationService);
             For<IConfiguration>()
                 .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
                 .Singleton();

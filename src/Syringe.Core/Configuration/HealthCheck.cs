@@ -6,16 +6,16 @@ namespace Syringe.Core.Configuration
 {
 	public class HealthCheck : IHealthCheck
 	{
-		private readonly string _serviceUrl;
+		internal readonly string ServiceUrl;
 
 		public HealthCheck(string serviceUrl)
 		{
-			_serviceUrl = serviceUrl;
+			ServiceUrl = serviceUrl;
 		}
 
 		public void CheckServiceConfiguration()
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			var request = new RestRequest("/api/healthcheck/CheckConfiguration");
 
 			IRestResponse response = client.Execute(request);
@@ -29,7 +29,7 @@ namespace Syringe.Core.Configuration
 
 		public void CheckServiceSwaggerIsRunning()
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			var request = new RestRequest("/swagger/ui/index");
 
 			IRestResponse response = client.Execute(request);
