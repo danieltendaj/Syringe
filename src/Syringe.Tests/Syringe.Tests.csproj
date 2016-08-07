@@ -204,7 +204,7 @@
     <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />
     <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
-    <Compile Include="Integration\Core\Repository\LiteDb\TestCaseSessionRepositoryTests.cs" />
+    <Compile Include="Integration\Core\Repository\LiteDb\TestFileResultRepositoryTests.cs" />
     <Compile Include="Integration\Core\Scripting\SnippetFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
