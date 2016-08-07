@@ -16,6 +16,9 @@ Syringe is a HTTP runner - if you can reach a server endpoint via HTTP, Syringe 
 2. To perform advanced smoke testing - get a HTML page (or other text-based resource) and assert that it contains some text.
 3. Basic end-to-end HTTP tests. For example logging into a website and checking a page.
 
+## Help
+Our help files are hosted at [ReadTheDocs](http://syringe.readthedocs.io/en/latest/?badge=latest).
+
 ## Installation
 
 ### Pre-requisites

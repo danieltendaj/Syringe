@@ -16,6 +16,12 @@ namespace Syringe.Core.Tests.Results.Repositories
         public LiteDbTestFileRepository()
         {
             _databaseLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "syringe.db");
+
+            BsonMapper.Global.RegisterType<TimeSpan>
+            (
+                serialize: (timeSpan) => timeSpan.ToString(),
+                deserialize: (stringValue) => TimeSpan.Parse(stringValue)
+            );
         }
 
         public async Task AddAsync(TestFileResult testFileResult)

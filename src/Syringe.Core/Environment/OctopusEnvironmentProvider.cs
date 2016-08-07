@@ -23,15 +23,7 @@ namespace Syringe.Core.Environment
                               .Select(x => new Environment
                               {
                                   Name = x.Name,
-                                  Order = x.SortOrder,
-                                  Roles = _repository.Environments
-                                      .GetMachines(x)
-                                      .Select(m => new EnvironmentRole
-                                      {
-                                          Name = m.Name,
-                                          HostName = ParseEndpoint(m.Endpoint as ListeningTentacleEndpointResource),
-                                          Role = ParseRoles(m.Roles)
-                                      })
+                                  Order = x.SortOrder
                               });            
         }
 

@@ -7,18 +7,18 @@ namespace Syringe.Client
 {
 	public class EnvironmentsClient : IEnvironmentsService
 	{
-		private readonly string _serviceUrl;
+		internal readonly string ServiceUrl;
 		private readonly RestSharpHelper _restSharpHelper;
 		
 		public EnvironmentsClient(string serviceUrl)
 		{
-			_serviceUrl = serviceUrl;
+			ServiceUrl = serviceUrl;
 			_restSharpHelper = new RestSharpHelper("/api/environments");
 		}
 
 		public IEnumerable<Environment> List()
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			IRestRequest request = _restSharpHelper.CreateRequest("List");
 
 			IRestResponse response = client.Execute(request);

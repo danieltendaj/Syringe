@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using RestSharp;
-using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 
@@ -10,16 +9,16 @@ namespace Syringe.Client
 {
 	public class TasksClient : ITasksService
 	{
-		private readonly string _serviceUrl;
+		internal readonly string ServiceUrl;
 
 		public TasksClient(string serviceUrl)
 		{
-			_serviceUrl = serviceUrl;
+			ServiceUrl = serviceUrl;
 		}
 
 		public int Start(TaskRequest item)
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			IRestRequest request = CreateRequest("start");
 			request.AddJsonBody(item);
 			request.Method = Method.POST;
@@ -45,7 +44,7 @@ namespace Syringe.Client
 
 		public TaskDetails GetRunningTaskDetails(int taskId)
 		{
-			var client = new RestClient(_serviceUrl);
+			var client = new RestClient(ServiceUrl);
 			IRestRequest request = CreateRequest("GetRunningTaskDetails");
 			request.AddParameter("taskId", taskId);
 

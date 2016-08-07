@@ -19,7 +19,7 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 	{
 		private ITestFileResultRepository GetTestFileResultRepository()
 		{
-			return new LiteDbTestFileRepository();	
+			return new LiteDbTestFileRepository();
 		}
 
 		[SetUp]
@@ -28,96 +28,98 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			GetTestFileResultRepository().Wipe();
 		}
 
-	    private TestFileResult GetDummyTestFileResult()
-	    {
-	        return new TestFileResult()
-	        {
-                Environment = "dev",
-                TestResults = new List<TestResult>()
-                {
-                    new TestResult()
-                    {
-                        ActualUrl = "url",
-                        ExceptionMessage = "message",
-                        HttpContent = "content",
-                        Test = new Test(),
-                        HttpLog = "http log",
-                        HttpResponse = new HttpResponse()
-                        {
-                            Content = "content",
-                            ResponseTime = TimeSpan.FromMinutes(1),
+		private TestFileResult GetDummyTestFileResult()
+		{
+			string seed = "-" +Guid.NewGuid();
+
+			return new TestFileResult()
+			{
+				Environment = $"dev{seed}",
+				TestResults = new List<TestResult>()
+				{
+					new TestResult()
+					{
+						ActualUrl = $"url{seed}",
+						ExceptionMessage = $"message{seed}",
+						HttpContent = $"content{seed}",
+						Test = new Test(),
+						HttpLog = $"http log{seed}",
+						HttpResponse = new HttpResponse()
+						{
+							Content = $"content{seed}",
+							ResponseTime = TimeSpan.FromMinutes(1),
                             StatusCode = HttpStatusCode.OK,
-                            Headers = new List<KeyValuePair<string, string>>()
+                            Headers = new List<HttpHeader>()
                             {
-                                new KeyValuePair<string, string>("key1","value1"),
-                                new KeyValuePair<string, string>("key2","value2")
+                                new HttpHeader("key1",$"value1{seed}"),
+                                new HttpHeader("key2",$"value2{seed}")
                             }
                         },
-                        AssertionResults = new List<Assertion>()
-                        {
-                            new Assertion()
-                            {
-                                AssertionMethod = AssertionMethod.CSQuery,
-                                AssertionType = AssertionType.Negative,
-                                Description = "desc",
-                                Log = "log",
-                                Success = true,
-                                TransformedValue = "tran",
-                                Value = "value"
-                            }
-                        }
-                    }
-                }
-	        };
-	    }
+						AssertionResults = new List<Assertion>()
+						{
+							new Assertion()
+							{
+								AssertionMethod = AssertionMethod.CSQuery,
+								AssertionType = AssertionType.Negative,
+								Description = $"desc{seed}",
+								Log = $"log{seed}",
+								Success = true,
+								TransformedValue = $"tran{seed}",
+								Value = $"value{seed}"
+							}
+						}
+					}
+				}
+			};
+		}
 
 		[Test]
 		public async Task Add_should_save_testfileresult()
 		{
 			// Arrange
-		    TestFileResult testFileResult = GetDummyTestFileResult();
+			TestFileResult testFileResult = GetDummyTestFileResult();
 
 			ITestFileResultRepository repository = GetTestFileResultRepository();
 
 			// Act
 			await repository.AddAsync(testFileResult);
 
-            // Assert
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			// Assert
+			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
 		}
 
 		[Test]
 		public async Task Delete_should_remove_the_testfileresult()
 		{
-            // Arrange
-            TestFileResult testFileResult = GetDummyTestFileResult();
+			// Arrange
+			TestFileResult testFileResult = GetDummyTestFileResult();
 
-            ITestFileResultRepository repository = GetTestFileResultRepository();
+			ITestFileResultRepository repository = GetTestFileResultRepository();
 			await repository.AddAsync(testFileResult);
 
 			// Act
 			await repository.DeleteAsync(testFileResult.Id);
 
-            // Assert
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			// Assert
+			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
 		public async Task GetById_should_return_testfileresult()
 		{
-            // Arrange
-            TestFileResult testFileResult = GetDummyTestFileResult();
+			// Arrange
+			TestFileResult testFileResult = GetDummyTestFileResult();
 
-            ITestFileResultRepository repository = GetTestFileResultRepository();
+			ITestFileResultRepository repository = GetTestFileResultRepository();
 			await repository.AddAsync(testFileResult);
 
 			// Act
 			TestFileResult actualFileResult = repository.GetById(testFileResult.Id);
 
 			// Assert
-			Assert.That(actualFileResult, Is.Not.Null, "couldn't find the session");
+			Assert.That(actualFileResult, Is.Not.Null, "couldn't find the test file result");
 			string actual = GetAsJson(actualFileResult);
 			string expected = GetAsJson(testFileResult);
 
@@ -127,16 +129,16 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task GetSummaries_should_return_testfileresults()
 		{
-            // Arrange
-            TestFileResult testFileResult1 = GetDummyTestFileResult();
-            TestFileResult testFileResult2 = GetDummyTestFileResult();
+			// Arrange
+			TestFileResult testFileResult1 = GetDummyTestFileResult();
+			TestFileResult testFileResult2 = GetDummyTestFileResult();
 
-            ITestFileResultRepository repository = GetTestFileResultRepository();
+			ITestFileResultRepository repository = GetTestFileResultRepository();
 			await repository.AddAsync(testFileResult1);
 			await repository.AddAsync(testFileResult2);
 
-            // Act
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			// Act
+			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 
 			// Assert
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
@@ -149,11 +151,11 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task GetSummaries_should_return_testfileresult_objects_for_today_only()
 		{
-            // Arrange
-            TestFileResult todayResult1 = GetDummyTestFileResult();
-            TestFileResult todayResult2 = GetDummyTestFileResult();
-            TestFileResult otherTestResult1 = GetDummyTestFileResult();
-            TestFileResult otherTestResult2 = GetDummyTestFileResult();
+			// Arrange
+			TestFileResult todayResult1 = GetDummyTestFileResult();
+			TestFileResult todayResult2 = GetDummyTestFileResult();
+			TestFileResult otherTestResult1 = GetDummyTestFileResult();
+			TestFileResult otherTestResult2 = GetDummyTestFileResult();
 
 			todayResult1.StartTime = DateTime.Today;
 			todayResult1.EndTime = todayResult1.StartTime.AddMinutes(5);
@@ -173,8 +175,8 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			await repository.AddAsync(otherTestResult1);
 			await repository.AddAsync(otherTestResult2);
 
-            // Act
-            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
+			// Act
+			TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 
 			// Assert
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));

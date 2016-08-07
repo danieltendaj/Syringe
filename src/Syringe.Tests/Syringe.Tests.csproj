@@ -232,16 +232,18 @@
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Service\Api\TestsControllerTests.cs" />
-    <Compile Include="Unit\Web\AuthorizeWhenOAuthAttributeTests.cs" />
-    <Compile Include="Unit\Web\TestFileMapperTests.cs" />
+    <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
+    <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
+    <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
-    <Compile Include="Unit\Web\HomeControllerTests.cs" />
-    <Compile Include="Unit\Web\JsonControllerTests.cs" />
-    <Compile Include="Unit\Web\ResultsControllerTests.cs" />
-    <Compile Include="Unit\Web\RunViewModelTests.cs" />
-    <Compile Include="Unit\Web\TestControllerTests.cs" />
-    <Compile Include="Unit\Web\TestFileControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\JsonControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\ResultsControllerTests.cs" />
+    <Compile Include="Unit\Web\Models\RunViewModelTests.cs" />
+    <Compile Include="Unit\Web\Controllers\TestControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\TestFileControllerTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
     <Compile Include="StubsMocks\RestResponseStub.cs" />
@@ -257,8 +259,8 @@
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit\Web\ValidCsQueryAttributesTests.cs" />
-    <Compile Include="Unit\Web\ValidationAttributesTests.cs" />
+    <Compile Include="Unit\Web\ValidationAttributes\ValidCsQueryAttributesTests.cs" />
+    <Compile Include="Unit\Web\ValidationAttributes\ValidationAttributesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj">
