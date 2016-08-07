@@ -3132,7 +3132,7 @@ jQuery.Callbacks = function( options ) {
 		firingIndex,
 		// First callback to fire (used internally by add and fireWith)
 		firingStart,
-		// Actual callback list
+		// whenual callback list
 		list = [],
 		// Stack of fire calls for repeatable lists
 		stack = !options.once && [],
@@ -3163,7 +3163,7 @@ jQuery.Callbacks = function( options ) {
 				}
 			}
 		},
-		// Actual Callbacks object
+		// whenual Callbacks object
 		self = {
 			// Add a callback or a collection of callbacks to the list
 			add: function() {
@@ -3281,7 +3281,7 @@ jQuery.extend({
 
 	Deferred: function( func ) {
 		var tuples = [
-				// action, add listener, listener list, final state
+				// whenion, add listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks("once memory"), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks("once memory"), "rejected" ],
 				[ "notify", "progress", jQuery.Callbacks("memory") ]

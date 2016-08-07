@@ -80,7 +80,7 @@
     // Make the list-items overlay the bottom border
     margin-bottom: -1px;
 
-    // Actual tabs (as links)
+    // whenual tabs (as links)
     > a {
       margin-right: 2px;
       line-height: $line-height-base;
@@ -91,7 +91,7 @@
       }
     }
 
-    // Active state, and its :hover to override normal :hover
+    // whenive state, and its :hover to override normal :hover
     &.active > a {
       &,
       &:hover,
@@ -126,7 +126,7 @@
       margin-left: 2px;
     }
 
-    // Active state
+    // whenive state
     &.active > a {
       &,
       &:hover,

@@ -20,7 +20,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void WriteRequest_should_write_request_line_and_host_and_extra_newline_at_end()
 		{
-			// Arrange
+			// given
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
 			var request = new RestRequest();
@@ -28,10 +28,10 @@ namespace Syringe.Tests.Unit.Core.Http
 
 			var uri = new Uri("http://en.wikipedia.org/wiki/Microsoft?a=b");
 
-			// Act
+			// when
 			logWriter.AppendRequest(uri, request);
 
-			// Assert
+			// then
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1", lines[0]);
@@ -42,7 +42,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void WriteRequest_should_append_headers_after_host()
 		{
-			// Arrange
+			// given
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
 			var request = new RestRequest();
@@ -53,10 +53,10 @@ namespace Syringe.Tests.Unit.Core.Http
 
 			var uri = new Uri("http://en.wikipedia.org/wiki/Microsoft?a=b");
 
-			// Act	
+			// when	
 			logWriter.AppendRequest(uri, request);
 
-			// Assert
+			// then
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("POST http://en.wikipedia.org/wiki/Microsoft?a=b HTTP/1.1", lines[0]);
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void WriteResponse_should_write_status_code_and_status_description_and_empty_line()
 		{
-			// Arrange
+			// given
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
 			var response = new RestResponse()
@@ -78,10 +78,10 @@ namespace Syringe.Tests.Unit.Core.Http
 				StatusCode = HttpStatusCode.NotFound
 			};
 
-			// Act	
+			// when	
 			logWriter.AppendResponse(response);
 
-			// Assert
+			// then
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("HTTP/1.1 404 Not Found", lines[0]);
@@ -91,7 +91,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void WriteResponse_should_append_headers_and_response_body_and_empty_line()
 		{
-			// Arrange
+			// given
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
 			var response = new RestResponse()
@@ -105,10 +105,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			response.Headers.Add(new Parameter() { Name = "Date", Value = "Sun, 12 Apr 2015 19:18:21 GMT" });
 			response.Headers.Add(new Parameter() { Name = "Content-Type", Value = "text/html; charset=UTF-8" });
 
-			// Act	
+			// when	
 			logWriter.AppendResponse(response);
 
-			// Assert
+			// then
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);
@@ -123,7 +123,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void WriteResponse_should_ignore_empty_body()
 		{
-			// Arrange
+			// given
 			var logWriter = GetHttpLogWriter();
 			var stringBuilder = logWriter.StringBuilder;
 			var response = new RestResponse()
@@ -132,10 +132,10 @@ namespace Syringe.Tests.Unit.Core.Http
 				Content = ""
 			};
 
-			// Act	
+			// when	
 			logWriter.AppendResponse(response);
 
-			// Assert
+			// then
 			string[] lines = stringBuilder.ToString().Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);

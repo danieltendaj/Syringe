@@ -76,15 +76,15 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task Add_should_save_testfileresult()
 		{
-			// Arrange
+			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
 			ITestFileResultRepository repository = GetTestFileResultRepository();
 
-			// Act
+			// when
 			await repository.AddAsync(testFileResult);
 
-			// Assert
+			// then
 			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
 		}
@@ -92,16 +92,16 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task Delete_should_remove_the_testfileresult()
 		{
-			// Arrange
+			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
 			ITestFileResultRepository repository = GetTestFileResultRepository();
 			await repository.AddAsync(testFileResult);
 
-			// Act
+			// when
 			await repository.DeleteAsync(testFileResult.Id);
 
-			// Assert
+			// then
 			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
 		}
@@ -109,16 +109,16 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task GetById_should_return_testfileresult()
 		{
-			// Arrange
+			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
 			ITestFileResultRepository repository = GetTestFileResultRepository();
 			await repository.AddAsync(testFileResult);
 
-			// Act
+			// when
 			TestFileResult actualFileResult = repository.GetById(testFileResult.Id);
 
-			// Assert
+			// then
 			Assert.That(actualFileResult, Is.Not.Null, "couldn't find the test file result");
 			string actual = GetAsJson(actualFileResult);
 			string expected = GetAsJson(testFileResult);
@@ -129,7 +129,7 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task GetSummaries_should_return_testfileresults()
 		{
-			// Arrange
+			// given
 			TestFileResult testFileResult1 = GetDummyTestFileResult();
 			TestFileResult testFileResult2 = GetDummyTestFileResult();
 
@@ -137,10 +137,10 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			await repository.AddAsync(testFileResult1);
 			await repository.AddAsync(testFileResult2);
 
-			// Act
+			// when
 			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
 
-			// Assert
+			// then
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
 
 			IEnumerable<Guid> ids = summaries.PagedResults.Select(x => x.Id);
@@ -151,7 +151,7 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 		[Test]
 		public async Task GetSummaries_should_return_testfileresult_objects_for_today_only()
 		{
-			// Arrange
+			// given
 			TestFileResult todayResult1 = GetDummyTestFileResult();
 			TestFileResult todayResult2 = GetDummyTestFileResult();
 			TestFileResult otherTestResult1 = GetDummyTestFileResult();
@@ -175,10 +175,10 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			await repository.AddAsync(otherTestResult1);
 			await repository.AddAsync(otherTestResult2);
 
-			// Act
+			// when
 			TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
 
-			// Assert
+			// then
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
 
 			IEnumerable<Guid> ids = summaries.PagedResults.Select(x => x.Id);

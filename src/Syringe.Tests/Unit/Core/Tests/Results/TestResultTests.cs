@@ -14,54 +14,54 @@ namespace Syringe.Tests.Unit.Core.Tests.Results
 		[TestCase(false, true, true, false)]
 		public void Success_should_return_result_based_on_success_codes(bool expectedResult, bool responseCodeSuccess, bool positiveSuccess, bool negativeSuccess)
 		{
-			// Arrange
+			// given
 			var testResult = new TestResult();
 			testResult.ResponseCodeSuccess = responseCodeSuccess;
 			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = positiveSuccess });
 			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = negativeSuccess });
 
-			// Act
+			// when
 			bool actualResult = testResult.Success;
 
-			// Assert
+			// then
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
 		}
 
 		[Test]
 		public void VerifyPositivesSuccess_should_return_false_when_all_positive_results_are_false()
 		{
-			// Arrange
+			// given
 			var testResult = new TestResult();
 			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Positive, AssertionMethod.Regex) { Success = false });
 
-			// Act
+			// when
 			bool actualResult = testResult.AssertionsSuccess;
 
-			// Assert
+			// then
 			Assert.That(actualResult, Is.False);
 		}
 
 		[Test]
 		public void VerifyNegativeSuccess_should_return_false_when_all_positive_results_are_false()
 		{
-			// Arrange
+			// given
 			var testResult = new TestResult();
 			testResult.AssertionResults.Add(new Assertion("desc", "regex", AssertionType.Negative, AssertionMethod.Regex) { Success = false });
 
-			// Act
+			// when
 			bool actualResult = testResult.AssertionsSuccess;
 
-			// Assert
+			// then
 			Assert.That(actualResult, Is.False);
 		}
 
 		[Test]
 		public void VerifyPositivesSuccess_and_VerifyNegativeSuccess_should_return_true_when_positiveresults_is_null()
 		{
-			// Arrange
+			// given
 			var testResult = new TestResult();
 
-			// Act + Assert
+			// when + then
 			Assert.That(testResult.AssertionsSuccess, Is.True);
 			Assert.That(testResult.AssertionsSuccess, Is.True);
 		}

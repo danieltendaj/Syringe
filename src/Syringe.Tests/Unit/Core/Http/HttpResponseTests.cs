@@ -11,10 +11,10 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void should_create_headers_in_ctor()
 		{
-			// Arrange
+			// given
 			var response = new HttpResponse();
 
-			// Act + Assert
+			// when + then
 			Assert.NotNull(response.Headers);
 			Assert.NotNull(response.ResponseTime);
 		}
@@ -22,7 +22,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public void ToString_should_append_headers_and_response_body_and_empty_line()
 		{
-			// Arrange
+			// given
 			var response = new HttpResponse();
 			response.Headers = new List<HttpHeader>()
 			{
@@ -35,10 +35,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			response.Content = "<html><body></body></html>";
 			response.StatusCode = HttpStatusCode.OK;
 
-			// Act	
+			// when	
 			string content = response.ToString();
 
-			// Assert
+			// then
 			string[] lines = content.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 
 			Assert.AreEqual("HTTP/1.1 200 OK", lines[0]);

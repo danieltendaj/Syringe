@@ -23,7 +23,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		[Test]
 		public void MatchVerifications_invalid_regex_should_set_success_to_false()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
 			var matcher = new AssertionsMatcher(sessionVariables);
 
@@ -32,10 +32,10 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 
 			string content = "<p>Some content here</p>";
 
-			// Act
+			// when
 			List<Assertion> results = matcher.MatchVerifications(verifications, content);
 
-			// Assert
+			// then
 			Assert.That(results.Count, Is.EqualTo(1));
 			Assert.That(results[0].Success, Is.False);
 		}
@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		[Test]
 		public void MatchVerifications_should_return_veriftype_positives_in_list()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
 			var matcher = new AssertionsMatcher(sessionVariables);
 
@@ -55,17 +55,17 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 
 			string content = "<p>whatever</p>";
 
-			// Act
+			// when
 			List<Assertion> results = matcher.MatchVerifications(verifications, content);
 
-			// Assert
+			// then
 			Assert.That(results.Count, Is.EqualTo(3));
 		}
 
 		[Test]
 		public void MatchVerifications_should_match_text_in_content()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
 			var matcher = new AssertionsMatcher(sessionVariables);
 
@@ -75,10 +75,10 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 
 			string content = "<p>Some content here</p>";
 
-			// Act
+			// when
 			List<Assertion> results = matcher.MatchVerifications(verifications, content);
 
-			// Assert
+			// then
 			Assert.That(results.Count, Is.EqualTo(2));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
@@ -92,7 +92,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		[Test]
 		public void MatchVerifications_should_not_match_text_that_is_not_in_content()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
 			var matcher = new AssertionsMatcher(sessionVariables);
 
@@ -102,10 +102,10 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 
 			string content = "<p>Some content here</p>";
 
-			// Act
+			// when
 			List<Assertion> results = matcher.MatchVerifications(verifications, content);
 
-			// Assert
+			// then
 			Assert.That(results.Count, Is.EqualTo(2));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));
@@ -119,7 +119,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		[Test]
 		public void MatchVerifications_should_replace_variables_in_value()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, "dev", new VariableEncryptorStub());
 			sessionVariables.AddOrUpdateVariable(new Variable("password", "tedx123", "dev"));
 
@@ -130,10 +130,10 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 
 			string content = "<p>The password is tedx123</p>";
 
-			// Act
+			// when
 			List<Assertion> results = matcher.MatchVerifications(verifications, content);
 
-			// Assert
+			// then
 			Assert.That(results.Count, Is.EqualTo(1));
 			Assert.That(results[0].Success, Is.True);
 			Assert.That(results[0].Description, Is.EqualTo("desc1"));

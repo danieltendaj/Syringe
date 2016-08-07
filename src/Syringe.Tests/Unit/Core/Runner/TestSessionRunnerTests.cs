@@ -47,7 +47,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_set_MinResponseTime_and_MaxResponseTime_from_http_response_times()
         {
-            // Arrange
+            // given
             var response = new HttpResponse();
             response.ResponseTime = TimeSpan.FromSeconds(5);
 
@@ -72,10 +72,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 new Test() { Url = "foo4" },
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(session.MinResponseTime, Is.EqualTo(TimeSpan.FromSeconds(3)));
             Assert.That(session.MaxResponseTime, Is.EqualTo(TimeSpan.FromSeconds(88)));
         }
@@ -83,7 +83,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_populate_StartTime_and_EndTime_and_TotalRunTime()
         {
-            // Arrange
+            // given
             var beforeStart = DateTime.UtcNow;
 
             var response = new HttpResponse();
@@ -97,10 +97,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 new Test() { Url = "foo1" },
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(session.StartTime, Is.GreaterThanOrEqualTo(beforeStart));
             Assert.That(session.EndTime, Is.GreaterThanOrEqualTo(session.StartTime));
             Assert.That(session.TotalRunTime, Is.EqualTo(session.EndTime - session.StartTime));
@@ -109,7 +109,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_set_capturedvariables()
         {
-            // Arrange
+            // given
             const string environment = "big-daddy-doo-dah";
             const string httpContent = "THIS IS SOME CONTENT - content coming to you 24/7, 365, every and all init yeah.";
 
@@ -134,10 +134,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 }
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, environment, "bob");
 
-            // Assert
+            // then
             var addedVariable = _capturedVariableProvider.Variables.FirstOrDefault(x => x.Name == "var1");
             Assert.That(addedVariable, Is.Not.Null);
             Assert.That(addedVariable.Value, Is.EqualTo("- content coming to you 24/7, 365, every"));
@@ -149,7 +149,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_ignore_null_scriptevaluator_output()
         {
-            // Arrange
+            // given
             const string environment = "knights-of-the-white-table";
             const string httpContent = "im lowercase";
 
@@ -166,10 +166,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 }
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, environment, "bob");
 
-            // Assert
+            // then
             Assert.That(testFile, Is.Not.Null);
             Assert.That(testFile.Tests.FirstOrDefault(), Is.Not.Null);
             Assert.That(session.TestResults.First().HttpResponse, Is.Not.Null);
@@ -178,7 +178,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_set_capturedvariables_across_tests()
         {
-            // Arrange
+            // given
             const string environment = "big-daddy-doo-dah";
 
             TestFileRunner runner = CreateRunner();
@@ -238,10 +238,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 }
             });
 
-            // Act
+            // when
             await runner.RunAsync(testFile, environment, "bob");
 
-            // Assert
+            // then
             var addedVariable = _capturedVariableProvider.Variables.FirstOrDefault(x => x.Name == "var1");
             Assert.That(addedVariable, Is.Not.Null);
             Assert.That(addedVariable.Value, Is.EqualTo("SECRET_KEY"));
@@ -254,7 +254,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_set_testresult_success_and_response_when_httpcode_passes()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
             _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
@@ -267,10 +267,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 },
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(session.TestResults.Single().Success, Is.True);
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
         }
@@ -278,7 +278,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
             _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
 
@@ -291,10 +291,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 },
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(session.TestResults.Single().Success, Is.False);
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
         }
@@ -302,7 +302,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_save_testresults_to_repository()
         {
-            // Arrange
+            // given
             var repository = new TestFileResultRepositoryMock();
 
             TestFileRunner runner = CreateRunner();
@@ -313,10 +313,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 new Test() { Url = "foo1"},
             });
 
-            // Act
+            // when
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(repository.SavedSession, Is.Not.Null);
             Assert.That(repository.SavedSession.TestResults.Count(), Is.EqualTo(1));
         }
@@ -324,7 +324,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_verify_positive_and_negative_items_when_httpcode_passes()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
             _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
             _httpClientMock.Response.Content = "some content";
@@ -343,10 +343,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 },
             });
 
-            // Act
+            // when
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             var result = session.TestResults.Single();
             Assert.That(result.Success, Is.True);
             Assert.That(result.AssertionResults.Where(x => x.AssertionType == AssertionType.Positive).Count, Is.EqualTo(1));
@@ -359,7 +359,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_notify_observers_of_existing_results()
         {
-            // Arrange
+            // given
             var observedResults = new List<TestResultMessage>();
 
             TestFileRunner runner = CreateRunner();
@@ -373,17 +373,17 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Act
+            // when
             runner.Subscribe(r => { observedResults.Add(r as TestResultMessage); });
 
-            // Assert
+            // then
             Assert.That(observedResults.Select(r => r.TestResult.ActualUrl), Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
         }
 
         [Test]
         public async Task Run_should_notify_observers_of_new_results()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
 
             var testFile = CreateTestFile(new[]
@@ -395,7 +395,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             var observedResults = new List<TestResultMessage>();
 
-            // Act
+            // when
             runner.Subscribe(r =>
             {
                 var item = r as TestResultMessage;
@@ -404,7 +404,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             string[] result = observedResults.Select(r => r.TestResult.ActualUrl).ToArray();
             Assert.That(result, Is.EquivalentTo(new[] { "foo1", "foo2", "foo3" }), "Should have observed all of the results.");
         }
@@ -412,7 +412,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         [Test]
         public async Task Run_should_notify_observers_of_completion()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
 
             var testFile = CreateTestFile(new[]
@@ -424,7 +424,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             var observedResults = new List<TestFileGuidMessage>();
 
-            // Act
+            // when
             runner.Subscribe(r =>
             {
                 var item = r as TestFileGuidMessage;
@@ -433,14 +433,14 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(observedResults.Count, Is.EqualTo(1), "Should have observed completion message.");
         }
 
         [Test]
         public async Task Run_should_not_notify_disposed_observers_of_new_results()
         {
-            // Arrange
+            // given
             var httpClientMock = new Mock<IHttpClient>();
             IDisposable subscription = null;
 
@@ -466,19 +466,19 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             var observedResults = new List<TestResultMessage>();
 
-            // Act
+            // when
             subscription = runner.Subscribe(r => { observedResults.Add(r as TestResultMessage); });
 
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(observedResults.Select(r => r.TestResult.ActualUrl), Is.EquivalentTo(new[] { "http://foo1", "http://foo2" }), "Should not have included the result after having been disposed.");
         }
 
         [Test]
         public async Task Run_should_notify_subscribers_of_completion_when_test_file_ends()
         {
-            // Arrange
+            // given
             TestFileRunner runner = CreateRunner();
 
             var testFile = CreateTestFile(new[]
@@ -494,17 +494,17 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             Assume.That(completed, Is.False);
 
-            // Act
+            // when
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(completed, Is.True, "Should have notified of completion.");
         }
 
         [Test]
         public async Task Run_should_notify_subscribers_of_result_on_error()
         {
-            // Arrange
+            // given
             var httpClientMock = new Mock<IHttpClient>();
 
             // Throw an error.
@@ -528,10 +528,10 @@ namespace Syringe.Tests.Unit.Core.Runner
                 if (item != null) capturedResult = item;
             });
 
-            // Act
+            // when
             await runner.RunAsync(testFile, "development", "bob");
 
-            // Assert
+            // then
             Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
             Assert.That(capturedResult.TestResult, Is.Not.Null, "Should have test result.");
             Assert.That(capturedResult.TestResult.Success, Is.False, "Should not have succeeded.");

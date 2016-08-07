@@ -29,7 +29,7 @@ namespace Syringe.Tests.Integration.Core.Scripting
 		[Test]
 		public void should_read_text_file()
 		{
-			// Arrange
+			// given
 			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
 
 			string filename1 = Path.Combine(typeDirectory, "snippet1.snippet");
@@ -40,10 +40,10 @@ namespace Syringe.Tests.Integration.Core.Scripting
 
 			var snippetReader = new SnippetFileReader(config);
 
-			// Act
+			// when
 			string snippetText = snippetReader.ReadFile(filename1);
 
-			// Assert
+			// then
 			Assert.That(snippetText, Is.EqualTo("snippet 1"));
 		}
 
@@ -51,22 +51,22 @@ namespace Syringe.Tests.Integration.Core.Scripting
 		[Test]
 		public void should_return_empty_list_when_snippet_directory_does_not_exist()
 		{
-			// Arrange
+			// given
 			var config = new JsonConfiguration();
 			config.ScriptSnippetDirectory = "doesnt-exist";
 			var snippetReader = new SnippetFileReader(config);
 
-			// Act
+			// when
 			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
 
-			// Assert
+			// then
 			Assert.That(files.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
 		public void should_return_empty_list_when_snippet_sub_directory_does_not_exist()
 		{
-			// Arrange
+			// given
 			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
 			try
 			{
@@ -80,17 +80,17 @@ namespace Syringe.Tests.Integration.Core.Scripting
 			config.ScriptSnippetDirectory = _snippetDirectory;
 			var snippetReader = new SnippetFileReader(config);
 
-			// Act
+			// when
 			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
 
-			// Assert
+			// then
 			Assert.That(files.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
 		public void should_get_snippet_filenames_from_directory()
 		{
-			// Arrange
+			// given
 			string typeDirectory = Path.Combine(_snippetDirectory, ScriptSnippetType.BeforeExecute.ToString().ToLower());
 
 			string filename1 = Path.Combine(typeDirectory, "snippet1.snippet");
@@ -103,10 +103,10 @@ namespace Syringe.Tests.Integration.Core.Scripting
 			config.ScriptSnippetDirectory = _snippetDirectory;
 			var snippetReader = new SnippetFileReader(config);
 
-			// Act
+			// when
 			IEnumerable<string> files = snippetReader.GetSnippetFilenames(ScriptSnippetType.BeforeExecute);
 
-			// Assert
+			// then
 			Assert.That(files.Count(), Is.EqualTo(2));
 			Assert.That(files, Contains.Item("snippet1.snippet"));
 			Assert.That(files, Contains.Item("snippet2.snippet"));

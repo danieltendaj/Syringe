@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public async Task should_return_expected_html_content()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			var restResponse = new RestResponseStub()
 			{
@@ -39,10 +39,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			Assert.NotNull(response);
 			Assert.AreEqual(restResponse.Content, response.Content);
 		}
@@ -50,7 +50,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public async Task should_ignore_null_headers()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			HttpClient httpClient = CreateClient(new RestResponse());
 
@@ -60,17 +60,17 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			Assert.IsNotNull(response);
 		}
 
 		[Test]
 		public async Task should_add_postbody_and_x_form_to_request_when_method_is_post()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			HttpClient httpClient = CreateClient(new RestResponse());
 
@@ -80,10 +80,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 			
-			// Assert
+			// then
 			Parameter parameter = _restClientMock.RestRequest.Parameters.First();
 			Assert.AreEqual("application/x-www-form-urlencoded", parameter.Name);
 			Assert.AreEqual(postBody, parameter.Value);
@@ -93,7 +93,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public async Task should_use_httpmethod_get_when_method_is_invalid()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			HttpClient httpClient = CreateClient(new RestResponse());
 
@@ -103,17 +103,17 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			Assert.AreEqual(Method.GET, _restClientMock.RestRequest.Method);
 		}
 
 		[Test]
 		public async Task should_add_headers()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			HttpClient httpClient = CreateClient(new RestResponse());
 
@@ -127,10 +127,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			};
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			var parameters = _restClientMock.RestRequest.Parameters;
 			var userAgent = parameters.First(x => x.Name == "user-agent");
 			var cookies = parameters.First(x => x.Name == "cookies");
@@ -143,7 +143,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public async Task should_fill_response_properties()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			var restResponseStub = new RestResponseStub();
 			restResponseStub.Content = "HTTP/1.1 200 OK\nServer: Apache\n\n<html>some text </html>";
@@ -158,10 +158,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			Assert.AreEqual(restResponseStub.StatusCode, response.StatusCode);
 			Assert.AreEqual(restResponseStub.Content, response.Content);
 			Assert.AreEqual(restResponseStub.Headers.Count, response.Headers.Count);
@@ -170,7 +170,7 @@ namespace Syringe.Tests.Unit.Core.Http
 		[Test]
 		public async Task should_record_response_times()
 		{
-			// Arrange
+			// given
 			var httpLogWriter = GetHttpLogWriter();
 			HttpClient httpClient = CreateClient(new RestResponse());
 			_restClientMock.ResponseTime = TimeSpan.FromSeconds(1);
@@ -181,10 +181,10 @@ namespace Syringe.Tests.Unit.Core.Http
 			var headers = new List<HeaderItem>();
 			var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
 
-			// Act
+			// when
 			HttpResponse response = await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
 
-			// Assert
+			// then
 			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
 		}
 

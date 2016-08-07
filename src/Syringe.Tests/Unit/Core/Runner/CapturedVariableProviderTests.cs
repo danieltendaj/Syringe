@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void matchvariables_should_match_regex_groups_and_set_variable_names_and_values_to_matched_items()
 		{
-			// Arrange
+			// given
 			var parseResponses = new List<CapturedVariable>()
 			{
 				new CapturedVariable("var1", @"(\d+)"),
@@ -34,10 +34,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 			};
 			string content = "<html class='bootstrap'><p>Tap tap tap 123</p></html>";
 
-			// Act
+			// when
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
-			// Assert
+			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
 			Assert.That(variables.ValueByName("var1"), Is.EqualTo("123"));
 			Assert.That(variables.ValueByName("varFoo"), Is.EqualTo("<html class='bootstrap'>"));
@@ -46,7 +46,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void matchvariables_should_set_value_to_empty_string_when_regex_is_not_matched()
 		{
-			// Arrange
+			// given
 			var parseResponses = new List<CapturedVariable>()
 			{
 				new CapturedVariable("var1", @"foo"),
@@ -55,10 +55,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 			};
 			string content = "<html>123 abc</html>";
 
-			// Act
+			// when
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
-			// Assert
+			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
 			Assert.That(variables.ValueByName("var1"), Is.EqualTo(""));
 			Assert.That(variables.ValueByName("var2"), Is.EqualTo(""));
@@ -67,7 +67,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void matchvariables_should_set_value_to_empty_string_when_regex_is_invalid()
 		{
-			// Arrange
+			// given
 			var parseResponses = new List<CapturedVariable>()
 			{
 				new CapturedVariable("var1", @"(\d+)"),
@@ -75,10 +75,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 			};
 			string content = "<html>123 abc</html>";
 
-			// Act
+			// when
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
-			// Assert
+			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
 			Assert.That(variables.ValueByName("var1"), Is.EqualTo("123"));
 			Assert.That(variables.ValueByName("var2"), Is.EqualTo(""));
@@ -87,87 +87,87 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void matchvariables_should_not_concatenate_multiple_matches_into_variable_value()
 		{
-			// Arrange
+			// given
 			var parseResponses = new List<CapturedVariable>()
 			{
 				new CapturedVariable("var1", @"(\d+)"),
 			};
 			string content = "<html>The number 3 and the number 4 combined make 7</html>";
 
-			// Act
+			// when
 			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
 
-			// Assert
+			// then
 			Assert.That(variables.ValueByName("var1"), Is.EqualTo("3"));
 		}
 
 		[Test]
 		public void AddOrUpdateVariable_should_set_variable()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 			var variable = new Variable("nano", "leaf", _devEnvironment);
 
-			// ActS
+			// whenS
 			sessionVariables.AddOrUpdateVariable(variable);
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
 		}
 
 		[Test]
 		public void AddOrUpdateVariable_should_not_set_variable_when_in_different_environments()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 			var variable = new Variable("nano", "leaf", _prodEnvironment);
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariable(variable);
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo(string.Empty));
 		}
 
 		[Test]
 		public void AddOrUpdateVariable_should_update_variable_when_already_set()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 			var variable1 = new Variable("nano", "leaf", _devEnvironment);
 			var variable2 = new Variable("nano", "leaf2", _devEnvironment);
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariable(variable1);
 			sessionVariables.AddOrUpdateVariable(variable2);
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
 		}
 
 		[Test]
 		public void AddOrUpdateVariable_should_not_update_variable_when_already_set_and_in_different_environments()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _prodEnvironment, new VariableEncryptorStub());
 			var variable1 = new Variable("nano", "leaf", _prodEnvironment);
 			var variable2 = new Variable("nano", "leaf2", _devEnvironment);
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariable(variable1);
 			sessionVariables.AddOrUpdateVariable(variable2);
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
 		}
 
 		[Test]
 		public void AddOrUpdateVariables_should_set_variable()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
 				new Variable("nano", "leaf", _devEnvironment),
@@ -175,7 +175,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb"));
 		}
@@ -183,10 +183,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void AddOrUpdateVariables_should_update_variable_when_already_set_and_original_is_set_as_default_variable()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
 				new Variable("nano", "leaf", string.Empty),
@@ -198,7 +198,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Variable("light", "bulb2", _devEnvironment)
 			});
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
 		}
@@ -206,10 +206,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void AddOrUpdateVariables_should_not_update_variable_when_setting_as_default_and_has_existing_variable_set_against_a_specific_environment()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
 				new Variable("nano", "leaf", _devEnvironment),
@@ -221,7 +221,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Variable("light", "bulb2", string.Empty)
 			});
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb"));
 		}
@@ -229,10 +229,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void AddOrUpdateVariables_should_update_variable_when_both_existing_and_new_variable_have_environment_set()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 
-			// Act
+			// when
 			sessionVariables.AddOrUpdateVariables(new List<Variable>()
 			{
 				new Variable("nano", "leaf", _devEnvironment),
@@ -244,7 +244,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 				new Variable("light", "bulb2", _devEnvironment)
 			});
 
-			// Assert
+			// then
 			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
 			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
 		}
@@ -252,7 +252,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		[Test]
 		public void ReplacePlainTextVariablesIn_should_replace_all_variables()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 			sessionVariables.AddOrUpdateVariable(new Variable("nano", "leaf", _devEnvironment));
 			sessionVariables.AddOrUpdateVariable(new Variable("two", "ten", _devEnvironment));
@@ -260,17 +260,17 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string template = "{nano} {dummy} {two}";
 			string expectedText = "leaf {dummy} ten";
 
-			// Act
+			// when
 			string actualText = sessionVariables.ReplacePlainTextVariablesIn(template);
 
-			// Assert
+			// then
 			Assert.That(actualText, Is.EqualTo(expectedText));
 		}
 
 		[Test]
 		public void ReplacePlainTextVariablesIn_should_call_decrypt()
 		{
-			// Arrange
+			// given
 			string variableValue = "leaf";
 
 			var mock = new Mock<IVariableEncryptor>();
@@ -283,17 +283,17 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			string template = "{nano}";
 
-			// Act
+			// when
 			string actualText = sessionVariables.ReplacePlainTextVariablesIn(template);
 
-			// Assert
+			// then
 			mock.Verify(x => x.Decrypt(variableValue));
 		}
 
 		[Test]
 		public void ReplaceVariablesIn_should_replace_all_variables_and_escape_regex_characters_in_values()
 		{
-			// Arrange
+			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
 			sessionVariables.AddOrUpdateVariable(new Variable("nano", "$var leaf", _devEnvironment));
 			sessionVariables.AddOrUpdateVariable(new Variable("two", "(.*?) [a-z] ^perlmagic", _devEnvironment));
@@ -301,17 +301,17 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string template = "{nano} {dummy} {two}";
 			string expectedText = @"\$var\ leaf {dummy} \(\.\*\?\)\ \[a-z]\ \^perlmagic";
 
-			// Act
+			// when
 			string actualText = sessionVariables.ReplaceVariablesIn(template);
 
-			// Assert
+			// then
 			Assert.That(actualText, Is.EqualTo(expectedText));
 		}
 
 		[Test]
 		public void ReplaceVariablesIn_should_call_decrypt()
 		{
-			// Arrange
+			// given
 			string variableValue = "leaf";
 
 			var mock = new Mock<IVariableEncryptor>();
@@ -324,10 +324,10 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			string template = "{nano}";
 
-			// Act
+			// when
 			sessionVariables.ReplaceVariablesIn(template);
 
-			// Assert
+			// then
 			mock.Verify(x => x.Decrypt(variableValue));
 		}
 	}
