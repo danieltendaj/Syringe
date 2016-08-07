@@ -29,7 +29,7 @@ namespace Syringe.Core.Runner
 
         private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers = new Dictionary<Guid, TestSessionRunnerSubscriber>();
 
-        public ITestFileResultRepository Repository { get; set; }
+        public ITestFileResultRepositoryFactory RepositoryFactory { get; set; }
         public Guid SessionId { get; internal set; }
 
         public IEnumerable<TestResult> CurrentResults
@@ -46,19 +46,19 @@ namespace Syringe.Core.Runner
         public int TestsRun { get; set; }
         public int TotalTests { get; set; }
 
-        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepository repository, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
+        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepositoryFactory repositoryFactory, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
         {
             if (httpClient == null)
                 throw new ArgumentNullException(nameof(httpClient));
 
-            if (repository == null)
-                throw new ArgumentNullException(nameof(repository));
+            if (repositoryFactory == null)
+                throw new ArgumentNullException(nameof(repositoryFactory));
 
             _httpClient = httpClient;
             _configuration = configuration;
             _capturedVariableProviderFactory = capturedVariableProviderFactory;
             _currentResults = new List<TestResult>();
-            Repository = repository;
+            RepositoryFactory = repositoryFactory;
 
             SessionId = Guid.NewGuid();
         }
@@ -192,7 +192,10 @@ namespace Syringe.Core.Runner
 
             if (shouldSave)
             {
-                await Repository.AddAsync(testFileResult);
+                using (ITestFileResultRepository repository = RepositoryFactory.GetRepository())
+                {
+                    await repository.AddAsync(testFileResult);
+                }
             }
 
             NotifySubscribersOfCompletion(testFileResult.Id);

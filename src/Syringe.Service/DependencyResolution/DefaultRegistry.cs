@@ -62,6 +62,8 @@ namespace Syringe.Service.DependencyResolution
 				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
+            For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
+
 			SetupDataStore(configuration);
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();

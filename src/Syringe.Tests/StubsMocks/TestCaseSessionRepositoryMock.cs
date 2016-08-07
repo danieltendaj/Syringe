@@ -37,7 +37,6 @@ namespace Syringe.Tests.StubsMocks
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
     }
 }

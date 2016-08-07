@@ -10,15 +10,16 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Controllers
 {
-    public class TestsController : ApiController, ITestService
+    [UnitOfWork]
+	public class TestsController : ApiController, ITestService
     {
         private readonly ITestRepository _testRepository;
-        private readonly ITestFileResultRepository _testFileResultRepository;
+        internal readonly ITestFileResultRepository TestFileResultRepository;
 
         public TestsController(ITestRepository testRepository, ITestFileResultRepository testFileResultRepository)
         {
             _testRepository = testRepository;
-            _testFileResultRepository = testFileResultRepository;
+            TestFileResultRepository = testFileResultRepository;
         }
 
         [Route("api/tests/ListFiles")]
@@ -108,21 +109,21 @@ namespace Syringe.Service.Controllers
         [HttpGet]
         public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-            return _testFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
+            return TestFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
         }
 
         [Route("api/tests/GetById")]
         [HttpGet]
         public TestFileResult GetResultById(Guid id)
         {
-            return _testFileResultRepository.GetById(id);
+            return TestFileResultRepository.GetById(id);
         }
 
         [Route("api/tests/DeleteResultAsync")]
         [HttpPost]
         public Task DeleteResultAsync(Guid id)
         {
-            return _testFileResultRepository.DeleteAsync(id);
+            return TestFileResultRepository.DeleteAsync(id);
         }
 
         [Route("api/tests/DeleteFile")]
