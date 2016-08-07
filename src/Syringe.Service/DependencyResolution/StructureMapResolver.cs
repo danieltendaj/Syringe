@@ -31,7 +31,7 @@ using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using StructureMap;
 
-namespace WebApiContrib.IoC.StructureMap
+namespace Syringe.Service.DependencyResolution
 {
     public class StructureMapDependencyScope : IDependencyScope
     {

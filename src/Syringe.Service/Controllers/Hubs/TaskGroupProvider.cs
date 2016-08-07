@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Syringe.Service.Api.Hubs
+namespace Syringe.Service.Controllers.Hubs
 {
     internal class TaskGroupProvider : ITaskGroupProvider
     {

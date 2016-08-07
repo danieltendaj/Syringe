@@ -2,7 +2,7 @@
 using Syringe.Core.Http;
 using Syringe.Core.Tests;
 
-namespace Syringe.Service.Api.Hubs
+namespace Syringe.Service.Controllers.Hubs
 {
     public class CompletedTaskInfo
     {

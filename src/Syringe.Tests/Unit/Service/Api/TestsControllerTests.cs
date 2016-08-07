@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
-using Syringe.Service.Api;
+using Syringe.Service.Controllers;
 
 namespace Syringe.Tests.Unit.Service.Api
 {

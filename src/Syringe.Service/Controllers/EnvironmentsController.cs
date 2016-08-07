@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core.Environment;
+using Syringe.Service.Services;
 
-namespace Syringe.Service.Api
+namespace Syringe.Service.Controllers
 {
 	public class EnvironmentsController : ApiController, IEnvironmentsService
 	{

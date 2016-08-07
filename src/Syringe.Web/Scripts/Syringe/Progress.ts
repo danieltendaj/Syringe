@@ -3,7 +3,7 @@
 /// <reference path="../typings/Hubs.d.ts" />
 module Syringe.Web {
     export class Progress {
-        private proxy: Service.Api.Hubs.TaskMonitorHub;
+        private proxy: Syringe.Service.Controllers.Hubs.TaskMonitorHub;
         private signalRUrl: string;
         private totalTests: number;
         private completedTests: number;
@@ -28,10 +28,10 @@ module Syringe.Web {
                 }
             };
 
-            this.proxy.client.onTaskCompleted = (taskInfo: Service.Api.Hubs.CompletedTaskInfo) => {
+            this.proxy.client.onTaskCompleted = (taskInfo: Syringe.Service.Controllers.Hubs.CompletedTaskInfo) => {
                 ++this.completedTests;
 
-                console.log(`Completed task ${taskInfo.Position} (${this.completedTests} of ${this.totalTests}).`);
+                console.log('Completed task ${taskInfo.Position} (${this.completedTests} of ${this.totalTests}).`);
 
                 if (this.totalTests > 0) {
                     var percentage = (this.completedTests / this.totalTests) * 100;

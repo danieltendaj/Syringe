@@ -1,4 +1,4 @@
-namespace Syringe.Service.Api.Hubs
+namespace Syringe.Service.Controllers.Hubs
 {
     public interface ITaskGroupProvider
     {
