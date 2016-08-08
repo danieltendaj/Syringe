@@ -7,7 +7,8 @@ namespace Syringe.Tests.StubsMocks
 {
     internal class TestFileResultRepositoryMock : ITestFileResultRepository
     {
-        public TestFileResult SavedSession { get; set; }
+        public TestFileResult SavedTestFileResult { get; set; }
+        public bool Disposed { get; set; }
 
         public Task DeleteAsync(Guid testFileResultId)
         {
@@ -21,7 +22,6 @@ namespace Syringe.Tests.StubsMocks
 
         public void Wipe()
         {
-            throw new NotImplementedException();
         }
 
         public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
@@ -31,12 +31,13 @@ namespace Syringe.Tests.StubsMocks
 
         public Task AddAsync(TestFileResult testFileResult)
         {
-            SavedSession = testFileResult;
+            SavedTestFileResult = testFileResult;
             return Task.FromResult<object>(null);
         }
 
         public void Dispose()
         {
+            Disposed = true;
         }
     }
 }

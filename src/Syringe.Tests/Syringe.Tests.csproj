@@ -232,7 +232,8 @@
     <Compile Include="Unit\Core\Tests\Variables\VariablePostProcessorTests.cs" />
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
-    <Compile Include="Unit\Service\Api\TestsControllerTests.cs" />
+    <Compile Include="Unit\Service\Controllers\TestsControllerTests.cs" />
+    <Compile Include="Unit\Service\Controllers\UnitOfWorkAttributeTests.cs" />
     <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
     <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />

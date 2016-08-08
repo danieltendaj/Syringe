@@ -319,8 +319,8 @@ namespace Syringe.Tests.Unit.Core.Runner
             await runner.RunAsync(testFile, "development", "bob");
 
             // then
-            Assert.That(repository.SavedSession, Is.Not.Null);
-            Assert.That(repository.SavedSession.TestResults.Count(), Is.EqualTo(1));
+            Assert.That(repository.SavedTestFileResult, Is.Not.Null);
+            Assert.That(repository.SavedTestFileResult.TestResults.Count(), Is.EqualTo(1));
         }
 
         [Test]
