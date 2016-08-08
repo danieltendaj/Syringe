@@ -33,11 +33,6 @@ if(!(Test-Path $configJsonPath))
 		Copy-Item "$serviceDir\configuration.default.json" $configJsonPath
 }
 
-
-$configJson = Get-Content -Path $configJsonPath | ConvertFrom-Json
-$configJson.DataStore = $dataStoreType
-ConvertTo-Json $configJson | Set-Content $configJsonPath
-
 # NodeJS is needed for Gulp
 Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
 choco install nodejs -y
