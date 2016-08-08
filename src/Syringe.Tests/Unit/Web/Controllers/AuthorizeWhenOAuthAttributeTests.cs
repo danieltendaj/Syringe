@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using FakeN.Web;
+﻿using FakeN.Web;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Web.Controllers;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Controllers
 {
 	[TestFixture]
 	public class AuthorizeWhenOAuthAttributeTests

@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Syringe.Service.Controllers;
 using Syringe.Tests.StubsMocks;
 
-namespace Syringe.Tests.Unit.Service.Api
+namespace Syringe.Tests.Unit.Service.Controllers
 {
     public class UnitOfWorkAttributeTests
     {

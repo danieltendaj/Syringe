@@ -4,7 +4,7 @@ using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Service.Controllers;
 
-namespace Syringe.Tests.Unit.Service.Api
+namespace Syringe.Tests.Unit.Service.Controllers
 {
     [TestFixture]
     public class TestsControllerTests

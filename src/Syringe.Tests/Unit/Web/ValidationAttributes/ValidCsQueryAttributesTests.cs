@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Syringe.Web.ValidationAttributes;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.ValidationAttributes
 {
     [TestFixture]
     public class ValidCsQueryAttributeTests

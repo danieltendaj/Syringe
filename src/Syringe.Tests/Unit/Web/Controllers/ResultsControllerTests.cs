@@ -11,9 +11,8 @@ using Syringe.Core.Tasks;
 using Syringe.Core.Tests.Results;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
-using Environment = Syringe.Core.Environment.Environment;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Controllers
 {
     [TestFixture]
     public class ResultsControllerTests
