@@ -59,8 +59,7 @@ artifacts:
 
 deploy:
 - provider: GitHub
-  auth_token:
-    secure: $env:GITHUB_AUTH_TOKEN
+  auth_token: $env:GITHUB_AUTH_TOKEN
   artifact: CurrentVersionZip
   force_update: false
   on:
