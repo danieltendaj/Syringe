@@ -1,7 +1,7 @@
 version: 1.0.{build}
+skip_tags: true
 shallow_clone: true
 clone_depth: 1
-skip_tags: true
 
 environment:
     nodejs_version: "6.2.2" # This is the Choco version number
@@ -9,8 +9,6 @@ environment:
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     MYGET_ACCESS_KEY:
        secure: syrbd00vj9tSxTdWxrecqIKfGnKzNXhVb+R1oyGR3jBtLmDz5JtCRnaEaeJwkeI7
-    GITHUB_AUTH_TOKEN:
-       secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
 
 cache:
   - packages ->  **\packages.config
@@ -59,7 +57,8 @@ artifacts:
 
 deploy:
 - provider: GitHub
-  auth_token: $env:GITHUB_AUTH_TOKEN
+  auth_token:
+    secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
   artifact: CurrentVersionZip
   force_update: false
   on:
