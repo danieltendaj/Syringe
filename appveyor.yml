@@ -1,13 +1,16 @@
 version: 1.0.{build}
 shallow_clone: true
 clone_depth: 1
+skip_tags: true
 
 environment:
     nodejs_version: "6.2.2" # This is the Choco version number
-    COVERALLS_REPO_TOKEN:  
+    COVERALLS_REPO_TOKEN:
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
     MYGET_ACCESS_KEY:
        secure: syrbd00vj9tSxTdWxrecqIKfGnKzNXhVb+R1oyGR3jBtLmDz5JtCRnaEaeJwkeI7
+    GITHUB_AUTH_TOKEN:
+       secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
 
 cache:
   - packages ->  **\packages.config
@@ -46,10 +49,10 @@ after_build:
   - 7z a Syringe-%APPVEYOR_BUILD_VERSION%.zip .\build\_deploymentOutput\*.zip
 
 # Generate test coverage and upload it to Coveralls.IO
-after_test: 
+after_test:
     - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[Syringe*]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single  src\Syringe.Tests\bin\release\Syringe.Tests.dll" -output:coverage.xml
     - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
-  
+
 artifacts:
   - path: Syringe-$(APPVEYOR_BUILD_VERSION).zip
     name: CurrentVersionZip
@@ -57,7 +60,7 @@ artifacts:
 deploy:
 - provider: GitHub
   auth_token:
-    secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
+    secure: $env:GITHUB_AUTH_TOKEN
   artifact: CurrentVersionZip
   force_update: false
   on:
