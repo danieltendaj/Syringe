@@ -15,7 +15,12 @@ namespace Syringe.Core.Configuration
             _configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
         }
 
-        public IConfiguration Load()
+		internal JsonConfigurationStore(string configPath)
+		{
+			_configPath = configPath;
+		}
+
+		public IConfiguration Load()
         {
             if (_configuration == null)
             {

@@ -199,6 +199,7 @@
     <Compile Include="Extensions\VariableExtensions.cs" />
     <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
     <Compile Include="Integration\ClientAndService\Helpers.cs" />
+    <Compile Include="Integration\Core\Configuration\JsonConfigurationStoreTests.cs" />
     <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Core\IO\FileHandlerTests.cs" />
     <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />

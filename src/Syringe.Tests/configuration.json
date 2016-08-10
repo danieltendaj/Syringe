@@ -1,7 +1,8 @@
 ﻿{
 	"ServiceUrl": "http://*:1981",
 	"WebsiteUrl": "http://localhost:1980",
-	"TestFilesBaseDirectory": "..\\..\\..\\..\\Xml-Examples",
+	"TestFilesBaseDirectory": "..\\..\\..\\..\\Example-TestFiles",
+	"ScriptSnippetDirectory": "..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets",
 	"ReadonlyMode": false,
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
