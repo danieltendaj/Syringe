@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNet.SignalR.Hubs;
 using Syringe.Core.Runner.Messaging;
 using Syringe.Core.Tests.Results;
-using Syringe.Service.Api.Hubs;
+using Syringe.Service.Controllers.Hubs;
 
 namespace Syringe.Service.Parallel
 {

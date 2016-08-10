@@ -10,7 +10,7 @@ using Syringe.Web.Controllers;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Controllers
 {
     [TestFixture]
     public class TestFileControllerTests

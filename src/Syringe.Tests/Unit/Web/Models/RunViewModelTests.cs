@@ -8,7 +8,7 @@ using Syringe.Core.Tests;
 using Syringe.Web;
 using Syringe.Web.Models;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Models
 {
     [TestFixture]
     public class RunViewModelTests

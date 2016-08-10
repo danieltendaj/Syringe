@@ -195,19 +195,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\HomeController.cs" />
-    <Compile Include="Api\ConfigurationController.cs" />
-    <Compile Include="Api\Hubs\CompletedTaskInfo.cs" />
-    <Compile Include="Api\Hubs\ITaskMonitorHubClient.cs" />
-    <Compile Include="Api\Hubs\TaskGroupProvider.cs" />
-    <Compile Include="Api\Hubs\TaskMonitorHub.cs" />
-    <Compile Include="Api\Hubs\TaskState.cs" />
-    <Compile Include="Api\IEnvironmentsService.cs" />
-    <Compile Include="Api\TasksController.cs" />
-    <Compile Include="Api\TestFileRunResult.cs" />
-    <Compile Include="Api\TestsController.cs" />
-    <Compile Include="Api\HealthCheckController.cs" />
-    <Compile Include="Api\EnvironmentsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\Hubs\CompletedTaskInfo.cs" />
+    <Compile Include="Controllers\Hubs\ITaskMonitorHubClient.cs" />
+    <Compile Include="Controllers\Hubs\TaskGroupProvider.cs" />
+    <Compile Include="Controllers\Hubs\TaskMonitorHub.cs" />
+    <Compile Include="Controllers\Hubs\TaskState.cs" />
+    <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
+    <Compile Include="Models\LightweightResult.cs" />
+    <Compile Include="Services\IEnvironmentsService.cs" />
+    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Models\TestFileRunResult.cs" />
+    <Compile Include="Controllers\TestsController.cs" />
+    <Compile Include="Controllers\HealthCheckController.cs" />
+    <Compile Include="Controllers\EnvironmentsController.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -215,7 +217,7 @@
     <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
     <Compile Include="ITaskObserver.cs" />
     <Compile Include="ITestFileQueue.cs" />
-    <Compile Include="Api\Hubs\ITaskGroupProvider.cs" />
+    <Compile Include="Controllers\Hubs\ITaskGroupProvider.cs" />
     <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />

@@ -39,9 +39,9 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Returns(_capturedVariableProvider);
         }
 
-        private ITestFileResultRepository GetRepository()
+        private ITestFileResultRepositoryFactory GetRepositoryFactory()
         {
-            return new TestFileResultRepositoryMock();
+            return new TestFileResultRepositoryFactoryMock();
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             };
             httpClient.Response = response;
 
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
+            var runner = new TestFileRunner(httpClient, GetRepositoryFactory(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -90,7 +90,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             response.ResponseTime = TimeSpan.FromSeconds(5);
 
             HttpClientMock httpClient = new HttpClientMock(response);
-            var runner = new TestFileRunner(httpClient, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
+            var runner = new TestFileRunner(httpClient, GetRepositoryFactory(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -303,22 +303,24 @@ namespace Syringe.Tests.Unit.Core.Runner
         public async Task Run_should_save_testresults_to_repository()
         {
             // given
-            var repository = new TestFileResultRepositoryMock();
+            var repositoryFactory = new TestFileResultRepositoryFactoryMock();
 
             TestFileRunner runner = CreateRunner();
-            runner.Repository = repository;
+            runner.RepositoryFactory = repositoryFactory;
+
+            var repository = (TestFileResultRepositoryMock)repositoryFactory.GetRepository();
 
             var testFile = CreateTestFile(new[]
             {
-                new Test() { Url = "foo1"},
+                new Test() { Url = "foo1" }
             });
 
             // when
             await runner.RunAsync(testFile, "development", "bob");
 
             // then
-            Assert.That(repository.SavedSession, Is.Not.Null);
-            Assert.That(repository.SavedSession.TestResults.Count(), Is.EqualTo(1));
+            Assert.That(repository.SavedTestFileResult, Is.Not.Null);
+            Assert.That(repository.SavedTestFileResult.TestResults.Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -455,7 +457,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), It.IsAny<HttpLogWriter>()))
                 .Returns(Task.FromResult(new HttpResponse()));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepositoryFactory(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -512,7 +514,7 @@ namespace Syringe.Tests.Unit.Core.Runner
                 .Setup(c => c.ExecuteRequestAsync(It.IsAny<IRestRequest>(), new HttpLogWriter()))
                 .Throws(new InvalidOperationException("Bad"));
 
-            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
+            TestFileRunner runner = new TestFileRunner(httpClientMock.Object, GetRepositoryFactory(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
 
             var testFile = CreateTestFile(new[]
             {
@@ -542,7 +544,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             _httpResponse = new HttpResponse();
             _httpClientMock = new HttpClientMock(_httpResponse);
 
-            return new TestFileRunner(_httpClientMock, GetRepository(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
+            return new TestFileRunner(_httpClientMock, GetRepositoryFactory(), new JsonConfiguration(), _capturedVariableProviderFactory.Object);
         }
 
         private TestFile CreateTestFile(Test[] tests)

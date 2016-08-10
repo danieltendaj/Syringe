@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Syringe.Service.Api;
+using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
 {

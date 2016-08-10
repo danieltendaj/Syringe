@@ -5,46 +5,58 @@ using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Configuration
 {
-	public class JsonConfigurationStore : IConfigurationStore
-	{
-		private IConfiguration _configuration;
-		private readonly string _configPath;
+    public class JsonConfigurationStore : IConfigurationStore
+    {
+        private IConfiguration _configuration;
+        private readonly string _configPath;
 
-		public JsonConfigurationStore()
+        public JsonConfigurationStore()
+        {
+            _configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
+        }
+
+		internal JsonConfigurationStore(string configPath)
 		{
-			_configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
+			_configPath = configPath;
 		}
 
 		public IConfiguration Load()
-		{
-			if (_configuration == null)
-			{
-			    if (!File.Exists(_configPath))
-			    {
-			        throw new ConfigurationException("The REST service configuration.json file does not exist: '{0}'", _configPath);
-			    }
+        {
+            if (_configuration == null)
+            {
+                if (!File.Exists(_configPath))
+                {
+                    throw new ConfigurationException("The REST service configuration.json file does not exist: '{0}'", _configPath);
+                }
 
-				string json = File.ReadAllText(_configPath);
-				JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);
+                string json = File.ReadAllText(_configPath);
+                JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);
 
-				if (!string.IsNullOrEmpty(configuration.TestFilesBaseDirectory))
-				{
-					if (configuration.TestFilesBaseDirectory.StartsWith(".."))
-					{
-						// Convert a relative path
-						string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, configuration.TestFilesBaseDirectory);
-						configuration.TestFilesBaseDirectory = Path.GetFullPath(fullPath);
-					}
-					else
-					{
-						configuration.TestFilesBaseDirectory = Path.GetFullPath(configuration.TestFilesBaseDirectory);
-					}
-				}
+                configuration.TestFilesBaseDirectory = ResolveRelativePath(configuration.TestFilesBaseDirectory);
+                configuration.ScriptSnippetDirectory = ResolveRelativePath(configuration.ScriptSnippetDirectory);
+                _configuration = configuration;
+            }
 
-				_configuration = configuration;
-			}
+            return _configuration;
+        }
 
-			return _configuration;
-		}
-	}
+        private string ResolveRelativePath(string directoryPath)
+        {
+            if (string.IsNullOrEmpty(directoryPath))
+                return directoryPath;
+
+            if (directoryPath.StartsWith(".."))
+            {
+                // Convert to a relative path
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directoryPath);
+                directoryPath = Path.GetFullPath(fullPath);
+            }
+            else
+            {
+                directoryPath = Path.GetFullPath(directoryPath);
+            }
+
+            return directoryPath;
+        }
+    }
 }

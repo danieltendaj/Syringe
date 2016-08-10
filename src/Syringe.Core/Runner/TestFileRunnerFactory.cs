@@ -7,13 +7,13 @@ namespace Syringe.Core.Runner
 {
     public class TestFileRunnerFactory : ITestFileRunnerFactory
     {
-        private readonly ITestFileResultRepository _repository;
+        private readonly ITestFileResultRepositoryFactory _repositoryFactory;
         private readonly IConfiguration _configuration;
         private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
 
-        public TestFileRunnerFactory(ITestFileResultRepository repository, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
+        public TestFileRunnerFactory(ITestFileResultRepositoryFactory repositoryFactory, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
         {
-            _repository = repository;
+            _repositoryFactory = repositoryFactory;
             _configuration = configuration;
             _capturedVariableProviderFactory = capturedVariableProviderFactory;
         }
@@ -21,7 +21,7 @@ namespace Syringe.Core.Runner
         public TestFileRunner Create()
         {
             var httpClient = new HttpClient(new RestClient());
-            return new TestFileRunner(httpClient, _repository, _configuration, _capturedVariableProviderFactory);
+            return new TestFileRunner(httpClient, _repositoryFactory, _configuration, _capturedVariableProviderFactory);
         }
     }
 }

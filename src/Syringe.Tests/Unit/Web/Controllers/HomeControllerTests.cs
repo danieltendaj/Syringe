@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +13,7 @@ using Syringe.Web.Controllers;
 using Syringe.Web.Models;
 using Environment = Syringe.Core.Environment.Environment;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Controllers
 {
     [TestFixture]
     public class HomeControllerTests

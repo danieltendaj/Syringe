@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
@@ -17,20 +18,24 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 {
 	public class TestFileResultRepositoryTests
 	{
-		private ITestFileResultRepository GetTestFileResultRepository()
-		{
-			return new LiteDbTestFileRepository();
-		}
+		private LiteDbTestFileRepository _repository;
 
 		[SetUp]
 		public void SetUp()
 		{
-			GetTestFileResultRepository().Wipe();
+			_repository = new LiteDbTestFileRepository();
+			_repository.Wipe();
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			_repository.Dispose();	
 		}
 
 		private TestFileResult GetDummyTestFileResult()
 		{
-			string seed = "-" +Guid.NewGuid();
+			string seed = "-" + Guid.NewGuid();
 
 			return new TestFileResult()
 			{
@@ -48,13 +53,13 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 						{
 							Content = $"content{seed}",
 							ResponseTime = TimeSpan.FromMinutes(1),
-                            StatusCode = HttpStatusCode.OK,
-                            Headers = new List<HttpHeader>()
-                            {
-                                new HttpHeader("key1",$"value1{seed}"),
-                                new HttpHeader("key2",$"value2{seed}")
-                            }
-                        },
+							StatusCode = HttpStatusCode.OK,
+							Headers = new List<HttpHeader>()
+							{
+								new HttpHeader("key1",$"value1{seed}"),
+								new HttpHeader("key2",$"value2{seed}")
+							}
+						},
 						AssertionResults = new List<Assertion>()
 						{
 							new Assertion()
@@ -79,14 +84,12 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
-			ITestFileResultRepository repository = GetTestFileResultRepository();
-
 			// when
-			await repository.AddAsync(testFileResult);
+			await _repository.AddAsync(testFileResult);
 
 			// then
-			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
-			Assert.That(summaries.TotalFileResults, Is.EqualTo(1));
+			IEnumerable<TestFileResult> allItems =  _repository.GetAll();
+			Assert.That(allItems.Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -95,15 +98,14 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
-			ITestFileResultRepository repository = GetTestFileResultRepository();
-			await repository.AddAsync(testFileResult);
+			await _repository.AddAsync(testFileResult);
 
 			// when
-			await repository.DeleteAsync(testFileResult.Id);
+			await _repository.DeleteAsync(testFileResult.Id);
 
 			// then
-			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
-			Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
+			IEnumerable<TestFileResult> allItems = _repository.GetAll();
+			Assert.That(allItems.Count, Is.EqualTo(0));
 		}
 
 		[Test]
@@ -112,11 +114,10 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			// given
 			TestFileResult testFileResult = GetDummyTestFileResult();
 
-			ITestFileResultRepository repository = GetTestFileResultRepository();
-			await repository.AddAsync(testFileResult);
+			await _repository.AddAsync(testFileResult);
 
 			// when
-			TestFileResult actualFileResult = repository.GetById(testFileResult.Id);
+			TestFileResult actualFileResult = _repository.GetById(testFileResult.Id);
 
 			// then
 			Assert.That(actualFileResult, Is.Not.Null, "couldn't find the test file result");
@@ -133,12 +134,11 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			TestFileResult testFileResult1 = GetDummyTestFileResult();
 			TestFileResult testFileResult2 = GetDummyTestFileResult();
 
-			ITestFileResultRepository repository = GetTestFileResultRepository();
-			await repository.AddAsync(testFileResult1);
-			await repository.AddAsync(testFileResult2);
+			await _repository.AddAsync(testFileResult1);
+			await _repository.AddAsync(testFileResult2);
 
 			// when
-			TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
+			TestFileResultSummaryCollection summaries = await _repository.GetSummaries(It.IsAny<DateTime>());
 
 			// then
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));
@@ -169,14 +169,13 @@ namespace Syringe.Tests.Integration.Core.Repository.LiteDb
 			otherTestResult2.StartTime = DateTime.Today.AddDays(-2);
 			otherTestResult2.EndTime = otherTestResult2.StartTime.AddMinutes(10);
 
-			ITestFileResultRepository repository = GetTestFileResultRepository();
-			await repository.AddAsync(todayResult1);
-			await repository.AddAsync(todayResult2);
-			await repository.AddAsync(otherTestResult1);
-			await repository.AddAsync(otherTestResult2);
+			await _repository.AddAsync(todayResult1);
+			await _repository.AddAsync(todayResult2);
+			await _repository.AddAsync(otherTestResult1);
+			await _repository.AddAsync(otherTestResult2);
 
 			// when
-			TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);
+			TestFileResultSummaryCollection summaries = await _repository.GetSummaries(DateTime.Today);
 
 			// then
 			Assert.That(summaries.TotalFileResults, Is.EqualTo(2));

@@ -1,13 +1,13 @@
 ﻿using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Services;
 using Syringe.Core.Security;
+using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
 using Syringe.Web.Controllers;
 
-namespace Syringe.Tests.Unit.Web
+namespace Syringe.Tests.Unit.Web.Controllers
 {
     [TestFixture]
     public class JsonControllerTests
