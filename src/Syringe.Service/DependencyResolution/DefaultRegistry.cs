@@ -36,7 +36,11 @@ namespace Syringe.Service.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry()
+	    public DefaultRegistry() : this(null)
+	    {
+	    }
+
+	    public DefaultRegistry(IConfigurationStore configurationStore)
         {
             Scan(
                 scan =>
@@ -53,10 +57,14 @@ namespace Syringe.Service.DependencyResolution
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
             // Configuration: load the configuration from the store
-            var configStore = new JsonConfigurationStore();
-            IConfiguration configuration = configStore.Load();
-            For<IConfigurationStore>().Use(configStore).Singleton();
-            For<IConfiguration>().Use(configuration);
+			if (configurationStore == null)
+				configurationStore = new JsonConfigurationStore();
+
+            For<IConfigurationStore>().Use(configurationStore).Singleton();
+
+			IConfiguration configuration = configurationStore.Load();
+			For<IConfiguration>().Use(configuration);
+
 
 			For<IEncryption>()
 				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
@@ -80,7 +88,7 @@ namespace Syringe.Service.DependencyResolution
                 .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
         }
 
-        private void SetupEnvironmentSource(IConfiguration configuration)
+        internal void SetupEnvironmentSource(IConfiguration configuration)
         {
             // Environments, use Octopus if keys exist
             bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey);

@@ -212,6 +212,7 @@
     <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
     <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
+    <Compile Include="StubsMocks\ConfigurationStoreMock.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
     <Compile Include="StubsMocks\ReservedVariableStub.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Service\Controllers\TestsControllerTests.cs" />
     <Compile Include="Unit\Service\Controllers\UnitOfWorkAttributeTests.cs" />
+    <Compile Include="Unit\Service\DependencyResolution\DefaultRegistryTests.cs" />
     <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
     <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
