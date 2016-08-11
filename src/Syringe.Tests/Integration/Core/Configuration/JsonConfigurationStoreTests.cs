@@ -29,6 +29,11 @@ namespace Syringe.Tests.Integration.Core.Configuration
 		private static void CopyConfigFile(string newConfigPath)
 	    {
 		    string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
+		    if (File.Exists(newConfigPath))
+		    {
+		        File.Delete(newConfigPath);
+		    }
+
 			File.Copy(configPath, newConfigPath);
 	    }
 

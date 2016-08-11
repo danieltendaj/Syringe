@@ -112,7 +112,10 @@ namespace Syringe.Core.Tests.Results.Repositories
 
 		public void Wipe()
 		{
-			_database.DropCollection("results");
+		    if (_database.CollectionExists("results"))
+            {
+                _database.DropCollection("results");
+            }
 		}
 
 		public void Dispose()

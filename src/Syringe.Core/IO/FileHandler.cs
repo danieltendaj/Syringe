@@ -10,12 +10,11 @@ namespace Syringe.Core.IO
     public class FileHandler : IFileHandler
     {
         private readonly IConfiguration _configuration;
-        private readonly string _fileExtension;
+        private const string FileExtension = "json";
 
         public FileHandler(IConfiguration configuration)
         {
             _configuration = configuration;
-            _fileExtension = configuration.TestFileFormat.ToString().ToLower();
         }
 
         public string GetFileFullPath(string fileName)
@@ -60,7 +59,7 @@ namespace Syringe.Core.IO
 
         public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + _fileExtension))
+            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + FileExtension))
             {
                 var fileInfo = new FileInfo(file);
                 yield return fileInfo.Name;
@@ -74,9 +73,9 @@ namespace Syringe.Core.IO
                 throw new ArgumentNullException(nameof(filename));
             }
 
-            if (!filename.EndsWith("." + _fileExtension))
+            if (!filename.EndsWith("." + FileExtension))
             {
-                filename = string.Concat(filename, "." + _fileExtension);
+                filename = string.Concat(filename, "." + FileExtension);
             }
 
             return filename;

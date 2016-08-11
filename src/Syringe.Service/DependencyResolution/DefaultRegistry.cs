@@ -64,7 +64,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
 
-			SetupDataStore(configuration);
+            For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
@@ -73,7 +73,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
-            SetupTestFileFormat(configuration);
+            SetupTestFileFormat();
             SetupEnvironmentSource(configuration);
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
@@ -98,29 +98,12 @@ namespace Syringe.Service.DependencyResolution
             }
         }
 
-        private void SetupTestFileFormat(IConfiguration configuration)
+        private void SetupTestFileFormat()
         {
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
-
-            // Test file readers and writers - set to json by default as there is no alternative right now.
-            switch (configuration.TestFileFormat)
-            {
-                case TestFileFormat.Json:
-                    For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
-                    For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
-                    break;
-            }
-        }
-
-        private void SetupDataStore(IConfiguration configuration)
-        {
-            switch (configuration.DataStore)
-            {
-                case DataStoreType.LiteDb:
-                    For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
-                    break;
-            }
+            For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
+            For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
         }
     }
 }

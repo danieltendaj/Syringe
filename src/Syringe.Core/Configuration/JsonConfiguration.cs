@@ -14,21 +14,13 @@ namespace Syringe.Core.Configuration
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string TestFilesBaseDirectory { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public TestFileFormat TestFileFormat { get; set; }
-
+        
 		public OAuthConfiguration OAuthConfiguration { get; set; }
 
         public OctopusConfiguration OctopusConfiguration { get; set; }
 
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public bool ReadonlyMode { get; set; }
-
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public DataStoreType DataStore { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ScriptSnippetDirectory { get; set; }
@@ -42,9 +34,7 @@ namespace Syringe.Core.Configuration
 			WebsiteUrl = "http://localhost:1980";
 			ServiceUrl = "http://*:1981";
 			TestFilesBaseDirectory = @"C:\Syringe\";
-            TestFileFormat = TestFileFormat.Json;
 			ReadonlyMode = false;
-            DataStore = DataStoreType.LiteDb;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
 
 			OAuthConfiguration = new OAuthConfiguration();
