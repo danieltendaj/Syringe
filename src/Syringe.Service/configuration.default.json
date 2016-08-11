@@ -3,8 +3,6 @@
 	"WebsiteUrl": "http://localhost:1980",
 	"TestFilesBaseDirectory": "..\\..\\..\\..\\Example-TestFiles",
 	"ScriptSnippetDirectory": "..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets",
-	"TestFileFormat": "Json",
-	"DataStore": "LiteDb",
 	"ReadonlyMode": false,
 	"EncryptionKey" :  "", 
 	"OAuthConfiguration": {
