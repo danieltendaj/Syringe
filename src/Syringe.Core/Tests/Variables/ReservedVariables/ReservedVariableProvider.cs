@@ -4,12 +4,12 @@ namespace Syringe.Core.Tests.Variables.ReservedVariables
 {
     public class ReservedVariableProvider : IReservedVariableProvider
     {
-        private readonly string _environment;
+        internal readonly string Environment;
         private readonly DateTime _createdDate = DateTime.Now;
 
         public ReservedVariableProvider(string environment)
         {
-            _environment = environment;
+            Environment = environment;
         }
 
         public IReservedVariable[] ListAvailableVariables()
@@ -18,7 +18,7 @@ namespace Syringe.Core.Tests.Variables.ReservedVariables
             {
                 new RandomNumberVariable(),
                 new TestRunVariable(_createdDate),
-                new EnvironmentVariable(_environment), 
+                new EnvironmentVariable(Environment), 
             };
         }
     }

@@ -4,16 +4,16 @@ namespace Syringe.Core.Tests.Results.Repositories
 {
     public class TestFileResultRepositoryFactory : ITestFileResultRepositoryFactory
     {
-        private readonly IContext _context;
+        internal readonly IContext Context;
 
         public TestFileResultRepositoryFactory(IContext context)
         {
-            _context = context;
+            Context = context;
         }
 
         public ITestFileResultRepository GetRepository()
         {
-            return _context.GetInstance<ITestFileResultRepository>();
+            return Context.GetInstance<ITestFileResultRepository>();
         }
     }
 }

@@ -26,6 +26,8 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Tests.Repositories;
+using Syringe.Core.Tests.Repositories.Json.Reader;
+using Syringe.Core.Tests.Repositories.Json.Writer;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
@@ -36,7 +38,11 @@ namespace Syringe.Service.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry()
+	    public DefaultRegistry() : this(null)
+	    {
+	    }
+
+	    public DefaultRegistry(IConfigurationStore configurationStore)
         {
             Scan(
                 scan =>
@@ -53,10 +59,14 @@ namespace Syringe.Service.DependencyResolution
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
             // Configuration: load the configuration from the store
-            var configStore = new JsonConfigurationStore();
-            IConfiguration configuration = configStore.Load();
-            For<IConfigurationStore>().Use(configStore).Singleton();
-            For<IConfiguration>().Use(configuration);
+			if (configurationStore == null)
+				configurationStore = new JsonConfigurationStore();
+
+            For<IConfigurationStore>().Use(configurationStore).Singleton();
+
+			IConfiguration configuration = configurationStore.Load();
+			For<IConfiguration>().Use(configuration);
+
 
 			For<IEncryption>()
 				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
@@ -77,10 +87,13 @@ namespace Syringe.Service.DependencyResolution
             SetupEnvironmentSource(configuration);
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
-                .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
+                .Use(context => context.GetInstance<IDependencyResolver>()
+										.Resolve<IConnectionManager>()
+										.GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>()
+										.Clients);
         }
 
-        private void SetupEnvironmentSource(IConfiguration configuration)
+        internal void SetupEnvironmentSource(IConfiguration configuration)
         {
             // Environments, use Octopus if keys exist
             bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey);
@@ -102,8 +115,8 @@ namespace Syringe.Service.DependencyResolution
         {
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
-            For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
-            For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
+            For<ITestFileReader>().Use<TestFileReader>();
+            For<ITestFileWriter>().Use<TestFileWriter>();
         }
     }
 }
