@@ -26,6 +26,8 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.IO;
 using Syringe.Core.Tests.Repositories;
+using Syringe.Core.Tests.Repositories.Json.Reader;
+using Syringe.Core.Tests.Repositories.Json.Writer;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
@@ -85,7 +87,10 @@ namespace Syringe.Service.DependencyResolution
             SetupEnvironmentSource(configuration);
 
             For<IHubConnectionContext<ITaskMonitorHubClient>>()
-                .Use(context => context.GetInstance<IDependencyResolver>().Resolve<IConnectionManager>().GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>().Clients);
+                .Use(context => context.GetInstance<IDependencyResolver>()
+										.Resolve<IConnectionManager>()
+										.GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>()
+										.Clients);
         }
 
         internal void SetupEnvironmentSource(IConfiguration configuration)
@@ -110,8 +115,8 @@ namespace Syringe.Service.DependencyResolution
         {
             For<IFileHandler>().Use<FileHandler>();
             For<ITestRepository>().Use<TestRepository>();
-            For<ITestFileReader>().Use<Core.Tests.Repositories.Json.Reader.TestFileReader>();
-            For<ITestFileWriter>().Use<Core.Tests.Repositories.Json.Writer.TestFileWriter>();
+            For<ITestFileReader>().Use<TestFileReader>();
+            For<ITestFileWriter>().Use<TestFileWriter>();
         }
     }
 }
