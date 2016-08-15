@@ -22,7 +22,7 @@ $(document).ready(function () {
             $('.variable-compatible').textcomplete([
                 {
                     words: availableVariables,
-                    match: /\B{([\-+\w]*)$/,
+                    match: /{([\-+\w]*)$/,
                     search: function(term, callback) {
                         callback($.map(this.words, function(word) {
                             return word.indexOf(term) === 0 ? word : null;
@@ -31,6 +31,13 @@ $(document).ready(function () {
                     index: 1,
                     replace: function(word) {
                         return `{${word}}`;
+                    }
+                }
+            ], { appendTo: 'body' }).overlay([
+                {
+                    match: /{([\-+\w]*)}/g,
+                    css: {
+                        'background-color': '#d8dfea'
                     }
                 }
             ]);
