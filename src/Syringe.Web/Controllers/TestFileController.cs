@@ -49,7 +49,7 @@ namespace Syringe.Web.Controllers
                 var testFile = new TestFile
                 {
                     Filename = model.Filename,
-                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToList() ?? new List<Variable>()
+                    Variables = model.Variables?.Select(x => new Variable(x.Name, x.Value, x.Environment == DEFAULT_ENV_VAL ? string.Empty : x.Environment)).ToList() ?? new List<Variable>()
                 };
 
                 bool createdTestFile = _testsClient.CreateTestFile(testFile);
