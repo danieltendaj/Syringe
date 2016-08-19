@@ -9,7 +9,7 @@
 
         @Html.LabelFor(x => Model.Value, new { @class = "col-sm-1 control-label" })
         <div class="col-sm-6">
-            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control variable-compatible", placeholder = "Value" })
+            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control variable-compatible", placeholder = "Value", autocomplete = "off" })
         </div>
         <div class="col-xs-1 col-sm-2 col-lg-1">
             @Html.Partial("Partials/_RemoveRow")
