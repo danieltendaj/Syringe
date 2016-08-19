@@ -48,12 +48,7 @@
                             <h6>@test.Url</h6>
                         </td>
                         <td class="actions">
-                            @using (Html.BeginForm("RunTest", "Home"))
-                            {
-                                <input type="hidden" name="filename" value="@Model.Filename" />
-                                <input type="hidden" name="position" value="@test.Position" />
-                                @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
-                            }
+                            [None in read only mode]
                         </td>
                     </tr>
                 }
