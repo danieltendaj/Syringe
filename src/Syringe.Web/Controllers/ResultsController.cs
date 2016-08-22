@@ -78,7 +78,7 @@ namespace Syringe.Web.Controllers
             ViewBag.Title =  string.IsNullOrEmpty(environment) ? "All" : environment;
 
             TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today.AddYears(-1), pageNumber, noOfResults, environment);
-            result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
+            result.Environments = _environmentsService.Get().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
             result.Environment = environment;
             return View("Index", result);
         }
@@ -88,7 +88,7 @@ namespace Syringe.Web.Controllers
             ViewBag.Title = string.IsNullOrEmpty(environment) ? "All" : environment;
 
             TestFileResultSummaryCollection result = await _testsClient.GetSummaries(DateTime.Today, pageNumber, noOfResults, environment);
-            result.Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
+            result.Environments = _environmentsService.Get().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray();
             result.Environment = environment;
             return View("Index", result);
         }

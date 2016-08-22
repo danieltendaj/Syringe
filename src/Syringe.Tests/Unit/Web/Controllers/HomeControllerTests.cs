@@ -97,7 +97,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
             };
 
             _environmentService
-                .Setup(x => x.List())
+                .Setup(x => x.Get())
                 .Returns(environments);
 
             // when

@@ -4,6 +4,6 @@ namespace Syringe.Core.Services
 {
 	public interface IEnvironmentsService
 	{
-		IEnumerable<Environment.Environment> List();
+		IEnumerable<Environment.Environment> Get();
 	}
 }

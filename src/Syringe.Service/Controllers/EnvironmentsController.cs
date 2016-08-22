@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Web.Http;
 using Syringe.Core.Environment;
 using Syringe.Service.Services;
@@ -14,9 +15,9 @@ namespace Syringe.Service.Controllers
 			_provider = provider;
 		}
 
-		[Route("api/environments/list")]
+		[Route("api/environments")]
         [HttpGet]
-        public IEnumerable<Environment> List()
+        public IEnumerable<Environment> Get()
         {
 	        return _provider.GetAll();
         }
