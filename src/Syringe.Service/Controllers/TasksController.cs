@@ -20,10 +20,24 @@ namespace Syringe.Service.Controllers
             _testFileResultFactory = testFileResultFactory;
         }
 
+        [Route("api/task")]
+        [HttpGet]
+        public TaskDetails GetTask(int taskId)
+        {
+            return _fileQueue.GetRunningTaskDetails(taskId);
+        }
+
+        [Route("api/tasks")]
+        [HttpGet]
+        public IEnumerable<TaskDetails> GetTasks()
+        {
+            return _fileQueue.GetRunningTasks();
+        }
+
         /// <summary>
         /// Run a test file synchronously - waiting for the tests to finish.
         /// </summary>
-        [Route("api/tasks/RunTestFile")]
+        [Route("api/tasks/runTestFile")]
         [HttpGet]
         public TestFileRunResult RunTestFile(string filename, string environment, string username)
         {
@@ -60,39 +74,11 @@ namespace Syringe.Service.Controllers
             }
         }
 
-        [Route("api/tasks/Start")]
+        [Route("api/tasks/start")]
         [HttpPost]
         public int Start(TaskRequest item)
         {
             return _fileQueue.Add(item);
-        }
-
-        [Route("api/tasks/Stop")]
-        [HttpGet]
-        public string Stop(int id)
-        {
-            return _fileQueue.Stop(id);
-        }
-
-        [Route("api/tasks/StopAll")]
-        [HttpGet]
-        public List<string> StopAll()
-        {
-            return _fileQueue.StopAll();
-        }
-
-        [Route("api/tasks/GetRunningTasks")]
-        [HttpGet]
-        public IEnumerable<TaskDetails> GetRunningTasks()
-        {
-            return _fileQueue.GetRunningTasks();
-        }
-
-        [Route("api/tasks/GetRunningTaskDetails")]
-        [HttpGet]
-        public TaskDetails GetRunningTaskDetails(int taskId)
-        {
-            return _fileQueue.GetRunningTaskDetails(taskId);
         }
     }
 }

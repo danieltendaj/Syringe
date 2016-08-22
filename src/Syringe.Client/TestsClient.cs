@@ -12,7 +12,7 @@ namespace Syringe.Client
 {
     public class TestsClient : ITestService
     {
-        internal const string RESOURCE_PATH = "/api/tests";
+        internal const string RESOURCE_PATH = "/api/";
         internal readonly string ServiceUrl;
         private readonly IRestSharpClientFactory _clientFactory;
         private readonly RestSharpHelper _restSharpHelper;
@@ -27,27 +27,17 @@ namespace Syringe.Client
         public IEnumerable<string> ListFiles()
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("ListFiles");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfiles");
 
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<IEnumerable<string>>(response);
         }
-
-        public Test GetTest(string filename, int position)
-        {
-            var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetTest");
-            request.AddParameter("filename", filename);
-            request.AddParameter("position", position);
-
-            IRestResponse response = client.Execute(request);
-            return _restSharpHelper.DeserializeOrThrow<Test>(response);
-        }
-
+        
         public TestFile GetTestFile(string filename)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetTestFile");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile");
+            request.Method = Method.GET;
             request.AddParameter("filename", filename);
 
             IRestResponse response = client.Execute(request);
@@ -58,7 +48,7 @@ namespace Syringe.Client
         public string GetRawFile(string filename)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetRawFile");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile/raw");
             request.AddParameter("filename", filename);
 
             IRestResponse response = client.Execute(request);
@@ -69,8 +59,8 @@ namespace Syringe.Client
         public bool EditTest(string filename, int position, Test test)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("EditTest");
-            request.Method = Method.POST;
+            IRestRequest request = _restSharpHelper.CreateRequest("test");
+            request.Method = Method.PATCH;
             request.AddJsonBody(test);
             request.AddQueryParameter("filename", filename);
             request.AddQueryParameter("position", Convert.ToString(position));
@@ -82,7 +72,7 @@ namespace Syringe.Client
         public bool CreateTest(string filename, Test test)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("CreateTest");
+            IRestRequest request = _restSharpHelper.CreateRequest("test");
             request.Method = Method.POST;
             request.AddJsonBody(test);
             request.AddQueryParameter("filename", filename);
@@ -94,8 +84,8 @@ namespace Syringe.Client
         public bool DeleteTest(int position, string fileName)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("DeleteTest");
-            request.Method = Method.POST;
+            IRestRequest request = _restSharpHelper.CreateRequest("test");
+            request.Method = Method.DELETE;
             request.AddQueryParameter("position", position.ToString());
             request.AddQueryParameter("fileName", fileName);
 
@@ -106,7 +96,7 @@ namespace Syringe.Client
         public bool CopyTest(int position, string fileName)
         {
             var client = _clientFactory.Create(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("CopyTest");
+            IRestRequest request = _restSharpHelper.CreateRequest("test/copy");
             request.Method = Method.POST;
             request.AddQueryParameter("position", Convert.ToString(position));
             request.AddQueryParameter("fileName", fileName);
@@ -119,7 +109,7 @@ namespace Syringe.Client
         public bool CreateTestFile(TestFile testFile)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("CreateTestFile");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile");
             request.Method = Method.POST;
             request.AddJsonBody(testFile);
             request.AddQueryParameter("filename", testFile.Filename);
@@ -131,7 +121,7 @@ namespace Syringe.Client
         public bool CopyTestFile(string sourceFileName, string targetFileName)
         {
             var client = _clientFactory.Create(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("CopyTestFile");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile/copy");
             request.Method = Method.POST;
             request.AddQueryParameter("sourceFileName", sourceFileName);
             request.AddQueryParameter("targetFileName", targetFileName);
@@ -144,7 +134,7 @@ namespace Syringe.Client
         public bool UpdateTestVariables(TestFile testFile)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("UpdateTestVariables");
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile/variables");
             request.Method = Method.POST;
             request.AddJsonBody(testFile);
 
@@ -155,7 +145,7 @@ namespace Syringe.Client
         public async Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetSummaries");
+            IRestRequest request = _restSharpHelper.CreateRequest("test/results");
             request.Method = Method.GET;
             request.AddQueryParameter("pageNumber", pageNumber.ToString());
             request.AddQueryParameter("noOfResults", noOfResults.ToString());
@@ -168,30 +158,31 @@ namespace Syringe.Client
         public TestFileResult GetResultById(Guid id)
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetById");
+            IRestRequest request = _restSharpHelper.CreateRequest("test/result");
             request.Method = Method.GET;
             request.AddQueryParameter("id", id.ToString());
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<TestFileResult>(response);
         }
 
-        public Task DeleteResultAsync(Guid id)
+        public bool DeleteResult(Guid id)
         {
             var client = new RestClient(ServiceUrl);
 
-            IRestRequest request = _restSharpHelper.CreateRequest("DeleteResultAsync");
-            request.Method = Method.POST;
+            IRestRequest request = _restSharpHelper.CreateRequest("test/result");
+            request.Method = Method.DELETE;
             request.AddQueryParameter("id", id.ToString());
 
-            return client.ExecutePostTaskAsync(request);
+            IRestResponse response = client.Execute(request);
+            return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
         public bool DeleteFile(string fileName)
         {
             var client = new RestClient(ServiceUrl);
 
-            IRestRequest request = _restSharpHelper.CreateRequest("DeleteFile");
-            request.Method = Method.POST;
+            IRestRequest request = _restSharpHelper.CreateRequest("testfile");
+            request.Method = Method.DELETE;
             request.AddQueryParameter("filename", fileName);
             IRestResponse response = client.Execute(request);
 

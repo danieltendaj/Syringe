@@ -35,7 +35,7 @@ namespace Syringe.Web.Controllers
 
 		public ActionResult GetProgress(int taskId)
 		{
-			TaskDetails details = _tasksClient.GetRunningTaskDetails(taskId);
+			TaskDetails details = _tasksClient.GetTask(taskId);
 
 			// Don't use Json() as it fails for large objects.
 			return Content(JsonConvert.SerializeObject(details), "application/json");

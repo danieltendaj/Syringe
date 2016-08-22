@@ -22,72 +22,35 @@ namespace Syringe.Service.Controllers
             TestFileResultRepository = testFileResultRepository;
         }
 
-        [Route("api/tests/ListFiles")]
+        [Route("api/testfiles")]
         [HttpGet]
         public IEnumerable<string> ListFiles()
         {
             return _testRepository.ListFiles();
         }
-
-        [Route("api/tests/GetTest")]
-        [HttpGet]
-        public Test GetTest(string filename, int position)
-        {
-            return _testRepository.GetTest(filename, position);
-        }
-
-        [Route("api/tests/GetTestFile")]
+        
+        [Route("api/testfile")]
         [HttpGet]
         public TestFile GetTestFile(string filename)
         {
             return _testRepository.GetTestFile(filename);
         }
 
-        [Route("api/tests/GetRawFile")]
+        [Route("api/testfile/raw")]
         [HttpGet]
         public string GetRawFile(string filename)
         {
             return _testRepository.GetRawFile(filename);
         }
-        
-        [Route("api/tests/EditTest")]
-        [HttpPost]
-        public bool EditTest(string filename, int position, [FromBody]Test test)
-        {
-            return _testRepository.SaveTest(filename, position, test);
-        }
-        
-        [Route("api/tests/CreateTest")]
-        [HttpPost]
-        public bool CreateTest(string filename, [FromBody]Test test)
-        {
-            return _testRepository.CreateTest(filename, test);
-        }
 
-        [Route("api/tests/DeleteTest")]
-        [HttpPost]
-        public bool DeleteTest(int position, string fileName)
-        {
-            return _testRepository.DeleteTest(position, fileName);
-        }
-
-        [Route("api/tests/CopyTest")]
-        [HttpPost]
-        public bool CopyTest(int position, string fileName)
-        {
-            Test test = _testRepository.GetTest(fileName, position);
-            test.Description = $"Copy of {test.Description}";
-            return _testRepository.CreateTest(fileName, test);
-        }
-
-        [Route("api/tests/CreateTestFile")]
+        [Route("api/testfile")]
         [HttpPost]
         public bool CreateTestFile([FromBody]TestFile testFile)
         {
             return _testRepository.CreateTestFile(testFile);
         }
 
-        [Route("api/tests/CopyTestFile")]
+        [Route("api/testfile/copy")]
         [HttpPost]
         public bool CopyTestFile(string sourceFileName, string targetFileName)
         {
@@ -98,39 +61,70 @@ namespace Syringe.Service.Controllers
             return result;
         }
 
-        [Route("api/tests/UpdateTestVariables")]
+        [Route("api/testfile/variables")]
         [HttpPost]
         public bool UpdateTestVariables([FromBody]TestFile testFile)
         {
             return _testRepository.UpdateTestVariables(testFile);
         }
 
-        [Route("api/tests/GetSummaries")]
+        [Route("api/testfile")]
+        [HttpDelete]
+        public bool DeleteFile(string fileName)
+        {
+            return _testRepository.DeleteFile(fileName);
+        }
+
+        [Route("api/test")]
+        [HttpPatch]
+        public bool EditTest(string filename, int position, [FromBody]Test test)
+        {
+            return _testRepository.SaveTest(filename, position, test);
+        }
+        
+        [Route("api/test")]
+        [HttpPost]
+        public bool CreateTest(string filename, [FromBody]Test test)
+        {
+            return _testRepository.CreateTest(filename, test);
+        }
+
+        [Route("api/test")]
+        [HttpDelete]
+        public bool DeleteTest(int position, string fileName)
+        {
+            return _testRepository.DeleteTest(position, fileName);
+        }
+
+        [Route("api/test/copy")]
+        [HttpPost]
+        public bool CopyTest(int position, string fileName)
+        {
+            Test test = _testRepository.GetTest(fileName, position);
+            test.Description = $"Copy of {test.Description}";
+            return _testRepository.CreateTest(fileName, test);
+        }
+
+        [Route("api/test/results")]
         [HttpGet]
         public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
             return TestFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
         }
 
-        [Route("api/tests/GetById")]
+        [Route("api/test/result")]
         [HttpGet]
         public TestFileResult GetResultById(Guid id)
         {
             return TestFileResultRepository.GetById(id);
         }
 
-        [Route("api/tests/DeleteResultAsync")]
-        [HttpPost]
-        public Task DeleteResultAsync(Guid id)
+        [Route("api/test/result")]
+        [HttpDelete]
+        public bool DeleteResult(Guid id)
         {
-            return TestFileResultRepository.DeleteAsync(id);
-        }
-
-        [Route("api/tests/DeleteFile")]
-        [HttpPost]
-        public bool DeleteFile(string fileName)
-        {
-            return _testRepository.DeleteFile(fileName);
+            TestFileResultRepository.DeleteAsync(id).Wait();
+            return true;
         }
     }
 }

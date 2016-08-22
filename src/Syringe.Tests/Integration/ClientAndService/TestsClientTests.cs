@@ -55,25 +55,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             Assert.That(files, Is.Not.Null);
             Assert.That(files.Count(), Is.EqualTo(2));
         }
-
-        [Test]
-        public void GetTest_should_return_expected_test_using_position()
-        {
-            // given
-            int testIndex = 1;
-            TestsClient client = Helpers.CreateTestsClient();
-            TestFile testFile = Helpers.CreateTestFileAndTest(client);
-            Test expectedTest = testFile.Tests.ToList()[testIndex];
-
-            // when
-            Test actualTest = client.GetTest(testFile.Filename, testIndex);
-
-            // then
-            Assert.That(actualTest, Is.Not.Null);
-            Assert.That(actualTest.Description, Is.EqualTo(expectedTest.Description));
-            Assert.That(actualTest.Method, Is.EqualTo(expectedTest.Method));
-        }
-
+        
         [Test]
         public void GetTestFile_should_return_expected_testfile()
         {
@@ -118,10 +100,10 @@ namespace Syringe.Tests.Integration.ClientAndService
             bool success = client.EditTest(testFile.Filename, 0, expectedTest);
 
             // then
-            Test actualTest = client.GetTest(testFile.Filename, 0);
+            TestFile actualTest = client.GetTestFile(testFile.Filename);
 
             Assert.True(success);
-            Assert.That(actualTest.Description, Is.StringContaining("new description"));
+            Assert.That(actualTest.Tests.First().Description, Is.StringContaining("new description"));
         }
 
         [Test]
@@ -295,9 +277,10 @@ namespace Syringe.Tests.Integration.ClientAndService
             repository.AddAsync(result2).Wait();
 
             // when
-            client.DeleteResultAsync(result2.Id).Wait();
+            var result = client.DeleteResult(result2.Id);
 
             // then
+            Assert.That(result, Is.True);
             TestFileResult deletedResult = client.GetResultById(result2.Id);
             Assert.That(deletedResult, Is.Null);
 

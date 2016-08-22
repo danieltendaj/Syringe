@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Client
 
             IRestRequest request = client.RestRequest;
             Assert.That(request.Method, Is.EqualTo(Method.POST));
-            Assert.That(request.Resource, Is.EqualTo(TestsClient.RESOURCE_PATH + "/CopyTest"));
+            Assert.That(request.Resource, Is.EqualTo(TestsClient.RESOURCE_PATH + "/test/copy"));
             Assert.That(request.Parameters.Count, Is.EqualTo(2));
 
             Parameter param1 = request.Parameters[0];
@@ -89,7 +89,7 @@ namespace Syringe.Tests.Unit.Client
 
             IRestRequest request = client.RestRequest;
             Assert.That(request.Method, Is.EqualTo(Method.POST));
-            Assert.That(request.Resource, Is.EqualTo(TestsClient.RESOURCE_PATH + "/CopyTestFile"));
+            Assert.That(request.Resource, Is.EqualTo(TestsClient.RESOURCE_PATH + "/testfile/copy"));
             Assert.That(request.Parameters.Count, Is.EqualTo(2));
 
             Parameter param1 = request.Parameters[0];

@@ -153,39 +153,6 @@ namespace Syringe.Service.Parallel
             };
         }
 
-        /// <summary>
-        /// Stops a test request task in the queue, returning a message of whether the stop succeeded or not.
-        /// </summary>
-        public string Stop(int taskId)
-        {
-            TestFileRunnerTaskInfo task;
-            _currentTasks.TryRemove(taskId, out task);
-            if (task == null)
-            {
-                return "FAILED - Cancel request made, but removing from the list of tasks failed";
-            }
-
-
-            task.Runner.Stop();
-            task.CancelTokenSource.Cancel(false);
-
-            return $"OK - Task {task.Id} stopped and removed";
-        }
-
-        /// <summary>
-        /// Attempts to shut down all running tasks.
-        /// </summary>
-        public List<string> StopAll()
-        {
-            List<string> results = new List<string>();
-            foreach (TestFileRunnerTaskInfo task in _currentTasks.Values)
-            {
-                results.Add(Stop(task.Id));
-            }
-
-            return results;
-        }
-
         public TaskMonitoringInfo StartMonitoringTask(int taskId)
         {
             TestFileRunnerTaskInfo task;

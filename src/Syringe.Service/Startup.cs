@@ -51,7 +51,6 @@ namespace Syringe.Service
 
 		public void Stop()
 		{
-			_testFileQueue.StopAll();
 			WebApplication.Dispose();
 		}
 
