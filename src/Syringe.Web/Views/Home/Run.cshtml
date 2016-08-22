@@ -55,12 +55,7 @@
                             <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
                                 <div class="panel-body">
                                     <div>
-                                        <div class="pull-left test-result-url"></div>
-                                        <div class="pull-right">
-                                            <a class="hidden view-html btn btn-primary" target="_blank" href="@Url.Action("Html", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View HTML</a>
-                                            <a class="hidden view-raw btn btn-primary" target="_blank" href="@Url.Action("Raw", "Results", new {taskId = Model.CurrentTaskId, position = test.Position})">View raw</a>
-                                            <a class="hidden view-raw btn btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.FileName, position = test.Position})">Edit</a>
-                                        </div>
+                                        <div class="test-result-url"></div>
                                     </div>
 	                                <div class="test-result-errors">
 										<br />

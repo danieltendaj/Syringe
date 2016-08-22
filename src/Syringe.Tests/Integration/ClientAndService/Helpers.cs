@@ -27,6 +27,12 @@ namespace Syringe.Tests.Integration.ClientAndService
             return client;
         }
 
+        public static TasksClient CreateTasksClient()
+        {
+            var client = new TasksClient(ServiceStarter.BaseUrl);
+            return client;
+        }
+
         public static TestFile CreateTestFileAndTest(TestsClient client)
         {
             string filename = GetJsonFilename();

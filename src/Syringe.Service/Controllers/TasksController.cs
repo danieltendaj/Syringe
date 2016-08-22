@@ -20,6 +20,20 @@ namespace Syringe.Service.Controllers
             _testFileResultFactory = testFileResultFactory;
         }
 
+        [Route("api/tasks")]
+        [HttpGet]
+        public TaskDetails GetTask(int taskId)
+        {
+            return _fileQueue.GetRunningTaskDetails(taskId);
+        }
+
+        [Route("api/tasks")]
+        [HttpGet]
+        public IEnumerable<TaskDetails> GetTasks()
+        {
+            return _fileQueue.GetRunningTasks();
+        }
+
         /// <summary>
         /// Run a test file synchronously - waiting for the tests to finish.
         /// </summary>
@@ -79,20 +93,6 @@ namespace Syringe.Service.Controllers
         public List<string> StopAll()
         {
             return _fileQueue.StopAll();
-        }
-
-        [Route("api/tasks/GetRunningTasks")]
-        [HttpGet]
-        public IEnumerable<TaskDetails> GetRunningTasks()
-        {
-            return _fileQueue.GetRunningTasks();
-        }
-
-        [Route("api/tasks/GetRunningTaskDetails")]
-        [HttpGet]
-        public TaskDetails GetRunningTaskDetails(int taskId)
-        {
-            return _fileQueue.GetRunningTaskDetails(taskId);
         }
     }
 }

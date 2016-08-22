@@ -37,15 +37,19 @@ namespace Syringe.Client
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<TaskDetails> GetRunningTasks()
-		{
-			throw new NotImplementedException();
-		}
+		public IEnumerable<TaskDetails> GetTasks()
+        {
+            var client = new RestClient(ServiceUrl);
+            IRestRequest request = CreateRequest();
+            
+            var response = client.Execute<List<TaskDetails>>(request);
+            return response.Data;
+        }
 
-		public TaskDetails GetRunningTaskDetails(int taskId)
+		public TaskDetails GetTask(int taskId)
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = CreateRequest("GetRunningTaskDetails");
+			IRestRequest request = CreateRequest();
 			request.AddParameter("taskId", taskId);
 
 			// Don't use the Restsharp JSON deserializer, it fails
@@ -55,9 +59,9 @@ namespace Syringe.Client
 			return details;
 		}
 
-		private IRestRequest CreateRequest(string action)
+		private IRestRequest CreateRequest(string action = "")
 		{
-			return new RestRequest(string.Format("/api/tasks/{0}", action));
+			return new RestRequest($"/api/tasks/{action}");
 		}
 
 		public static int ParseOrDefault(string value, int defaultValue)

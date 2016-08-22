@@ -8,7 +8,7 @@ namespace Syringe.Core.Services
 		int Start(TaskRequest item);
 		string Stop(int id);
 		List<string> StopAll();
-		IEnumerable<TaskDetails> GetRunningTasks();
-		TaskDetails GetRunningTaskDetails(int taskId);
+		IEnumerable<TaskDetails> GetTasks();
+		TaskDetails GetTask(int taskId);
 	}
 }

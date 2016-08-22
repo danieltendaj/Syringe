@@ -24,7 +24,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
             _userContext = new Mock<IUserContext>();
 
             _tasksClient.Setup(x => x.Start(It.IsAny<TaskRequest>())).Returns(10);
-            _tasksClient.Setup(x => x.GetRunningTaskDetails(It.IsAny<int>())).Returns(new TaskDetails());
+            _tasksClient.Setup(x => x.GetTask(It.IsAny<int>())).Returns(new TaskDetails());
             _testsClient.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
             jsonController = new JsonController(_tasksClient.Object, _testsClient.Object, _userContext.Object);
         }
@@ -47,7 +47,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
             var actionResult = jsonController.GetProgress(It.IsAny<int>()) as ContentResult;
 
             // then
-            _tasksClient.Verify(x => x.GetRunningTaskDetails(It.IsAny<int>()), Times.Once);
+            _tasksClient.Verify(x => x.GetTask(It.IsAny<int>()), Times.Once);
             Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
         }
 
