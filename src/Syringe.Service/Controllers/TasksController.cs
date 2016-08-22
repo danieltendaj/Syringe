@@ -37,7 +37,7 @@ namespace Syringe.Service.Controllers
         /// <summary>
         /// Run a test file synchronously - waiting for the tests to finish.
         /// </summary>
-        [Route("api/tasks/runTestFile")]
+        [Route("api/task/runTestFile")]
         [HttpGet]
         public TestFileRunResult RunTestFile(string filename, string environment, string username)
         {
@@ -74,11 +74,12 @@ namespace Syringe.Service.Controllers
             }
         }
 
-        [Route("api/tasks/start")]
+        [Route("api/task/start")]
         [HttpPost]
         public int Start(TaskRequest item)
         {
             return _fileQueue.Add(item);
         }
+        
     }
 }
