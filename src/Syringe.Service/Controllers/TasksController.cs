@@ -74,25 +74,11 @@ namespace Syringe.Service.Controllers
             }
         }
 
-        [Route("api/tasks/Start")]
+        [Route("api/tasks/start")]
         [HttpPost]
         public int Start(TaskRequest item)
         {
             return _fileQueue.Add(item);
-        }
-
-        [Route("api/tasks/Stop")]
-        [HttpGet]
-        public string Stop(int id)
-        {
-            return _fileQueue.Stop(id);
-        }
-
-        [Route("api/tasks/StopAll")]
-        [HttpGet]
-        public List<string> StopAll()
-        {
-            return _fileQueue.StopAll();
         }
     }
 }

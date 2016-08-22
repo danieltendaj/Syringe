@@ -89,12 +89,7 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnNext(message));
             NotifySubscribers(observer => observer.OnCompleted());
         }
-
-        public void Stop()
-        {
-            _isStopPending = true;
-        }
-
+        
         public IDisposable Subscribe(IObserver<IMessage> observer)
         {
             // Notify of the observer of existing results.

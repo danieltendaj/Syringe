@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using RestSharp;
 using Syringe.Core.Services;
@@ -26,17 +25,7 @@ namespace Syringe.Client
 			IRestResponse response = client.Execute(request);
 			return ParseOrDefault(response.Content, 0);
 		}
-
-		public string Stop(int id)
-		{
-			throw new NotImplementedException();
-		}
-
-		public List<string> StopAll()
-		{
-			throw new NotImplementedException();
-		}
-
+        
 		public IEnumerable<TaskDetails> GetTasks()
         {
             var client = new RestClient(ServiceUrl);

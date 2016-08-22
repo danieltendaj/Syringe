@@ -23,17 +23,7 @@ namespace Syringe.Service
         /// This includes the results of every test in the test file for the run.
         /// </summary>
         TaskDetails GetRunningTaskDetails(int taskId);
-
-        /// <summary>
-        /// Stops a test file request task in the queue, returning a message of whether the stop succeeded or not.
-        /// </summary>
-        string Stop(int id);
-
-        /// <summary>
-        /// Attempts to shut down all running tasks.
-        /// </summary>
-        List<string> StopAll();
-
+        
 	    /// <summary>
 	    /// Runs a test file and waits.
 	    /// </summary>
