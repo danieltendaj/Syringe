@@ -38,7 +38,7 @@ namespace Syringe.Client
 		public TaskDetails GetTask(int taskId)
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = CreateRequest();
+			IRestRequest request = new RestRequest("/api/task/");
 			request.AddParameter("taskId", taskId);
 
 			// Don't use the Restsharp JSON deserializer, it fails

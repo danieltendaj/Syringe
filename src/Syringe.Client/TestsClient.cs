@@ -32,18 +32,7 @@ namespace Syringe.Client
             IRestResponse response = client.Execute(request);
             return _restSharpHelper.DeserializeOrThrow<IEnumerable<string>>(response);
         }
-
-        public Test GetTest(string filename, int position)
-        {
-            var client = new RestClient(ServiceUrl);
-            IRestRequest request = _restSharpHelper.CreateRequest("GetTest");
-            request.AddParameter("filename", filename);
-            request.AddParameter("position", position);
-
-            IRestResponse response = client.Execute(request);
-            return _restSharpHelper.DeserializeOrThrow<Test>(response);
-        }
-
+        
         public TestFile GetTestFile(string filename)
         {
             var client = new RestClient(ServiceUrl);

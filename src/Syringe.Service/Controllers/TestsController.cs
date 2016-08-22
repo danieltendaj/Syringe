@@ -28,14 +28,7 @@ namespace Syringe.Service.Controllers
         {
             return _testRepository.ListFiles();
         }
-
-        [Route("api/tests/GetTest")]
-        [HttpGet]
-        public Test GetTest(string filename, int position)
-        {
-            return _testRepository.GetTest(filename, position);
-        }
-
+        
         [Route("api/tests/GetTestFile")]
         [HttpGet]
         public TestFile GetTestFile(string filename)

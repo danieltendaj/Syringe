@@ -9,7 +9,6 @@ namespace Syringe.Core.Services
 	public interface ITestService
 	{
 		IEnumerable<string> ListFiles();
-		Test GetTest(string filename, int position);
 		TestFile GetTestFile(string filename);
 	    string GetRawFile(string filename);
         bool EditTest(string filename, int position, Test test);

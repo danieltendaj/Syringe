@@ -27,7 +27,6 @@ namespace Syringe.Tests.Unit.Web.Controllers
             _testFileMapperMock.Setup(x => x.BuildTests(It.IsAny<IEnumerable<Test>>(), It.IsAny<int>(), It.IsAny<int>()));
             _testFileMapperMock.Setup(x => x.BuildVariableViewModel(It.IsAny<TestFile>())).Returns(new List<VariableViewModel>());
             _testServiceMock.Setup(x => x.GetTestFile(It.IsAny<string>())).Returns(new TestFile());
-            _testServiceMock.Setup(x => x.GetTest(It.IsAny<string>(), It.IsAny<int>()));
             _testServiceMock.Setup(x => x.DeleteTest(It.IsAny<int>(), It.IsAny<string>()));
             _testServiceMock.Setup(x => x.CreateTest(It.IsAny<string>(), It.IsAny<Test>()));
 

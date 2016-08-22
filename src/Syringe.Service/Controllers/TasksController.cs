@@ -20,7 +20,7 @@ namespace Syringe.Service.Controllers
             _testFileResultFactory = testFileResultFactory;
         }
 
-        [Route("api/tasks")]
+        [Route("api/task")]
         [HttpGet]
         public TaskDetails GetTask(int taskId)
         {
@@ -37,7 +37,7 @@ namespace Syringe.Service.Controllers
         /// <summary>
         /// Run a test file synchronously - waiting for the tests to finish.
         /// </summary>
-        [Route("api/tasks/RunTestFile")]
+        [Route("api/tasks/runTestFile")]
         [HttpGet]
         public TestFileRunResult RunTestFile(string filename, string environment, string username)
         {
