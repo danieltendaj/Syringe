@@ -22,7 +22,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         }
 
 		[Test]
-		public void List_should_return_list_of_environments()
+		public void Get_should_return_list_of_environments()
 		{
 			// This test relies on the environments.json in the service always having some environments. 
 
@@ -30,7 +30,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			var client = new EnvironmentsClient(ServiceStarter.BaseUrl);
 
 			// when
-			IEnumerable<Environment> environments = client.List();
+			IEnumerable<Environment> environments = client.Get();
 
 			// then
 			Assert.That(environments, Is.Not.Null);

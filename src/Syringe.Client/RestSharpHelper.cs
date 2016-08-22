@@ -28,11 +28,16 @@ namespace Syringe.Client
 			{
 				throw new ClientException("REST Client error: status code {0} - {1}", response.StatusCode, response.Content);
 			}
-		}
+        }
 
-		public IRestRequest CreateRequest(string action)
-		{
-			return new RestRequest($"{_requestPath}/{action}");
-		}
-	}
+        public IRestRequest CreateRequest()
+        {
+            return CreateRequest(string.Empty);
+        }
+
+        public IRestRequest CreateRequest(string action)
+        {
+            return new RestRequest($"{_requestPath}/{action}");
+        }
+    }
 }

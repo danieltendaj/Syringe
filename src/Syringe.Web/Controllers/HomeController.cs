@@ -46,7 +46,7 @@ namespace Syringe.Web.Controllers
                 NoOfResults = noOfResults,
                 PageNumbers = files.GetPageNumbersToShow(noOfResults),
                 Files = files.GetPaged(noOfResults, pageNumber),
-                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
+                Environments = _environmentsService.Get().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
             };
 
 			string viewName = "Index";

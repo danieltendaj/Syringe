@@ -16,10 +16,10 @@ namespace Syringe.Client
 			_restSharpHelper = new RestSharpHelper("/api/environments");
 		}
 
-		public IEnumerable<Environment> List()
+		public IEnumerable<Environment> Get()
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = _restSharpHelper.CreateRequest("List");
+			IRestRequest request = _restSharpHelper.CreateRequest();
 
 			IRestResponse response = client.Execute(request);
 			return _restSharpHelper.DeserializeOrThrow<IEnumerable<Environment>>(response);

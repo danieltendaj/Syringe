@@ -82,7 +82,7 @@ namespace Syringe.Web.Controllers
                 Filename = filename,
                 PageNumber = pageNumber,
                 NoOfResults = noOfResults,
-                Environments = _environmentsService.List().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
+                Environments = _environmentsService.Get().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
             };
 
             string viewName = "View";
@@ -191,7 +191,7 @@ namespace Syringe.Web.Controllers
 
         private SelectListItem[] GetEnvironmentsDropDown()
         {
-            List<Environment> environments = _environmentsService.List().ToList();
+            List<Environment> environments = _environmentsService.Get().ToList();
 
             List<SelectListItem> items = environments
                 .OrderBy(x => x.Order)
