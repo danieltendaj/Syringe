@@ -96,14 +96,14 @@ namespace Syringe.Tests.Unit.Web.Controllers
         }
 
         [Test]
-        public async void DeleteResult_should_call_delete_methods_and_redirect_to_correct_action()
+        public void DeleteResult_should_call_delete_methods_and_redirect_to_correct_action()
         {
             // given + when
-            var redirectToRouteResult = await _resultsController.Delete(It.IsAny<Guid>()) as RedirectToRouteResult;
+            var redirectToRouteResult = _resultsController.Delete(It.IsAny<Guid>()) as RedirectToRouteResult;
 
             // then
             _testsClient.Verify(x => x.GetResultById(It.IsAny<Guid>()), Times.Once);
-            _testsClient.Verify(x => x.DeleteResultAsync(It.IsAny<Guid>()), Times.Once);
+            _testsClient.Verify(x => x.DeleteResult(It.IsAny<Guid>()), Times.Once);
             Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
         }
     }

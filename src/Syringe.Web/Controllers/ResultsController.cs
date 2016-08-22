@@ -48,10 +48,10 @@ namespace Syringe.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(Guid id)
+        public ActionResult Delete(Guid id)
         {
             TestFileResult session = _testsClient.GetResultById(id);
-            await _testsClient.DeleteResultAsync(session.Id);
+            _testsClient.DeleteResult(session.Id);
 
             return RedirectToAction("Index");
         }

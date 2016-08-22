@@ -277,9 +277,10 @@ namespace Syringe.Tests.Integration.ClientAndService
             repository.AddAsync(result2).Wait();
 
             // when
-            client.DeleteResultAsync(result2.Id).Wait();
+            var result = client.DeleteResult(result2.Id);
 
             // then
+            Assert.That(result, Is.True);
             TestFileResult deletedResult = client.GetResultById(result2.Id);
             Assert.That(deletedResult, Is.Null);
 

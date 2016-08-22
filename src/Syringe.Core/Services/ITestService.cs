@@ -21,6 +21,6 @@ namespace Syringe.Core.Services
         bool UpdateTestVariables(TestFile testFile);
         Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "");
         TestFileResult GetResultById(Guid id);
-        Task DeleteResultAsync(Guid id);
+        bool DeleteResult(Guid id);
 	}
 }
