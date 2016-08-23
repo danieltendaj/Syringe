@@ -27,6 +27,13 @@ namespace Syringe.Service.Controllers
             return _fileQueue.GetRunningTaskDetails(taskId);
         }
 
+        [Route("api/task")]
+        [HttpPost]
+        public int Start(TaskRequest item)
+        {
+            return _fileQueue.Add(item);
+        }
+
         [Route("api/tasks")]
         [HttpGet]
         public IEnumerable<TaskDetails> GetTasks()
@@ -37,7 +44,7 @@ namespace Syringe.Service.Controllers
         /// <summary>
         /// Run a test file synchronously - waiting for the tests to finish.
         /// </summary>
-        [Route("api/tasks/runTestFile")]
+        [Route("api/task/runTestFile")]
         [HttpGet]
         public TestFileRunResult RunTestFile(string filename, string environment, string username)
         {
@@ -72,13 +79,6 @@ namespace Syringe.Service.Controllers
                     ErrorMessage = ex.ToString()
                 };
             }
-        }
-
-        [Route("api/tasks/start")]
-        [HttpPost]
-        public int Start(TaskRequest item)
-        {
-            return _fileQueue.Add(item);
         }
     }
 }

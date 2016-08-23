@@ -18,7 +18,7 @@ namespace Syringe.Client
 		public int Start(TaskRequest item)
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = CreateRequest("start");
+			IRestRequest request = CreateRequest();
 			request.AddJsonBody(item);
 			request.Method = Method.POST;
 
@@ -29,7 +29,7 @@ namespace Syringe.Client
 		public IEnumerable<TaskDetails> GetTasks()
         {
             var client = new RestClient(ServiceUrl);
-            IRestRequest request = CreateRequest();
+            IRestRequest request = new RestRequest("/api/tasks/");
             
             var response = client.Execute<List<TaskDetails>>(request);
             return response.Data;
@@ -38,7 +38,7 @@ namespace Syringe.Client
 		public TaskDetails GetTask(int taskId)
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = new RestRequest("/api/task/");
+			IRestRequest request = CreateRequest();
 			request.AddParameter("taskId", taskId);
 
 			// Don't use the Restsharp JSON deserializer, it fails
@@ -50,7 +50,7 @@ namespace Syringe.Client
 
 		private IRestRequest CreateRequest(string action = "")
 		{
-			return new RestRequest($"/api/tasks/{action}");
+			return new RestRequest($"/api/task/{action}");
 		}
 
 		public static int ParseOrDefault(string value, int defaultValue)
