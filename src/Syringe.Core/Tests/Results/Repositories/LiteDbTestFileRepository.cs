@@ -36,7 +36,11 @@ namespace Syringe.Core.Tests.Results.Repositories
             {
                 using (var db = new LiteDatabase(_databasePath))
                 {
-                    GetCollection(db).Insert(testFileResult);
+                    using (var transaction = db.BeginTrans())
+                    {
+                        GetCollection(db).Insert(testFileResult);
+                        transaction.Commit();
+                    }
                 }
             });
         }
@@ -47,7 +51,11 @@ namespace Syringe.Core.Tests.Results.Repositories
             {
                 using (var db = new LiteDatabase(_databasePath))
                 {
-                    GetCollection(db).Delete(x => x.Id == testFileResultId);
+                    using (var transaction = db.BeginTrans())
+                    {
+                        GetCollection(db).Delete(x => x.Id == testFileResultId);
+                        transaction.Commit();
+                    }
                 }
             });
         }
@@ -125,9 +133,13 @@ namespace Syringe.Core.Tests.Results.Repositories
         {
             using (var db = new LiteDatabase(_databasePath))
             {
-                if (db.CollectionExists("results"))
+                using (var transaction = db.BeginTrans())
                 {
-                    db.DropCollection("results");
+                    if (db.CollectionExists("results"))
+                    {
+                        db.DropCollection("results");
+                        transaction.Commit();
+                    }
                 }
             }
         }
