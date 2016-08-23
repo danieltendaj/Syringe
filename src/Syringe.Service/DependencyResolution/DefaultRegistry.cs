@@ -74,7 +74,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
 
-            For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>().Singleton();
+            For<ITestFileResultRepository>().Use<LiteDbTestFileRepository>();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
