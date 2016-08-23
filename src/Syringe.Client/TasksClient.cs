@@ -48,7 +48,12 @@ namespace Syringe.Client
 			return details;
 		}
 
-		private IRestRequest CreateRequest(string action = "")
+	    public int StartBatch(string[] fileNames, string environment, string username)
+	    {
+	        throw new System.NotImplementedException();
+	    }
+        
+	    private IRestRequest CreateRequest(string action = "")
 		{
 			return new RestRequest($"/api/task/{action}");
 		}

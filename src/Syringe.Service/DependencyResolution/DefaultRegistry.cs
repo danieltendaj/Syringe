@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Runtime.Caching;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Infrastructure;
@@ -80,6 +81,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
+            For<IBatchManager>().Use<BatchManager>().Singleton();
 
             For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
@@ -91,6 +93,8 @@ namespace Syringe.Service.DependencyResolution
 										.Resolve<IConnectionManager>()
 										.GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>()
 										.Clients);
+
+	        For<ObjectCache>().Use(x => MemoryCache.Default);
         }
 
         internal void SetupEnvironmentSource(IConfiguration configuration)

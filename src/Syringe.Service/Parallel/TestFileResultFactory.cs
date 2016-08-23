@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Syringe.Core.Tasks;
 using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
@@ -38,7 +39,7 @@ namespace Syringe.Service.Parallel
 
                     result = new TestFileRunResult
                     {
-                        ResultId = testFileTask.Result.TestFileResults.Id,
+                        ResultId = testFileTask.Result.TestFileResults?.Id,
                         Completed = true,
                         TimeTaken = timeTaken,
                         HasFailedTests = (failCount > 0),

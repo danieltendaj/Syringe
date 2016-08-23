@@ -9,6 +9,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {

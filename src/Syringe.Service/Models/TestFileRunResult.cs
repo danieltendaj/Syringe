@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Syringe.Core.Tasks;
 
 namespace Syringe.Service.Models
 {
