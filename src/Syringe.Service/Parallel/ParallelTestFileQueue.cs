@@ -101,7 +101,7 @@ namespace Syringe.Service.Parallel
                 TestFileRunner runner = _testFileRunnerFactory.Create();
                 item.Runner = runner;
 
-                await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
+                item.TestFileResults = await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
             }
             catch (Exception e)
             {
