@@ -82,7 +82,7 @@ namespace Syringe.Service.Parallel
 
         private bool DetectIfTestCompleted(Task<TestFileRunnerTaskInfo> testFileTask)
         {
-            return testFileTask.Result.CurrentTask.Status == TaskStatus.RanToCompletion;
+            return testFileTask.Result.CurrentTask?.Status == TaskStatus.RanToCompletion;
         }
     }
 }
