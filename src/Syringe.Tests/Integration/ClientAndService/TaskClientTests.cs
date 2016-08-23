@@ -38,7 +38,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             var client = Helpers.CreateTasksClient();
 
             // when
-            IEnumerable<TaskDetails> runningTasks = client.GetTasks();
+            var runningTasks = client.GetTasks();
 
             // then
             Assert.That(runningTasks, Is.Not.Null);
@@ -51,12 +51,27 @@ namespace Syringe.Tests.Integration.ClientAndService
             var taskRequest = new TaskRequest { Environment = "anything", Filename = "test-test.json" };
             ServiceStarter.Container.GetInstance<ITestFileQueue>().Add(taskRequest);
             var client = Helpers.CreateTasksClient();
-            
+
             // when
-            TaskDetails task = client.GetTask(1);
+            var task = client.GetTask(1);
 
             // then
             Assert.That(task, Is.Not.Null);
+        }
+
+        [Test]
+        public void should_start_task()
+        {
+            // given
+            var taskRequest = new TaskRequest { Environment = "anything", Filename = "test-test.json" };
+            var client = Helpers.CreateTasksClient();
+
+            // when
+            int task = client.Start(taskRequest);
+
+            // then
+            Assert.That(task, Is.Not.Null);
+            Assert.That(task, Is.GreaterThan(0));
         }
     }
 }

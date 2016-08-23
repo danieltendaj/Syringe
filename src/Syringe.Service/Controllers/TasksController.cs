@@ -27,6 +27,13 @@ namespace Syringe.Service.Controllers
             return _fileQueue.GetRunningTaskDetails(taskId);
         }
 
+        [Route("api/task")]
+        [HttpPost]
+        public int Start(TaskRequest item)
+        {
+            return _fileQueue.Add(item);
+        }
+
         [Route("api/tasks")]
         [HttpGet]
         public IEnumerable<TaskDetails> GetTasks()
@@ -73,13 +80,5 @@ namespace Syringe.Service.Controllers
                 };
             }
         }
-
-        [Route("api/task/start")]
-        [HttpPost]
-        public int Start(TaskRequest item)
-        {
-            return _fileQueue.Add(item);
-        }
-        
     }
 }

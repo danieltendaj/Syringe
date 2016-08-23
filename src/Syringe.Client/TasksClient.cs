@@ -18,7 +18,7 @@ namespace Syringe.Client
 		public int Start(TaskRequest item)
 		{
 			var client = new RestClient(ServiceUrl);
-			IRestRequest request = CreateRequest("start");
+			IRestRequest request = CreateRequest();
 			request.AddJsonBody(item);
 			request.Method = Method.POST;
 
