@@ -60,14 +60,19 @@ namespace Syringe.Service.Parallel
             var testFilesState = new List<TestFileRunResult>(batchInfo.Count);
             foreach (int taskId in batchInfo)
             {
-                var taskInfo = _testFileQueue.GetTestFileTaskInfo(taskId);
-                testFilesState.Add(_testFileResultFactory.Create(Task.FromResult(taskInfo), false, TimeSpan.Zero));
+                TestFileRunnerTaskInfo taskInfo = _testFileQueue.GetTestFileTaskInfo(taskId);
+                TestFileRunResult testFileRunResult = _testFileResultFactory.Create(Task.FromResult(taskInfo), false, TimeSpan.Zero);
+                testFilesState.Add(testFileRunResult);
             }
+
+            bool completed = testFilesState.TrueForAll(x => x.Completed);
 
             return new BatchStatus
             {
                 BatchId = batchId,
-                TestFilesResult = testFilesState
+                TestFilesResult = testFilesState,
+                Completed = completed,
+                AllTestsPassed = completed && testFilesState.TrueForAll(x => !x.HasFailedTests)
             };
         }
     }

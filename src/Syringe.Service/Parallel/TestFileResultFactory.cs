@@ -35,16 +35,17 @@ namespace Syringe.Service.Parallel
                 }
                 else
                 {
-                    int failCount = testFileTask.Result.Runner.CurrentResults.Count(x => !x.Success);
+                    TestFileRunnerTaskInfo testFile = testFileTask.Result;
+                    int failCount = testFile.Runner.CurrentResults.Count(x => !x.Success);
 
                     result = new TestFileRunResult
                     {
-                        ResultId = testFileTask.Result.TestFileResults?.Id,
-                        Completed = true,
-                        TimeTaken = timeTaken,
+                        ResultId = testFile.TestFileResults?.Id,
+                        Completed = DetectIfTestCompleted(testFileTask),
+                        TimeTaken = GetTimeTaken(testFile, timeTaken),
                         HasFailedTests = (failCount > 0),
-                        ErrorMessage = "",
-                        TestResults = testFileTask.Result.Runner.CurrentResults.Select(lightResult => new LightweightResult()
+                        ErrorMessage = GetErrorMessage(testFileTask),
+                        TestResults = testFile.Runner.CurrentResults.Select(lightResult => new LightweightResult()
                         {
                             Success = lightResult.Success,
                             Message = lightResult.Message,
@@ -62,6 +63,26 @@ namespace Syringe.Service.Parallel
             }
 
             return result;
+        }
+
+        private TimeSpan GetTimeTaken(TestFileRunnerTaskInfo testFile, TimeSpan timeTaken)
+        {
+            return timeTaken == TimeSpan.Zero ? testFile.Duration : timeTaken;
+        }
+
+        private string GetErrorMessage(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            if (testFileTask.Exception != null)
+            {
+                return testFileTask.Exception.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        private bool DetectIfTestCompleted(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            return testFileTask.Result.CurrentTask.Status == TaskStatus.RanToCompletion;
         }
     }
 }

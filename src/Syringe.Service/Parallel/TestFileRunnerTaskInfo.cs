@@ -17,6 +17,7 @@ namespace Syringe.Service.Parallel
         public int Id { get; private set; }
         public string Username { get; set; }
         public DateTime StartTime { get; set; }
+        public TimeSpan Duration { get; set; }
         public TaskRequest Request { get; set; }
         public TestFileRunner Runner { get; set; }
 
