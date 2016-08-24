@@ -78,10 +78,6 @@ namespace Syringe.Service.Parallel
             {
                 runnerTaskInfo.Errors = e.ToString();
             }
-            finally
-            {
-                runnerTaskInfo.Duration = DateTime.UtcNow - runnerTaskInfo.StartTime;
-            }
 
             return runnerTaskInfo;
         }
@@ -106,10 +102,6 @@ namespace Syringe.Service.Parallel
             catch (Exception e)
             {
                 item.Errors = e.ToString();
-            }
-            finally
-            {
-                item.Duration = DateTime.UtcNow - item.StartTime;
             }
         }
 

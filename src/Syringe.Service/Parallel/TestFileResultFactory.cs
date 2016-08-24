@@ -42,6 +42,7 @@ namespace Syringe.Service.Parallel
                     {
                         ResultId = testFile.TestFileResults?.Id,
                         Completed = DetectIfTestCompleted(testFileTask),
+                        Failed = DetectIfTestFailed(testFileTask),
                         TimeTaken = GetTimeTaken(testFile, timeTaken),
                         HasFailedTests = (failCount > 0),
                         ErrorMessage = GetErrorMessage(testFileTask),
@@ -67,7 +68,7 @@ namespace Syringe.Service.Parallel
 
         private TimeSpan GetTimeTaken(TestFileRunnerTaskInfo testFile, TimeSpan timeTaken)
         {
-            return timeTaken == TimeSpan.Zero ? testFile.Duration : timeTaken;
+            return timeTaken == TimeSpan.Zero && testFile.TestFileResults != null ? testFile.TestFileResults.TotalRunTime : timeTaken;
         }
 
         private string GetErrorMessage(Task<TestFileRunnerTaskInfo> testFileTask)
@@ -83,6 +84,21 @@ namespace Syringe.Service.Parallel
         private bool DetectIfTestCompleted(Task<TestFileRunnerTaskInfo> testFileTask)
         {
             return testFileTask.Result.CurrentTask?.Status == TaskStatus.RanToCompletion;
+        }
+
+        private bool DetectIfTestFailed(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            bool failed = false;
+
+            switch (testFileTask.Result.CurrentTask?.Status)
+            {
+                case TaskStatus.Canceled:
+                case TaskStatus.Faulted:
+                    failed = true;
+                    break;
+            }
+
+            return failed;
         }
     }
 }

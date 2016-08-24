@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,26 +55,41 @@ namespace Syringe.Service.Parallel
 
             if (!_objectCache.Contains(key))
             {
-                throw new Exception($"Unknown batch id: {batchId}");
+                throw new KeyNotFoundException($"Unknown batch id: {batchId}");
             }
 
             var batchInfo = (List<int>)_objectCache[key];
             var testFilesState = new List<TestFileRunResult>(batchInfo.Count);
+            var failedTests = new List<int>();
+
             foreach (int taskId in batchInfo)
             {
                 TestFileRunnerTaskInfo taskInfo = _testFileQueue.GetTestFileTaskInfo(taskId);
                 TestFileRunResult testFileRunResult = _testFileResultFactory.Create(Task.FromResult(taskInfo), false, TimeSpan.Zero);
                 testFilesState.Add(testFileRunResult);
+
+                if (testFileRunResult.Failed)
+                {
+                    failedTests.Add(taskId);
+                }
             }
 
             bool completed = testFilesState.TrueForAll(x => x.Completed);
+            IEnumerable<Guid> testFilesResultIds = testFilesState
+                                            .Where(x => x.ResultId.HasValue)
+                                            .Select(x => x.ResultId.Value);
 
             return new BatchStatus
             {
                 BatchId = batchId,
-                TestFilesResult = testFilesState,
+                TestFilesResultIds = testFilesResultIds,
                 Completed = completed,
-                AllTestsPassed = completed && testFilesState.TrueForAll(x => !x.HasFailedTests)
+                AllTestsPassed = completed && testFilesState.TrueForAll(x => !x.HasFailedTests),
+                TestFilesRunning = testFilesState.Count(x => !x.Completed),
+                TestFilesCompleted = testFilesState.Count(x => x.Completed),
+                TestFilesWithFailedTests = testFilesState.Where(x => x.HasFailedTests && x.ResultId.HasValue).Select(x => x.ResultId.Value),
+                TestFilesFailed = failedTests.Count,
+                FailedTasks = failedTests,
             };
         }
     }

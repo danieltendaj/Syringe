@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Syringe.Service.Models
 {
@@ -7,6 +8,11 @@ namespace Syringe.Service.Models
         public int BatchId { get; set; }
         public bool Completed { get; set; }
         public bool AllTestsPassed { get; set; }
-        public List<TestFileRunResult> TestFilesResult { get; set; }
+        public int TestFilesRunning { get; set; }
+        public int TestFilesCompleted { get; set; }
+        public int TestFilesFailed { get; set; }
+        public IEnumerable<Guid> TestFilesResultIds { get; set; }
+        public IEnumerable<Guid> TestFilesWithFailedTests { get; set; } 
+        public IEnumerable<int> FailedTasks { get; set; } 
     }
 }
