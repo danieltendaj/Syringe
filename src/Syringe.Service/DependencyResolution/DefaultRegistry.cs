@@ -69,8 +69,7 @@ namespace Syringe.Service.DependencyResolution
 			For<IConfiguration>().Use(configuration);
 
 
-			For<IEncryption>()
-				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+			For<IEncryption>().Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
             For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
@@ -107,7 +106,7 @@ namespace Syringe.Service.DependencyResolution
             {
                 For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
                 For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
-                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
+                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>().Singleton();
             }
             else
             {

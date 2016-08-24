@@ -38,6 +38,7 @@ namespace Syringe.Service.Parallel
                     Filename = filename,
                     Username = username
                 };
+
                 int taskId = _testFileQueue.Add(taskRequest);
                 taskIds.Add(taskId);
             }
