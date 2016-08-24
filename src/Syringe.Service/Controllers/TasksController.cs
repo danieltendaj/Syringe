@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Services;
@@ -94,7 +95,14 @@ namespace Syringe.Service.Controllers
         [HttpGet]
         public BatchStatus GetBatchStatus(int batchId)
         {
-            return _batchManager.GetBatchStatus(batchId);
+            try
+            {
+                return _batchManager.GetBatchStatus(batchId);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
     }
 }
