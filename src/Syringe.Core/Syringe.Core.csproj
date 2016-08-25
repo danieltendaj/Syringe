@@ -80,6 +80,18 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -182,6 +194,7 @@
     <Compile Include="Configuration\HealthCheck.cs" />
     <Compile Include="Configuration\IHealthCheck.cs" />
     <Compile Include="Configuration\JsonConfigurationStore.cs" />
+    <Compile Include="Configuration\MongoDBConfiguration.cs" />
     <Compile Include="Configuration\OAuthConfiguration.cs" />
     <Compile Include="Configuration\OctopusConfiguration.cs" />
     <Compile Include="Environment\Environment.cs" />
@@ -210,6 +223,7 @@
     <Compile Include="Runner\TestFileRunnerFactory.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Results\Repositories\LiteDbTestFileRepository.cs" />
+    <Compile Include="Tests\Results\Repositories\MongoTestFileResultRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Scripting\ISnippetFileReader.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />

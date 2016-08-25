@@ -10,5 +10,6 @@
 		bool ReadonlyMode { get; }
         string ScriptSnippetDirectory { get; set; }
 		string EncryptionKey { get; set; }
+	    string MongoDbDatabaseName { get; set; }
 	}
 }

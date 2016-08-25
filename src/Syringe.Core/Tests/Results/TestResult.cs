@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
 using Syringe.Core.Http;
 
 namespace Syringe.Core.Tests.Results
 {
+    [BsonIgnoreExtraElements]
     public class TestResult
 	{
 		public int Position { get; set; }

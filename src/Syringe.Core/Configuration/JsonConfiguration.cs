@@ -28,7 +28,10 @@ namespace Syringe.Core.Configuration
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string EncryptionKey { get; set; }
 
-		public JsonConfiguration()
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string MongoDbDatabaseName { get; set; }
+
+	    public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
