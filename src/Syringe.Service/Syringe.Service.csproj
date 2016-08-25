@@ -203,7 +203,10 @@
     <Compile Include="Controllers\Hubs\TaskMonitorHub.cs" />
     <Compile Include="Controllers\Hubs\TaskState.cs" />
     <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
+    <Compile Include="Models\BatchStatus.cs" />
     <Compile Include="Models\LightweightResult.cs" />
+    <Compile Include="Parallel\BatchManager.cs" />
+    <Compile Include="Parallel\IBatchManager.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Models\TestFileRunResult.cs" />
@@ -215,8 +218,8 @@
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
-    <Compile Include="ITaskObserver.cs" />
-    <Compile Include="ITestFileQueue.cs" />
+    <Compile Include="Parallel\ITaskObserver.cs" />
+    <Compile Include="Parallel\ITestFileQueue.cs" />
     <Compile Include="Controllers\Hubs\ITaskGroupProvider.cs" />
     <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />

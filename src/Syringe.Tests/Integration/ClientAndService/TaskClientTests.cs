@@ -4,6 +4,7 @@ using NUnit.Framework;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Service;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Tests.Integration.ClientAndService
 {

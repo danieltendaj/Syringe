@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Runtime.Caching;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.AspNet.SignalR.Infrastructure;
@@ -68,8 +69,7 @@ namespace Syringe.Service.DependencyResolution
 			For<IConfiguration>().Use(configuration);
 
 
-			For<IEncryption>()
-				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+			For<IEncryption>().Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
             For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
@@ -80,6 +80,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
+            For<IBatchManager>().Use<BatchManager>().Singleton();
 
             For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
@@ -91,6 +92,8 @@ namespace Syringe.Service.DependencyResolution
 										.Resolve<IConnectionManager>()
 										.GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>()
 										.Clients);
+
+	        For<ObjectCache>().Use(x => MemoryCache.Default);
         }
 
         internal void SetupEnvironmentSource(IConfiguration configuration)
@@ -103,7 +106,7 @@ namespace Syringe.Service.DependencyResolution
             {
                 For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
                 For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
-                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>();
+                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>().Singleton();
             }
             else
             {

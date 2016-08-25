@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Syringe.Core.Tasks;
 using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
@@ -34,16 +35,18 @@ namespace Syringe.Service.Parallel
                 }
                 else
                 {
-                    int failCount = testFileTask.Result.Runner.CurrentResults.Count(x => !x.Success);
+                    TestFileRunnerTaskInfo testFile = testFileTask.Result;
+                    int failCount = testFile.Runner.CurrentResults.Count(x => !x.Success);
 
                     result = new TestFileRunResult
                     {
-                        ResultId = testFileTask.Result.TestFileResults.Id,
-                        Completed = true,
-                        TimeTaken = timeTaken,
+                        ResultId = testFile.TestFileResults?.Id,
+                        Completed = DetectIfTestCompleted(testFileTask),
+                        Failed = DetectIfTestFailed(testFileTask),
+                        TimeTaken = GetTimeTaken(testFile, timeTaken),
                         HasFailedTests = (failCount > 0),
-                        ErrorMessage = "",
-                        TestResults = testFileTask.Result.Runner.CurrentResults.Select(lightResult => new LightweightResult()
+                        ErrorMessage = GetErrorMessage(testFileTask),
+                        TestResults = testFile.Runner.CurrentResults.Select(lightResult => new LightweightResult()
                         {
                             Success = lightResult.Success,
                             Message = lightResult.Message,
@@ -61,6 +64,41 @@ namespace Syringe.Service.Parallel
             }
 
             return result;
+        }
+
+        private TimeSpan GetTimeTaken(TestFileRunnerTaskInfo testFile, TimeSpan timeTaken)
+        {
+            return timeTaken == TimeSpan.Zero && testFile.TestFileResults != null ? testFile.TestFileResults.TotalRunTime : timeTaken;
+        }
+
+        private string GetErrorMessage(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            if (testFileTask.Exception != null)
+            {
+                return testFileTask.Exception.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        private bool DetectIfTestCompleted(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            return testFileTask.Result.CurrentTask?.Status == TaskStatus.RanToCompletion;
+        }
+
+        private bool DetectIfTestFailed(Task<TestFileRunnerTaskInfo> testFileTask)
+        {
+            bool failed = false;
+
+            switch (testFileTask.Result.CurrentTask?.Status)
+            {
+                case TaskStatus.Canceled:
+                case TaskStatus.Faulted:
+                    failed = true;
+                    break;
+            }
+
+            return failed;
         }
     }
 }

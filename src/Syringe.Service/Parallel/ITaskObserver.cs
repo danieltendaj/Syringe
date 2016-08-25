@@ -1,6 +1,4 @@
-using Syringe.Service.Parallel;
-
-namespace Syringe.Service
+namespace Syringe.Service.Parallel
 {
     public interface ITaskObserver
     {

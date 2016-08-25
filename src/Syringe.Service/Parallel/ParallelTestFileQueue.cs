@@ -97,7 +97,7 @@ namespace Syringe.Service.Parallel
                 TestFileRunner runner = _testFileRunnerFactory.Create();
                 item.Runner = runner;
 
-                await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
+                item.TestFileResults = await runner.RunAsync(testFile, item.Request.Environment, item.Request.Username);
             }
             catch (Exception e)
             {
@@ -127,21 +127,24 @@ namespace Syringe.Service.Parallel
             });
         }
 
+        public TestFileRunnerTaskInfo GetTestFileTaskInfo(int taskId)
+        {
+            TestFileRunnerTaskInfo task;
+            _currentTasks.TryGetValue(taskId, out task);
+
+            return task;
+        }
+
         /// <summary>
         /// Shows the full information about a *single* test run - it doesn't have to be running, it could be complete.
         /// This includes the results of every test in the test file.
         /// </summary>
         public TaskDetails GetRunningTaskDetails(int taskId)
         {
-            TestFileRunnerTaskInfo task;
-            _currentTasks.TryGetValue(taskId, out task);
-            if (task == null)
-            {
-                return null;
-            }
-
+            TestFileRunnerTaskInfo task = GetTestFileTaskInfo(taskId);
             TestFileRunner runner = task.Runner;
-            return new TaskDetails()
+
+            return new TaskDetails
             {
                 TaskId = task.Id,
                 Username = task.Username,

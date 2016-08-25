@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Services;
@@ -13,11 +14,13 @@ namespace Syringe.Service.Controllers
     {
         private readonly ITestFileQueue _fileQueue;
         private readonly ITestFileResultFactory _testFileResultFactory;
+        private readonly IBatchManager _batchManager;
 
-        public TasksController(ITestFileQueue fileQueue, ITestFileResultFactory testFileResultFactory)
+        public TasksController(ITestFileQueue fileQueue, ITestFileResultFactory testFileResultFactory, IBatchManager batchManager)
         {
             _fileQueue = fileQueue;
             _testFileResultFactory = testFileResultFactory;
+            _batchManager = batchManager;
         }
 
         [Route("api/task")]
@@ -78,6 +81,27 @@ namespace Syringe.Service.Controllers
                     TimeTaken = timeTaken,
                     ErrorMessage = ex.ToString()
                 };
+            }
+        }
+
+        [Route("api/tasks/batch")]
+        [HttpPost]
+        public int StartBatch(string[] fileNames, string environment, string username)
+        {
+            return _batchManager.StartBatch(fileNames, environment, username);
+        }
+
+        [Route("api/tasks/batch")]
+        [HttpGet]
+        public BatchStatus GetBatchStatus(int batchId)
+        {
+            try
+            {
+                return _batchManager.GetBatchStatus(batchId);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
         }
     }

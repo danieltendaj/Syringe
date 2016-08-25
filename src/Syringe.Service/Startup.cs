@@ -10,6 +10,7 @@ using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
+using Syringe.Service.Parallel;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace Syringe.Service
