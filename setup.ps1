@@ -6,8 +6,9 @@
 #
 # This script does the following:
 # 1. Runs the IIS setup script
-# 2. Creates C:\syringe\teamname (default path for tests cases)
-# 3. Copies an example test case XML file to that location
+# 2. Installs Mongo & NodeJS
+# 3. Builds solution
+# 4. Creates default configuration
 # ===============================================================================
 $ErrorActionPreference = "Stop"
 $websiteDir = Resolve-Path ".\src\Syringe.Web\"
@@ -26,6 +27,15 @@ git submodule update
 Write-Host "Installing Nuget." -ForegroundColor Green
 choco install nuget.commandline -y
 
+# Install Mongo
+Write-Host "Installing MongoDB" -ForegroundColor Green
+$mongoDataDir = $env:ChocolateyInstall +"\lib\mongodata"
+$oldSysDrive = $env:systemdrive
+$env:systemdrive = $mongoDataDir
+choco install mongodb -version 3.0.3
+$env:systemdrive = $oldSysDrive
+
+# Configuration
 $configJsonPath = "$serviceDir\configuration.json"
 if(!(Test-Path $configJsonPath))
 {
@@ -47,7 +57,7 @@ try
     npm install gulp -g
 
     # Refresh the path vars for Gulp
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    refreshenv
 
     gulp -b ".\" --gulpfile "gulpfile.js" default
 }

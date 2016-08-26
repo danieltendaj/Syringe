@@ -39,8 +39,9 @@ namespace Syringe.Core.Configuration
 			TestFilesBaseDirectory = @"C:\Syringe\";
 			ReadonlyMode = false;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
+            MongoDbDatabaseName = "Syringe";
 
-			OAuthConfiguration = new OAuthConfiguration();
+            OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();
 		}
 	}

@@ -4,7 +4,8 @@
 	"TestFilesBaseDirectory": "..\\..\\..\\..\\Example-TestFiles",
 	"ScriptSnippetDirectory": "..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets",
 	"ReadonlyMode": false,
-	"EncryptionKey" :  "", 
+  "EncryptionKey": "", 
+  "MongoDbDatabaseName": "Syringe",
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
 		"GithubAuthClientSecret": "",
