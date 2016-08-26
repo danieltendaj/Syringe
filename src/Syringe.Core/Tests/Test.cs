@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using MongoDB.Bson.Serialization.Attributes;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
 
 namespace Syringe.Core.Tests
 {
+    [BsonIgnoreExtraElements]
     public class Test
 	{
 		public string Description { get; set; }

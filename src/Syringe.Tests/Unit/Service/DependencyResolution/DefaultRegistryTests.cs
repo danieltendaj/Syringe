@@ -59,7 +59,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			AssertDefaultType<IConfiguration, JsonConfiguration>();
 			AssertDefaultType<IVariableEncryptor, VariableEncryptor>();
 
-			AssertDefaultType<ITestFileResultRepository, LiteDbTestFileRepository>();
+			AssertDefaultType<ITestFileResultRepository, MongoTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
 
 			AssertDefaultType<ITaskPublisher, TaskPublisher>();
