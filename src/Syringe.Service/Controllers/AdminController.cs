@@ -30,7 +30,7 @@ namespace Syringe.Service.Controllers
         [HttpDelete]
         public bool WipeDatabase(Guid adminKey)
         {
-            if (wipeKey == ValidAdminKey)
+            if (adminKey == ValidAdminKey)
             {
                 _testFileResultRepository.Wipe();
                 return true;
