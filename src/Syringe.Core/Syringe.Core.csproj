@@ -55,10 +55,6 @@
       <HintPath>..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LiteDB, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LiteDB.2.0.0-rc2\lib\net35\LiteDB.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.2.1\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
       <Private>True</Private>
@@ -222,7 +218,6 @@
     <Compile Include="Runner\Messaging\TestResultMessage.cs" />
     <Compile Include="Runner\TestFileRunnerFactory.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepositoryFactory.cs" />
-    <Compile Include="Tests\Results\Repositories\LiteDbTestFileRepository.cs" />
     <Compile Include="Tests\Results\Repositories\MongoTestFileResultRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Scripting\ISnippetFileReader.cs" />
