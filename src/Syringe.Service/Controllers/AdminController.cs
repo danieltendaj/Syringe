@@ -28,7 +28,7 @@ namespace Syringe.Service.Controllers
 
         [Route("api/admin/database")]
         [HttpDelete]
-        public bool WipeDatabase(Guid wipeKey)
+        public bool WipeDatabase(Guid adminKey)
         {
             if (wipeKey == ValidAdminKey)
             {
