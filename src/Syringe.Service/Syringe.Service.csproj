@@ -208,6 +208,8 @@
     <Compile Include="Models\LightweightResult.cs" />
     <Compile Include="Parallel\BatchManager.cs" />
     <Compile Include="Parallel\IBatchManager.cs" />
+    <Compile Include="Parallel\ITestFileAssembler.cs" />
+    <Compile Include="Parallel\TestFileAssembler.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Models\TestFileRunResult.cs" />

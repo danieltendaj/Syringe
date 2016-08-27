@@ -19,17 +19,17 @@ namespace Syringe.Service.Parallel
     {
         private int _lastTaskId;
         private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
-        private readonly ITestRepository _testRepository;
         private readonly ITestFileRunnerFactory _testFileRunnerFactory;
         private readonly ITaskPublisher _taskPublisher;
+        private readonly ITestFileAssembler _assembler;
 
-        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestRepository testRepository, ITestFileRunnerFactory testFileRunnerFactory)
+        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestFileAssembler assembler, ITestFileRunnerFactory testFileRunnerFactory)
         {
             _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
-            _testRepository = testRepository;
-            _testFileRunnerFactory = testFileRunnerFactory;
 
             _taskPublisher = taskPublisher;
+            _assembler = assembler;
+            _testFileRunnerFactory = testFileRunnerFactory;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Syringe.Service.Parallel
             {
                 string filename = item.Request.Filename;
 
-                TestFile testFile = _testRepository.GetTestFile(filename);
+                TestFile testFile = _assembler.AssembleTestFile(filename);
                 testFile.Filename = filename;
                 
                 TestFileRunner runner = _testFileRunnerFactory.Create();
