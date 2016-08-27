@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Syringe.Core.Tasks;
 using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
 {
     public class TestFileResultFactory : ITestFileResultFactory
     {
-        public TestFileRunResult Create(TestFileRunnerTaskInfo testFileRunnerInfo, bool timedOut, TimeSpan timeTaken)
+        public TestFileRunResult Create(TestFileRunnerTaskInfo runnerInfo, bool timedOut, TimeSpan timeTaken)
         {
             TestFileRunResult result;
 
@@ -24,41 +24,29 @@ namespace Syringe.Service.Parallel
             }
             else
             {
-                if (!string.IsNullOrEmpty(testFileRunnerInfo.Errors))
+                if (!string.IsNullOrEmpty(runnerInfo.Errors))
                 {
                     result = new TestFileRunResult
                     {
                         Completed = false,
                         TimeTaken = timeTaken,
-                        ErrorMessage = testFileRunnerInfo.Errors
+                        ErrorMessage = runnerInfo.Errors
                     };
                 }
                 else
                 {
-                    TestFileRunnerTaskInfo testFile = testFileRunnerInfo;
-                    int failCount = testFile.Runner.CurrentResults.Count(x => !x.Success);
+                    int failCount = runnerInfo.Runner?.CurrentResults?.Count(x => !x.Success) ?? 0;
 
                     result = new TestFileRunResult
                     {
-                        ResultId = testFile.TestFileResults?.Id,
-                        Completed = DetectIfTestCompleted(testFileRunnerInfo),
-                        Failed = DetectIfTestFailed(testFileRunnerInfo),
-                        TimeTaken = GetTimeTaken(testFile, timeTaken),
+                        ResultId = runnerInfo.TestFileResults?.Id,
                         HasFailedTests = (failCount > 0),
                         ErrorMessage = string.Empty,
-                        TestResults = testFile.Runner.CurrentResults.Select(lightResult => new LightweightResult()
-                        {
-                            Success = lightResult.Success,
-                            Message = lightResult.Message,
-                            ExceptionMessage = lightResult.ExceptionMessage,
-                            AssertionsSuccess = lightResult.AssertionsSuccess,
-                            ScriptCompilationSuccess = lightResult.ScriptCompilationSuccess,
-                            ResponseTime = lightResult.ResponseTime,
-                            ResponseCodeSuccess = lightResult.ResponseCodeSuccess,
-                            ActualUrl = lightResult.ActualUrl,
-                            TestUrl = lightResult.Test.Url,
-                            TestDescription = lightResult.Test.Description
-                        })
+
+                        Completed = DetectIfTestCompleted(runnerInfo),
+                        Failed = DetectIfTestFailed(runnerInfo),
+                        TimeTaken = GetTimeTaken(runnerInfo, timeTaken),
+                        TestResults = GenerateTestResults(runnerInfo)
                     };
                 }
             }
@@ -89,6 +77,23 @@ namespace Syringe.Service.Parallel
             }
 
             return failed;
+        }
+
+        private static IEnumerable<LightweightResult> GenerateTestResults(TestFileRunnerTaskInfo runnerInfo)
+        {
+            return runnerInfo.Runner?.CurrentResults?.Select(lightResult => new LightweightResult
+            {
+                Success = lightResult.Success,
+                Message = lightResult.Message,
+                ExceptionMessage = lightResult.ExceptionMessage,
+                AssertionsSuccess = lightResult.AssertionsSuccess,
+                ScriptCompilationSuccess = lightResult.ScriptCompilationSuccess,
+                ResponseTime = lightResult.ResponseTime,
+                ResponseCodeSuccess = lightResult.ResponseCodeSuccess,
+                ActualUrl = lightResult.ActualUrl,
+                TestUrl = lightResult.Test.Url,
+                TestDescription = lightResult.Test.Description
+            }) ?? new LightweightResult[0];
         }
     }
 }
