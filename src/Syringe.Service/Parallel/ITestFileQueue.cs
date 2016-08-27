@@ -25,9 +25,9 @@ namespace Syringe.Service.Parallel
 
         TestFileRunnerTaskInfo GetTestFileTaskInfo(int taskId);
 
-        /// <summary>
-        /// Runs a test file and waits.
-        /// </summary>
-        Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request);
+        ///// <summary>
+        ///// Runs a test file and waits.
+        ///// </summary>
+        //Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request);
     }
 }

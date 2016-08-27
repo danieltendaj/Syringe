@@ -41,10 +41,12 @@ namespace Syringe.Service.Parallel
 
             var cancelTokenSource = new CancellationTokenSource();
 
-            var taskInfo = new TestFileRunnerTaskInfo(taskId);
-            taskInfo.Request = item;
-            taskInfo.StartTime = DateTime.UtcNow;
-            taskInfo.Username = item.Username;
+            var taskInfo = new TestFileRunnerTaskInfo(taskId)
+            {
+                Request = item,
+                StartTime = DateTime.UtcNow,
+                Username = item.Username
+            };
 
             Task childTask = StartSessionAsync(taskInfo);
 
@@ -53,33 +55,6 @@ namespace Syringe.Service.Parallel
 
             _currentTasks.TryAdd(taskId, taskInfo);
             return taskId;
-        }
-
-        public async Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request)
-        {
-            var runnerTaskInfo = new TestFileRunnerTaskInfo(-1);
-            runnerTaskInfo.Request = request;
-            runnerTaskInfo.StartTime = DateTime.UtcNow;
-            runnerTaskInfo.Username = request.Username;
-
-            try
-            {
-                string filename = runnerTaskInfo.Request.Filename;
-
-                TestFile testFile = _testRepository.GetTestFile(filename);
-                testFile.Filename = filename;
-
-                TestFileRunner runner = _testFileRunnerFactory.Create();
-
-                runnerTaskInfo.Runner = runner;
-                runnerTaskInfo.TestFileResults = await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
-            }
-            catch (Exception e)
-            {
-                runnerTaskInfo.Errors = e.ToString();
-            }
-
-            return runnerTaskInfo;
         }
 
         /// <summary>

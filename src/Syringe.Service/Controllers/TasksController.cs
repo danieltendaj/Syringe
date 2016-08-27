@@ -53,7 +53,7 @@ namespace Syringe.Service.Controllers
         {
             DateTime startTime = DateTime.UtcNow;
 
-            var taskRequest = new TaskRequest()
+            var taskRequest = new TaskRequest
             {
                 Environment = environment,
                 Filename = filename,
@@ -63,9 +63,10 @@ namespace Syringe.Service.Controllers
             try
             {
                 // Wait 2 minutes for the tests to run, this can be made configurable later
-                TimeSpan timeout = TimeSpan.FromMinutes(2);
-                Task<TestFileRunnerTaskInfo> task = _fileQueue.RunAsync(taskRequest);
-                bool completed = task.Wait(timeout);
+                int taskId = Start(taskRequest);
+                TestFileRunnerTaskInfo task = _fileQueue.GetTestFileTaskInfo(taskId);
+                bool completed = task.CurrentTask.Wait(TimeSpan.FromMinutes(2));
+
                 TimeSpan timeTaken = DateTime.UtcNow - startTime;
 
                 return _testFileResultFactory.Create(task, !completed, timeTaken);
