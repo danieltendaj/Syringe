@@ -66,7 +66,7 @@ namespace Syringe.Service.Parallel
             foreach (int taskId in batchInfo)
             {
                 TestFileRunnerTaskInfo taskInfo = _testFileQueue.GetTestFileTaskInfo(taskId);
-                TestFileRunResult testFileRunResult = _testFileResultFactory.Create(Task.FromResult(taskInfo), false, TimeSpan.Zero);
+                TestFileRunResult testFileRunResult = _testFileResultFactory.Create(taskInfo, false, TimeSpan.Zero);
                 testFilesState.Add(testFileRunResult);
 
                 if (testFileRunResult.Failed)

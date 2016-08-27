@@ -8,7 +8,7 @@ namespace Syringe.Service.Parallel
 {
     public class TestFileResultFactory : ITestFileResultFactory
     {
-        public TestFileRunResult Create(Task<TestFileRunnerTaskInfo> testFileTask, bool timedOut, TimeSpan timeTaken)
+        public TestFileRunResult Create(TestFileRunnerTaskInfo testFileRunnerInfo, bool timedOut, TimeSpan timeTaken)
         {
             TestFileRunResult result;
 
@@ -24,28 +24,28 @@ namespace Syringe.Service.Parallel
             }
             else
             {
-                if (!string.IsNullOrEmpty(testFileTask.Result.Errors))
+                if (!string.IsNullOrEmpty(testFileRunnerInfo.Errors))
                 {
                     result = new TestFileRunResult
                     {
                         Completed = false,
                         TimeTaken = timeTaken,
-                        ErrorMessage = testFileTask.Result.Errors
+                        ErrorMessage = testFileRunnerInfo.Errors
                     };
                 }
                 else
                 {
-                    TestFileRunnerTaskInfo testFile = testFileTask.Result;
+                    TestFileRunnerTaskInfo testFile = testFileRunnerInfo;
                     int failCount = testFile.Runner.CurrentResults.Count(x => !x.Success);
 
                     result = new TestFileRunResult
                     {
                         ResultId = testFile.TestFileResults?.Id,
-                        Completed = DetectIfTestCompleted(testFileTask),
-                        Failed = DetectIfTestFailed(testFileTask),
+                        Completed = DetectIfTestCompleted(testFileRunnerInfo),
+                        Failed = DetectIfTestFailed(testFileRunnerInfo),
                         TimeTaken = GetTimeTaken(testFile, timeTaken),
                         HasFailedTests = (failCount > 0),
-                        ErrorMessage = GetErrorMessage(testFileTask),
+                        ErrorMessage = string.Empty,
                         TestResults = testFile.Runner.CurrentResults.Select(lightResult => new LightweightResult()
                         {
                             Success = lightResult.Success,
@@ -70,27 +70,17 @@ namespace Syringe.Service.Parallel
         {
             return timeTaken == TimeSpan.Zero && testFile.TestFileResults != null ? testFile.TestFileResults.TotalRunTime : timeTaken;
         }
-
-        private string GetErrorMessage(Task<TestFileRunnerTaskInfo> testFileTask)
+        
+        private bool DetectIfTestCompleted(TestFileRunnerTaskInfo testFileTask)
         {
-            if (testFileTask.Exception != null)
-            {
-                return testFileTask.Exception.ToString();
-            }
-
-            return string.Empty;
+            return testFileTask.CurrentTask?.Status == TaskStatus.RanToCompletion;
         }
 
-        private bool DetectIfTestCompleted(Task<TestFileRunnerTaskInfo> testFileTask)
-        {
-            return testFileTask.Result.CurrentTask?.Status == TaskStatus.RanToCompletion;
-        }
-
-        private bool DetectIfTestFailed(Task<TestFileRunnerTaskInfo> testFileTask)
+        private bool DetectIfTestFailed(TestFileRunnerTaskInfo testFileTask)
         {
             bool failed = false;
 
-            switch (testFileTask.Result.CurrentTask?.Status)
+            switch (testFileTask.CurrentTask?.Status)
             {
                 case TaskStatus.Canceled:
                 case TaskStatus.Faulted:

@@ -19,17 +19,17 @@ namespace Syringe.Service.Parallel
     {
         private int _lastTaskId;
         private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
-        private readonly ITestRepository _testRepository;
         private readonly ITestFileRunnerFactory _testFileRunnerFactory;
         private readonly ITaskPublisher _taskPublisher;
+        private readonly ITestFileAssembler _assembler;
 
-        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestRepository testRepository, ITestFileRunnerFactory testFileRunnerFactory)
+        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestFileAssembler assembler, ITestFileRunnerFactory testFileRunnerFactory)
         {
             _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
-            _testRepository = testRepository;
-            _testFileRunnerFactory = testFileRunnerFactory;
 
             _taskPublisher = taskPublisher;
+            _assembler = assembler;
+            _testFileRunnerFactory = testFileRunnerFactory;
         }
 
         /// <summary>
@@ -41,10 +41,12 @@ namespace Syringe.Service.Parallel
 
             var cancelTokenSource = new CancellationTokenSource();
 
-            var taskInfo = new TestFileRunnerTaskInfo(taskId);
-            taskInfo.Request = item;
-            taskInfo.StartTime = DateTime.UtcNow;
-            taskInfo.Username = item.Username;
+            var taskInfo = new TestFileRunnerTaskInfo(taskId)
+            {
+                Request = item,
+                StartTime = DateTime.UtcNow,
+                Username = item.Username
+            };
 
             Task childTask = StartSessionAsync(taskInfo);
 
@@ -53,33 +55,6 @@ namespace Syringe.Service.Parallel
 
             _currentTasks.TryAdd(taskId, taskInfo);
             return taskId;
-        }
-
-        public async Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request)
-        {
-            var runnerTaskInfo = new TestFileRunnerTaskInfo(-1);
-            runnerTaskInfo.Request = request;
-            runnerTaskInfo.StartTime = DateTime.UtcNow;
-            runnerTaskInfo.Username = request.Username;
-
-            try
-            {
-                string filename = runnerTaskInfo.Request.Filename;
-
-                TestFile testFile = _testRepository.GetTestFile(filename);
-                testFile.Filename = filename;
-
-                TestFileRunner runner = _testFileRunnerFactory.Create();
-
-                runnerTaskInfo.Runner = runner;
-                runnerTaskInfo.TestFileResults = await runner.RunAsync(testFile, runnerTaskInfo.Request.Environment, runnerTaskInfo.Username);
-            }
-            catch (Exception e)
-            {
-                runnerTaskInfo.Errors = e.ToString();
-            }
-
-            return runnerTaskInfo;
         }
 
         /// <summary>
@@ -91,7 +66,7 @@ namespace Syringe.Service.Parallel
             {
                 string filename = item.Request.Filename;
 
-                TestFile testFile = _testRepository.GetTestFile(filename);
+                TestFile testFile = _assembler.AssembleTestFile(filename);
                 testFile.Filename = filename;
                 
                 TestFileRunner runner = _testFileRunnerFactory.Create();

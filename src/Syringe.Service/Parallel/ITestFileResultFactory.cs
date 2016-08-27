@@ -6,6 +6,6 @@ namespace Syringe.Service.Parallel
 {
     public interface ITestFileResultFactory
     {
-        TestFileRunResult Create(Task<TestFileRunnerTaskInfo> testFileTask, bool timedOut, TimeSpan timeTaken);
+        TestFileRunResult Create(TestFileRunnerTaskInfo testFileRunnerInfo, bool timedOut, TimeSpan timeTaken);
     }
 }
