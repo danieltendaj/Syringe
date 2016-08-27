@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using NUnit.Framework;
+using Syringe.Core.Runner;
 using Syringe.Core.Tests.Results;
 using Syringe.Service.Parallel;
 
@@ -54,7 +56,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // given
             var runnerInfo = new TestFileRunnerTaskInfo(0)
             {
-                TestFileResults = idExists ? new TestFileResult {Id = Guid.NewGuid()} : null 
+                TestFileResults = idExists ? new TestFileResult { Id = Guid.NewGuid() } : null
             };
 
             // when
@@ -73,6 +75,32 @@ namespace Syringe.Tests.Unit.Service.Parallel
             {
                 Assert.That(result.ResultId, Is.Null);
             }
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void should_detect_return_failed_count_when_failed_tests_exist(bool hasFailedTests)
+        {
+            // given
+            var runnerInfo = new TestFileRunnerTaskInfo(0)
+            {
+                TestFileResults = new TestFileResult
+                {
+                    TestResults = new List<TestResult>
+                    {
+                        new TestResult { ResponseCodeSuccess = !hasFailedTests },
+                        new TestResult { ResponseCodeSuccess = true } // SUCCESS ;-)
+                    }
+                }
+            };
+
+            // when
+            var factory = new TestFileResultFactory();
+            var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.HasFailedTests, Is.EqualTo(hasFailedTests));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Syringe.Service.Parallel
                 }
                 else
                 {
-                    int failCount = runnerInfo.Runner?.CurrentResults?.Count(x => !x.Success) ?? 0;
+                    int failCount = runnerInfo.TestFileResults?.TestResults?.Count(x => !x.Success) ?? 0;
 
                     result = new TestFileRunResult
                     {
