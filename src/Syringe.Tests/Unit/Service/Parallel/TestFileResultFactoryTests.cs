@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Runner;
@@ -107,7 +108,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
         [TestCase(true)]
         [TestCase(false)]
-        public void should_return_completion_status(bool completed)
+        public void should_return_completion_and_failed_status(bool completed)
         {
             // given
             var timeTaken = TimeSpan.FromMinutes(1);
@@ -135,6 +136,44 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Completed, Is.EqualTo(completed));
+            Assert.That(result.TestRunFailed, Is.EqualTo(!completed));
+        }
+
+        [Test]
+        public void should_return_time_taken_from_given_time()
+        {
+            // given
+            var timeTaken = TimeSpan.FromMinutes(1);
+            var runnerInfo = new TestFileRunnerTaskInfo(0);
+
+            // when
+            var factory = new TestFileResultFactory();
+            var result = factory.Create(runnerInfo, false, timeTaken);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.TimeTaken, Is.EqualTo(timeTaken));
+        }
+
+        [Test]
+        public void should_return_time_taken_from_test_file_result_if_not_given_in_method_call()
+        {
+            // given
+            var runnerInfo = new TestFileRunnerTaskInfo(0)
+            {
+                TestFileResults = new TestFileResult
+                {
+                    TotalRunTime = TimeSpan.FromDays(1)
+                }
+            };
+
+            // when
+            var factory = new TestFileResultFactory();
+            var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.TimeTaken, Is.EqualTo(runnerInfo.TestFileResults.TotalRunTime));
         }
     }
 }

@@ -69,7 +69,7 @@ namespace Syringe.Service.Parallel
                 TestFileRunResult testFileRunResult = _testFileResultFactory.Create(taskInfo, false, TimeSpan.Zero);
                 testFilesState.Add(testFileRunResult);
 
-                if (testFileRunResult.Failed)
+                if (testFileRunResult.TestRunFailed)
                 {
                     failedTests.Add(taskId);
                 }

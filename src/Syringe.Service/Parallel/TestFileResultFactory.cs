@@ -44,7 +44,7 @@ namespace Syringe.Service.Parallel
                         ErrorMessage = string.Empty,
 
                         Completed = DetectIfTestCompleted(runnerInfo),
-                        Failed = DetectIfTestFailed(runnerInfo),
+                        TestRunFailed = DetectIfTestFailed(runnerInfo),
                         TimeTaken = GetTimeTaken(runnerInfo, timeTaken),
                         TestResults = GenerateTestResults(runnerInfo)
                     };
