@@ -185,11 +185,12 @@
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
     <Compile Include="Controllers\AuthorizeWhenOAuthAttribute.cs" />
     <Compile Include="Controllers\EditableTestsRequiredAttribute.cs" />
+    <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Models\EncryptedDataViewModel.cs" />
-    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlHelpers\DropdownExtensions.cs" />
     <Compile Include="Extensions\HtmlHelpers\NavLinks.cs" />
     <Compile Include="Models\EnvironmentSelectorViewModel.cs" />
+    <Compile Include="Models\SystemSettingsViewModel.cs" />
     <Compile Include="MvcConfiguration.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -433,7 +434,8 @@
     <Content Include="Views\TestFile\Add.cshtml" />
     <Content Include="Views\TestFile\EditorTemplates\VariableViewModel.cshtml" />
     <Content Include="Views\Shared\Partials\_RunTest.cshtml" />
-    <Content Include="Views\User\EncryptData.cshtml" />
+    <Content Include="Views\System\EncryptData.cshtml" />
+    <Content Include="Views\System\Settings.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
