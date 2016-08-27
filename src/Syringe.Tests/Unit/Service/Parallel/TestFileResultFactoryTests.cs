@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Syringe.Core.Runner;
 using Syringe.Core.Tests.Results;
@@ -100,7 +101,40 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // then
             Assert.That(result, Is.Not.Null);
+            Assert.That(result.ErrorMessage, Is.EqualTo(string.Empty));
             Assert.That(result.HasFailedTests, Is.EqualTo(hasFailedTests));
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void should_return_completion_status(bool completed)
+        {
+            // given
+            var timeTaken = TimeSpan.FromMinutes(1);
+            var runnerInfo = new TestFileRunnerTaskInfo(0)
+            {
+                CurrentTask = Task.Factory.StartNew(() =>
+                {
+                    if (!completed) { throw new Exception();}
+                })
+            };
+
+            try
+            {
+                runnerInfo.CurrentTask.Wait();
+            }
+            catch (Exception)
+            {
+                // ignore the error
+            }
+
+            // when
+            var factory = new TestFileResultFactory();
+            var result = factory.Create(runnerInfo, false, timeTaken);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Completed, Is.EqualTo(completed));
         }
     }
 }
