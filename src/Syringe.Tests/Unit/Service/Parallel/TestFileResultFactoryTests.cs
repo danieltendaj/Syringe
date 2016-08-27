@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Syringe.Core.Runner;
+using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
+using Syringe.Service.Models;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Tests.Unit.Service.Parallel
@@ -68,6 +68,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(result, Is.Not.Null);
             Assert.That(result.ErrorMessage, Is.EqualTo(string.Empty));
+            Assert.That(result.TestResults, Is.EqualTo(new LightweightResult[0]));
 
             if (idExists)
             {
@@ -104,6 +105,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(result, Is.Not.Null);
             Assert.That(result.ErrorMessage, Is.EqualTo(string.Empty));
             Assert.That(result.HasFailedTests, Is.EqualTo(hasFailedTests));
+            Assert.That(result.TestResults.Count(), Is.EqualTo(2));
         }
 
         [TestCase(true)]
@@ -116,7 +118,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             {
                 CurrentTask = Task.Factory.StartNew(() =>
                 {
-                    if (!completed) { throw new Exception();}
+                    if (!completed) { throw new Exception(); }
                 })
             };
 
@@ -153,6 +155,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(result, Is.Not.Null);
             Assert.That(result.TimeTaken, Is.EqualTo(timeTaken));
+            Assert.That(result.TestResults, Is.EqualTo(new LightweightResult[0]));
         }
 
         [Test]
@@ -174,6 +177,54 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(result, Is.Not.Null);
             Assert.That(result.TimeTaken, Is.EqualTo(runnerInfo.TestFileResults.TotalRunTime));
+        }
+
+        [Test]
+        public void should_return_test_light_results()
+        {
+            // given
+            var testResult = new TestResult
+            {
+                Message = "some-message",
+                ExceptionMessage = "exception-message",
+                ScriptCompilationSuccess = true,
+                ResponseTime = TimeSpan.FromMinutes(3),
+                ResponseCodeSuccess = true,
+                ActualUrl = "foo-bar",
+                Test = new Test
+                {
+                    Url = "url-bar",
+                    Description = "description-boo"
+                }
+            };
+
+            var runnerInfo = new TestFileRunnerTaskInfo(0)
+            {
+                TestFileResults = new TestFileResult
+                {
+                    TestResults = new List<TestResult> { testResult }
+                }
+            };
+
+            // when
+            var factory = new TestFileResultFactory();
+            var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
+
+            // then
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.TestResults.Count(), Is.EqualTo(1));
+
+            var result1 = result.TestResults.First();
+            Assert.That(result1.Success, Is.EqualTo(testResult.Success));
+            Assert.That(result1.Message, Is.EqualTo(testResult.Message));
+            Assert.That(result1.ExceptionMessage, Is.EqualTo(testResult.ExceptionMessage));
+            Assert.That(result1.AssertionsSuccess, Is.EqualTo(testResult.AssertionsSuccess));
+            Assert.That(result1.ScriptCompilationSuccess, Is.EqualTo(testResult.ScriptCompilationSuccess));
+            Assert.That(result1.ResponseTime, Is.EqualTo(testResult.ResponseTime));
+            Assert.That(result1.ResponseCodeSuccess, Is.EqualTo(testResult.ResponseCodeSuccess));
+            Assert.That(result1.ActualUrl, Is.EqualTo(testResult.ActualUrl));
+            Assert.That(result1.TestUrl, Is.EqualTo(testResult.Test.Url));
+            Assert.That(result1.TestDescription, Is.EqualTo(testResult.Test.Description));
         }
     }
 }

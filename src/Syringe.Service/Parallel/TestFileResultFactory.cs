@@ -81,7 +81,7 @@ namespace Syringe.Service.Parallel
 
         private static IEnumerable<LightweightResult> GenerateTestResults(TestFileRunnerTaskInfo runnerInfo)
         {
-            return runnerInfo.Runner?.CurrentResults?.Select(lightResult => new LightweightResult
+            return runnerInfo?.TestFileResults?.TestResults?.Select(lightResult => new LightweightResult
             {
                 Success = lightResult.Success,
                 Message = lightResult.Message,
@@ -91,8 +91,8 @@ namespace Syringe.Service.Parallel
                 ResponseTime = lightResult.ResponseTime,
                 ResponseCodeSuccess = lightResult.ResponseCodeSuccess,
                 ActualUrl = lightResult.ActualUrl,
-                TestUrl = lightResult.Test.Url,
-                TestDescription = lightResult.Test.Description
+                TestUrl = lightResult.Test?.Url,
+                TestDescription = lightResult.Test?.Description
             }) ?? new LightweightResult[0];
         }
     }
