@@ -261,6 +261,7 @@
     <Compile Include="Unit\Service\Controllers\UnitOfWorkAttributeTests.cs" />
     <Compile Include="Unit\Service\DependencyResolution\DefaultRegistryTests.cs" />
     <Compile Include="Unit\Service\Parallel\TestFileAssemblerTests.cs" />
+    <Compile Include="Unit\Service\Parallel\TestFileResultFactoryTests.cs" />
     <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
     <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
