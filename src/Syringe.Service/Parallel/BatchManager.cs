@@ -12,7 +12,7 @@ namespace Syringe.Service.Parallel
 {
     public class BatchManager : IBatchManager
     {
-        private const string KeyPrefix = "batch_";
+        internal const string KeyPrefix = "batch_";
         private int _lastBatchId;
         private readonly ITestFileQueue _testFileQueue;
         private readonly ObjectCache _objectCache;
