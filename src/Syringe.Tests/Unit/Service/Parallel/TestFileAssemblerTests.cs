@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // when
             var assembler = new TestFileAssembler(testFileRepository.Object);
-            var testFile = assembler.AssembleTestFile(filename);
+            var testFile = assembler.AssembleTestFile(filename, null);
 
             // then
             Assert.That(testFile, Is.EqualTo(expectedTestFile));
@@ -37,6 +37,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
         {
             // given
             const string filename = "abc123.json";
+            const string environment = "me-iz-a-env-yeah";
 
             var expectedTestFile = new TestFile();
             var testFileRepository = new Mock<ITestRepository>();
@@ -46,17 +47,17 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // when
             var assembler = new TestFileAssembler(testFileRepository.Object);
-            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba");
+            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", environment);
 
             // then
             Assert.That(testFile.Variables.Count, Is.EqualTo(2));
             var var1 = testFile.Variables.First(x => x.Name == "my-var-1");
             Assert.That(var1.Value, Is.EqualTo("abc"));
-            Assert.That(var1.Environment.Name, Is.EqualTo(string.Empty));
+            Assert.That(var1.Environment.Name, Is.EqualTo(environment));
 
             var var2 = testFile.Variables.First(x => x.Name == "my-var-2");
             Assert.That(var2.Value, Is.EqualTo("cba"));
-            Assert.That(var2.Environment.Name, Is.EqualTo(string.Empty));
+            Assert.That(var2.Environment.Name, Is.EqualTo(environment));
         }
 
         [Test]
@@ -64,6 +65,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
         {
             // given
             const string filename = "abc123.json";
+            const string environment = "me-iz-another-env-yeah";
 
             var expectedTestFile = new TestFile
             {
@@ -80,17 +82,17 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // when
             var assembler = new TestFileAssembler(testFileRepository.Object);
-            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba");
+            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", environment);
 
             // then
             Assert.That(testFile.Variables.Count, Is.EqualTo(3));
             var var1 = testFile.Variables.First(x => x.Name == "my-var-1");
             Assert.That(var1.Value, Is.EqualTo("abc"));
-            Assert.That(var1.Environment.Name, Is.EqualTo(string.Empty));
+            Assert.That(var1.Environment.Name, Is.EqualTo(environment));
 
             var var2 = testFile.Variables.First(x => x.Name == "my-var-2");
             Assert.That(var2.Value, Is.EqualTo("cba"));
-            Assert.That(var2.Environment.Name, Is.EqualTo(string.Empty));
+            Assert.That(var2.Environment.Name, Is.EqualTo(environment));
 
             var existingVar = testFile.Variables.First(x => x.Name == "existing-var");
             Assert.That(existingVar.Value, Is.EqualTo("doobeedoo"));
@@ -108,7 +110,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // when
             var assembler = new TestFileAssembler(testFileRepository.Object);
-            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba");
+            var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", null);
 
             // then
             Assert.That(testFile, Is.Null);

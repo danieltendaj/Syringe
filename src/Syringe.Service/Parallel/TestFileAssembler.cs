@@ -17,20 +17,20 @@ namespace Syringe.Service.Parallel
             _testRepository = testRepository;
         }
 
-        public TestFile AssembleTestFile(string testFileName)
+        public TestFile AssembleTestFile(string testFileName, string environment)
         {
             var uriInfo = new UriBuilder(testFileName);
             TestFile testFile = _testRepository.GetTestFile(uriInfo.Host);
 
             if (testFile != null)
             {
-                ApplyVariableOverrides(uriInfo, testFile);
+                ApplyVariableOverrides(uriInfo, testFile, environment);
             }
 
             return testFile;
         }
 
-        private static void ApplyVariableOverrides(UriBuilder uriInfo, TestFile testFile)
+        private static void ApplyVariableOverrides(UriBuilder uriInfo, TestFile testFile, string environment)
         {
             var queryString = uriInfo.Uri.ParseQueryString();
             if (queryString.Count > 0)
@@ -40,7 +40,7 @@ namespace Syringe.Service.Parallel
                 {
                     variablesToRemove.AddRange(testFile.Variables.Where(x => x.Name == variableName));
 
-                    testFile.Variables.Add(new Variable(variableName, queryString[variableName], ""));
+                    testFile.Variables.Add(new Variable(variableName, queryString[variableName], environment));
                 }
 
                 foreach (var variable in variablesToRemove)
