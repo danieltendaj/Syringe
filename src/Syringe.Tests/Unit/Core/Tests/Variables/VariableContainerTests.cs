@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
@@ -116,6 +117,62 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables
 
             // then
             Assert.That(result, Is.EqualTo(expectedVariable));
+        }
+
+        [Test]
+        public void should_prioritise_variables_with_environments_over_empty()
+        {
+            // given
+            const string name = "variables-are-super-awesome";
+            const string environment = "my-env";
+            _sharedVariablesProvider.ListSharedVariables_Value = new IVariable[]
+            {
+                new Variable(name, "not this value", string.Empty),
+                new Variable(name, "nearly expected value", environment),
+            };
+
+            var variableContainer = new VariableContainer(environment, _reservedVariableProvider, _sharedVariablesProvider);
+            var expectedVariable = new Variable(name, "expected value", environment);
+            variableContainer.Add(expectedVariable);
+            variableContainer.Add(new Variable(name, "not me either", string.Empty));
+
+            // when
+            List<IVariable> variables = variableContainer.ToList();
+            IVariable result = variables.First(x => x.Name == name && x.Environment.Name == environment);
+
+            // then
+            Assert.That(result, Is.EqualTo(expectedVariable));
+        }
+
+        [Test]
+        public void should_return_a_scoped_shared_variable_over_default_value()
+        {
+            // given
+            const string name = "variables-are-super-awesome";
+            const string environment = "my-env";
+
+            var expectedVariable = new Variable(name, "nearly expected value", environment);
+            _sharedVariablesProvider.ListSharedVariables_Value = new IVariable[]
+            {
+                new Variable(name, "not this value", string.Empty),
+                expectedVariable
+            };
+
+            var variableContainer = new VariableContainer(environment, _reservedVariableProvider, _sharedVariablesProvider);
+            variableContainer.Add(new Variable(name, "not me either", string.Empty));
+
+            // when
+            List<IVariable> variables = variableContainer.ToList();
+            IVariable result = variables.First(x => x.Name == name && x.Environment.Name == environment);
+
+            // then
+            Assert.That(result, Is.EqualTo(expectedVariable));
+        }
+
+        [Test]
+        public void should_not_store_or_return_variables_for_other_environments()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -25,10 +25,9 @@ namespace Syringe.Core.Tests.Variables
             return
                 _variables
                 .Concat(GetSharedVariable())
-                .OrderBy(x => x.Environment?.Name)
-                .GroupBy(x => x.Name)
-                .SelectMany(x => x)
-                .Concat(_reservedVariableProvider.ListAvailableVariables().Select(x => x.CreateVariable()))
+                .OrderBy(x => x.Name)
+                .ThenByDescending(x => x.Environment?.Name)
+                .Concat(GetReservedVariables())
                 .GetEnumerator();
         }
 
@@ -37,6 +36,12 @@ namespace Syringe.Core.Tests.Variables
         {
             return _sharedVariables ?? (_sharedVariables = _sharedVariablesProvider.ListSharedVariables().Where(x => x.MatchesEnvironment(_environment)));
         }
+
+        private IEnumerable<IVariable> _reservedVariables;
+        private IEnumerable<IVariable> GetReservedVariables()
+        {
+            return _reservedVariables ?? (_reservedVariables = _reservedVariableProvider.ListAvailableVariables().Select(x => x.CreateVariable()));
+        } 
 
         public void Add(IVariable variable)
         {
