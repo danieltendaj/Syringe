@@ -27,7 +27,7 @@ namespace Syringe.Client
 			return _restSharpHelper.DeserializeOrThrow<JsonConfiguration>(response);
 		}
 
-	    public IEnumerable<Variable> GetSystemVariables()
+	    public IEnumerable<IVariable> GetSystemVariables()
         {
             var client = new RestClient(ServiceUrl);
             IRestRequest request = _restSharpHelper.CreateRequest("systemvariables");

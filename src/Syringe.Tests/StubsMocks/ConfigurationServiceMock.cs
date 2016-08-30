@@ -24,7 +24,7 @@ namespace Syringe.Tests.StubsMocks
 			return Configuration;
 		}
 
-		public IEnumerable<Variable> GetSystemVariables()
+		public IEnumerable<IVariable> GetSystemVariables()
 		{
 			return SystemVariables;
 		}

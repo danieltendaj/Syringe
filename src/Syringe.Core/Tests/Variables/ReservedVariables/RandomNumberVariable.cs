@@ -8,7 +8,7 @@ namespace Syringe.Core.Tests.Variables.ReservedVariables
         public string Name => "_randomNumber";
         private readonly Random _random = new Random();
 
-        public Variable CreateVariable()
+        public IVariable CreateVariable()
         {
             string randomNumber = _random.Next().ToString();
             return new Variable(Name, randomNumber, string.Empty);

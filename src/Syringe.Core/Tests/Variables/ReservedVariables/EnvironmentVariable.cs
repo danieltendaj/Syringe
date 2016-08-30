@@ -11,7 +11,7 @@
             _environment = environment;
         }
 
-        public Variable CreateVariable()
+        public IVariable CreateVariable()
         {
             return new Variable(Name, _environment, string.Empty);
         }

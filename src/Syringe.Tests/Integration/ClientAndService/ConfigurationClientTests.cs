@@ -49,7 +49,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             var client = new ConfigurationClient(ServiceStarter.BaseUrl);
 
             // when
-            IEnumerable<Variable> variables = client.GetSystemVariables();
+            IEnumerable<IVariable> variables = client.GetSystemVariables();
 
             // then
             Assert.That(variables, Is.Not.Null);

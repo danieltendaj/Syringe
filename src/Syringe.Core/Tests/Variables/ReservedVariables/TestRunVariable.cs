@@ -14,7 +14,7 @@ namespace Syringe.Core.Tests.Variables.ReservedVariables
         public string Description => "Returns the time the test started";
         public string Name => "_testRunTimestamp";
 
-        public Variable CreateVariable()
+        public IVariable CreateVariable()
         {
             return new Variable(Name, _createdDate.ToString("s"), "");
         }

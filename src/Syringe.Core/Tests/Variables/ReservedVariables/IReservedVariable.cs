@@ -5,6 +5,6 @@
         string Description { get; }
         string Name { get; }
 
-        Variable CreateVariable();
+        IVariable CreateVariable();
     }
 }

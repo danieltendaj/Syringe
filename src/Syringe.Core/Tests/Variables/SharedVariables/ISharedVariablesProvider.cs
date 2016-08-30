@@ -4,6 +4,6 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
 {
     public interface ISharedVariablesProvider
     {
-        IEnumerable<Variable> ListSharedVariables();
+        IEnumerable<IVariable> ListSharedVariables();
     }
 }
