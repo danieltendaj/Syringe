@@ -12,7 +12,7 @@ namespace Syringe.Service.Parallel
 {
     public class BatchManager : IBatchManager
     {
-        private const string KeyPrefix = "batch_";
+        internal const string KeyPrefix = "batch_";
         private int _lastBatchId;
         private readonly ITestFileQueue _testFileQueue;
         private readonly ObjectCache _objectCache;
@@ -75,7 +75,7 @@ namespace Syringe.Service.Parallel
                 }
             }
 
-            bool completed = testFilesState.TrueForAll(x => x.Completed);
+            bool batchFinished = testFilesState.TrueForAll(x => x.Finished);
             IEnumerable<Guid> testFilesResultIds = testFilesState
                                             .Where(x => x.ResultId.HasValue)
                                             .Select(x => x.ResultId.Value);
@@ -84,10 +84,10 @@ namespace Syringe.Service.Parallel
             {
                 BatchId = batchId,
                 TestFilesResultIds = testFilesResultIds,
-                Completed = completed,
-                AllTestsPassed = completed && testFilesState.TrueForAll(x => !x.HasFailedTests),
-                TestFilesRunning = testFilesState.Count(x => !x.Completed),
-                TestFilesCompleted = testFilesState.Count(x => x.Completed),
+                BatchFinished = batchFinished,
+                AllTestsPassed = batchFinished && testFilesState.TrueForAll(x => !x.HasFailedTests),
+                TestFilesRunning = testFilesState.Count(x => !x.Finished),
+                TestFilesFinished = testFilesState.Count(x => x.Finished),
                 TestFilesWithFailedTests = testFilesState.Where(x => x.HasFailedTests && x.ResultId.HasValue).Select(x => x.ResultId.Value),
                 TestFilesFailed = failedTests.Count,
                 FailedTasks = failedTests,

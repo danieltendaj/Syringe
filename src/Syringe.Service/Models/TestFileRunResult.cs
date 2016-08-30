@@ -7,7 +7,7 @@ namespace Syringe.Service.Models
 	public class TestFileRunResult
 	{
 	    public Guid? ResultId { get; set; }
-		public bool Completed { get; set; }
+		public bool Finished { get; set; }
         public bool TestRunFailed { get; set; }
         public bool HasFailedTests { get; set; }
 		public TimeSpan TimeTaken { get; set; }

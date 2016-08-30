@@ -17,7 +17,7 @@ namespace Syringe.Service.Parallel
                 // Error
                 result = new TestFileRunResult
                 {
-                    Completed = false,
+                    Finished = false,
                     TimeTaken = timeTaken,
                     ErrorMessage = "The runner timed out."
                 };
@@ -28,7 +28,7 @@ namespace Syringe.Service.Parallel
                 {
                     result = new TestFileRunResult
                     {
-                        Completed = false,
+                        Finished = false,
                         TimeTaken = timeTaken,
                         ErrorMessage = runnerInfo.Errors
                     };
@@ -43,7 +43,7 @@ namespace Syringe.Service.Parallel
                         HasFailedTests = (failCount > 0),
                         ErrorMessage = string.Empty,
 
-                        Completed = DetectIfTestCompleted(runnerInfo),
+                        Finished = DetectIfTestHasFinished(runnerInfo),
                         TestRunFailed = DetectIfTestFailed(runnerInfo),
                         TimeTaken = GetTimeTaken(runnerInfo, timeTaken),
                         TestResults = GenerateTestResults(runnerInfo)
@@ -59,7 +59,7 @@ namespace Syringe.Service.Parallel
             return timeTaken == TimeSpan.Zero && testFile.TestFileResults != null ? testFile.TestFileResults.TotalRunTime : timeTaken;
         }
         
-        private bool DetectIfTestCompleted(TestFileRunnerTaskInfo testFileTask)
+        private bool DetectIfTestHasFinished(TestFileRunnerTaskInfo testFileTask)
         {
             return testFileTask.CurrentTask?.Status == TaskStatus.RanToCompletion;
         }
