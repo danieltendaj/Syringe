@@ -172,7 +172,27 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables
         [Test]
         public void should_not_store_or_return_variables_for_other_environments()
         {
-            throw new NotImplementedException();
+            // given
+            const string name = "variables-are-super-awesome";
+            _sharedVariablesProvider.ListSharedVariables_Value = new IVariable[]
+            {
+                new Variable(name, "not this value", string.Empty),
+                new Variable(name, "nearly expected value", "what environment?"),
+                new Variable(name, "nearly expected value", "another environment"),
+            };
+
+            var variableContainer = new VariableContainer("env", _reservedVariableProvider, _sharedVariablesProvider);
+            var anotherVariable = new Variable(name, "expected value", "doobee");
+            variableContainer.Add(anotherVariable);
+
+            // when
+            List<IVariable> variables = variableContainer.ToList();
+
+            // then
+            Assert.That(variables.Any(x => x == anotherVariable), Is.False);
+            Assert.That(variables.Any(x => x == _sharedVariablesProvider.ListSharedVariables_Value[0]), Is.True);
+            Assert.That(variables.Any(x => x == _sharedVariablesProvider.ListSharedVariables_Value[1]), Is.False);
+            Assert.That(variables.Any(x => x == _sharedVariablesProvider.ListSharedVariables_Value[2]), Is.False);
         }
     }
 }
