@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // then
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Completed, Is.False);
+            Assert.That(result.Finished, Is.False);
             Assert.That(result.TimeTaken, Is.EqualTo(timeTaken));
             Assert.That(result.ErrorMessage, Is.EqualTo("The runner timed out."));
         }
@@ -46,7 +46,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // then
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Completed, Is.False);
+            Assert.That(result.Finished, Is.False);
             Assert.That(result.TimeTaken, Is.EqualTo(timeTaken));
             Assert.That(result.ErrorMessage, Is.EqualTo(runnerInfo.Errors));
         }
@@ -137,7 +137,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             // then
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Completed, Is.EqualTo(completed));
+            Assert.That(result.Finished, Is.EqualTo(completed));
             Assert.That(result.TestRunFailed, Is.EqualTo(!completed));
         }
 

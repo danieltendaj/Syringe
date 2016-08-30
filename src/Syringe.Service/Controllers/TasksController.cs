@@ -78,7 +78,7 @@ namespace Syringe.Service.Controllers
                 // Error
                 return new TestFileRunResult()
                 {
-                    Completed = false,
+                    Finished = false,
                     TimeTaken = timeTaken,
                     ErrorMessage = ex.ToString()
                 };
