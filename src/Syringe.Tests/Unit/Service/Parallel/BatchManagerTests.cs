@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 using Moq;
 using NUnit.Framework;
@@ -62,11 +63,12 @@ namespace Syringe.Tests.Unit.Service.Parallel
         public void should_return_expected_batch_status_when_tests_pass()
         {
             // given
+            const int batchId = 8;
             var testFileQueue = new Mock<ITestFileQueue>();
             var memoryCache = new MemoryCache("test");
             var resultFactory = new Mock<ITestFileResultFactory>();
 
-            memoryCache.Set($"{BatchManager.KeyPrefix}8", new List<int> { 5 }, DateTimeOffset.MaxValue);
+            memoryCache.Set($"{BatchManager.KeyPrefix}{batchId}", new List<int> { 5 }, DateTimeOffset.MaxValue);
             var testFileInfo = new TestFileRunnerTaskInfo(5);
             testFileQueue
                 .Setup(x => x.GetTestFileTaskInfo(5))
@@ -74,20 +76,49 @@ namespace Syringe.Tests.Unit.Service.Parallel
 
             var runResult = new TestFileRunResult
             {
-                ResultId = 
+                ResultId = Guid.NewGuid(),
+                Completed = true,
+                HasFailedTests = false,
+                ErrorMessage = string.Empty,
+                TestRunFailed = false,
+                TimeTaken = TimeSpan.FromDays(1),
+                TestResults = new []
+                {
+                    new LightweightResult
+                    {
+                        Success = true,
+                        ActualUrl = "some-url",
+                        AssertionsSuccess = true,
+                        ExceptionMessage = "ExceptionMessage",
+                        Message = "some=message",
+                        ResponseCodeSuccess = true,
+                        ResponseTime = TimeSpan.FromMinutes(4),
+                        ScriptCompilationSuccess = true,
+                        TestDescription = "supa-init-test-blah-blink-bloom",
+                        TestUrl = "♪ ♫ ♬ 'I can't dream anymore, since you leeeeeft' ♪ ♫ ♬"
+                    }
+                }
             };
+
             resultFactory
                 .Setup(x => x.Create(testFileInfo, false, TimeSpan.Zero))
                 .Returns(runResult);                
 
             // when
             var batchManager = new BatchManager(testFileQueue.Object, memoryCache, resultFactory.Object);
-            BatchStatus batchStatus = batchManager.GetBatchStatus(1);
+            BatchStatus batchStatus = batchManager.GetBatchStatus(batchId);
 
             // then
             Assert.That(batchStatus, Is.Not.Null);
-            Assert.That(batchStatus.BatchId, Is.EqualTo(8));
-            //Assert.That(batchStatus.BatchId, Is.EqualTo(8));
+            Assert.That(batchStatus.BatchId, Is.EqualTo(batchId));
+            Assert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
+            Assert.That(batchStatus.Completed, Is.True);
+            Assert.That(batchStatus.AllTestsPassed, Is.True);
+            Assert.That(batchStatus.TestFilesRunning, Is.EqualTo(0));
+            Assert.That(batchStatus.TestFilesCompleted, Is.EqualTo(1));
+            Assert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
+            Assert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
+            Assert.That(batchStatus.FailedTasks, Is.Empty);
         }
     }
 }
