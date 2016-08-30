@@ -1,5 +1,8 @@
-﻿namespace Syringe.Core.Environment
+﻿using System.Diagnostics;
+
+namespace Syringe.Core.Environment
 {
+    [DebuggerDisplay("{Name}")]
     public class Environment
     {
         /// <summary>

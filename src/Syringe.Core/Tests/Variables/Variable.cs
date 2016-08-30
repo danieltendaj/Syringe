@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Syringe.Core.Tests.Variables
 {
-	public class Variable : IVariable
+    [DebuggerDisplay("Name = {Name} | Value = {Value} | Environment = {Environment.Name}")]
+    public class Variable : IVariable
     {
 		public string Name { get; set; }
 		public string Value { get; set; }
@@ -35,9 +37,9 @@ namespace Syringe.Core.Tests.Variables
 	            matched = Name.Equals(variableToTest.Name, StringComparison.InvariantCultureIgnoreCase);
 	            if (matched)
 	            {
-	                matched = Environment.Name.Equals(variableToTest.Environment.Name, StringComparison.InvariantCultureIgnoreCase);
-	            }
-	        }
+                    matched = Environment.Name.Equals(variableToTest.Environment.Name, StringComparison.InvariantCultureIgnoreCase);
+                }
+            }
 
 	        return matched;
 	    }

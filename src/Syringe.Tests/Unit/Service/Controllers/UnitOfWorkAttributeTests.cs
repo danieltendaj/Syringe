@@ -16,7 +16,7 @@ namespace Syringe.Tests.Unit.Service.Controllers
             var attribute = new UnitOfWorkAttribute();
             var httpActionExecutedContext = new HttpActionExecutedContext();
             var repository = new TestFileResultRepositoryMock();
-            var configurationController = new ConfigurationController(null, null, null);
+            var configurationController = new ConfigurationController(null, null, null, null);
 
             var actionContext = new Mock<HttpActionContext>();
             actionContext.Object.ControllerContext = new HttpControllerContext();

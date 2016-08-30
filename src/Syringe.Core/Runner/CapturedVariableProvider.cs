@@ -12,13 +12,13 @@ namespace Syringe.Core.Runner
     {
         private readonly IVariableContainer _currentVariables;
         private readonly string _environment;
-	    private readonly IVariableEncryptor _encryptor;
+        private readonly IVariableEncryptor _encryptor;
 
-	    public CapturedVariableProvider(IVariableContainer variableContainer, string environment, IVariableEncryptor encryptor)
+        public CapturedVariableProvider(IVariableContainer variableContainer, string environment, IVariableEncryptor encryptor)
         {
             _currentVariables = variableContainer;
             _environment = environment;
-		    _encryptor = encryptor;
+            _encryptor = encryptor;
         }
 
         public void AddOrUpdateVariables(List<Variable> variables)
@@ -32,17 +32,14 @@ namespace Syringe.Core.Runner
         public void AddOrUpdateVariable(Variable variable)
         {
             bool shouldAddOrUpdate = variable.MatchesEnvironment(_environment);
-
             if (shouldAddOrUpdate)
             {
-                Variable detectedVariable = _currentVariables.FirstOrDefault(x => x.Name.Equals(variable.Name, StringComparison.InvariantCultureIgnoreCase));
-                if (detectedVariable != null)
+                IVariable[] detectedVariables = _currentVariables.Where(x => x.MatchesNameAndEnvironment(variable)).ToArray();
+                if (detectedVariables.Any())
                 {
-                    bool shouldUpdateValue = string.IsNullOrEmpty(detectedVariable.Environment.Name) || !string.IsNullOrEmpty(variable.Environment.Name);
-
-                    if (shouldUpdateValue)
+                    foreach (IVariable existingVariable in detectedVariables)
                     {
-                        detectedVariable.Value = variable.Value;
+                        existingVariable.Value = variable.Value;
                     }
                 }
                 else
@@ -62,14 +59,17 @@ namespace Syringe.Core.Runner
         {
             text = text ?? string.Empty;
 
-            foreach (Variable variable in _currentVariables)
+            if (!string.IsNullOrEmpty(text))
             {
-                if (variable.MatchesEnvironment(_environment))
+                foreach (IVariable variable in _currentVariables)
                 {
-	                string value = variable.Value;
-	                value = _encryptor.Decrypt(value);
+                    if (variable.MatchesEnvironment(_environment))
+                    {
+                        string value = variable.Value;
+                        value = _encryptor.Decrypt(value);
 
-                    text = text.Replace("{" + variable.Name + "}", value);
+                        text = text.Replace("{" + variable.Name + "}", value);
+                    }
                 }
             }
 
@@ -80,14 +80,17 @@ namespace Syringe.Core.Runner
         {
             string result = text ?? string.Empty;
 
-            foreach (Variable variable in _currentVariables)
+            if (!string.IsNullOrEmpty(text))
             {
-                if (variable.MatchesEnvironment(_environment))
+                foreach (IVariable variable in _currentVariables)
                 {
-					string value = variable.Value;
-					value = _encryptor.Decrypt(value);
+                    if (variable.MatchesEnvironment(_environment))
+                    {
+                        string value = variable.Value;
+                        value = _encryptor.Decrypt(value);
 
-					result = result.Replace("{" + variable.Name + "}", Regex.Escape(value));
+                        result = result.Replace("{" + variable.Name + "}", Regex.Escape(value));
+                    }
                 }
             }
 
