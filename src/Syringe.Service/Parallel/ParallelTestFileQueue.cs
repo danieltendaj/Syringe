@@ -67,7 +67,6 @@ namespace Syringe.Service.Parallel
                 string filename = item.Request.Filename;
 
                 TestFile testFile = _assembler.AssembleTestFile(filename, item.Request.Environment);
-                testFile.Filename = filename;
                 
                 TestFileRunner runner = _testFileRunnerFactory.Create();
                 item.Runner = runner;
