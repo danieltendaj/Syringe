@@ -181,7 +181,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 		}
 
 		[Test]
-		public void AddOrUpdateVariables_should_update_variable_when_already_set_and_original_is_set_as_default_variable()
+		public void AddOrUpdateVariables_should_not_update_variable_when_already_set_and_original_is_set_as_default_variable()
 		{
 			// given
 			var sessionVariables = new CapturedVariableProvider(_variableContainer, _devEnvironment, new VariableEncryptorStub());
@@ -199,8 +199,8 @@ namespace Syringe.Tests.Unit.Core.Runner
 			});
 
 			// then
-			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf2"));
-			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb2"));
+			Assert.That(sessionVariables.GetVariableValue("nano"), Is.EqualTo("leaf"));
+			Assert.That(sessionVariables.GetVariableValue("light"), Is.EqualTo("bulb"));
 		}
 
 		[Test]

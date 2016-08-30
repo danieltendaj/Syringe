@@ -117,7 +117,7 @@ namespace Syringe.Web.Mappers
 
             var variables = new List<VariableViewModel>();
 
-            IEnumerable<Variable> systemVariables = _configurationService.GetSystemVariables();
+            IEnumerable<IVariable> systemVariables = _configurationService.GetSystemVariables();
             variables.AddRange(systemVariables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment?.Name }));//TODO: Add in shared
             variables.AddRange(testFile.Variables.Select(x => new VariableViewModel { Name = x.Name, Value = x.Value, Environment = x.Environment?.Name }));
             variables.AddRange(testFile.Tests.SelectMany(x => x.CapturedVariables).Select(x => new VariableViewModel { Name = x.Name, Value = x.Regex }));

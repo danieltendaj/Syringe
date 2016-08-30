@@ -60,6 +60,7 @@ deploy:
   auth_token:
     secure: 5sXorIkpeEIjJoM/zN1tQxST84WIM2Jkmd93H1UFiYNmO40C1RIuUgoUhYjCjcvi
   artifact: CurrentVersionZip
+  draft: true
   force_update: false
   on:
     branch: master

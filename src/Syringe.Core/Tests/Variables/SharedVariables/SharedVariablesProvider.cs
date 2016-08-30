@@ -21,7 +21,7 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
             _configPath = configPath;
         }
 
-        public IEnumerable<Variable> ListSharedVariables()
+        public IEnumerable<IVariable> ListSharedVariables()
         {
             if (_sharedVariables == null)
             {

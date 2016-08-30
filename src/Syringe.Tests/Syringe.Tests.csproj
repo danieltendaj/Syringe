@@ -238,7 +238,9 @@
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\ConfigurationStoreMock.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
+    <Compile Include="StubsMocks\ReservedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\ReservedVariableStub.cs" />
+    <Compile Include="StubsMocks\SharedVariablesProviderStub.cs" />
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="StubsMocks\TestFileQueueStub.cs" />
     <Compile Include="StubsMocks\TestFileResultRepositoryFactoryMock.cs" />

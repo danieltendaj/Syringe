@@ -2,8 +2,8 @@
 
 namespace Syringe.Core.Tests.Variables
 {
-    public interface IVariableContainer : IEnumerable<Variable>
+    public interface IVariableContainer : IEnumerable<IVariable>
     {
-        void Add(Variable variable);
+        void Add(IVariable variable);
     }
 }

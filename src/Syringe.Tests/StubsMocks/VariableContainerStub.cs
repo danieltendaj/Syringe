@@ -6,14 +6,14 @@ namespace Syringe.Tests.StubsMocks
 {
     public class VariableContainerStub : IVariableContainer
     {
-        public List<Variable> Variables = new List<Variable>(); 
+        public List<IVariable> Variables = new List<IVariable>(); 
 
-        public IEnumerator<Variable> GetEnumerator()
+        public IEnumerator<IVariable> GetEnumerator()
         {
             return Variables.GetEnumerator();
         }
 
-        public void Add(Variable variable)
+        public void Add(IVariable variable)
         {
             Variables.Add(variable);
         }

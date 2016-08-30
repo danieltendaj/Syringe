@@ -1,23 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
+using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Core.Tests.Variables.SharedVariables;
 
 namespace Syringe.Service.Controllers
 {
 	public class ConfigurationController : ApiController, IConfigurationService
 	{
 		private readonly IConfiguration _configuration;
-        private readonly IVariableContainer _variableContainer;
-		private readonly SnippetFileReader _snippetFileReader;
+	    private readonly ISharedVariablesProvider _sharedVariablesProvider;
+	    private readonly IReservedVariableProvider _reservedVariableProvider;
+	    private readonly SnippetFileReader _snippetFileReader;
 
-		public ConfigurationController(IConfiguration configuration, IVariableContainer variableContainer, SnippetFileReader snippetFileReader)
+		public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, SnippetFileReader snippetFileReader)
 		{
 			_configuration = configuration;
-            _variableContainer = variableContainer;
-			_snippetFileReader = snippetFileReader;
+		    _sharedVariablesProvider = sharedVariablesProvider;
+		    _reservedVariableProvider = reservedVariableProvider;
+		    _snippetFileReader = snippetFileReader;
 		}
 
 		[Route("api/configuration/")]
@@ -29,9 +34,9 @@ namespace Syringe.Service.Controllers
 
         [Route("api/configuration/systemvariables")]
 		[HttpGet]
-        public IEnumerable<Variable> GetSystemVariables()
+        public IEnumerable<IVariable> GetSystemVariables()
 		{
-            return _variableContainer;
+            return _sharedVariablesProvider.ListSharedVariables().Concat(_reservedVariableProvider.ListAvailableVariables().Select(x => x.CreateVariable()));
 		}
 
 		[Route("api/configuration/scriptsnippetfilenames")]

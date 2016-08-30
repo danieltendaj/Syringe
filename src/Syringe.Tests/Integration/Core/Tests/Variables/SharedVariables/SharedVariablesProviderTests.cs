@@ -38,12 +38,12 @@ namespace Syringe.Tests.Integration.Core.Tests.Variables.SharedVariables
             var variables = provider.ListSharedVariables();
 
             // then
-            Variable variable1 = variables.FirstOrDefault(x => x.Name == "test-name");
+            IVariable variable1 = variables.FirstOrDefault(x => x.Name == "test-name");
             Assert.That(variable1, Is.Not.Null);
             Assert.That(variable1.Value, Is.EqualTo("test-value"));
             Assert.That(variable1.Environment.Name, Is.EqualTo("Development"));
 
-            Variable variable2 = variables.FirstOrDefault(x => x.Name == "some-ther-name");
+            IVariable variable2 = variables.FirstOrDefault(x => x.Name == "some-ther-name");
             Assert.That(variable2, Is.Not.Null);
             Assert.That(variable2.Value, Is.EqualTo("something else"));
             Assert.That(variable2.Environment.Name, Is.EqualTo("UAT"));
