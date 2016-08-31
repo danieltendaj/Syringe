@@ -1,0 +1,6 @@
+﻿[
+	{ "name": "Development", 	"order": 0 },
+	{ "name": "UAT", 			"order": 1 },
+	{ "name": "LIVE - Farm A", 	"order": 2 },
+	{ "name": "LIVE - Farm B", 	"order": 3 }
+]
