@@ -23,9 +23,66 @@ namespace Syringe.Tests.Integration.Core.Configuration
 
 			// then
 			Assert.That(config, Is.EqualTo(config2));
-		}
+        }
 
-		private static void CopyConfigFile(string newConfigPath)
+        [Test]
+        public void load_file_should_detect_config_file_from_other_locations()
+        {
+            // given
+            string fileName = "configuration.json";
+            string expectedDirectory = Path.Combine(Path.GetTempPath(), new Random().Next(1000, 3000).ToString());
+            string[] paths =
+            {
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), "Syringe"),
+                expectedDirectory
+            };
+
+            if (!Directory.Exists(expectedDirectory))
+                Directory.CreateDirectory(expectedDirectory);
+
+            CopyConfigFile(Path.Combine(expectedDirectory, fileName));
+
+            // when
+            var store = new JsonConfigurationStore(paths);
+            IConfiguration config = store.Load();
+
+            // then
+            Assert.That(config, Is.Not.Null);
+            File.Delete(Path.Combine(expectedDirectory, fileName));
+        }
+
+        [Test]
+        public void resolve_file_should_detect_config_file_from_other_locations()
+        {
+            // given
+            string fileName = Path.GetTempFileName();
+            string expectedDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory), "Syringe");
+            string[] paths =
+            {
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), "Syringe"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms), "Syringe"),
+                expectedDirectory
+            };
+
+            if (!Directory.Exists(expectedDirectory))
+                Directory.CreateDirectory(expectedDirectory);
+
+            File.Create(Path.Combine(expectedDirectory, fileName));
+
+            // when
+            var store = new JsonConfigurationStore(paths);
+            string path = store.ResolveConfigFile(fileName);
+
+            // then
+            Assert.That(path, Is.EqualTo(Path.Combine(expectedDirectory, fileName)));
+        }
+
+        private static void CopyConfigFile(string newConfigPath)
 	    {
 		    string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
 		    if (File.Exists(newConfigPath))
