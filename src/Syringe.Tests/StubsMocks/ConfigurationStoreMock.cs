@@ -15,5 +15,10 @@ namespace Syringe.Tests.StubsMocks
 		{
 			return Configuration;
 		}
+
+	    public string ResolveConfigFile(string fileName)
+	    {
+	        throw new System.NotImplementedException();
+	    }
 	}
 }

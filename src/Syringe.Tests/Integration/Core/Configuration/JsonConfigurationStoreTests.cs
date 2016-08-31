@@ -2,7 +2,6 @@
 using System.IO;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
-using Syringe.Core.Tests;
 
 namespace Syringe.Tests.Integration.Core.Configuration
 {

@@ -60,8 +60,10 @@ namespace Syringe.Service.DependencyResolution
             For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
             // Configuration: load the configuration from the store
-			if (configurationStore == null)
-				configurationStore = new JsonConfigurationStore();
+	        if (configurationStore == null)
+	        {
+	            configurationStore = new JsonConfigurationStore();
+	        }
 
             For<IConfigurationStore>().Use(configurationStore).Singleton();
 

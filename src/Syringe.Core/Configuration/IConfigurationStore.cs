@@ -2,6 +2,8 @@ namespace Syringe.Core.Configuration
 {
 	public interface IConfigurationStore
 	{
-		IConfiguration Load();
+	    IConfiguration Load();
+	    string ResolveConfigFile(string fileName);
+
 	}
 }
