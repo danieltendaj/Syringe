@@ -80,7 +80,7 @@ namespace Syringe.Core.Configuration
 
         private static string GetAppDataFolder()
         {
-            return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData), "Syringe");
+            return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
         }
     }
 }
