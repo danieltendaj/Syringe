@@ -7,15 +7,18 @@ namespace Syringe.Core.Runner
 {
     public class CapturedVariableProviderFactory : ICapturedVariableProviderFactory
     {
-	    private readonly IVariableEncryptor _encryptor;
-	    public CapturedVariableProviderFactory(IVariableEncryptor encryptor)
-	    {
-		    _encryptor = encryptor;
-	    }
+        private readonly IVariableEncryptor _encryptor;
+        private readonly ISharedVariablesProvider _sharedVariablesProvider;
 
-	    public ICapturedVariableProvider Create(string environment)
+        public CapturedVariableProviderFactory(IVariableEncryptor encryptor, ISharedVariablesProvider sharedVariablesProvider)
         {
-            var container = new VariableContainer(environment ,new ReservedVariableProvider(environment), new SharedVariablesProvider());
+            _encryptor = encryptor;
+            _sharedVariablesProvider = sharedVariablesProvider;
+        }
+
+        public ICapturedVariableProvider Create(string environment)
+        {
+            var container = new VariableContainer(environment, new ReservedVariableProvider(environment), _sharedVariablesProvider);
             return new CapturedVariableProvider(container, environment, _encryptor);
         }
     }
