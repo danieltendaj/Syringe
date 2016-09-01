@@ -62,7 +62,7 @@ namespace Syringe.Service.DependencyResolution
             // Configuration: load the configuration from the store
 	        if (configurationStore == null)
 	        {
-	            configurationStore = new JsonConfigurationStore();
+	            configurationStore = new JsonConfigurationStore(new ConfigLocator());
 	        }
 
             For<IConfigurationStore>().Use(configurationStore).Singleton();

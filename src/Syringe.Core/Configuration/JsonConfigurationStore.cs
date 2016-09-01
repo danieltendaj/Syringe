@@ -6,28 +6,21 @@ namespace Syringe.Core.Configuration
 {
     public class JsonConfigurationStore : IConfigurationStore
     {
+        private readonly IConfigLocator _configLocator;
         private IConfiguration _configuration;
-        private readonly string[] _configurationDirectories;
 
-        public JsonConfigurationStore()
-        {
-            _configurationDirectories = new[]
-            {
-                AppDomain.CurrentDomain.BaseDirectory,
-                GetAppDataFolder()
-            };
-        }
+        //TODO: Get configs to use this class, and then update the setup scripts & appveyor to load into appData
 
-        internal JsonConfigurationStore(params string[] configPathDirecties)
+        public JsonConfigurationStore(IConfigLocator configLocator)
         {
-            _configurationDirectories = configPathDirecties;
+            _configLocator = configLocator;
         }
 
         public IConfiguration Load()
         {
             if (_configuration == null)
             {
-                string configPath = ResolveConfigFile("configuration.json");
+                string configPath = _configLocator.ResolveConfigFile("configuration.json");
                 
                 string json = File.ReadAllText(configPath);
                 JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);
@@ -38,25 +31,6 @@ namespace Syringe.Core.Configuration
             }
 
             return _configuration;
-        }
-
-        /// <summary>
-        /// This will look in defined places on the computer for config files.
-        /// These might live in the current directory or /AppData/Syringe/
-        /// </summary>
-        public string ResolveConfigFile(string fileName)
-        {
-            foreach (string directory in _configurationDirectories)
-            {
-                string configToTest = Path.Combine(directory, fileName);
-                if (File.Exists(configToTest))
-                {
-                    return configToTest;
-                }
-            }
-
-            string errorMessage = $"Unable to find config file in: {string.Join(" | or | ", _configurationDirectories)}";
-            throw new FileNotFoundException(errorMessage, fileName);
         }
 
         private string ResolveRelativePath(string directoryPath)
@@ -76,11 +50,6 @@ namespace Syringe.Core.Configuration
             }
 
             return directoryPath;
-        }
-
-        private static string GetAppDataFolder()
-        {
-            return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
         }
     }
 }

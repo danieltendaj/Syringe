@@ -184,6 +184,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigLocator.cs" />
+    <Compile Include="Configuration\IConfigLocator.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IConfigurationStore.cs" />
     <Compile Include="Configuration\JsonConfiguration.cs" />
