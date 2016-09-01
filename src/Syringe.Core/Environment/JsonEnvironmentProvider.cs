@@ -3,31 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Syringe.Core.Configuration;
 
 namespace Syringe.Core.Environment
 {
 	public class JsonEnvironmentProvider : IEnvironmentProvider
 	{
-		private List<Environment> _environments;
-		private readonly string _configPath;
+	    private readonly IConfigLocator _configLocator;
+	    private List<Environment> _environments;
 
-		public JsonEnvironmentProvider()
+		public JsonEnvironmentProvider(IConfigLocator configLocator)
 		{
-			_configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "environments.json");
-		}
-
-		internal JsonEnvironmentProvider(string configPath)
-		{
-			_configPath = configPath;
+		    _configLocator = configLocator;
 		}
 
 		public IEnumerable<Environment> GetAll()
 		{
 			if (_environments == null)
 			{
-				if (File.Exists(_configPath))
+			    string configPath = _configLocator.ResolveConfigFile("environments.json");
+                if (File.Exists(configPath))
 				{
-					string json = File.ReadAllText(_configPath);
+					string json = File.ReadAllText(configPath);
 					List<Environment> environments = JsonConvert.DeserializeObject<List<Environment>>(json);
 
 					_environments = environments.OrderBy(x => x.Order).ToList();

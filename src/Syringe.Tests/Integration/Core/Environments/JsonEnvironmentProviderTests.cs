@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Environment = Syringe.Core.Environment.Environment;
 
@@ -12,11 +14,16 @@ namespace Syringe.Tests.Integration.Core.Environments
 	public class JsonEnvironmentProviderTests
 	{
 		private string _defaultConfigPath;
+	    private Mock<IConfigLocator> _configLocatorMock;
 
 		[SetUp]
 		public void Setup()
 		{
 			_defaultConfigPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Core", "Environments", "environments.json");
+            _configLocatorMock = new Mock<IConfigLocator>();
+		    _configLocatorMock
+		        .Setup(x => x.ResolveConfigFile("environments.json"))
+		        .Returns(_defaultConfigPath);
 		}
 
 		[Test]
@@ -24,7 +31,11 @@ namespace Syringe.Tests.Integration.Core.Environments
 		{
 			// given
 			string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "doesntexist.json");
-			var provider = new JsonEnvironmentProvider(configPath);
+		    _configLocatorMock
+		        .Setup(x => x.ResolveConfigFile("environments.json"))
+		        .Returns(configPath);
+
+			var provider = new JsonEnvironmentProvider(_configLocatorMock.Object);
 
 			// when
 			IEnumerable<Environment> environments = provider.GetAll();
@@ -38,7 +49,7 @@ namespace Syringe.Tests.Integration.Core.Environments
 		public void should_deserialize_json_environments()
 		{
 			// given
-			var provider = new JsonEnvironmentProvider(_defaultConfigPath);
+			var provider = new JsonEnvironmentProvider(_configLocatorMock.Object);
 
 			// when
 			IEnumerable<Environment> environments = provider.GetAll();
@@ -52,7 +63,7 @@ namespace Syringe.Tests.Integration.Core.Environments
 		public void should_deserialize_json_environments_and_return_using_order()
 		{
 			// given
-			var provider = new JsonEnvironmentProvider(_defaultConfigPath);
+			var provider = new JsonEnvironmentProvider(_configLocatorMock.Object);
 
 			// when
 			List<Environment> environments = provider.GetAll().ToList();
