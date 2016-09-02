@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Web.Configuration;
 
 namespace Syringe.Web.Controllers
 {
@@ -22,7 +23,9 @@ namespace Syringe.Web.Controllers
 			// (example: https://github.com/roadkillwiki/roadkill/blob/master/src/Roadkill.Core/DependencyResolution/MVC/MvcAttributeProvider.cs)
 			//
 
-			MvcConfiguration mvcConfiguration = MvcConfiguration.Load();
+			var provider = new MvcConfigurationProvider(new ConfigLocator());
+		    MvcConfiguration mvcConfiguration = provider.Load();
+
 			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
 			_config = configClient.GetConfiguration();
 		}
@@ -42,7 +45,7 @@ namespace Syringe.Web.Controllers
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (HasAuthenticationProviders(_config))
+			if (_config.ContainsOAuthCredentials())
 			{
 				return base.AuthorizeCore(httpContext);
 			}
@@ -50,13 +53,6 @@ namespace Syringe.Web.Controllers
 			{
 				return true;
 			}
-		}
-
-		private bool HasAuthenticationProviders(IConfiguration config)
-		{
-			return (!string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GoogleAuthClientSecret))
-					|| (!string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientId) && string.IsNullOrEmpty(config.OAuthConfiguration.MicrosoftAuthClientSecret))
-			        || (!string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(config.OAuthConfiguration.GithubAuthClientSecret));
 		}
 	}
 }

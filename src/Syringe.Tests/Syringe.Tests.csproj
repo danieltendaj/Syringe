@@ -235,7 +235,8 @@
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
     <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
-    <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationProviderTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\ConfigurationStoreMock.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
@@ -324,7 +325,7 @@
     <Content Include="configuration.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\Web\empty-websiteconfig.json">
+    <Content Include="Integration\Web\Configuration\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
@@ -332,7 +333,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Integration\Web\websiteconfig.json">
+    <Content Include="Integration\Web\Configuration\websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

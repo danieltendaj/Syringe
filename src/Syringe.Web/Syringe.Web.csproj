@@ -183,6 +183,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
+    <Compile Include="Configuration\IMvcConfigurationProvider.cs" />
+    <Compile Include="Configuration\MvcConfigurationProvider.cs" />
     <Compile Include="Controllers\AuthorizeWhenOAuthAttribute.cs" />
     <Compile Include="Controllers\EditableTestsRequiredAttribute.cs" />
     <Compile Include="Controllers\SystemController.cs" />
@@ -191,7 +193,7 @@
     <Compile Include="Extensions\HtmlHelpers\NavLinks.cs" />
     <Compile Include="Models\EnvironmentSelectorViewModel.cs" />
     <Compile Include="Models\SystemSettingsViewModel.cs" />
-    <Compile Include="MvcConfiguration.cs" />
+    <Compile Include="Configuration\MvcConfiguration.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />

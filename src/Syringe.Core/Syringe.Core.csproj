@@ -202,7 +202,6 @@
     <Compile Include="Environment\JsonEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusRepositoryFactory.cs" />
-    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="Http\HttpHeader.cs" />

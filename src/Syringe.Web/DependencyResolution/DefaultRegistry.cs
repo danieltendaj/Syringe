@@ -24,6 +24,7 @@ using Syringe.Core.Helpers;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Variables.Encryption;
+using Syringe.Web.Configuration;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
@@ -31,11 +32,11 @@ namespace Syringe.Web.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-	    public DefaultRegistry() : this(null, null)
-	    {
-	    }
+        public DefaultRegistry() : this(null, null)
+        {
+        }
 
-		internal DefaultRegistry(MvcConfiguration mvcConfig, IConfigurationService configurationService)
+        internal DefaultRegistry(MvcConfiguration mvcConfig, IConfigurationService configurationService)
         {
             Scan(
                 scan =>
@@ -49,22 +50,27 @@ namespace Syringe.Web.DependencyResolution
             //
             // Configration - load from the service at startup, cache it.
             //
-			if (mvcConfig == null)
-				mvcConfig = MvcConfiguration.Load();
+            //if (mvcConfig == null)
+            //	mvcConfig = MvcConfiguration.Load();
 
-            string serviceUrl = mvcConfig.ServiceUrl;
-            For<MvcConfiguration>().Use(mvcConfig);
-            
-			if (configurationService == null)
-				configurationService = new ConfigurationClient(serviceUrl);
+            //         string serviceUrl = mvcConfig.ServiceUrl;
+            //         For<MvcConfiguration>().Use(mvcConfig);
 
-            For<IConfigurationService>().Use(x => configurationService);
+            //if (configurationService == null)
+            //	configurationService = new ConfigurationClient(serviceUrl);
+
+            For<IMvcConfigurationProvider>()
+                .Singleton();
+            For<MvcConfiguration>()
+                .Use(x => x.GetInstance<IMvcConfigurationProvider>().Load());
+            For<IConfigurationService>()
+                .Use(x => new ConfigurationClient(x.GetInstance<MvcConfiguration>().ServiceUrl))
+                .Singleton();
             For<IConfiguration>()
                 .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
                 .Singleton();
-	        For<IEncryption>()
-				.Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
-	        For<IVariableEncryptor>().Use<VariableEncryptor>();
+            For<IEncryption>()
+                .Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 
             //
             // Model helpers
@@ -78,10 +84,10 @@ namespace Syringe.Web.DependencyResolution
             // REST API clients
             //
             For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
-            For<ITestService>().Use(x => new TestsClient(serviceUrl, x.GetInstance<IRestSharpClientFactory>()));
-            For<ITasksService>().Use(() => new TasksClient(serviceUrl));
-            For<IHealthCheck>().Use(() => new HealthCheck(serviceUrl));
-            For<IEnvironmentsService>().Use(() => new EnvironmentsClient(serviceUrl));
+            For<ITestService>().Use(x => new TestsClient(x.GetInstance<MvcConfiguration>().ServiceUrl, x.GetInstance<IRestSharpClientFactory>()));
+            For<ITasksService>().Use(x => new TasksClient(x.GetInstance<MvcConfiguration>().ServiceUrl));
+            For<IHealthCheck>().Use(x => new HealthCheck(x.GetInstance<MvcConfiguration>().ServiceUrl));
+            For<IEnvironmentsService>().Use(x => new EnvironmentsClient(x.GetInstance<MvcConfiguration>().ServiceUrl));
         }
     }
 }

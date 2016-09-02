@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Web.Mvc;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Web.Configuration;
 
 namespace Syringe.Web.Controllers
 {
@@ -16,7 +17,8 @@ namespace Syringe.Web.Controllers
 			// (example: https://github.com/roadkillwiki/roadkill/blob/master/src/Roadkill.Core/DependencyResolution/MVC/MvcAttributeProvider.cs)
 			//
 
-			MvcConfiguration mvcConfiguration = MvcConfiguration.Load();
+            var provider = new MvcConfigurationProvider(new ConfigLocator());
+			MvcConfiguration mvcConfiguration = provider.Load();
 			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
 			_config = configClient.GetConfiguration();
 		}

@@ -10,6 +10,7 @@ using Syringe.Core.Services;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Tests.StubsMocks;
 using Syringe.Web;
+using Syringe.Web.Configuration;
 using Syringe.Web.DependencyResolution;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
