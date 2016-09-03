@@ -1,0 +1,22 @@
+﻿[
+  {
+	"Name": "test-name",
+	"Value": "test-value",
+	"Environment": "Development"
+  },
+  {
+	"Name": "baseurl1",
+	"Value": "http://shared-empty.com",
+	"Environment": ""
+  },
+  {
+	"Name": "baseurl1",
+	"Value": "http://shared-development.com",
+	"Environment": "Development"
+  },
+  {
+	"Name": "baseurl1",
+	"Value": "http://shared-uat.com",
+	"Environment": "UAT"
+  }
+]
