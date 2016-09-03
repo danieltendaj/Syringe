@@ -43,13 +43,8 @@ namespace Syringe.Service.Parallel
             TestResult result = ((TestResultMessage)message).TestResult;
             var info = new CompletedTaskInfo
             {
-                ActualUrl = result.ActualUrl,
-                HttpResponse = result.HttpResponse,
                 Success = result.Success,
-                ResultId = result.Position,
-                Position = result.Position,
-                ExceptionMessage = result.ExceptionMessage,
-                Verifications = result.AssertionResults
+                Position = result.Position
             };
 
             clientGroup.OnTaskCompleted(info);

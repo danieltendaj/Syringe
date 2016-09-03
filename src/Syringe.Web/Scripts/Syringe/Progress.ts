@@ -17,61 +17,10 @@ module Syringe.Web {
                 throw Error("Task ID was 0.");
             }
 
-            $.connection.hub.logging = true;
+            $.connection.logging = false;
             $.connection.hub.url = this.signalRUrl;
 
             this.proxy = $.connection.taskMonitorHub;
-
-            this.proxy.client.onTestFileGuid = (guid: string) => {
-                if (guid) {
-                    window.location.href = `/Results/ViewResult/${guid}`;
-                }
-            };
-
-            this.proxy.client.onTaskCompleted = (taskInfo: Syringe.Service.Controllers.Hubs.CompletedTaskInfo) => {
-                ++this.completedTests;
-
-                console.log('Completed task ${taskInfo.Position} (${this.completedTests} of ${this.totalTests}).');
-
-                if (this.totalTests > 0) {
-                    var percentage = (this.completedTests / this.totalTests) * 100;
-                    $(".progress-bar").css("width", percentage + "%");
-                    $(".progress-bar .sr-only").text(`${percentage}% Complete`);
-                }
-
-                var selector = `#test-${taskInfo.Position}`;
-                var $selector = $(selector);
-
-                // Url
-                var $urlSelector = $(".test-result-url", $selector);
-                $urlSelector.html("<a target='_blank' href='" + taskInfo.ActualUrl + "'>" + taskInfo.ActualUrl + "</a>");
-
-                // Change background color
-                var resultClass = taskInfo.Success ? "panel-success" : "panel-danger";
-
-                // Exceptions
-                if (taskInfo.ExceptionMessage !== null) {
-                    $(".test-result-exception", $selector).removeClass("hidden");
-                    $(".test-result-exception pre", $selector).text(taskInfo.ExceptionMessage);
-                    $("table tr.result-row", $selector).addClass("warning");
-                }
-                else {
-                    // Show HTML/Raw buttons.
-                    $(".view-html", $selector).removeClass("hidden");
-                    $(".view-raw", $selector).removeClass("hidden");
-
-                    for (var i = 0; i < taskInfo.Verifications.length; i++) {
-
-                        var verificationItemClass = taskInfo.Verifications[i].Success ? "success" : "danger";
-
-                        $("table tr.result-row:eq(" + i + ")", $selector).addClass(verificationItemClass);
-                    }
-                }
-
-
-
-                $selector.addClass(resultClass);
-            };
 
             $.connection.hub.start()
                 .done(() => {
@@ -83,6 +32,31 @@ module Syringe.Web {
                             console.log(`Started monitoring task ${taskId}. There are ${taskState.TotalTests} tests.`);
                         });
                 });
+
+            this.proxy.client.onTestFileGuid = (guid: string) => {
+                if (guid) {
+                    window.location.href = `/Results/ViewResult/${guid}`;
+                }
+            };
+
+            this.proxy.client.onTaskCompleted = (taskInfo: Syringe.Service.Controllers.Hubs.CompletedTaskInfo) => {
+                ++this.completedTests;
+
+                console.log(`Completed task ${taskInfo.Position} (${this.completedTests} of ${this.totalTests}).`);
+
+                if (this.totalTests > 0) {
+                    var percentage = (this.completedTests / this.totalTests) * 100;
+                    $(".progress-bar").css("width", percentage + "%");
+                    $(".progress-bar .sr-only").text(`${percentage}% Complete`);
+                }
+
+                var selector = `#test-${taskInfo.Position}`;
+                var $selector = $(selector);
+
+                // Change background color
+                var resultClass = taskInfo.Success ? "panel-success" : "panel-danger";
+                $selector.addClass(resultClass);
+            };
         }
     }
 }

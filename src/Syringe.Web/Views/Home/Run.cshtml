@@ -1,4 +1,4 @@
-﻿    @model IRunViewModel
+﻿@model IRunViewModel
 @{
     ViewBag.Title = "Run";
 }
@@ -64,33 +64,6 @@
 			                                <pre></pre>
 		                                </div>
 	                                </div>
-                                    <table class="table table-bordered table-striped">
-                                        <tr>
-                                            <td>Description</td>
-	                                        <td>Value</td>
-	                                        <td>Assertion type</td>
-											<td>Assertion method</td>
-                                        </tr>
-
-                                        @foreach (var item in test.Assertions)
-                                        {
-                                            <tr class="result-row">
-                                                <td>
-                                                    @item.Description
-                                                </td>
-	                                            <td>
-		                                            @item.Value
-	                                            </td>
-	                                            <td>
-		                                            @item.AssertionType.ToString()
-	                                            </td>
-												<td>
-													@item.AssertionMethod.ToString()
-												</td>
-                                            </tr>
-                                        }
-                                    </table>
-
                                 </div>
                             </div>
                         </div>
