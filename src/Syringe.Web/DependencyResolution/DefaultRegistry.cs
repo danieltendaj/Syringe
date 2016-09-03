@@ -32,11 +32,10 @@ namespace Syringe.Web.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry() : this(null, null)
-        {
-        }
+        public DefaultRegistry() : this(null)
+        { }
 
-        internal DefaultRegistry(MvcConfiguration mvcConfig, IConfigurationService configurationService)
+        internal DefaultRegistry(IConfiguration configuration)
         {
             Scan(
                 scan =>
@@ -47,42 +46,47 @@ namespace Syringe.Web.DependencyResolution
                     scan.With(new ControllerConvention());
                 });
 
-            //
-            // Configration - load from the service at startup, cache it.
-            //
-            //if (mvcConfig == null)
-            //	mvcConfig = MvcConfiguration.Load();
+            SetupConfiguration(configuration);
+            SetupModelHelpers();
+            SetupRestClients();
 
-            //         string serviceUrl = mvcConfig.ServiceUrl;
-            //         For<MvcConfiguration>().Use(mvcConfig);
+            For<IEncryption>()
+                .Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+        }
 
-            //if (configurationService == null)
-            //	configurationService = new ConfigurationClient(serviceUrl);
+        private void SetupConfiguration(IConfiguration configuration)
+        {
+            if (configuration == null)
+            {
+                For<IConfiguration>()
+                    .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
+                    .Singleton();
+            }
+            else
+            {
+                For<IConfiguration>()
+                    .Use(configuration);
+            }
 
             For<IMvcConfigurationProvider>()
+                .Use<MvcConfigurationProvider>()
                 .Singleton();
             For<MvcConfiguration>()
                 .Use(x => x.GetInstance<IMvcConfigurationProvider>().Load());
             For<IConfigurationService>()
-                .Use(x => new ConfigurationClient(x.GetInstance<MvcConfiguration>().ServiceUrl))
-                .Singleton();
-            For<IConfiguration>()
-                .Use(x => x.GetInstance<IConfigurationService>().GetConfiguration())
-                .Singleton();
-            For<IEncryption>()
-                .Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+                .Use(x => new ConfigurationClient(x.GetInstance<MvcConfiguration>().ServiceUrl));
+        }
 
-            //
-            // Model helpers
-            //
+        private void SetupModelHelpers()
+        {
             For<IRunViewModel>().Use<RunViewModel>();
             For<ITestFileMapper>().Use<TestFileMapper>();
             For<IUserContext>().Use<UserContext>();
             For<IUrlHelper>().Use<UrlHelper>();
+        }
 
-            //
-            // REST API clients
-            //
+        private void SetupRestClients()
+        {
             For<IRestSharpClientFactory>().Use<RestSharpClientFactory>();
             For<ITestService>().Use(x => new TestsClient(x.GetInstance<MvcConfiguration>().ServiceUrl, x.GetInstance<IRestSharpClientFactory>()));
             For<ITasksService>().Use(x => new TasksClient(x.GetInstance<MvcConfiguration>().ServiceUrl));
