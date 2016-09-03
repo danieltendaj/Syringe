@@ -439,7 +439,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Progress.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\Signalr\Progress.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
     <Content Include="Web.config">
