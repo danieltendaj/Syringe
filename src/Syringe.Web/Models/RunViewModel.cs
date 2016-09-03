@@ -6,6 +6,7 @@ using Syringe.Core.Security;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
+using Syringe.Web.Configuration;
 
 namespace Syringe.Web.Models
 {

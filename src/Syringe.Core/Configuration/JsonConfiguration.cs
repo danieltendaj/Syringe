@@ -31,6 +31,13 @@ namespace Syringe.Core.Configuration
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string MongoDbDatabaseName { get; set; }
 
+	    public bool ContainsOAuthCredentials()
+        {
+            return (!string.IsNullOrEmpty(OAuthConfiguration?.GoogleAuthClientId) && !string.IsNullOrEmpty(OAuthConfiguration?.GoogleAuthClientSecret))
+                    || (!string.IsNullOrEmpty(OAuthConfiguration?.MicrosoftAuthClientId) && string.IsNullOrEmpty(OAuthConfiguration?.MicrosoftAuthClientSecret))
+                    || (!string.IsNullOrEmpty(OAuthConfiguration?.GithubAuthClientId) && !string.IsNullOrEmpty(OAuthConfiguration?.GithubAuthClientSecret));
+        }
+
 	    public JsonConfiguration()
 		{
 			// Defaults

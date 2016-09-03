@@ -3,31 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Syringe.Core.Configuration;
 
 namespace Syringe.Core.Tests.Variables.SharedVariables
 {
     public class SharedVariablesProvider : ISharedVariablesProvider
     {
-        private readonly string _configPath;
+        private readonly IConfigLocator _configLocator;
         private Variable[] _sharedVariables;
 
-        public SharedVariablesProvider()
+        public SharedVariablesProvider(IConfigLocator configLocator)
         {
-            _configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "shared-variables.json");
-        }
-
-        internal SharedVariablesProvider(string configPath)
-        {
-            _configPath = configPath;
+            _configLocator = configLocator;
         }
 
         public IEnumerable<IVariable> ListSharedVariables()
         {
             if (_sharedVariables == null)
             {
-                if (File.Exists(_configPath))
+                string configPath = _configLocator.ResolveConfigFile("shared-variables.json");
+                if (File.Exists(configPath))
                 {
-                    string json = File.ReadAllText(_configPath);
+                    string json = File.ReadAllText(configPath);
                     List<SharedVariable> variables = JsonConvert.DeserializeObject<List<SharedVariable>>(json);
                     _sharedVariables = variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToArray();
                 }

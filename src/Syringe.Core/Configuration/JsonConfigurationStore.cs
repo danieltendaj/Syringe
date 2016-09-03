@@ -1,35 +1,28 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Configuration
 {
     public class JsonConfigurationStore : IConfigurationStore
     {
+        private readonly IConfigLocator _configLocator;
         private IConfiguration _configuration;
-        private readonly string _configPath;
 
-        public JsonConfigurationStore()
+        //TODO: Get configs to use this class, and then update the setup scripts & appveyor to load into appData
+
+        public JsonConfigurationStore(IConfigLocator configLocator)
         {
-            _configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configuration.json");
+            _configLocator = configLocator;
         }
 
-		internal JsonConfigurationStore(string configPath)
-		{
-			_configPath = configPath;
-		}
-
-		public IConfiguration Load()
+        public IConfiguration Load()
         {
             if (_configuration == null)
             {
-                if (!File.Exists(_configPath))
-                {
-                    throw new ConfigurationException("The REST service configuration.json file does not exist: '{0}'", _configPath);
-                }
-
-                string json = File.ReadAllText(_configPath);
+                string configPath = _configLocator.ResolveConfigFile("configuration.json");
+                
+                string json = File.ReadAllText(configPath);
                 JsonConfiguration configuration = JsonConvert.DeserializeObject<JsonConfiguration>(json);
 
                 configuration.TestFilesBaseDirectory = ResolveRelativePath(configuration.TestFilesBaseDirectory);

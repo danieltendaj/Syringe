@@ -184,6 +184,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigLocator.cs" />
+    <Compile Include="Configuration\IConfigLocator.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Configuration\IConfigurationStore.cs" />
     <Compile Include="Configuration\JsonConfiguration.cs" />
@@ -200,7 +202,6 @@
     <Compile Include="Environment\JsonEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
     <Compile Include="Environment\OctopusRepositoryFactory.cs" />
-    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\Pager.cs" />
     <Compile Include="Http\HttpHeader.cs" />

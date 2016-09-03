@@ -221,6 +221,7 @@
     <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
     <Compile Include="Integration\ClientAndService\Helpers.cs" />
     <Compile Include="Integration\ClientAndService\TaskClientTests.cs" />
+    <Compile Include="Integration\Core\Configuration\ConfigLocatorTests.cs" />
     <Compile Include="Integration\Core\Configuration\JsonConfigurationStoreTests.cs" />
     <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
     <Compile Include="Integration\Core\IO\FileHandlerTests.cs" />
@@ -234,7 +235,8 @@
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
     <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
-    <Compile Include="Integration\Web\MvcConfigurationTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationProviderTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationTests.cs" />
     <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
     <Compile Include="StubsMocks\ConfigurationStoreMock.cs" />
     <Compile Include="StubsMocks\HealthCheckMock.cs" />
@@ -321,9 +323,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="configuration.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\Web\empty-websiteconfig.json">
+    <Content Include="Integration\Web\Configuration\empty-websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
@@ -331,9 +333,18 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Integration\Web\websiteconfig.json">
+    <Content Include="Integration\Web\Configuration\websiteconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="environments.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="shared-variables.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

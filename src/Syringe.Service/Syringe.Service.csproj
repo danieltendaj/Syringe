@@ -236,10 +236,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="environments.default.json" />
     <None Include="app.config" />
-    <Content Include="environments.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="configuration.default.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -261,6 +259,8 @@
     <PostBuildEvent>$(SolutionDir)\packages\SignalrTypescriptGenerator.1.0.13\tools\SignalrTypescriptGenerator.exe -a "$(TargetPath)"  -o "$(SolutionDir)src\Syringe.Web\Scripts\typings\Hubs.d.ts"
 
 IF EXIST "$(ProjectDir)configuration.json" xcopy "$(ProjectDir)configuration.json" $(TargetDir) /Y
+IF EXIST "$(ProjectDir)environments.json" xcopy "$(ProjectDir)environments.json" $(TargetDir) /Y
+IF EXIST "$(ProjectDir)shared-variables.json" xcopy "$(ProjectDir)shared-variables.json" $(TargetDir) /Y
 
 IF EXIST "$(ProjectDir)shared-variables.json" xcopy "$(ProjectDir)shared-variables.json" $(TargetDir) /Y</PostBuildEvent>
   </PropertyGroup>

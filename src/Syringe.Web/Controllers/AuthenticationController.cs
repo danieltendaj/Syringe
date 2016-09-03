@@ -10,12 +10,20 @@ using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Security;
 using Syringe.Core.Security.OAuth2;
+using Syringe.Web.Configuration;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private readonly MvcConfiguration _configuration;
+
+        public AuthenticationController(MvcConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public ActionResult Login(string returnUrl)
         {
             var model = new AuthenticationViewModel();
@@ -26,11 +34,10 @@ namespace Syringe.Web.Controllers
 
             return View(model);
 		}
-
-	    private static IConfiguration GetConfig()
+        
+	    private IConfiguration GetConfig()
 	    {
-		    var mvcConfiguration = MvcConfiguration.Load();
-			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
+			var configClient = new ConfigurationClient(_configuration.ServiceUrl);
 		    IConfiguration config = configClient.GetConfiguration();
 		    return config;
 	    }
