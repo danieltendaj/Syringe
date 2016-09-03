@@ -36,7 +36,7 @@ namespace Syringe.Core.Configuration
                 }
             }
 
-            string errorMessage = $"Unable to find config file in: {string.Join(" | or | ", _configurationDirectories)}";
+            string errorMessage = $"Unable to find config file '{fileName}' in: {string.Join(" | or | ", _configurationDirectories)}";
             throw new FileNotFoundException(errorMessage, fileName);
         }
 
