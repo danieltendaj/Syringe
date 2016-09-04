@@ -1,9 +1,10 @@
 ﻿using System.Web.Mvc;
+using System.Web.Mvc.Async;
 using StructureMap;
 
 namespace Syringe.Web.DependencyResolution
 {
-    public class InjectingActionInvoker : ControllerActionInvoker
+    public class InjectingActionInvoker : AsyncControllerActionInvoker
     {
         private readonly IContainer _container;
 
