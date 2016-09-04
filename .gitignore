@@ -206,7 +206,9 @@ coverage.xml
 TestResult.xml
 TextTransform.exe
 src/Syringe.Web/Scripts/typings/Hubs.d.ts
+src/Syringe.Web/websiteconfig.json
 src/Syringe.Service/configuration.json
+src/Syringe.Service/environments.json
 src/Syringe.Service/shared-variables.json
 syringe.db
 _site/
