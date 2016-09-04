@@ -27,14 +27,12 @@ namespace Syringe.Web.Controllers.Attribute
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (Configuration.ContainsOAuthCredentials())
+		    if (Configuration.ContainsOAuthCredentials())
 			{
 				return base.AuthorizeCore(httpContext);
 			}
-			else
-			{
-				return true;
-			}
+
+            return true;
 		}
 	}
 }

@@ -1,21 +1,21 @@
-using System.Reflection;
+using System;
 using System.Web.Mvc;
 using Syringe.Core.Configuration;
 
 namespace Syringe.Web.Controllers.Attribute
 {
-	public class EditableTestsRequiredAttribute : ActionMethodSelectorAttribute
+	public class EditableTestsRequiredAttribute : ActionFilterAttribute, IActionFilter
     {
         public IConfiguration Configuration { get; set; }
 
-		public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
-		{
-			if (Configuration.ReadonlyMode)
-			{
-				return false;
-			}
+	    public override void OnActionExecuting(ActionExecutingContext filterContext)
+	    {
+            if (Configuration.ReadonlyMode)
+            {
+                throw new AccessViolationException();
+            }
 
-			return true;
-		}
+            base.OnActionExecuting(filterContext);
+	    }
 	}
 }
