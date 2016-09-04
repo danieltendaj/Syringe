@@ -5,7 +5,6 @@ using Syringe.Core.Tests;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
-
 namespace Syringe.Web.Controllers
 {
     [AuthorizeWhenOAuth]
