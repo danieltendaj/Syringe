@@ -298,6 +298,7 @@
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Web\RouteConfigTests.cs" />
     <Compile Include="Unit\Web\ValidationAttributes\ValidCsQueryAttributesTests.cs" />
     <Compile Include="Unit\Web\ValidationAttributes\ValidationAttributesTests.cs" />
   </ItemGroup>
