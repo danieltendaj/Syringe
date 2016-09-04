@@ -249,6 +249,7 @@
     <Compile Include="StubsMocks\VariableContainerStub.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
     <Compile Include="Unit\Client\TestsClientTests.cs" />
+    <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
     <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
