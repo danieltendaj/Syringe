@@ -6,6 +6,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Core.Tests.Variables;
 using Syringe.Web.Controllers;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
@@ -124,13 +125,36 @@ namespace Syringe.Tests.Unit.Web.Controllers
         [Test]
         public void Update_should_return_correct_view_and_model()
         {
-            // given + when
-            var viewResult = _testFileController.Update(It.IsAny<string>()) as ViewResult;
+            // given
+            const string testFileName = "my-test-file.json";
+            var testFile = new TestFile
+            {
+                Variables = new List<Variable>
+                {
+                    new Variable
+                    {
+                        Name = "variable1",
+                        Value = "value1",
+                        Environment = new Environment { Name = "tzing" }
+                    }
+                }
+            };
+
+            _testServiceMock
+                .Setup(x => x.GetTestFile(testFileName))
+                .Returns(testFile);
+
+            // when
+            ViewResult viewResult = _testFileController.Update(testFileName) as ViewResult;
 
             // then
-            _testServiceMock.Verify(x => x.GetTestFile(It.IsAny<string>()), Times.Once);
             Assert.AreEqual("Update", viewResult.ViewName);
-            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
+
+            var model = viewResult.Model as TestFileViewModel;
+            var variable = model.Variables[0];
+            Assert.That(variable.Name, Is.EqualTo(testFile.Variables[0].Name));
+            Assert.That(variable.Value, Is.EqualTo(testFile.Variables[0].Value));
+            Assert.That(variable.Environment, Is.EqualTo(testFile.Variables[0].Environment.Name));
         }
 
         [Test]
@@ -223,7 +247,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
             Assert.AreEqual("Index", redirectToRouteResult.RouteValues["action"]);
             Assert.AreEqual("Home", redirectToRouteResult.RouteValues["controller"]);
         }
-        
+
         [Test]
         public void Copy_should_return_correct_redirection_to_view()
         {
