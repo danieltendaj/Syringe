@@ -13,7 +13,6 @@ namespace Syringe.Tests.Unit.Web.Controllers
     public class SystemControllerTests
     {
         private Mock<IVariableEncryptor> _variableEncryptorMock;
-        private Mock<IConfiguration> _configurationMock;
         private Mock<IConfigurationService> _configurationServiceMock;
         private SystemController _controller;
 
@@ -21,9 +20,8 @@ namespace Syringe.Tests.Unit.Web.Controllers
         public void Setup()
         {
             _variableEncryptorMock = new Mock<IVariableEncryptor>();
-            _configurationMock = new Mock<IConfiguration>();
             _configurationServiceMock = new Mock<IConfigurationService>();
-            _controller = new SystemController(_variableEncryptorMock.Object, _configurationMock.Object, _configurationServiceMock.Object);
+            _controller = new SystemController(_variableEncryptorMock.Object, _configurationServiceMock.Object);
         }
 
         [TestCase(true)]
@@ -31,9 +29,13 @@ namespace Syringe.Tests.Unit.Web.Controllers
         public void EncryptData_should_be_enabled_when_encryption_key_is_given(bool encryptionKeyEntered)
         {
             // given
-            _configurationMock
+            var configurationMock = new Mock<IConfiguration>();
+            configurationMock
                 .Setup(x => x.EncryptionKey)
                 .Returns(encryptionKeyEntered ? "key" : null);
+            _configurationServiceMock
+                .Setup(x => x.GetConfiguration())
+                .Returns(configurationMock.Object);
 
             // when
             var result = _controller.EncryptData() as ViewResult;

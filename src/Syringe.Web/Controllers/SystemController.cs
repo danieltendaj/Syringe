@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Web.Models;
@@ -11,13 +10,11 @@ namespace Syringe.Web.Controllers
     public class SystemController : Controller
     {
         private readonly IVariableEncryptor _encryptor;
-        private readonly IConfiguration _configuration;
         private readonly IConfigurationService _configurationClient;
 
-        public SystemController(IVariableEncryptor encryptor, IConfiguration configuration, IConfigurationService configurationClient)
+        public SystemController(IVariableEncryptor encryptor, IConfigurationService configurationClient)
         {
             _encryptor = encryptor;
-            _configuration = configuration;
             _configurationClient = configurationClient;
         }
         
@@ -26,7 +23,7 @@ namespace Syringe.Web.Controllers
         {
             var model = new EncryptedDataViewModel()
             {
-                IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey)
+                IsEnabled = !string.IsNullOrEmpty(_configurationClient.GetConfiguration().EncryptionKey)
             };
 
             return View("EncryptData", model);
