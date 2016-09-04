@@ -273,6 +273,7 @@
     <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
     <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\FilterConfigTests.cs" />
     <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
