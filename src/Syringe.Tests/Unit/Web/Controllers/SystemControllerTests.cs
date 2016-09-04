@@ -65,5 +65,27 @@ namespace Syringe.Tests.Unit.Web.Controllers
             _variableEncryptorMock
                 .Verify(x => x.Encrypt(It.IsAny<string>(), true), Times.Never);
         }
+
+        [Test]
+        public void EncryptData_should_encrypt_data()
+        {
+            // given
+            const string variableValue = "POLARISE THE HULL PLATING";
+            const string expectedEncryptedValue = "£$%^&*(DFGHJK";
+            _variableEncryptorMock
+                .Setup(x => x.Encrypt(variableValue, true))
+                .Returns(expectedEncryptedValue);
+
+            // when
+            var result = _controller.EncryptData(variableValue) as ViewResult;
+
+            // then
+            Assert.That(result.ViewName, Is.EqualTo("EncryptData"));
+
+            var model = result.Model as EncryptedDataViewModel;
+            Assert.That(model.IsEnabled, Is.True);
+            Assert.That(model.EncryptedValue, Is.EqualTo(expectedEncryptedValue));
+            Assert.That(model.PlainValue, Is.EqualTo(variableValue));
+        }
     }
 }
