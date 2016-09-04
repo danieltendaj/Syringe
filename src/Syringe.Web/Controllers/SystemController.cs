@@ -29,7 +29,7 @@ namespace Syringe.Web.Controllers
                 IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey)
             };
 
-            return View(model);
+            return View("EncryptData", model);
         }
 
         [HttpPost]
@@ -44,8 +44,8 @@ namespace Syringe.Web.Controllers
 
             var model = new EncryptedDataViewModel()
             {
-                IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey),
-                PlainValue = variableValue,
+                IsEnabled = true,
+                PlainValue = variableValue ?? string.Empty,
                 EncryptedValue = encryptedValue
             };
 
