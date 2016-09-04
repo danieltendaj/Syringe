@@ -1,8 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
+using Syringe.Core.Tests.Variables;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Web.Controllers;
 using Syringe.Web.Models;
@@ -88,6 +91,32 @@ namespace Syringe.Tests.Unit.Web.Controllers
             Assert.That(model.IsEnabled, Is.True);
             Assert.That(model.EncryptedValue, Is.EqualTo(expectedEncryptedValue));
             Assert.That(model.PlainValue, Is.EqualTo(variableValue));
+        }
+
+        [Test]
+        public void should_return_environments_when_displaying_settings()
+        {
+            // given
+            var systemVariables = new List<Variable>
+            {
+                new Variable("var1", "val1", "env1")
+            };
+            _configurationServiceMock
+                .Setup(x => x.GetSystemVariables())
+                .Returns(systemVariables);
+
+            // when
+            var result = _controller.Settings() as ViewResult;
+
+            // then
+            Assert.That(result.ViewName, Is.EqualTo("Settings"));
+
+            var model = result.Model as SystemSettingsViewModel;
+            Assert.That(model.Variables.Count(), Is.EqualTo(1));
+
+            Assert.That(model.Variables.First().Name, Is.EqualTo(systemVariables[0].Name));
+            Assert.That(model.Variables.First().Value, Is.EqualTo(systemVariables[0].Value));
+            Assert.That(model.Variables.First().Environment, Is.EqualTo(systemVariables[0].Environment.Name));
         }
     }
 }

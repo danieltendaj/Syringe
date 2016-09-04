@@ -17,7 +17,7 @@ namespace Syringe.Web.Controllers
             _encryptor = encryptor;
             _configurationClient = configurationClient;
         }
-        
+
         [HttpGet]
         public ActionResult EncryptData()
         {
@@ -60,7 +60,7 @@ namespace Syringe.Web.Controllers
                     Environment = x.Environment?.Name ?? string.Empty
                 });
 
-            return View(new SystemSettingsViewModel { Variables = variables });
+            return View("Settings", new SystemSettingsViewModel { Variables = variables });
         }
     }
 }
