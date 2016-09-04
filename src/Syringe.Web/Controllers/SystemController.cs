@@ -59,7 +59,8 @@ namespace Syringe.Web.Controllers
                 .Select(x => new VariableViewModel
                 {
                     Name = x.Name,
-                    Value = x.Value
+                    Value = x.Value,
+                    Environment = x.Environment?.Name ?? string.Empty
                 });
 
             return View(new SystemSettingsViewModel { Variables = variables });
