@@ -185,8 +185,8 @@
     <Compile Include="App_Start\LogExceptionsAttribute.cs" />
     <Compile Include="Configuration\IMvcConfigurationProvider.cs" />
     <Compile Include="Configuration\MvcConfigurationProvider.cs" />
-    <Compile Include="Controllers\AuthorizeWhenOAuthAttribute.cs" />
-    <Compile Include="Controllers\EditableTestsRequiredAttribute.cs" />
+    <Compile Include="Controllers\Attribute\AuthorizeWhenOAuthAttribute.cs" />
+    <Compile Include="Controllers\Attribute\EditableTestsRequiredAttribute.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Models\EncryptedDataViewModel.cs" />
     <Compile Include="Extensions\HtmlHelpers\DropdownExtensions.cs" />

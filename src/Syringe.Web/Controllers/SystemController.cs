@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Variables.Encryption;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers

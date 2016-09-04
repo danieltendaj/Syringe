@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Syringe.Core.Helpers;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Results;
+using Syringe.Web.Controllers.Attribute;
 
 namespace Syringe.Web.Controllers
 {

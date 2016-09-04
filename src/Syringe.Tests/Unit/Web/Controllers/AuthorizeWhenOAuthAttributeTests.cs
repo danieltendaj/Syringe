@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Web.Controllers;
+using Syringe.Web.Controllers.Attribute;
 
 namespace Syringe.Tests.Unit.Web.Controllers
 {

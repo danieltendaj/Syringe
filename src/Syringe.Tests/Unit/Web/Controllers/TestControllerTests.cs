@@ -10,6 +10,7 @@ using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Tests.StubsMocks.Web;
 using Syringe.Web.Controllers;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 

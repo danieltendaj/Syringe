@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
