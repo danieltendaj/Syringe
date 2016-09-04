@@ -15,27 +15,8 @@ namespace Syringe.Web.Controllers.Attribute
 	/// </summary>
 	public class AuthorizeWhenOAuthAttribute : AuthorizeAttribute
 	{
-		private readonly IConfiguration _config;
-
-		public AuthorizeWhenOAuthAttribute()
-		{
-			//
-			// TODO: get rid of bastard DI. This will require DI wireup of the attribute:
-			// (example: https://github.com/roadkillwiki/roadkill/blob/master/src/Roadkill.Core/DependencyResolution/MVC/MvcAttributeProvider.cs)
-			//
-
-			var provider = new MvcConfigurationProvider(new ConfigLocator());
-		    MvcConfiguration mvcConfiguration = provider.Load();
-
-			var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);
-			_config = configClient.GetConfiguration();
-		}
-
-		internal AuthorizeWhenOAuthAttribute(IConfiguration config)
-		{
-			_config = config;
-		}
-
+		public IConfiguration Configuration { get; set; }
+        
 		/// <summary>
 		/// For internal testing.
 		/// </summary>
@@ -46,7 +27,7 @@ namespace Syringe.Web.Controllers.Attribute
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (_config.ContainsOAuthCredentials())
+			if (Configuration.ContainsOAuthCredentials())
 			{
 				return base.AuthorizeCore(httpContext);
 			}

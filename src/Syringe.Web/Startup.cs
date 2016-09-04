@@ -8,11 +8,14 @@ using Microsoft.Owin.Security.MicrosoftAccount;
 using Owin;
 using Syringe.Web;
 using Owin.Security.Providers.GitHub;
+using StructureMap;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Logging;
+using Syringe.Web.App_Start;
 using Syringe.Web.Configuration;
+using Syringe.Web.DependencyResolution;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -25,6 +28,10 @@ namespace Syringe.Web
             //AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //var container = StructuremapMvc.StructureMapDependencyScope.Container;
+            //var mvcProvider = new MvcAttributeProvider(container);
+            //FilterProviders.Providers.Add(mvcProvider); // attributes
 
             Log.UseAllTargets();
             ConfigureOAuth(app);

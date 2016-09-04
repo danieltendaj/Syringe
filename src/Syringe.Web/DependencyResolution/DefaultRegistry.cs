@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Web.Mvc;
 using StructureMap;
 using StructureMap.Graph;
 using Syringe.Client;
@@ -27,6 +28,7 @@ using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Web.Configuration;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
+using UrlHelper = Syringe.Core.Helpers.UrlHelper;
 
 namespace Syringe.Web.DependencyResolution
 {
@@ -37,14 +39,20 @@ namespace Syringe.Web.DependencyResolution
 
         internal DefaultRegistry(IConfiguration configuration)
         {
-            Scan(
-                scan =>
-                {
-                    scan.TheCallingAssembly();
-                    scan.Assembly("Syringe.Core");
-                    scan.WithDefaultConventions();
-                    scan.With(new ControllerConvention());
-                });
+            Scan(scan =>
+            {
+                scan.TheCallingAssembly();
+                scan.Assembly("Syringe.Core");
+                scan.WithDefaultConventions();
+                scan.With(new ControllerConvention());
+            });
+
+            For<IActionInvoker>().Use<InjectingActionInvoker>();
+            Policies.SetAllProperties(c =>
+            {
+                c.OfType<IActionInvoker>();
+                c.WithAnyTypeFromNamespaceContainingType<IConfiguration>();
+            });
 
             SetupConfiguration(configuration);
             SetupModelHelpers();
