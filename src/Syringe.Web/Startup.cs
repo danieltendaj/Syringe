@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Optimization;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -13,6 +10,7 @@ using Syringe.Web;
 using Owin.Security.Providers.GitHub;
 using Syringe.Client;
 using Syringe.Core.Configuration;
+using Syringe.Core.Extensions;
 using Syringe.Core.Logging;
 using Syringe.Web.Configuration;
 
