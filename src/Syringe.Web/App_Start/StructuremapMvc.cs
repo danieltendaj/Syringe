@@ -21,7 +21,7 @@ using Syringe.Web.App_Start;
 using Syringe.Web.DependencyResolution;
 using WebActivatorEx;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof (StructuremapMvc), "Start")]
+[assembly: PreApplicationStartMethod(typeof (StructuremapMvc), "Start")]
 [assembly: ApplicationShutdownMethod(typeof (StructuremapMvc), "End")]
 
 namespace Syringe.Web.App_Start

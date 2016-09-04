@@ -6,6 +6,7 @@ using Syringe.Core.Extensions;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using Environment = Syringe.Core.Environment.Environment;

@@ -6,6 +6,7 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers

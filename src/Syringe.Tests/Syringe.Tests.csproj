@@ -247,6 +247,7 @@
     <Compile Include="StubsMocks\TestFileQueueStub.cs" />
     <Compile Include="StubsMocks\TestFileResultRepositoryFactoryMock.cs" />
     <Compile Include="StubsMocks\VariableContainerStub.cs" />
+    <Compile Include="StubsMocks\Web\TestControllerWrapper.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
@@ -270,9 +271,12 @@
     <Compile Include="Unit\Service\Parallel\BatchManagerTests.cs" />
     <Compile Include="Unit\Service\Parallel\TestFileAssemblerTests.cs" />
     <Compile Include="Unit\Service\Parallel\TestFileResultFactoryTests.cs" />
-    <Compile Include="Unit\Web\Controllers\AuthorizeWhenOAuthAttributeTests.cs" />
+    <Compile Include="Unit\Web\Controllers\Attributes\AuthorizeWhenOAuthAttributeTests.cs" />
     <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
+    <Compile Include="Unit\Web\Controllers\Attributes\EditableTestsRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Web\Controllers\SystemControllerTests.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\FilterConfigTests.cs" />
     <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
     <Compile Include="Unit\Web\ExtensionsTests.cs" />
@@ -297,6 +301,7 @@
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Web\RouteConfigTests.cs" />
     <Compile Include="Unit\Web\ValidationAttributes\ValidCsQueryAttributesTests.cs" />
     <Compile Include="Unit\Web\ValidationAttributes\ValidationAttributesTests.cs" />
   </ItemGroup>

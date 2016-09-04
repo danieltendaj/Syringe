@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Variables.Encryption;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Models;
 
 namespace Syringe.Web.Controllers
@@ -11,25 +11,23 @@ namespace Syringe.Web.Controllers
     public class SystemController : Controller
     {
         private readonly IVariableEncryptor _encryptor;
-        private readonly IConfiguration _configuration;
         private readonly IConfigurationService _configurationClient;
 
-        public SystemController(IVariableEncryptor encryptor, IConfiguration configuration, IConfigurationService configurationClient)
+        public SystemController(IVariableEncryptor encryptor, IConfigurationService configurationClient)
         {
             _encryptor = encryptor;
-            _configuration = configuration;
             _configurationClient = configurationClient;
         }
-        
+
         [HttpGet]
         public ActionResult EncryptData()
         {
             var model = new EncryptedDataViewModel()
             {
-                IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey)
+                IsEnabled = !string.IsNullOrEmpty(_configurationClient.GetConfiguration().EncryptionKey)
             };
 
-            return View(model);
+            return View("EncryptData", model);
         }
 
         [HttpPost]
@@ -44,8 +42,8 @@ namespace Syringe.Web.Controllers
 
             var model = new EncryptedDataViewModel()
             {
-                IsEnabled = !string.IsNullOrEmpty(_configuration.EncryptionKey),
-                PlainValue = variableValue,
+                IsEnabled = true,
+                PlainValue = variableValue ?? string.Empty,
                 EncryptedValue = encryptedValue
             };
 
@@ -63,7 +61,7 @@ namespace Syringe.Web.Controllers
                     Environment = x.Environment?.Name ?? string.Empty
                 });
 
-            return View(new SystemSettingsViewModel { Variables = variables });
+            return View("Settings", new SystemSettingsViewModel { Variables = variables });
         }
     }
 }

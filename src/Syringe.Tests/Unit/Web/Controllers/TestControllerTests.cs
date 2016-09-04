@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
+using Syringe.Tests.StubsMocks.Web;
 using Syringe.Web.Controllers;
+using Syringe.Web.Controllers.Attribute;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 
@@ -32,7 +37,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
 
             _testController = new TestController(_testServiceMock.Object, _testFileMapperMock.Object);
         }
-        
+
         [Test]
         public void Edit_should_return_correct_view_and_model()
         {
@@ -197,7 +202,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
             const string expectedFilename = "This is Wayne's filename";
             var expectedTestFile = new TestFile();
 
-			_testServiceMock
+            _testServiceMock
                 .Setup(x => x.GetTestFile(expectedFilename))
                 .Returns(expectedTestFile);
 
@@ -220,10 +225,10 @@ namespace Syringe.Tests.Unit.Web.Controllers
             Assert.That(model.ExpectedHttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(model.Method, Is.EqualTo(MethodType.GET));
 
-			_testFileMapperMock.Verify(x => x.PopulateScriptSnippets(model), Times.Once);
-		}
+            _testFileMapperMock.Verify(x => x.PopulateScriptSnippets(model), Times.Once);
+        }
 
-		[Test]
+        [Test]
         public void Add_should_be_decorated_with_httpGet_and_EditableTestsRequired()
         {
             // given + when
@@ -345,6 +350,32 @@ namespace Syringe.Tests.Unit.Web.Controllers
         {
             // given + when + then
             Assert.IsTrue(typeof(TestController).IsDefined(typeof(AuthorizeWhenOAuthAttribute), false));
+        }
+
+        [Test]
+        public void TestController_should_populate_paging_data_when_executing_action()
+        {
+            // given
+            var request = new Mock<HttpRequestBase>();
+            var queryString = new NameValueCollection
+            {
+                {"pageNumber", "42" },
+                {"noOfResults", "5342" }
+            };
+            request.Setup(x => x.QueryString).Returns(queryString);
+
+            var context = new Mock<HttpContextBase>();
+            context.SetupGet(x => x.Request).Returns(request.Object);
+            _testController.ControllerContext = new ControllerContext(context.Object, new RouteData(), _testController);
+
+            var controller = new TestControllerWrapper(_testController);
+
+            // when
+            controller.ExecuteOnActionExecuting(null);
+
+            // then
+            Assert.That(_testController.ViewData["PageNumber"], Is.EqualTo("42"));
+            Assert.That(_testController.ViewData["NoOfResults"], Is.EqualTo("5342"));
         }
     }
 }
