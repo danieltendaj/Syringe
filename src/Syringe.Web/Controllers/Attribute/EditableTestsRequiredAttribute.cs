@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Syringe.Core.Configuration;
 
@@ -12,7 +14,7 @@ namespace Syringe.Web.Controllers.Attribute
 	    {
             if (Configuration.ReadonlyMode)
             {
-                throw new AccessViolationException();
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Syringe is running in ReadOnly mode.");
             }
 
             base.OnActionExecuting(filterContext);
