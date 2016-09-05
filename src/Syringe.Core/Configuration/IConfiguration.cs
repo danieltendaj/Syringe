@@ -8,8 +8,10 @@
 		OAuthConfiguration OAuthConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }
 		bool ReadonlyMode { get; }
-        string ScriptSnippetDirectory { get; set; }
-		string EncryptionKey { get; set; }
-	    string MongoDbDatabaseName { get; set; }
-	}
+        string ScriptSnippetDirectory { get; }
+		string EncryptionKey { get; }
+	    string MongoDbDatabaseName { get; }
+        int DaysOfDataRetention { get; }
+
+    }
 }

@@ -29,7 +29,10 @@ namespace Syringe.Core.Configuration
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string MongoDbDatabaseName { get; set; }
-        
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int DaysOfDataRetention { get; set; }
+
 	    public JsonConfiguration()
 		{
 			// Defaults
@@ -39,6 +42,7 @@ namespace Syringe.Core.Configuration
 			ReadonlyMode = false;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
             MongoDbDatabaseName = "Syringe";
+            DaysOfDataRetention = 5;
 
             OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();
