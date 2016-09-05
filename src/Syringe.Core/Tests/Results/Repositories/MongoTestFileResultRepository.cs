@@ -31,9 +31,9 @@ namespace Syringe.Core.Tests.Results.Repositories
             await _collection.DeleteOneAsync(x => x.Id == testFileResultId);
         }
 
-        public Task DeleteBeforeDate(DateTime date)
+        public async Task DeleteBeforeDate(DateTime date)
         {
-            throw new NotImplementedException();
+            await _collection.DeleteManyAsync(x => x.StartTime < date);
         }
 
         //TODO: Make Async to follow pattern

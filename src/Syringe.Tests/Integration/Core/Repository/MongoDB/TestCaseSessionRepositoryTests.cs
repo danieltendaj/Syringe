@@ -63,6 +63,36 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         }
 
         [Test]
+        public async Task DeleteBeforeDate_should_only_remove_entries_before_a_certain_date()
+        {
+            // Arrange
+            MongoTestFileResultRepository repository = GetTestFileResultRepository();
+            var fixture = new Fixture();
+
+            var oldResult1 = fixture.Create<TestFileResult>();
+            oldResult1.StartTime = DateTime.Now.AddDays(-10);
+            await repository.Add(oldResult1);
+            var oldResult2 = fixture.Create<TestFileResult>();
+            oldResult2.StartTime = DateTime.Now.AddDays(-6);
+            await repository.Add(oldResult2);
+            var newResult1 = fixture.Create<TestFileResult>();
+            newResult1.StartTime = DateTime.Now.AddDays(-4);
+            await repository.Add(newResult1);
+            var newResult2 = fixture.Create<TestFileResult>();
+            newResult2.StartTime = DateTime.Now.AddDays(0);
+            await repository.Add(newResult2);
+
+            // Act
+            await repository.DeleteBeforeDate(DateTime.Now.AddDays(-5));
+
+            // Assert
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.MinValue);
+            Assert.That(summaries.PagedResults.Count(), Is.EqualTo(2));
+            Assert.That(summaries.PagedResults.Count(x => x.Id == newResult1.Id), Is.EqualTo(1));
+            Assert.That(summaries.PagedResults.Count(x => x.Id == newResult2.Id), Is.EqualTo(1));
+        }
+
+        [Test]
         public async Task GetById_should_return_session()
         {
             // Arrange
