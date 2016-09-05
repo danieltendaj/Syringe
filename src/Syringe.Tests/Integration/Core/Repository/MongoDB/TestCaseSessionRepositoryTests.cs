@@ -24,7 +24,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         [SetUp]
         public void SetUp()
         {
-            GetTestFileResultRepository().Wipe();
+            GetTestFileResultRepository().Wipe().Wait();
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
 
             // Act
-            await repository.AddAsync(session);
+            await repository.Add(session);
 
             // Assert
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
@@ -52,10 +52,10 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var session = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(session);
+            await repository.Add(session);
 
             // Act
-            await repository.DeleteAsync(session.Id);
+            await repository.Delete(session.Id);
 
             // Assert
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var expectedSession = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(expectedSession);
+            await repository.Add(expectedSession);
 
             // Act
             TestFileResult actualSession = repository.GetById(expectedSession.Id);
@@ -92,8 +92,8 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var session2 = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(session1);
-            await repository.AddAsync(session2);
+            await repository.Add(session1);
+            await repository.Add(session2);
 
             // Act
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
@@ -129,10 +129,10 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             otherSession2.EndTime = otherSession2.StartTime.AddMinutes(10);
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(todaySession1);
-            await repository.AddAsync(todaySession2);
-            await repository.AddAsync(otherSession1);
-            await repository.AddAsync(otherSession2);
+            await repository.Add(todaySession1);
+            await repository.Add(todaySession2);
+            await repository.Add(otherSession1);
+            await repository.Add(otherSession2);
 
             // Act
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);

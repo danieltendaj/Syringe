@@ -21,16 +21,22 @@ namespace Syringe.Core.Tests.Results.Repositories
             _collection = _database.GetCollection<TestFileResult>(MONGDB_COLLECTION_NAME);
         }
 
-        public async Task AddAsync(TestFileResult testFileResult)
+        public async Task Add(TestFileResult testFileResult)
         {
             await _collection.InsertOneAsync(testFileResult);
         }
 
-        public async Task DeleteAsync(Guid testFileResultId)
+        public async Task Delete(Guid testFileResultId)
         {
             await _collection.DeleteOneAsync(x => x.Id == testFileResultId);
         }
 
+        public Task DeleteBeforeDate(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO: Make Async to follow pattern
         public TestFileResult GetById(Guid id)
         {
             return _collection.AsQueryable().FirstOrDefault(x => x.Id == id);
@@ -81,9 +87,9 @@ namespace Syringe.Core.Tests.Results.Repositories
         /// <summary>
         /// Removes all objects from the database.
         /// </summary>
-        public void Wipe()
+        public async Task Wipe()
         {
-            _database.DropCollectionAsync(MONGDB_COLLECTION_NAME).Wait();
+            await _database.DropCollectionAsync(MONGDB_COLLECTION_NAME);
         }
 
         public void Dispose()

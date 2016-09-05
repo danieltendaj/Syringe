@@ -27,7 +27,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void Setup()
         {
             Console.WriteLine("Wiping db results database");
-            ServiceStarter.Container.GetInstance<ITestFileResultRepository>().Wipe();
+            ServiceStarter.Container.GetInstance<ITestFileResultRepository>().Wipe().Wait();
 
             ServiceStarter.RecreateTestFileDirectory();
         }
