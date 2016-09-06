@@ -123,7 +123,7 @@ namespace Syringe.Service.Controllers
         [HttpDelete]
         public bool DeleteResult(Guid id)
         {
-            TestFileResultRepository.DeleteAsync(id).Wait();
+            TestFileResultRepository.Delete(id).Wait();
             return true;
         }
     }

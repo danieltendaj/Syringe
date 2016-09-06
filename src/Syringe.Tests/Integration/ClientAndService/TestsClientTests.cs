@@ -31,7 +31,7 @@ namespace Syringe.Tests.Integration.ClientAndService
         public void Setup()
         {
             Console.WriteLine("Wiping db results database");
-            ServiceStarter.Container.GetInstance<ITestFileResultRepository>().Wipe();
+            ServiceStarter.Container.GetInstance<ITestFileResultRepository>().Wipe().Wait();
 
             ServiceStarter.RecreateTestFileDirectory();
         }
@@ -210,8 +210,8 @@ namespace Syringe.Tests.Integration.ClientAndService
                 Filename = testFile.Filename
             };
 
-            repository.AddAsync(result1).Wait();
-            repository.AddAsync(result2).Wait();
+            repository.Add(result1).Wait();
+            repository.Add(result2).Wait();
 
             // when
             TestFileResultSummaryCollection results = client.GetSummaries(It.IsAny<DateTime>()).Result;
@@ -241,8 +241,8 @@ namespace Syringe.Tests.Integration.ClientAndService
                 Filename = testFile.Filename
             };
 
-            repository.AddAsync(result1).Wait();
-            repository.AddAsync(result2).Wait();
+            repository.Add(result1).Wait();
+            repository.Add(result2).Wait();
 
             // when
             TestFileResult actualResult = client.GetResultById(result2.Id);
@@ -273,8 +273,8 @@ namespace Syringe.Tests.Integration.ClientAndService
                 Filename = testFile.Filename
             };
 
-            repository.AddAsync(result1).Wait();
-            repository.AddAsync(result2).Wait();
+            repository.Add(result1).Wait();
+            repository.Add(result2).Wait();
 
             // when
             var result = client.DeleteResult(result2.Id);

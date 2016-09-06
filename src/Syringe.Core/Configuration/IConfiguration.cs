@@ -1,4 +1,6 @@
-﻿namespace Syringe.Core.Configuration
+﻿using System;
+
+namespace Syringe.Core.Configuration
 {
 	public interface IConfiguration
 	{
@@ -8,8 +10,10 @@
 		OAuthConfiguration OAuthConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }
 		bool ReadonlyMode { get; }
-        string ScriptSnippetDirectory { get; set; }
-		string EncryptionKey { get; set; }
-	    string MongoDbDatabaseName { get; set; }
+        string ScriptSnippetDirectory { get; }
+		string EncryptionKey { get; }
+	    string MongoDbDatabaseName { get; }
+        int DaysOfDataRetention { get; }
+	    TimeSpan CleanupSchedule { get; }
 	}
 }
