@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
+using SearchOption = System.IO.SearchOption;
 
 namespace Syringe.Core.IO
 {
@@ -59,10 +60,9 @@ namespace Syringe.Core.IO
 
         public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + FileExtension))
+            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
             {
-                var fileInfo = new FileInfo(file);
-                yield return fileInfo.Name;
+                yield return file.Substring(_configuration.TestFilesBaseDirectory.Length);
             }
         }
 
