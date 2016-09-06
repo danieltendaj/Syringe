@@ -57,7 +57,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                             new Assertion
                             {
                                 Value = "Awesome Value",
-                                AssertionMethod = AssertionMethod.CSQuery,
+                                AssertionMethod = AssertionMethod.CssSelector,
                                 AssertionType = AssertionType.Negative,
                                 Description = "I SHOULD DO A THING",
                                 Log = _blackListText,

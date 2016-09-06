@@ -10,14 +10,9 @@ namespace Syringe.Tests.StubsMocks
         public TestFileResult SavedTestFileResult { get; set; }
         public bool Disposed { get; set; }
 
-        public Task Delete(Guid testFileResultId)
+        public Task DeleteAsync(Guid testFileResultId)
         {
             return Task.FromResult<object>(null);
-        }
-
-        public Task DeleteBeforeDate(DateTime date)
-        {
-            throw new NotImplementedException();
         }
 
         public TestFileResult GetById(Guid id)
@@ -25,9 +20,8 @@ namespace Syringe.Tests.StubsMocks
             return new TestFileResult();
         }
 
-        Task ITestFileResultRepository.Wipe()
+        public void Wipe()
         {
-            throw new NotImplementedException();
         }
 
         public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
@@ -35,7 +29,7 @@ namespace Syringe.Tests.StubsMocks
             return Task.FromResult(new TestFileResultSummaryCollection());
         }
 
-        public Task Add(TestFileResult testFileResult)
+        public Task AddAsync(TestFileResult testFileResult)
         {
             SavedTestFileResult = testFileResult;
             return Task.FromResult<object>(null);

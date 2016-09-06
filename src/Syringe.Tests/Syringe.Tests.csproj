@@ -49,6 +49,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.9.8.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AngleSharp.0.9.8\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FakeN.Web, Version=1.0.4608.14607, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FakeN.Web.1.0.4608.14607\lib\net40\FakeN.Web.dll</HintPath>
       <Private>True</Private>
@@ -252,7 +256,7 @@
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
-    <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\AngleSharpQueryMatcherTests.cs" />
     <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
     <Compile Include="StubsMocks\VariableEncryptorStub.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
@@ -268,7 +272,6 @@
     <Compile Include="Unit\Service\Controllers\TestsControllerTests.cs" />
     <Compile Include="Unit\Service\Controllers\UnitOfWorkAttributeTests.cs" />
     <Compile Include="Unit\Service\DependencyResolution\DefaultRegistryTests.cs" />
-    <Compile Include="Unit\Service\Jobs\DbCleanupJobTests.cs" />
     <Compile Include="Unit\Service\Parallel\BatchManagerTests.cs" />
     <Compile Include="Unit\Service\Parallel\TestFileAssemblerTests.cs" />
     <Compile Include="Unit\Service\Parallel\TestFileResultFactoryTests.cs" />

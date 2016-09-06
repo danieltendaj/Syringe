@@ -25,7 +25,26 @@ namespace Syringe.Tests.Integration.Core.Environments
 		        .Setup(x => x.ResolveConfigFile("environments.json"))
 		        .Returns(_defaultConfigPath);
 		}
-        
+
+		[Test]
+		public void should_return_empty_list_when_config_file_does_not_exist()
+		{
+			// given
+			string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "doesntexist.json");
+		    _configLocatorMock
+		        .Setup(x => x.ResolveConfigFile("environments.json"))
+		        .Returns(configPath);
+
+			var provider = new JsonEnvironmentProvider(_configLocatorMock.Object);
+
+			// when
+			IEnumerable<Environment> environments = provider.GetAll();
+
+			// then
+			Assert.That(environments, Is.Not.Null);
+			Assert.That(environments.Count(), Is.EqualTo(0));
+		}
+
 		[Test]
 		public void should_deserialize_json_environments()
 		{

@@ -45,7 +45,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
                     Assertions = new List<AssertionViewModel>()
                     {
                         new AssertionViewModel { Description = "Description1", Value = "Value1", AssertionType = AssertionType.Negative, AssertionMethod = AssertionMethod.Regex },
-                        new AssertionViewModel { Description = "Description2", Value = "Value2", AssertionType = AssertionType.Positive, AssertionMethod = AssertionMethod.CSQuery }
+                        new AssertionViewModel { Description = "Description2", Value = "Value2", AssertionType = AssertionType.Positive, AssertionMethod = AssertionMethod.CssSelector }
                     },
                     Description = "short d3escription",
                     Url = "url",
@@ -95,7 +95,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.That(lastAssertion.Description, Is.EqualTo("Description2"));
             Assert.That(lastAssertion.Value, Is.EqualTo("Value2"));
             Assert.That(lastAssertion.AssertionType, Is.EqualTo(AssertionType.Positive));
-            Assert.That(lastAssertion.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
+            Assert.That(lastAssertion.AssertionMethod, Is.EqualTo(AssertionMethod.CssSelector));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
                 ExpectedHttpStatusCode = HttpStatusCode.Accepted,
                 Headers = new List<Syringe.Core.Tests.HeaderItem> { new Syringe.Core.Tests.HeaderItem() },
                 CapturedVariables = new List<CapturedVariable> { new CapturedVariable { Name = "CV-2" } },
-                Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CSQuery) },
+                Assertions = new List<Assertion> { new Assertion("Desc", "Val", AssertionType.Negative, AssertionMethod.CssSelector) },
                 ScriptSnippets = new ScriptSnippets()
                 {
                     BeforeExecuteFilename = "// this is some script"
@@ -232,7 +232,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.That(assertionViewModel.Description, Is.EqualTo("Desc"));
             Assert.That(assertionViewModel.Value, Is.EqualTo("Val"));
             Assert.That(assertionViewModel.AssertionType, Is.EqualTo(AssertionType.Negative));
-            Assert.That(assertionViewModel.AssertionMethod, Is.EqualTo(AssertionMethod.CSQuery));
+            Assert.That(assertionViewModel.AssertionMethod, Is.EqualTo(AssertionMethod.CssSelector));
 
             Assert.That(actualModel.AvailableVariables.Count, Is.EqualTo(3));
 

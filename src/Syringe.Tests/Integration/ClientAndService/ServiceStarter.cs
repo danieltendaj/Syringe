@@ -9,7 +9,6 @@ using Syringe.Core.Configuration;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
-using Syringe.Service.Jobs;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Tests.Integration.ClientAndService
@@ -95,7 +94,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Container.Configure(x => x.For<IConfiguration>().Use(jsonConfiguration));
 
 			// Inject instances into it
-			var service = new Startup(Container.GetInstance<IDependencyResolver>(), jsonConfiguration, Container.GetInstance<Microsoft.AspNet.SignalR.IDependencyResolver>(), Container.GetInstance<IDbCleanupJob>());
+			var service = new Startup(Container.GetInstance<IDependencyResolver>(), jsonConfiguration, Container.GetInstance<ITestFileQueue>(), Container.GetInstance<Microsoft.AspNet.SignalR.IDependencyResolver>());
 
 			// Start it up
 			OwinServer = WebApp.Start(BaseUrl, service.Configuration);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Moq;
@@ -44,7 +43,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Variables.SharedVariables
             var provider = new SharedVariablesProvider(_configLocatorMock.Object);
 
             // when
-            IEnumerable<IVariable> variables = provider.ListSharedVariables();
+            var variables = provider.ListSharedVariables();
 
             // then
             IVariable variable1 = variables.FirstOrDefault(x => x.Name == "test-name");
@@ -56,22 +55,6 @@ namespace Syringe.Tests.Integration.Core.Tests.Variables.SharedVariables
             Assert.That(variable2, Is.Not.Null);
             Assert.That(variable2.Value, Is.EqualTo("something else"));
             Assert.That(variable2.Environment.Name, Is.EqualTo("UAT"));
-        }
-
-        [Test]
-        public void should_return_empty_variables_when_config_is_missing()
-        {
-            // given
-            var provider = new SharedVariablesProvider(_configLocatorMock.Object);
-            _configLocatorMock
-                .Setup(x => x.ResolveConfigFile("shared-variables.json"))
-                .Throws<FileNotFoundException>();
-
-            // when
-            IEnumerable<IVariable> variables = provider.ListSharedVariables();
-
-            // then
-            Assert.That(variables, Is.Empty);
         }
     }
 }

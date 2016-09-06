@@ -1,4 +1,3 @@
-using CsQuery.ExtensionMethods.Internal;
 using Octopus.Client;
 using Syringe.Core.Configuration;
 

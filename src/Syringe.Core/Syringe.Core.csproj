@@ -51,8 +51,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    <Reference Include="AngleSharp, Version=0.9.8.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AngleSharp.0.9.8\lib\net45\AngleSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -232,7 +232,7 @@
     <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Runner\Assertions\AssertionLogger.cs" />
-    <Compile Include="Runner\Assertions\CsQueryMatcher.cs" />
+    <Compile Include="Runner\Assertions\AngleSharpMatcher.cs" />
     <Compile Include="Runner\Assertions\RegexMatcher.cs" />
     <Compile Include="Tests\AssertionMethod.cs" />
     <Compile Include="Tests\Results\TestFileResultSummaryCollection.cs" />

@@ -35,6 +35,14 @@ $env:systemdrive = $mongoDataDir
 choco install mongodb -version 3.0.3
 $env:systemdrive = $oldSysDrive
 
+# Configuration
+$configJsonPath = "$serviceDir\configuration.json"
+if(!(Test-Path $configJsonPath))
+{
+		Write-Host "Restoring config file from default..." -ForegroundColor Green
+		Copy-Item "$serviceDir\configuration.default.json" $configJsonPath
+}
+
 # NodeJS is needed for Gulp
 Write-Host "Installing NodeJS/Gulp"-ForegroundColor Cyan
 choco install nodejs -y
