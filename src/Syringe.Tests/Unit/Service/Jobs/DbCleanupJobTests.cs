@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
         }
 
         [Test]
-        public void shold_execute_given_callback_via_timer_and_then_stop()
+        public void should_execute_given_callback_via_timer_and_then_stop()
         {
             // given
             _configurationMock
@@ -61,6 +61,22 @@ namespace Syringe.Tests.Unit.Service.Jobs
             int localCallbackStore = _callbackCount;
             Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
             Assert.That(_callbackCount, Is.EqualTo(localCallbackStore));
+        }
+
+        [Test]
+        public void start_should_clear_data()
+        {
+            // given
+
+            // when
+            _job.Start();
+            Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+
+            // then
+            _repositoryMock
+                .Verify(x => x.DeleteBeforeDate(It.IsAny<DateTime>()), Times.AtLeastOnce);
+
+            _job.Stop();
         }
 
         private void DummyCallback(object guff)

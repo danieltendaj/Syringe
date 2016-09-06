@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
 using Syringe.Core.Tests.Results.Repositories;
