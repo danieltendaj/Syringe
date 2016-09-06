@@ -1,4 +1,6 @@
-﻿namespace Syringe.Core.Configuration
+﻿using System;
+
+namespace Syringe.Core.Configuration
 {
 	public interface IConfiguration
 	{
@@ -12,6 +14,6 @@
 		string EncryptionKey { get; }
 	    string MongoDbDatabaseName { get; }
         int DaysOfDataRetention { get; }
-
-    }
+	    TimeSpan CleanupSchedule { get; }
+	}
 }

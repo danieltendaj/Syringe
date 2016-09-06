@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace Syringe.Core.Configuration
@@ -33,7 +34,10 @@ namespace Syringe.Core.Configuration
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int DaysOfDataRetention { get; set; }
 
-	    public JsonConfiguration()
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public TimeSpan CleanupSchedule { get; set; }
+
+        public JsonConfiguration()
 		{
 			// Defaults
 			WebsiteUrl = "http://localhost:1980";
@@ -43,6 +47,7 @@ namespace Syringe.Core.Configuration
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
             MongoDbDatabaseName = "Syringe";
             DaysOfDataRetention = 5;
+            CleanupSchedule = TimeSpan.FromHours(1);
 
             OAuthConfiguration = new OAuthConfiguration();
 			OctopusConfiguration = new OctopusConfiguration();

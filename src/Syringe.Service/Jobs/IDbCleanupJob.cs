@@ -3,5 +3,6 @@
     public interface IDbCleanupJob
     {
         void Start();
+        void Stop();
     }
 }
