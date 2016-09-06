@@ -32,11 +32,11 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(testFile, Is.EqualTo(expectedTestFile));
         }
 
-        [Test]
-        public void should_populate_test_file_with_variable_overrides()
+        [TestCase("abc123.json")]
+        [TestCase("test/folder/321cba.json")]
+        public void should_populate_test_file_with_variable_overrides(string filename)
         {
             // given
-            const string filename = "abc123.json";
             const string environment = "me-iz-a-env-yeah";
 
             var expectedTestFile = new TestFile();
