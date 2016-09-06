@@ -46,7 +46,7 @@ namespace Syringe.Core.Configuration
 			ReadonlyMode = false;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
             MongoDbDatabaseName = "Syringe";
-            DaysOfDataRetention = 5;
+            DaysOfDataRetention = 10;
             CleanupSchedule = TimeSpan.FromHours(1);
 
             OAuthConfiguration = new OAuthConfiguration();

@@ -6,7 +6,7 @@
 	"ReadonlyMode": false,
   "EncryptionKey": "",
   "MongoDbDatabaseName": "Syringe",
-  "DaysOfDataRetention": 5,
+  "DaysOfDataRetention": 10,
   "CleanupSchedule": "01:00:00",
 	"OAuthConfiguration": {
 		"GithubAuthClientId": "",
