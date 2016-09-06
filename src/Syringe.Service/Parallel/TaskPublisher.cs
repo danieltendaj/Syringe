@@ -28,7 +28,7 @@ namespace Syringe.Service.Parallel
 
         public void Start(int taskId, IObservable<IMessage> resultSource)
         {
-            var taskGroup = _taskGroupProvider.GetGroupForTask(taskId);
+            string taskGroup = _taskGroupProvider.GetGroupForTask(taskId);
             resultSource.Subscribe(result => OnMessage(taskGroup, result));
         }
 
@@ -41,15 +41,10 @@ namespace Syringe.Service.Parallel
         private void SendCompletedTask(ITaskMonitorHubClient clientGroup, IMessage message)
         {
             TestResult result = ((TestResultMessage)message).TestResult;
-            var info = new CompletedTaskInfo
+            CompletedTaskInfo info = new CompletedTaskInfo
             {
-                ActualUrl = result.ActualUrl,
-                HttpResponse = result.HttpResponse,
                 Success = result.Success,
-                ResultId = result.Position,
-                Position = result.Position,
-                ExceptionMessage = result.ExceptionMessage,
-                Verifications = result.AssertionResults
+                Position = result.Position
             };
 
             clientGroup.OnTaskCompleted(info);
@@ -57,7 +52,7 @@ namespace Syringe.Service.Parallel
 
         private void SendTestFileGuid(ITaskMonitorHubClient clientGroup, IMessage message)
         {
-            var testFileGuidMessage = (TestFileGuidMessage)message;
+            TestFileGuidMessage testFileGuidMessage = (TestFileGuidMessage)message;
             clientGroup.OnTestFileGuid(testFileGuidMessage.ResultId.ToString());
         }
     }
