@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Syringe.Core.Tests;
-using Syringe.Web.ValidationAttributes;
+using Syringe.Web.Models.ValidationAttributes;
 
 namespace Syringe.Web.Models
 {

@@ -23,8 +23,8 @@ namespace Syringe.Core.Runner.Assertions
 
 	            switch (item.AssertionMethod)
 	            {
-		            case AssertionMethod.CSQuery:
-						var cqMatcher = new CsQueryMatcher(_variableProvider, assertionLogger);
+		            case AssertionMethod.CssSelector:
+						var cqMatcher = new AngleSharpMatcher(_variableProvider, assertionLogger);
 						cqMatcher.Match(item, httpContent);
 			            break;
 

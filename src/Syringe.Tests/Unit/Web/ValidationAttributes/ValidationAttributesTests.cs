@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Syringe.Web.ValidationAttributes;
+using Syringe.Web.Models.ValidationAttributes;
 
 namespace Syringe.Tests.Unit.Web.ValidationAttributes
 {
