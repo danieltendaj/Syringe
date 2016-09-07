@@ -256,7 +256,7 @@
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
     <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
-    <Compile Include="Unit\Core\Runner\Assertions\CsQueryMatcherTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\AngleSharpMatcherTests.cs" />
     <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
     <Compile Include="StubsMocks\VariableEncryptorStub.cs" />
     <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
