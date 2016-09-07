@@ -23,16 +23,16 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
             _assertionLogger = new AssertionLogger();
         }
 
-        private CsQueryMatcher CreateCsQueryMatcher()
+        private AngleSharpMatcher CreateCsQueryMatcher()
         {
-            return new CsQueryMatcher(_variableProvider, _assertionLogger);
+            return new AngleSharpMatcher(_variableProvider, _assertionLogger);
         }
 
         [Test]
         public void should_log_empty_when_no_selector_or_httpcontent()
         {
             // given
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
 
             // when
@@ -53,7 +53,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
             _variableProvider.AddOrUpdateVariable(variable1);
             _variableProvider.AddOrUpdateVariable(variable2);
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "#{variable1} .{variable2}";
 
@@ -76,7 +76,7 @@ Server: gws
 <body class='foo'>some text here</body>
 </html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Positive;
             assertion.Value = "body.foo:contains('some text here')";
@@ -93,7 +93,7 @@ Server: gws
         {
             string httpContent = @"<html><body class='foo'>some text here</body></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Positive;
             assertion.Value = "body.someclass";
@@ -110,7 +110,7 @@ Server: gws
         {
             string httpContent = @"<html><body class='foo'>some text here</body></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Negative;
             assertion.Value = "div#blahblah";
@@ -128,7 +128,7 @@ Server: gws
             // given
             string html = "<html></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "#id .class body";
 
@@ -147,7 +147,7 @@ Server: gws
             // given
             string html = "<html><body id=mybody></body></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "body#mybody";
 
@@ -165,7 +165,7 @@ Server: gws
             // given
             string html = "<html><body></body></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "pre";
 
@@ -183,7 +183,7 @@ Server: gws
             // given
             string html = "<html><body></body></html>";
 
-            CsQueryMatcher matcher = CreateCsQueryMatcher();
+            AngleSharpMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "### ...";
 

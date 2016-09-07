@@ -232,7 +232,7 @@
     <Compile Include="Tests\Repositories\Json\Writer\TestFileWriter.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepository.cs" />
     <Compile Include="Runner\Assertions\AssertionLogger.cs" />
-    <Compile Include="Runner\Assertions\CsQueryMatcher.cs" />
+    <Compile Include="Runner\Assertions\AngleSharpMatcher.cs" />
     <Compile Include="Runner\Assertions\RegexMatcher.cs" />
     <Compile Include="Tests\AssertionMethod.cs" />
     <Compile Include="Tests\Results\TestFileResultSummaryCollection.cs" />
