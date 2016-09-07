@@ -189,7 +189,7 @@ namespace Syringe.Core.Runner
             {
                 using (ITestFileResultRepository repository = RepositoryFactory.GetRepository())
                 {
-                    await repository.AddAsync(testFileResult);
+                    await repository.Add(testFileResult);
                 }
             }
 

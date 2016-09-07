@@ -43,7 +43,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
 
             Assert.AreEqual(1, test.Assertions.Count);
             Assert.AreEqual("I SHOULD DO A THING", test.Assertions[0].Description);
-            Assert.AreEqual(AssertionMethod.CssSelector, test.Assertions[0].AssertionMethod);
+            Assert.AreEqual(AssertionMethod.CSQuery, test.Assertions[0].AssertionMethod);
             Assert.AreEqual("Awesome Value", test.Assertions[0].Value);
             Assert.AreEqual(AssertionType.Negative, test.Assertions[0].AssertionType);
             Assert.AreEqual(VariablePostProcessorType.HtmlDecode, test.CapturedVariables[0].PostProcessorType);

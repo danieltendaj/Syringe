@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Tests.Results.Repositories;
 
@@ -28,11 +29,11 @@ namespace Syringe.Service.Controllers
 
         [Route("api/admin/database")]
         [HttpDelete]
-        public bool WipeDatabase(Guid adminKey)
+        public async Task<bool> WipeDatabase(Guid adminKey)
         {
             if (adminKey == ValidAdminKey)
             {
-                _testFileResultRepository.Wipe();
+                await _testFileResultRepository.Wipe();
                 return true;
             }
 

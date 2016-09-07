@@ -24,7 +24,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         [SetUp]
         public void SetUp()
         {
-            GetTestFileResultRepository().Wipe();
+            GetTestFileResultRepository().Wipe().Wait();
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
 
             // Act
-            await repository.AddAsync(session);
+            await repository.Add(session);
 
             // Assert
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
@@ -52,14 +52,44 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var session = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(session);
+            await repository.Add(session);
 
             // Act
-            await repository.DeleteAsync(session.Id);
+            await repository.Delete(session.Id);
 
             // Assert
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
             Assert.That(summaries.PagedResults.Count(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public async Task DeleteBeforeDate_should_only_remove_entries_before_a_certain_date()
+        {
+            // Arrange
+            MongoTestFileResultRepository repository = GetTestFileResultRepository();
+            var fixture = new Fixture();
+
+            var oldResult1 = fixture.Create<TestFileResult>();
+            oldResult1.StartTime = DateTime.Now.AddDays(-10);
+            await repository.Add(oldResult1);
+            var oldResult2 = fixture.Create<TestFileResult>();
+            oldResult2.StartTime = DateTime.Now.AddDays(-6);
+            await repository.Add(oldResult2);
+            var newResult1 = fixture.Create<TestFileResult>();
+            newResult1.StartTime = DateTime.Now.AddDays(-4);
+            await repository.Add(newResult1);
+            var newResult2 = fixture.Create<TestFileResult>();
+            newResult2.StartTime = DateTime.Now.AddDays(0);
+            await repository.Add(newResult2);
+
+            // Act
+            await repository.DeleteBeforeDate(DateTime.Now.AddDays(-5));
+
+            // Assert
+            TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.MinValue);
+            Assert.That(summaries.PagedResults.Count(), Is.EqualTo(2));
+            Assert.That(summaries.PagedResults.Count(x => x.Id == newResult1.Id), Is.EqualTo(1));
+            Assert.That(summaries.PagedResults.Count(x => x.Id == newResult2.Id), Is.EqualTo(1));
         }
 
         [Test]
@@ -70,7 +100,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var expectedSession = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(expectedSession);
+            await repository.Add(expectedSession);
 
             // Act
             TestFileResult actualSession = repository.GetById(expectedSession.Id);
@@ -92,8 +122,8 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             var session2 = fixture.Create<TestFileResult>();
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(session1);
-            await repository.AddAsync(session2);
+            await repository.Add(session1);
+            await repository.Add(session2);
 
             // Act
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(It.IsAny<DateTime>());
@@ -129,10 +159,10 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             otherSession2.EndTime = otherSession2.StartTime.AddMinutes(10);
 
             MongoTestFileResultRepository repository = GetTestFileResultRepository();
-            await repository.AddAsync(todaySession1);
-            await repository.AddAsync(todaySession2);
-            await repository.AddAsync(otherSession1);
-            await repository.AddAsync(otherSession2);
+            await repository.Add(todaySession1);
+            await repository.Add(todaySession2);
+            await repository.Add(otherSession1);
+            await repository.Add(otherSession2);
 
             // Act
             TestFileResultSummaryCollection summaries = await repository.GetSummaries(DateTime.Today);

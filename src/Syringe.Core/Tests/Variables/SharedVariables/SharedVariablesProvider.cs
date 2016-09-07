@@ -21,14 +21,14 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
         {
             if (_sharedVariables == null)
             {
-                string configPath = _configLocator.ResolveConfigFile("shared-variables.json");
-                if (File.Exists(configPath))
+                try
                 {
+                    string configPath = _configLocator.ResolveConfigFile("shared-variables.json");
                     string json = File.ReadAllText(configPath);
                     List<SharedVariable> variables = JsonConvert.DeserializeObject<List<SharedVariable>>(json);
                     _sharedVariables = variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToArray();
                 }
-                else
+                catch (FileNotFoundException)
                 {
                     _sharedVariables = new Variable[0];
                 }

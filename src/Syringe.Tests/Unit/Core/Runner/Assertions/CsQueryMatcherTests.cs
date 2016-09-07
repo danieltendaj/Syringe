@@ -9,7 +9,7 @@ using Syringe.Tests.StubsMocks;
 namespace Syringe.Tests.Unit.Core.Runner.Assertions
 {
     [TestFixture]
-    public class AngleSharpQueryMatcherTests
+    public class CsQueryMatcherTests
     {
         private VariableContainerStub _variableContainerStub;
         private CapturedVariableProvider _variableProvider;
@@ -23,16 +23,16 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
             _assertionLogger = new AssertionLogger();
         }
 
-        private AngleSharpMatcher CreateCsQueryMatcher()
+        private CsQueryMatcher CreateCsQueryMatcher()
         {
-            return new AngleSharpMatcher(_variableProvider, _assertionLogger);
+            return new CsQueryMatcher(_variableProvider, _assertionLogger);
         }
 
         [Test]
         public void should_log_empty_when_no_selector_or_httpcontent()
         {
             // given
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
 
             // when
@@ -53,7 +53,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
             _variableProvider.AddOrUpdateVariable(variable1);
             _variableProvider.AddOrUpdateVariable(variable2);
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "#{variable1} .{variable2}";
 
@@ -76,7 +76,7 @@ Server: gws
 <body class='foo'>some text here</body>
 </html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Positive;
             assertion.Value = "body.foo:contains('some text here')";
@@ -93,7 +93,7 @@ Server: gws
         {
             string httpContent = @"<html><body class='foo'>some text here</body></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Positive;
             assertion.Value = "body.someclass";
@@ -110,7 +110,7 @@ Server: gws
         {
             string httpContent = @"<html><body class='foo'>some text here</body></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.AssertionType = AssertionType.Negative;
             assertion.Value = "div#blahblah";
@@ -128,7 +128,7 @@ Server: gws
             // given
             string html = "<html></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "#id .class body";
 
@@ -147,7 +147,7 @@ Server: gws
             // given
             string html = "<html><body id=mybody></body></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "body#mybody";
 
@@ -156,7 +156,7 @@ Server: gws
 
             // then
             string log = _assertionLogger.GetLog();
-            Assert.That(log, Is.StringContaining("Positive verification successful: the CssSelector \"body#mybody\" matched."));
+            Assert.That(log, Is.StringContaining("Positive verification successful: the CSQuery \"body#mybody\" matched."));
         }
 
         [Test]
@@ -165,7 +165,7 @@ Server: gws
             // given
             string html = "<html><body></body></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "pre";
 
@@ -174,7 +174,7 @@ Server: gws
 
             // then
             string log = _assertionLogger.GetLog();
-            Assert.That(log, Is.StringContaining("Positive verification failed: the CssSelector \"pre\" did not match."));
+            Assert.That(log, Is.StringContaining("Positive verification failed: the CSQuery \"pre\" did not match."));
         }
 
         [Test]
@@ -183,7 +183,7 @@ Server: gws
             // given
             string html = "<html><body></body></html>";
 
-            AngleSharpMatcher matcher = CreateCsQueryMatcher();
+            CsQueryMatcher matcher = CreateCsQueryMatcher();
             var assertion = new Assertion();
             assertion.Value = "### ...";
 

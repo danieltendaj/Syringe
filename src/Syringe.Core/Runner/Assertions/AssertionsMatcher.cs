@@ -12,34 +12,34 @@ namespace Syringe.Core.Runner.Assertions
 		    _variableProvider = variableProvider;
 	    }
 
-        public List<Assertion> MatchVerifications(List<Assertion> verifications, string httpContent)
+	    public List<Assertion> MatchVerifications(List<Assertion> verifications, string httpContent)
         {
             var matchedItems = new List<Assertion>();
 
             foreach (Assertion item in verifications)
             {
                 var assertionLogger = new AssertionLogger();
-                assertionLogger.LogItem(item.AssertionType, item);
+				assertionLogger.LogItem(item.AssertionType, item);
 
-                switch (item.AssertionMethod)
-                {
-                    case AssertionMethod.CssSelector:
-                        var angleSharpMatcher = new AngleSharpMatcher(_variableProvider, assertionLogger);
-                        angleSharpMatcher.Match(item, httpContent);
-                        break;
+	            switch (item.AssertionMethod)
+	            {
+		            case AssertionMethod.CSQuery:
+						var cqMatcher = new CsQueryMatcher(_variableProvider, assertionLogger);
+						cqMatcher.Match(item, httpContent);
+			            break;
 
-                    case AssertionMethod.Regex:
-                    default:
-                        var regexMatcher = new RegexMatcher(_variableProvider, assertionLogger);
-                        regexMatcher.Match(item, httpContent);
-                        break;
-                }
+					case AssertionMethod.Regex:
+					default:
+						var regexMatcher = new RegexMatcher(_variableProvider, assertionLogger);
+						regexMatcher.Match(item, httpContent);
+			            break;
+	            }
 
-                item.Log = assertionLogger.GetLog();
-                matchedItems.Add(item);
+	            item.Log = assertionLogger.GetLog();
+	            matchedItems.Add(item);
             }
 
-            return matchedItems;
+		    return matchedItems;
         }
     }
 }

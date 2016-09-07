@@ -19,20 +19,8 @@ namespace Syringe.Web.Configuration
             if (_configuration == null)
             {
                 string configPath = _configLocator.ResolveConfigFile("websiteconfig.json");
-                if (File.Exists(configPath))
-                {
-                    string json = File.ReadAllText(configPath);
-                    _configuration = JsonConvert.DeserializeObject<MvcConfiguration>(json);
-                }
-                else
-                {
-                    _configuration = new MvcConfiguration();
-                }
-
-                if (string.IsNullOrEmpty(_configuration.ServiceUrl))
-                {
-                    _configuration.ServiceUrl = "http://localhost:1981";
-                }
+                string json = File.ReadAllText(configPath);
+                _configuration = JsonConvert.DeserializeObject<MvcConfiguration>(json);
             }
 
             return _configuration;

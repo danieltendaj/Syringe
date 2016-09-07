@@ -10,7 +10,7 @@ using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
 using Syringe.Core.Logging;
-using Syringe.Service.Parallel;
+using Syringe.Service.Jobs;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
 namespace Syringe.Service
@@ -20,26 +20,27 @@ namespace Syringe.Service
 		protected IDisposable WebApplication;
 		private readonly IDependencyResolver _webDependencyResolver;
 		private readonly IConfiguration _configuration;
-		private readonly ITestFileQueue _testFileQueue;
 		private readonly Microsoft.AspNet.SignalR.IDependencyResolver _signalRDependencyResolver;
+	    private readonly IDbCleanupJob _cleanupJob;
 
-		public Startup(
+	    public Startup(
 			IDependencyResolver webDependencyResolver,
 			IConfiguration configuration,
-			ITestFileQueue testFileQueue,
-			Microsoft.AspNet.SignalR.IDependencyResolver signalRDependencyResolver)
+			Microsoft.AspNet.SignalR.IDependencyResolver signalRDependencyResolver,
+            IDbCleanupJob cleanupJob)
 		{
 			_webDependencyResolver = webDependencyResolver;
 			_configuration = configuration;
-			_testFileQueue = testFileQueue;
 			_signalRDependencyResolver = signalRDependencyResolver;
+	        _cleanupJob = cleanupJob;
 		}
 
 		public void Start()
 		{
 			try
 			{
-				WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
+                _cleanupJob.Start();
+                WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
 			}
 			catch (Exception ex)
 			{
@@ -52,6 +53,7 @@ namespace Syringe.Service
 
 		public void Stop()
 		{
+            _cleanupJob.Stop();
 			WebApplication.Dispose();
 		}
 
