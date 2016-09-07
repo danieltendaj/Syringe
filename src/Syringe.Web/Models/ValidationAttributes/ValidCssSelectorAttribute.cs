@@ -2,7 +2,6 @@
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
-using CsQuery;
 
 namespace Syringe.Web.Models.ValidationAttributes
 {
