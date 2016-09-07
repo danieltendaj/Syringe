@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Syringe.Core.Tests.Variables;
-using Syringe.Web.ValidationAttributes;
+using Syringe.Web.Models.ValidationAttributes;
 
 namespace Syringe.Web.Models
 {

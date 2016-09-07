@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using Syringe.Core.Tests;
-using Syringe.Web.Models;
 
-namespace Syringe.Web.ValidationAttributes
+namespace Syringe.Web.Models.ValidationAttributes
 {
     public class AssertionTypeValidationAttribute : ValidationAttribute
     {
@@ -18,7 +17,7 @@ namespace Syringe.Web.ValidationAttributes
 
             if (model.AssertionMethod == AssertionMethod.CssSelector)
             {
-                var attribute = new ValidCsQueryAttribute { ErrorMessage = "Invalid CSS Selector" };
+                var attribute = new ValidCssSelectorAttribute { ErrorMessage = "Invalid CSS Selector" };
                 return attribute.GetValidationResult(value, context);
             }
             if (model.AssertionMethod == AssertionMethod.Regex)

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Syringe.Web.ValidationAttributes
+namespace Syringe.Web.Models.ValidationAttributes
 {
     public class ValidRegexAttribute : ValidationAttribute
     {

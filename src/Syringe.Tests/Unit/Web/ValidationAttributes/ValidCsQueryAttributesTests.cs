@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Syringe.Web.ValidationAttributes;
+using Syringe.Web.Models.ValidationAttributes;
 
 namespace Syringe.Tests.Unit.Web.ValidationAttributes
 {
@@ -9,13 +9,13 @@ namespace Syringe.Tests.Unit.Web.ValidationAttributes
         [Test]
         public void IsValid_should_return_false_when_value_is_null()
         {
-            Assert.IsFalse(new ValidCsQueryAttribute().IsValid(null));
+            Assert.IsFalse(new ValidCssSelectorAttribute().IsValid(null));
         }
 
         [Test]
         public void IsValid_should_return_false_when_selector_is_invalid()
         {
-            Assert.IsFalse(new ValidCsQueryAttribute().IsValid("["));
+            Assert.IsFalse(new ValidCssSelectorAttribute().IsValid("["));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace Syringe.Tests.Unit.Web.ValidationAttributes
         [TestCase("i.like.to.pee")]
         public void IsValid_should_return_true_when_selector_is_valid(string selector)
         {
-            Assert.IsTrue(new ValidCsQueryAttribute().IsValid(selector));
+            Assert.IsTrue(new ValidCssSelectorAttribute().IsValid(selector));
         }
     }
 }
