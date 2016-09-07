@@ -49,6 +49,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.9.8.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AngleSharp.0.9.8\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FakeN.Web, Version=1.0.4608.14607, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FakeN.Web.1.0.4608.14607\lib\net40\FakeN.Web.dll</HintPath>
       <Private>True</Private>
