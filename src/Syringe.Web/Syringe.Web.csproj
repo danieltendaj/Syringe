@@ -188,6 +188,7 @@
     <Compile Include="Controllers\Attribute\AuthorizeWhenOAuthAttribute.cs" />
     <Compile Include="Controllers\Attribute\EditableTestsRequiredAttribute.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Models\TaskProgressViewMode.cs" />
     <Compile Include="DependencyResolution\InjectingActionInvoker.cs" />
     <Compile Include="DependencyResolution\MvcAttributeProvider.cs" />
     <Compile Include="Models\EncryptedDataViewModel.cs" />

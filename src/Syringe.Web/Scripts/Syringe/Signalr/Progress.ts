@@ -12,6 +12,33 @@ module Syringe.Web {
             this.signalRUrl = signalRUrl;
         }
 
+        poll(taskId: number) {
+            setInterval(() =>
+            {
+                $.getJSON("/Json/PollTaskStatus",
+                    { "taskId": taskId },
+                    function (data, textStatus, jqXHR)
+                    {
+                        console.log(data);
+
+                        if (data.resultGuid) {
+                            //window.location.href = `/Results/ViewResult/${data.resultGuid}`;
+                        }
+
+                        ++this.completedTests;
+
+                        if (data.totalTests > 0) {
+                            var percentage = (this.completedTests / this.totalTests) * 100;
+                            $(".progress-bar").css("width", percentage + "%");
+                            $(".progress-bar .sr-only").text(`${percentage}% Complete`);
+                        }
+
+                    });
+            },
+            500);
+        }
+
+
         monitor(taskId: number) {
             if (taskId === 0) {
                 throw Error("Task ID was 0.");
@@ -36,7 +63,7 @@ module Syringe.Web {
 
             this.proxy.client.onTestFileGuid = (guid: string) => {
                 if (guid) {
-                    window.location.href = `/Results/ViewResult/${guid}`;
+                    //window.location.href = `/Results/ViewResult/${guid}`;
                 }
             };
 

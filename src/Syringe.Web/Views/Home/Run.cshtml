@@ -12,6 +12,7 @@
         $(document).ready(function () {
             var progress = new Syringe.Web.Progress("@Model.SignalRUrl");
             progress.monitor(@Model.CurrentTaskId);
+            progress.poll(@Model.CurrentTaskId);
         });
     </script>
 }
