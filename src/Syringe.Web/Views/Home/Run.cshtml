@@ -4,14 +4,11 @@
 }
 @section Scripts
 {
-    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <script type="text/javascript" src="@Model.SignalRUrl/js"></script>
     <script type="text/javascript">
         var filename = "@Model.FileName";
 
         $(document).ready(function () {
-            var progress = new Syringe.Web.Progress("@Model.SignalRUrl");
-            //progress.monitor(@Model.CurrentTaskId);
+            var progress = new Syringe.Web.ProgressPoller();
             progress.poll(@Model.CurrentTaskId);
         });
     </script>

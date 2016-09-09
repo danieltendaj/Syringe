@@ -440,7 +440,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
-    <TypeScriptCompile Include="Scripts\Syringe\Signalr\Progress.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\ProgressPoller.ts" />
     <Content Include="Scripts\_references.js" />
     <Content Include="img\syringe.svg" />
     <Content Include="Web.config">
@@ -466,10 +466,8 @@
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootbox.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\Hubs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.textcomplete.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
