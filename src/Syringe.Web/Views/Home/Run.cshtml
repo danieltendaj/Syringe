@@ -11,7 +11,7 @@
 
         $(document).ready(function () {
             var progress = new Syringe.Web.Progress("@Model.SignalRUrl");
-            progress.monitor(@Model.CurrentTaskId);
+            //progress.monitor(@Model.CurrentTaskId);
             progress.poll(@Model.CurrentTaskId);
         });
     </script>
@@ -41,36 +41,6 @@
             </div>
 
             <span class="label label-material-indigo">@Model.Environment</span>
-            <div id="running-items">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    @foreach (RunningTestViewModel test in Model.Tests)
-                    {
-                        <div class="panel" id="test-@test.Position">
-                            <div class="panel-heading" role="tab" id="heading@(test.Position)">
-                                <h3 class="panel-title">
-                                    <a role="button" data-toggle="collapse" href="#collapse@(test.Position)" aria-expanded="false" aria-controls="collapse@(test.Position)">
-                                        @test.Description
-                                    </a>
-                                </h3>
-                            </div>
-                            <div id="collapse@(test.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(test.Position)">
-                                <div class="panel-body">
-                                    <div>
-                                        <div class="test-result-url"></div>
-                                    </div>
-	                                <div class="test-result-errors">
-										<br />
-		                                <div class="hidden test-result-exception">
-			                                <h4>Error message</h4>
-			                                <pre></pre>
-		                                </div>
-	                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
         </div>
     </div>
 </div>

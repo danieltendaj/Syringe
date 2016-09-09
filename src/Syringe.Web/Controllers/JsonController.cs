@@ -44,7 +44,7 @@ namespace Syringe.Web.Controllers
                 TaskId = taskId,
                 CurrentItem = details.CurrentIndex,
                 TotalTests = details.TotalTests,
-                IsFinished = (details.Status == "Completed"),
+                IsFinished = details.Status == "RanToCompletion",
                 ResultGuid = details.Results.FirstOrDefault()?.SessionId
             };
 

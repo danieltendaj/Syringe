@@ -13,6 +13,8 @@ module Syringe.Web {
         }
 
         poll(taskId: number) {
+            var that = this;
+
             setInterval(() =>
             {
                 $.getJSON("/Json/PollTaskStatus",
@@ -21,14 +23,12 @@ module Syringe.Web {
                     {
                         console.log(data);
 
-                        if (data.resultGuid) {
-                            //window.location.href = `/Results/ViewResult/${data.resultGuid}`;
+                        if (data.IsFinished === true) {
+                            window.location.href = `/Results/ViewResult/${data.ResultGuid}`;
                         }
 
-                        ++this.completedTests;
-
-                        if (data.totalTests > 0) {
-                            var percentage = (this.completedTests / this.totalTests) * 100;
+                        if (data.TotalTests > 0) {
+                            var percentage = (data.CurrentItem / data.TotalTests) * 100;
                             $(".progress-bar").css("width", percentage + "%");
                             $(".progress-bar .sr-only").text(`${percentage}% Complete`);
                         }
