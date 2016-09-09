@@ -60,9 +60,14 @@ namespace Syringe.Core.IO
 
         public IEnumerable<string> GetFileNames()
         {
-            foreach (string file in Directory.EnumerateFiles(_configuration.TestFilesBaseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
+            string baseDirectory = _configuration.TestFilesBaseDirectory;
+            
+            foreach (string file in Directory.EnumerateFiles(baseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
             {
-                yield return file.Substring(_configuration.TestFilesBaseDirectory.Length);
+                string relativeFileName = file.Substring(baseDirectory.Length);
+                relativeFileName = relativeFileName.TrimStart('/', '\\');
+
+                yield return relativeFileName;
             }
         }
 

@@ -8,37 +8,38 @@ using Syringe.Core.IO;
 
 namespace Syringe.Tests.Integration.Core.IO
 {
-	public class FileHandlerTests
+    public class FileHandlerTests
     {
-	    private JsonConfiguration _jsonConfiguration;
-	    private FileHandler _fileHandler;
-	    private string _baseDirectory;
+        private JsonConfiguration _jsonConfiguration;
+        private FileHandler _fileHandler;
+        private string _baseDirectory;
 
         [TestFixtureSetUp]
-	    public void TestfixtureSetup()
+        public void TestfixtureSetup()
         {
             _baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "integration", "FileHandlerTests");
             CreateTestFileDirectory();
         }
 
-	    private void CreateTestFileDirectory()
-	    {
-	        if (Directory.Exists(_baseDirectory))
-	        {
-	            Directory.Delete(_baseDirectory, true);
-	        }
+        private void CreateTestFileDirectory()
+        {
+            if (Directory.Exists(_baseDirectory))
+            {
+                Directory.Delete(_baseDirectory, true);
+            }
 
-	        Directory.CreateDirectory(_baseDirectory);
-	    }
+            Directory.CreateDirectory(_baseDirectory);
+            Directory.CreateDirectory(Path.Combine(_baseDirectory, "sub-dir"));
+        }
 
-	    [SetUp]
-	    public void Setup()
-		{
-	        _jsonConfiguration = new JsonConfiguration();
-	        _jsonConfiguration.TestFilesBaseDirectory = _baseDirectory;
+        [SetUp]
+        public void Setup()
+        {
+            _jsonConfiguration = new JsonConfiguration();
+            _jsonConfiguration.TestFilesBaseDirectory = _baseDirectory;
 
-	        _fileHandler = new FileHandler(_jsonConfiguration);
-		}
+            _fileHandler = new FileHandler(_jsonConfiguration);
+        }
 
         [Test]
         public void DeleteFile_should_remove_file_from_disk()
@@ -99,7 +100,7 @@ namespace Syringe.Tests.Integration.Core.IO
         }
 
         [Test]
-        public void GetFileNames_should_write_text_to_the_path()
+        public void GetFileNames_should_detect_test_files()
         {
             // given
             CreateTestFileDirectory();
@@ -109,11 +110,17 @@ namespace Syringe.Tests.Integration.Core.IO
             string path2 = Path.Combine(_baseDirectory, "test-GetFileNames2.json");
             File.WriteAllText(path2, "{ json: 2 }");
 
+            string path3 = Path.Combine(_baseDirectory, "sub-dir", "test-GetFileNames3.json");
+            File.WriteAllText(path3, "{ json: 3 }");
+
             // when
-            IEnumerable<string> files = _fileHandler.GetFileNames();
+            string[] files = _fileHandler.GetFileNames().ToArray();
 
             // then
-            Assert.That(files.Count(), Is.EqualTo(2));
+            Assert.That(files.Count(), Is.EqualTo(3));
+            Assert.That(files[0], Is.EqualTo("test-GetFileNames1.json"));
+            Assert.That(files[1], Is.EqualTo("test-GetFileNames2.json"));
+            Assert.That(files[2], Is.EqualTo(@"sub-dir\test-GetFileNames3.json"));
         }
 
         [Test]
