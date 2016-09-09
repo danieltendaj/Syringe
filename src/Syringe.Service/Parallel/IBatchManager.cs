@@ -1,5 +1,4 @@
-﻿using Syringe.Core.Tasks;
-using Syringe.Service.Models;
+﻿using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
 {

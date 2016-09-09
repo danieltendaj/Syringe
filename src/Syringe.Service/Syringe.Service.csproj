@@ -61,10 +61,6 @@
       <HintPath>..\..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -198,11 +194,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
-    <Compile Include="Controllers\Hubs\CompletedTaskInfo.cs" />
-    <Compile Include="Controllers\Hubs\ITaskMonitorHubClient.cs" />
-    <Compile Include="Controllers\Hubs\TaskGroupProvider.cs" />
-    <Compile Include="Controllers\Hubs\TaskMonitorHub.cs" />
-    <Compile Include="Controllers\Hubs\TaskState.cs" />
     <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
     <Compile Include="Jobs\DbCleanupJob.cs" />
     <Compile Include="Jobs\IDbCleanupJob.cs" />
@@ -222,14 +213,10 @@
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
-    <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
     <Compile Include="Parallel\ITaskObserver.cs" />
     <Compile Include="Parallel\ITestFileQueue.cs" />
-    <Compile Include="Controllers\Hubs\ITaskGroupProvider.cs" />
-    <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
-    <Compile Include="Parallel\TaskPublisher.cs" />
     <Compile Include="Parallel\TestFileRunnerTaskInfo.cs" />
     <Compile Include="Parallel\ITestFileResultFactory.cs" />
     <Compile Include="Parallel\TestFileResultFactory.cs" />
@@ -245,7 +232,9 @@
     <Content Include="configuration.default.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="shared-variables.default.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -262,13 +251,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>$(SolutionDir)\packages\SignalrTypescriptGenerator.1.0.13\tools\SignalrTypescriptGenerator.exe -a "$(TargetPath)"  -o "$(SolutionDir)src\Syringe.Web\Scripts\typings\Hubs.d.ts"
-
-IF EXIST "$(ProjectDir)configuration.json" xcopy "$(ProjectDir)configuration.json" $(TargetDir) /Y
-IF EXIST "$(ProjectDir)environments.json" xcopy "$(ProjectDir)environments.json" $(TargetDir) /Y
-IF EXIST "$(ProjectDir)shared-variables.json" xcopy "$(ProjectDir)shared-variables.json" $(TargetDir) /Y
-
-IF EXIST "$(ProjectDir)shared-variables.json" xcopy "$(ProjectDir)shared-variables.json" $(TargetDir) /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">

@@ -40,16 +40,16 @@ namespace Syringe.Tests.Unit.Web.Controllers
             Assert.AreEqual("{ taskId = 10 }", actionResult.Data.ToString());
         }
 
-        [Test]
-        public void GetProgress_should_return_correct_json()
-        {
-            // given + when
-            var actionResult = jsonController.GetProgress(It.IsAny<int>()) as ContentResult;
+        //[Test]
+        //public void GetProgress_should_return_correct_json()
+        //{
+        //    // given + when
+        //    var actionResult = jsonController.GetProgress(It.IsAny<int>()) as ContentResult;
 
-            // then
-            _tasksClient.Verify(x => x.GetTask(It.IsAny<int>()), Times.Once);
-            Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
-        }
+        //    // then
+        //    _tasksClient.Verify(x => x.GetTask(It.IsAny<int>()), Times.Once);
+        //    Assert.AreEqual("{\"TaskId\":0,\"Filename\":null,\"Username\":null,\"Status\":null,\"IsComplete\":false,\"CurrentIndex\":0,\"TotalTests\":0,\"Results\":[],\"Errors\":null}", actionResult.Content);
+        //}
 
         [Test]
         public void GetTests_should_return_correct_json()

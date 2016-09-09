@@ -13,7 +13,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         public void TestFixtureSetUp()
         {
             // Check if MongoDb is running
-            if (!Process.GetProcessesByName("mongod").Any())
+            if (!Process.GetProcessesByName("mongod").Any() && !Process.GetProcessesByName("com.docker.service").Any())
             {
                 _mongoDbProcess = Process.Start(@"C:\Program Files\MongoDB\Server\3.0\bin\mongod.exe", @"--dbpath c:\mongodb\data\");
             }

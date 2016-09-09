@@ -1,5 +1,4 @@
-﻿using System;
-using Syringe.Service.DependencyResolution;
+﻿using Syringe.Service.DependencyResolution;
 using Topshelf;
 
 namespace Syringe.Service

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel

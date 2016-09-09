@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
-using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results;
 
 namespace Syringe.Service.Parallel
@@ -20,14 +19,12 @@ namespace Syringe.Service.Parallel
         private int _lastTaskId;
         private readonly ConcurrentDictionary<int, TestFileRunnerTaskInfo> _currentTasks;
         private readonly ITestFileRunnerFactory _testFileRunnerFactory;
-        private readonly ITaskPublisher _taskPublisher;
         private readonly ITestFileAssembler _assembler;
 
-        public ParallelTestFileQueue(ITaskPublisher taskPublisher, ITestFileAssembler assembler, ITestFileRunnerFactory testFileRunnerFactory)
+        public ParallelTestFileQueue(ITestFileAssembler assembler, ITestFileRunnerFactory testFileRunnerFactory)
         {
             _currentTasks = new ConcurrentDictionary<int, TestFileRunnerTaskInfo>();
 
-            _taskPublisher = taskPublisher;
             _assembler = assembler;
             _testFileRunnerFactory = testFileRunnerFactory;
         }
@@ -140,8 +137,6 @@ namespace Syringe.Service.Parallel
             }
 
             TestFileRunner runner = task.Runner;
-
-            _taskPublisher.Start(taskId, runner);
 
             return new TaskMonitoringInfo(runner.TotalTests);
         }

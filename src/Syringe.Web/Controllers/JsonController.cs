@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using Syringe.Core.Security;
 using Syringe.Core.Services;
@@ -34,13 +35,21 @@ namespace Syringe.Web.Controllers
 			return Json(new { taskId = taskId });
 	    }
 
-		public ActionResult GetProgress(int taskId)
-		{
-			TaskDetails details = _tasksClient.GetTask(taskId);
+        public ActionResult PollTaskStatus(int taskId)
+        {
+            var details = _tasksClient.GetTask(taskId);
 
-			// Don't use Json() as it fails for large objects.
-			return Content(JsonConvert.SerializeObject(details), "application/json");
-		}
+            var taskProgressModel = new TaskProgressViewMode()
+            {
+                TaskId = taskId,
+                CurrentItem = details.CurrentIndex,
+                TotalTests = details.TotalTests,
+                IsFinished = details.Status == "RanToCompletion",
+                ResultGuid = details.Results.FirstOrDefault()?.SessionId
+            };
+
+            return Json(taskProgressModel, JsonRequestBehavior.AllowGet);
+        }
 
 		public ActionResult GetTests(string filename)
 		{

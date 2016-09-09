@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
 using Syringe.Core.Security;

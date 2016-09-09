@@ -118,6 +118,7 @@ namespace Syringe.Core.Runner
 
             var testFileResult = new TestFileResult
             {
+                Id = SessionId,
                 Filename = testFile.Filename,
                 StartTime = DateTime.UtcNow,
                 Environment = environment,
