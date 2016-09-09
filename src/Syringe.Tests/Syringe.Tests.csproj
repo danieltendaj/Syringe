@@ -230,7 +230,6 @@
     <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\SetUpFixture.cs" />
     <Compile Include="Integration\Core\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
-    <Compile Include="Integration\Core\Repository\MongoDB\TestRepositoryTests.cs" />
     <Compile Include="Integration\Core\Scripting\SnippetFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
     <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />

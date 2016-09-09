@@ -13,7 +13,6 @@ using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service;
-using Syringe.Service.Controllers.Hubs;
 using Syringe.Service.DependencyResolution;
 using Syringe.Service.Parallel;
 using Syringe.Tests.StubsMocks;
@@ -57,8 +56,6 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 
 			AssertDefaultType<ITestFileResultRepository, MongoTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
-
-			AssertDefaultType<ITaskGroupProvider, TaskGroupProvider>();
 		}
 
 		[Test]
