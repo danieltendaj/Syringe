@@ -12,6 +12,5 @@ namespace Syringe.Web.Models
 		int CurrentTaskId { get; }
         string FileName { get; }
         string Environment { get; }
-        string SignalRUrl { get; }
 	}
 }

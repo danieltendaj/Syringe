@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Syringe.Core.Tasks;
 
 namespace Syringe.Service.Parallel
@@ -24,10 +23,5 @@ namespace Syringe.Service.Parallel
         TaskDetails GetRunningTaskDetails(int taskId);
 
         TestFileRunnerTaskInfo GetTestFileTaskInfo(int taskId);
-
-        ///// <summary>
-        ///// Runs a test file and waits.
-        ///// </summary>
-        //Task<TestFileRunnerTaskInfo> RunAsync(TaskRequest request);
     }
 }

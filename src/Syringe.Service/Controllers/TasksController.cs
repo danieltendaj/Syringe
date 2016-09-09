@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Services;
 using Syringe.Core.Tasks;

@@ -20,14 +20,11 @@ namespace Syringe.Web.Models
 		public int CurrentTaskId { get; private set; }
 		public string FileName { get; private set; }
         public string Environment { get; private set; }
-        public string SignalRUrl { get; private set; }
 
 		public RunViewModel(ITasksService tasksService, ITestService testService, MvcConfiguration mvcConfiguration)
         {
             _tasksService = tasksService;
             _testService = testService;
-
-			SignalRUrl = mvcConfiguration.SignalRUrl;
         }
 
         public void Run(IUserContext userContext, string fileName, string environment)

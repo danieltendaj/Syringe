@@ -15,7 +15,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Runtime.Caching;
 using Octopus.Client;
 using StructureMap;

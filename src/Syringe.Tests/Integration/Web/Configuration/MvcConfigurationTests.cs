@@ -8,14 +8,13 @@ namespace Syringe.Tests.Integration.Web.Configuration
 	public class MvcConfigurationTests
 	{
 		[Test]
-		public void signalr_url_should_be_built()
+		public void serviceurl_should_have_default_value()
 		{
 			// given
 			MvcConfiguration configuration = new MvcConfiguration();
 
 			// when + then
-			Assert.That(configuration.SignalRUrl, Is.Not.Null);
-			Assert.That(configuration.SignalRUrl, Is.EqualTo(configuration.ServiceUrl +"/signalr"));
+			Assert.That(configuration.ServiceUrl, Is.EqualTo("http://localhost:1981"));
 		}
 	}
 }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Syringe.Core.Runner;
 using Syringe.Core.Tasks;
 using Syringe.Core.Tests;
-using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results;
 
 namespace Syringe.Service.Parallel
