@@ -2,7 +2,6 @@
 module Syringe.Web {
     export class ProgressPoller {
         private intervalTime: number;
-        private intervalRef: number;
 
         constructor() {
             this.intervalTime = 500;
@@ -10,18 +9,17 @@ module Syringe.Web {
 
         poll(taskId: number) {
 
-            var that = this;
-
-            this.intervalRef = setInterval(() =>
+            var intervalRef = setInterval(() =>
             {
                 $.getJSON("/Json/PollTaskStatus",
                     { "taskId": taskId },
                     function (data, textStatus, jqXHR)
                     {
-                        console.log(that.intervalRef +" - " +data);
+                        console.log(intervalRef);
+                        console.log(data);
 
                         if (data.IsFinished === true) {
-                            clearInterval(that.intervalRef);
+                            clearInterval(intervalRef);
                             window.location.href = `/Results/ViewResult/${data.ResultGuid}`;
                         }
 

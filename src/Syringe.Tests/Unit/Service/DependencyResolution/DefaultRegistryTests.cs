@@ -1,6 +1,4 @@
 ﻿using System;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
 using Moq;
 using NUnit.Framework;
 using Octopus.Client;
@@ -51,10 +49,8 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		[Test]
 		public void should_inject_default_types()
 		{
-			AssertDefaultType<IDependencyResolver, StructureMapSignalRDependencyResolver>();
 			AssertDefaultType<System.Web.Http.Dependencies.IDependencyResolver, StructureMapResolver>();
 			AssertDefaultType<Startup, Startup>();
-			AssertDefaultType<TaskMonitorHub, TaskMonitorHub>();
 			AssertDefaultType<IConfigurationStore, ConfigurationStoreMock>(); // ConfigurationStoreMock from this test
 			AssertDefaultType<IConfiguration, JsonConfiguration>();
 			AssertDefaultType<IVariableEncryptor, VariableEncryptor>();
@@ -62,7 +58,6 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			AssertDefaultType<ITestFileResultRepository, MongoTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
 
-			AssertDefaultType<ITaskPublisher, TaskPublisher>();
 			AssertDefaultType<ITaskGroupProvider, TaskGroupProvider>();
 		}
 
@@ -188,20 +183,6 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			Assert.That(octopusRepository, Is.Not.Null);
 
 			AssertDefaultType<IEnvironmentProvider, OctopusEnvironmentProvider>(container);
-		}
-
-		[Test]
-		[Ignore("TODO")]
-		public void ihubcontext()
-		{
-			// given
-			IContainer container = GetContainer(new ConfigurationStoreMock());
-
-			// when
-			var instance = container.GetInstance<IHubConnectionContext<ITaskMonitorHubClient>>() as Type;
-
-			// then
-			Assert.That(instance, Is.Not.Null);
 		}
 	}
 }

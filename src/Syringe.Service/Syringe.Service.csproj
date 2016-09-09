@@ -195,9 +195,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\Hubs\CompletedTaskInfo.cs" />
-    <Compile Include="Controllers\Hubs\ITaskMonitorHubClient.cs" />
     <Compile Include="Controllers\Hubs\TaskGroupProvider.cs" />
-    <Compile Include="Controllers\Hubs\TaskMonitorHub.cs" />
     <Compile Include="Controllers\Hubs\TaskState.cs" />
     <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
     <Compile Include="Jobs\DbCleanupJob.cs" />
@@ -218,14 +216,11 @@
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
-    <Compile Include="DependencyResolution\StructureMapSignalRDependencyResolver.cs" />
     <Compile Include="Parallel\ITaskObserver.cs" />
     <Compile Include="Parallel\ITestFileQueue.cs" />
     <Compile Include="Controllers\Hubs\ITaskGroupProvider.cs" />
-    <Compile Include="Parallel\ITaskPublisher.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
-    <Compile Include="Parallel\TaskPublisher.cs" />
     <Compile Include="Parallel\TestFileRunnerTaskInfo.cs" />
     <Compile Include="Parallel\ITestFileResultFactory.cs" />
     <Compile Include="Parallel\TestFileResultFactory.cs" />

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Web.Cors;
 using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
-using Microsoft.AspNet.SignalR;
-using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
@@ -20,18 +16,15 @@ namespace Syringe.Service
 		protected IDisposable WebApplication;
 		private readonly IDependencyResolver _webDependencyResolver;
 		private readonly IConfiguration _configuration;
-		private readonly Microsoft.AspNet.SignalR.IDependencyResolver _signalRDependencyResolver;
 	    private readonly IDbCleanupJob _cleanupJob;
 
 	    public Startup(
 			IDependencyResolver webDependencyResolver,
 			IConfiguration configuration,
-			Microsoft.AspNet.SignalR.IDependencyResolver signalRDependencyResolver,
             IDbCleanupJob cleanupJob)
 		{
 			_webDependencyResolver = webDependencyResolver;
 			_configuration = configuration;
-			_signalRDependencyResolver = signalRDependencyResolver;
 	        _cleanupJob = cleanupJob;
 		}
 
@@ -75,35 +68,6 @@ namespace Syringe.Service
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.DependencyResolver = _webDependencyResolver;
 
-			var corsOptions = new CorsOptions
-			{
-				PolicyProvider = new CorsPolicyProvider
-				{
-					PolicyResolver = context =>
-					{
-						var policy = new CorsPolicy();
-						// Allow CORS requests from the web frontend
-						policy.Origins.Add(_configuration.WebsiteUrl);
-						policy.AllowAnyMethod = true;
-						policy.AllowAnyHeader = true;
-						policy.SupportsCredentials = true;
-						return Task.FromResult(policy);
-					}
-				}
-			};
-
-			application.Map("/signalr", config =>
-            {
-                config.UseCors(CorsOptions.AllowAll);
-                var hubConfiguration = new HubConfiguration
-                {
-                    EnableDetailedErrors = true,
-                    Resolver = _signalRDependencyResolver
-                };
-                config.RunSignalR(hubConfiguration);
-            });
-
-            application.UseCors(corsOptions);
 			application.UseWebApi(httpConfiguration);
 		}
 	}

@@ -17,9 +17,6 @@
 
 using System;
 using System.Runtime.Caching;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
-using Microsoft.AspNet.SignalR.Infrastructure;
 using Octopus.Client;
 using StructureMap;
 using StructureMap.Graph;
@@ -53,11 +50,9 @@ namespace Syringe.Service.DependencyResolution
                     scan.WithDefaultConventions();
                 });
 
-            For<IDependencyResolver>().Use<StructureMapSignalRDependencyResolver>().Singleton();
             For<System.Web.Http.Dependencies.IDependencyResolver>().Use<StructureMapResolver>();
 
             For<Startup>().Use<Startup>().Singleton();
-            For<TaskMonitorHub>().Use<TaskMonitorHub>();
 
             // Configuration: load the configuration from the store
 	        if (configurationStore == null)
@@ -80,7 +75,6 @@ namespace Syringe.Service.DependencyResolution
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
-            For<ITaskPublisher>().Use<TaskPublisher>().Singleton();
             For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
             For<IBatchManager>().Use<BatchManager>().Singleton();
 
@@ -88,12 +82,6 @@ namespace Syringe.Service.DependencyResolution
 
             SetupTestFileFormat();
             SetupEnvironmentSource(configuration);
-
-            For<IHubConnectionContext<ITaskMonitorHubClient>>()
-                .Use(context => context.GetInstance<IDependencyResolver>()
-										.Resolve<IConnectionManager>()
-										.GetHubContext<TaskMonitorHub, ITaskMonitorHubClient>()
-										.Clients);
 
 	        For<ObjectCache>().Use(x => MemoryCache.Default);
         }
