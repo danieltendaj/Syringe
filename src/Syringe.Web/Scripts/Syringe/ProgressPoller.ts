@@ -13,13 +13,13 @@ module Syringe.Web {
             {
                 $.getJSON("/Json/PollTaskStatus",
                     { "taskId": taskId },
-                    function (data, textStatus, jqXHR)
-                    {
-                        console.log(intervalRef);
+                    (data, textStatus, jqXhr) => {
+                        console.log("setInterval ref is: " + intervalRef);
                         console.log(data);
 
                         if (data.IsFinished === true) {
                             clearInterval(intervalRef);
+                            console.log("Finished!");
                             window.location.href = `/Results/ViewResult/${data.ResultGuid}`;
                         }
 
