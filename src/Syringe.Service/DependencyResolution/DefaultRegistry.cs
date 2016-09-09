@@ -29,7 +29,6 @@ using Syringe.Core.Tests.Repositories.Json.Writer;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
-using Syringe.Service.Controllers.Hubs;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service.DependencyResolution
@@ -75,9 +74,7 @@ namespace Syringe.Service.DependencyResolution
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
             Forward<ITestFileQueue, ITaskObserver>();
 
-            For<ITaskGroupProvider>().Use<TaskGroupProvider>().Singleton();
             For<IBatchManager>().Use<BatchManager>().Singleton();
-
             For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
             SetupTestFileFormat();

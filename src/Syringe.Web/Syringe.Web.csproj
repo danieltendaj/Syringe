@@ -462,6 +462,7 @@
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootbox.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.textcomplete.d.ts" />
   </ItemGroup>
   <ItemGroup>

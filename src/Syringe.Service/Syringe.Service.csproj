@@ -194,9 +194,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
-    <Compile Include="Controllers\Hubs\CompletedTaskInfo.cs" />
-    <Compile Include="Controllers\Hubs\TaskGroupProvider.cs" />
-    <Compile Include="Controllers\Hubs\TaskState.cs" />
     <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
     <Compile Include="Jobs\DbCleanupJob.cs" />
     <Compile Include="Jobs\IDbCleanupJob.cs" />
@@ -218,7 +215,6 @@
     <Compile Include="DependencyResolution\StructureMapResolver.cs" />
     <Compile Include="Parallel\ITaskObserver.cs" />
     <Compile Include="Parallel\ITestFileQueue.cs" />
-    <Compile Include="Controllers\Hubs\ITaskGroupProvider.cs" />
     <Compile Include="Parallel\ParallelTestFileQueue.cs" />
     <Compile Include="Parallel\TaskMonitoringInfo.cs" />
     <Compile Include="Parallel\TestFileRunnerTaskInfo.cs" />
