@@ -16,6 +16,6 @@
     <tags>Syringe</tags>
   </metadata>
   <files>
-    <file src="..\..\install-service.ps1" target="\" />
+    <file src="..\..\install-service.ps1" target="" />
   </files>
 </package>
