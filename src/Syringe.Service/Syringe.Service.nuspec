@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>Syringe.Service</id>
     <version>$version$</version>
@@ -15,4 +15,7 @@
     <copyright>Copyright 2015</copyright>
     <tags>Syringe</tags>
   </metadata>
+  <files>
+    <file src="..\..\install-service.ps1" target="\" />
+  </files>
 </package>
