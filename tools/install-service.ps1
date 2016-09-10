@@ -4,30 +4,39 @@ param(
 	[switch]$uninstall
 )
 
-$servicePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe"
+$services = @(
+				"$PSScriptRoot\Syringe.Service.exe",
+				"$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe",
+				"$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
+			)
 
-if(!(Test-Path $servicePath))
+$servicePath = ""
+foreach ($service in $services) 
 {
-		Write-Host "Detected RELEASE binaries" -foreground red
-		$servicePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
+	if(Test-Path $service)
+	{
+		$servicePath = $service
+		Write-Host "Found service in $servicePath"
+		break
+	}	
 }
 
 if(Test-Path $servicePath)
 {
-		Write-Host "Uninstalling Syringe service..." -foreground green
-		& $servicePath stop
-		& $servicePath uninstall
+	Write-Host "Uninstalling Syringe service..." -foreground green
+	& $servicePath stop
+	& $servicePath uninstall
 
-		if($uninstall -eq $false)
-		{
-				Write-Host "Installing Syringe service..." -foreground green
-				& $servicePath install
-				& $servicePath start
-		}
+	if($uninstall -eq $false)
+	{
+			Write-Host "Installing Syringe service..." -foreground green
+			& $servicePath install
+			& $servicePath start
+	}
 
-		Write-Host "All done :-)" -foreground green
+	Write-Host "All done :-)" -foreground green
 }
 else
 {
-		throw "Error, unable to find both debug and release service binaries"
+	throw "Error, unable to find both debug and release service binaries"
 }
