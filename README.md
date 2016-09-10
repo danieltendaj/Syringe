@@ -39,19 +39,28 @@ Make sure you have IIS enabled.
 
 ##### Configure an OAuth2 provider
 
-Syringe uses OAuth2 for its security. Currently it only supports Github, Google and Microsoft OAuth2 providers.
+Syringe uses OAuth2 for its security. It currently supports Github, Google and Microsoft OAuth2 providers.
 
 * [Register an Syringe OAuth2 app in Github](https://github.com/settings/developers). The callback url should be `http://localhost:1980`
 * Edit the configuration.json file in the service directory to use the OAuth2 client id/secret.
 
-##### Start the service
+
+## Downloading & Installing from Binaries
+
+You can get the latest release of Syringe **[HERE](/TotalJobsGroup/Syringe/releases)**
+
+### Installing Website
+
+Once you have extracted the release, in Powershell run `.\iis.ps1`
+
+### Start the service
 
 The Syringe REST API runs as Windows service, which can also be run as a command line app. This API is used to run all tests and is the data repository, it runs its own embedded HTTP server.
 
-* Run `.\start-service.ps1` 
+* Run `.\Syringe.Service.exe` 
 * Browse to http://localhost:1980 and login.
 
-#### Building from source
+## Building from source
 
 Once you've cloned the repository, run `setup.ps`, this will:
 
@@ -60,4 +69,3 @@ Once you've cloned the repository, run `setup.ps`, this will:
 * Create C:\syringe folder with an example file.
 
 Follow the "Configure OAuth" and "Start the service" steps above
-
