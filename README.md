@@ -47,7 +47,7 @@ Syringe uses OAuth2 for its security. It currently supports Github, Google and M
 
 ## Downloading & Installing from Binaries
 
-You can get the latest release of Syringe **[HERE](/TotalJobsGroup/Syringe/releases)**
+You can get the latest release of Syringe **[HERE](https://github.com/TotalJobsGroup/Syringe/releases)**
 
 ### Installing Website
 
