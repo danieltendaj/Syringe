@@ -30,7 +30,6 @@ namespace Syringe.Tests.Unit.Core.Runner
         [SetUp]
         public void Setup()
         {
-            TestHelpers.EnableLogging();
             _capturedVariableProviderFactory = new Mock<ICapturedVariableProviderFactory>();
             _capturedVariableProvider = new CapturedVariableProviderStub();
 

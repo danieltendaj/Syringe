@@ -21,33 +21,33 @@ namespace Syringe.Core.Runner.Assertions
 
 		public void LogItem(AssertionType assertionType, Assertion item)
 		{
-			_logger.WriteIndentedLine("Verifying {0} item \"{1}\"", assertionType, item.Description);
+			_logger.WriteLine("Verifying {0} item \"{1}\"", assertionType, item.Description ?? "(no description)");
 		}
 
 		public void LogValue(string originalValue, string transformedValue)
 		{
-			_logger.WriteDoubleIndentedLine("Original assertion value: {0}", originalValue);
-			_logger.WriteDoubleIndentedLine("Assertion value with variables transformed: {0}", transformedValue);
+			_logger.WriteLine("- Original assertion value: {0}", originalValue);
+			_logger.WriteLine("- Assertion value with variables transformed: {0}", transformedValue);
 		}
 
 		public void LogSuccess(AssertionType assertionType, string value, AssertionMethod method)
 		{
-			_logger.WriteDoubleIndentedLine("{0} verification successful: the {1} \"{2}\" matched.", assertionType, method, value);
+			_logger.WriteLine("- {0} verification successful: the {1} \"{2}\" matched.", assertionType, method, value);
 		}
 
 		public void LogFail(AssertionType assertionType, string value, AssertionMethod method)
 		{
-			_logger.WriteDoubleIndentedLine("{0} verification failed: the {1} \"{2}\" did not match.", assertionType, method, value);
+			_logger.WriteLine("- {0} verification failed: the {1} \"{2}\" did not match.", assertionType, method, value);
 		}
 
 		public void LogException(AssertionMethod method, Exception e)
 		{
-			_logger.WriteDoubleIndentedLine("Invalid {0}: {1}", method, e.Message);
+			_logger.WriteLine("- Invalid {0}: {1}", method, e.Message);
 		}
 
 		public void LogEmpty()
 		{
-			_logger.WriteIndentedLine(EMPTY_ASSERTION_TEXT);
+			_logger.WriteLine(EMPTY_ASSERTION_TEXT);
 		}
 	}
 }

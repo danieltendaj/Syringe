@@ -7,7 +7,7 @@ namespace Syringe.Web
 	{
 		public override void OnException(ExceptionContext filterContext)
 		{
-			Log.Error(filterContext.Exception, "An MVC error occurred");
+			// TODO
 		}
 	}
 }

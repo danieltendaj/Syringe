@@ -164,7 +164,6 @@ namespace Syringe.Core.Runner
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "An exception occurred running index {0}", i);
                     ReportError(ex);
                 }
                 finally
@@ -252,14 +251,14 @@ namespace Syringe.Core.Runner
                         {
                             request = evaluator.RequestGlobals.Request;
                             test = evaluator.RequestGlobals.Test;
-                            logger.WriteIndentedLine("Compilation successful.");
+                            logger.WriteLine("Compilation successful.");
                         }
                     }
                     catch (Exception ex)
                     {
                         testResult.ScriptCompilationSuccess = false;
                         testResult.ExceptionMessage = "The script failed to compile - see the log file for a stack trace.";
-                        logger.WriteIndentedLine("Compilation failed: {0}", ex);
+                        logger.WriteLine("Compilation failed: {0}", ex);
                     }
                 }
 
@@ -290,7 +289,7 @@ namespace Syringe.Core.Runner
                     logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
                     foreach (Assertion item in testResult.AssertionResults)
                     {
-                        logger.Write(item.Log);
+                        logger.AppendTextLine(item.Log);
                     }
 
                     // Store the log

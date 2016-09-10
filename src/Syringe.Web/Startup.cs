@@ -25,15 +25,9 @@ namespace Syringe.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            //AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            //var container = StructuremapMvc.StructureMapDependencyScope.Container;
-            //var mvcProvider = new MvcAttributeProvider(container);
-            //FilterProviders.Providers.Add(mvcProvider); // attributes
-
-            Log.UseAllTargets();
             ConfigureOAuth(app);
         }
 

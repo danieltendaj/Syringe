@@ -61,10 +61,7 @@ namespace Syringe.Service
 
 			}).EnableSwaggerUi();
 
-			// Log to bin/errors.log
-			Log.UseAllTargets();
 			httpConfiguration.Services.Add(typeof(IExceptionLogger), new ServiceExceptionLogger());
-
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.DependencyResolver = _webDependencyResolver;
 
@@ -76,7 +73,6 @@ namespace Syringe.Service
 	{
 		public override void Log(ExceptionLoggerContext context)
 		{
-			Syringe.Core.Logging.Log.Error(context.Exception, "Service exception");
 			base.Log(context);
 		}
 	}

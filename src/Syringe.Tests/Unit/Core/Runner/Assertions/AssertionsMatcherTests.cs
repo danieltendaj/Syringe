@@ -17,7 +17,6 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void Setup()
 		{
 			_variableContainer = new VariableContainerStub();
-			TestHelpers.EnableLogging();
 		}
 
 		[Test]

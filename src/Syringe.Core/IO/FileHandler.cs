@@ -45,17 +45,8 @@ namespace Syringe.Core.IO
 
         public bool WriteAllText(string path, string contents)
         {
-            try
-            {
-                File.WriteAllText(path, contents);
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception, $"path={path}\ncontents={contents}\n\n{exception.Message}");
-            }
-
-            return false;
+            File.WriteAllText(path, contents);
+            return true;
         }
 
         public IEnumerable<string> GetFileNames()
@@ -88,17 +79,8 @@ namespace Syringe.Core.IO
 
         public bool DeleteFile(string path)
         {
-            try
-            {
-				FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs,RecycleOption.SendToRecycleBin);
-                return true;
-            }
-            catch (Exception exception)
-            {
-                Log.Error(exception, exception.Message);
-            }
-
-            return false;
+            FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            return true;
         }
     }
 }
