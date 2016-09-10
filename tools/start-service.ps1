@@ -1,17 +1,25 @@
-$debugPath = "$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe"
-$releasePath = "$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
+$services = @(
+				"$PSScriptRoot\Syringe.Service.exe",
+				"$PSScriptRoot\..\src\Syringe.Service\bin\Debug\Syringe.Service.exe",
+				"$PSScriptRoot\..\src\Syringe.Service\bin\Release\Syringe.Service.exe"
+			)
 
-if(Test-Path $debugPath)
+$servicePath = ""
+foreach ($service in $services) 
 {
-		Write-Host "Running DEBUG" -foreground red
-		& $debugPath 
+	if(Test-Path $service)
+	{
+		$servicePath = $service
+		Write-Host "Found service in $servicePath"
+		break
+	}	
 }
-elseif(Test-Path $releasePath)
+
+if(Test-Path $servicePath)
 {
-		Write-Host "Running RELEASE" -foreground red
-		& $releasePath 
+	& $servicePath 
 }
 else
 {
-		throw "Error, unable to find both debug and release service binaries"
+	throw "Error, unable to find both debug and release service binaries"
 }
