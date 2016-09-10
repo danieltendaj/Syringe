@@ -7,7 +7,7 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests.
 
-[![Syringe](https://raw.githubusercontent.com/TotalJobsGroup/Syringe/master/logo.png)]
+![Syringe](https://raw.githubusercontent.com/TotalJobsGroup/Syringe/master/logo.png)
 
 
 ## Syringe's purpose in the universe
