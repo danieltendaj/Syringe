@@ -7,6 +7,9 @@
 # Syringe
 Syringe is a .NET automated HTTP testing tool for headless, Javascript-ignorant tests.
 
+![Syringe](https://raw.githubusercontent.com/TotalJobsGroup/Syringe/master/logo.png)
+
+
 ## Syringe's purpose in the universe
 
 Syringe is a HTTP runner - if you can reach a server endpoint via HTTP, Syringe will be able to test it. It's purpose is:
@@ -31,37 +34,36 @@ Make sure you have IIS enabled.
 * Powershell 4+: `choco install powershell4`
 
 ##### Mongodb: 
-
+```
     # Work around for bug in the mongodb Chocolately package
     $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
     choco install mongodb
-
-##### Install Syringe via Chocolatey at myget 
-
-*Note: this will configure Syringe on port 80. You should remove any site you have on Port 80, or pass in arguments to use a different port if you don't want to use 80.*
-
-    choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
-    choco install syringe
-
-Or if you want to configure Syringe to use custom settings (restoreConfigs will copy your configs over the package ones once the package is installed):
-
-	choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
+```
 
 ##### Configure an OAuth2 provider
 
-Syringe uses OAuth2 for its security. Currently it only supports Github, Google and Microsoft OAuth2 providers.
+Syringe uses OAuth2 for its security. It currently supports Github, Google and Microsoft OAuth2 providers.
 
 * [Register an Syringe OAuth2 app in Github](https://github.com/settings/developers). The callback url should be `http://localhost:1980`
 * Edit the configuration.json file in the service directory to use the OAuth2 client id/secret.
 
-##### Start the service
+
+## Downloading & Installing from Binaries
+
+You can get the latest release of Syringe **[HERE](https://github.com/TotalJobsGroup/Syringe/releases)**
+
+### Installing Website
+
+Once you have extracted the release, in Powershell run `.\iis.ps1`
+
+### Start the service
 
 The Syringe REST API runs as Windows service, which can also be run as a command line app. This API is used to run all tests and is the data repository, it runs its own embedded HTTP server.
 
-* Run `.\start-service.ps1` 
+* Run `.\Syringe.Service.exe` 
 * Browse to http://localhost:1980 and login.
 
-#### Building from source
+## Building from source
 
 Once you've cloned the repository, run `setup.ps`, this will:
 
@@ -70,7 +72,3 @@ Once you've cloned the repository, run `setup.ps`, this will:
 * Create C:\syringe folder with an example file.
 
 Follow the "Configure OAuth" and "Start the service" steps above
-
-#### LiteDB data dump example:
-
- 	tools\LiteDB.Shell.exe --exec "open ../syringe.db" --exec "dump export.json" --exit

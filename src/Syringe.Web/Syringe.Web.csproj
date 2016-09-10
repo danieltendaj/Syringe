@@ -252,28 +252,7 @@
     <Content Include="gulpfile.js" />
     <Content Include="img\kmi.jpg" />
     <Content Include="img\clippy.svg" />
-    <Content Include="Scripts\ace\ace.js" />
-    <Content Include="Scripts\ace\ext-beautify.js" />
-    <Content Include="Scripts\ace\ext-chromevox.js" />
-    <Content Include="Scripts\ace\ext-elastic_tabstops_lite.js" />
-    <Content Include="Scripts\ace\ext-emmet.js" />
-    <Content Include="Scripts\ace\ext-error_marker.js" />
-    <Content Include="Scripts\ace\ext-keybinding_menu.js" />
-    <Content Include="Scripts\ace\ext-language_tools.js" />
-    <Content Include="Scripts\ace\ext-linking.js" />
-    <Content Include="Scripts\ace\ext-modelist.js" />
-    <Content Include="Scripts\ace\ext-old_ie.js" />
-    <Content Include="Scripts\ace\ext-searchbox.js" />
-    <Content Include="Scripts\ace\ext-settings_menu.js" />
-    <Content Include="Scripts\ace\ext-spellcheck.js" />
-    <Content Include="Scripts\ace\ext-split.js" />
-    <Content Include="Scripts\ace\ext-static_highlight.js" />
-    <Content Include="Scripts\ace\ext-statusbar.js" />
-    <Content Include="Scripts\ace\ext-textarea.js" />
-    <Content Include="Scripts\ace\ext-themelist.js" />
-    <Content Include="Scripts\ace\ext-whitespace.js" />
-    <Content Include="Scripts\ace\keybinding-emacs.js" />
-    <Content Include="Scripts\ace\keybinding-vim.js" />
+    <Content Include="img\syringe-green.png" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\cheet.min.js" />
     <Content Include="Scripts\clipboard.min.js" />
@@ -389,7 +368,6 @@
     </Content>
     <Content Include="Views\Authentication\Login.cshtml" />
     <Content Include="Views\Shared\Partials\_Variables.cshtml" />
-    <Content Include="Views\Test\ViewRawFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Syringe.css">

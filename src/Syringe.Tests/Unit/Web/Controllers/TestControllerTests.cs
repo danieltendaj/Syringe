@@ -120,18 +120,6 @@ namespace Syringe.Tests.Unit.Web.Controllers
         }
 
         [Test]
-        public void ViewXml_should_return_correct_view_and_model()
-        {
-            // given + when
-            var viewResult = _testController.ViewRawFile(It.IsAny<string>()) as ViewResult;
-
-            // then 
-            _testServiceMock.Verify(x => x.GetRawFile(It.IsAny<string>()), Times.Once);
-            Assert.AreEqual("ViewRawFile", viewResult.ViewName);
-            Assert.IsInstanceOf<TestFileViewModel>(viewResult.Model);
-        }
-
-        [Test]
         public void Copy_should_return_correct_redirection_to_view()
         {
             // given
