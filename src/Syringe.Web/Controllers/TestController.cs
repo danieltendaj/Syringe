@@ -120,12 +120,6 @@ namespace Syringe.Web.Controllers
             return PartialView("EditorTemplates/HeaderItem", new Models.HeaderItem());
         }
 
-        public ActionResult ViewRawFile(string fileName)
-        {
-            var model = new TestFileViewModel { Filename = fileName, RawFile = _testsClient.GetRawFile(fileName) };
-            return View("ViewRawFile", model);
-        }
-
         private void AddPagingDataForBreadCrumb()
         {
             // Paging support for the breadcrumb trail
