@@ -31,21 +31,11 @@ Make sure you have IIS enabled.
 * Powershell 4+: `choco install powershell4`
 
 ##### Mongodb: 
-
+```
     # Work around for bug in the mongodb Chocolately package
     $env:systemdrive = "C:\ProgramData\chocolatey\lib\mongodata"
     choco install mongodb
-
-##### Install Syringe via Chocolatey at myget 
-
-*Note: this will configure Syringe on port 80. You should remove any site you have on Port 80, or pass in arguments to use a different port if you don't want to use 80.*
-
-    choco source add -n "myget" -s "https://www.myget.org/F/syringe/api/v2"
-    choco install syringe
-
-Or if you want to configure Syringe to use custom settings (restoreConfigs will copy your configs over the package ones once the package is installed):
-
-	choco install syringe -packageParameters "/websitePort:82 /websiteDomain:'www.example.com' /restoreConfigs:true"
+```
 
 ##### Configure an OAuth2 provider
 
@@ -71,6 +61,3 @@ Once you've cloned the repository, run `setup.ps`, this will:
 
 Follow the "Configure OAuth" and "Start the service" steps above
 
-#### LiteDB data dump example:
-
- 	tools\LiteDB.Shell.exe --exec "open ../syringe.db" --exec "dump export.json" --exit
