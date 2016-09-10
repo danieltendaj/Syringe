@@ -251,8 +251,8 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>IF EXIST $(SolutionDir)tools\install-service.ps1 xcopy $(SolutionDir)tools\install-service.ps1 $(TargetDir) /Y
+IF EXIST $(SolutionDir)tools\start-service.ps1 xcopy $(SolutionDir)tools\start-service.ps1 $(TargetDir) /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
