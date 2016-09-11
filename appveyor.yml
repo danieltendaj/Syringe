@@ -7,8 +7,6 @@ environment:
     nodejs_version: "6.2.2" # This is the Choco version number
     COVERALLS_REPO_TOKEN:
        secure: umoRFggjKi3k6AUv84a9sxf/GYFsGm3weJh7zWLKfUTRnOJFlxN0KI5cntUhk2kV
-    MYGET_ACCESS_KEY:
-       secure: syrbd00vj9tSxTdWxrecqIKfGnKzNXhVb+R1oyGR3jBtLmDz5JtCRnaEaeJwkeI7
 
 cache:
   - packages ->  **\packages.config
