@@ -194,7 +194,6 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
-    <Compile Include="Controllers\UnitOfWorkAttribute.cs" />
     <Compile Include="Jobs\DbCleanupJob.cs" />
     <Compile Include="Jobs\IDbCleanupJob.cs" />
     <Compile Include="Models\BatchStatus.cs" />

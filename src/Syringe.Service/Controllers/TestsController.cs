@@ -10,7 +10,6 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Controllers
 {
-    [UnitOfWork]
 	public class TestsController : ApiController, ITestService
     {
         private readonly ITestRepository _testRepository;

@@ -267,7 +267,6 @@
     <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
     <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
     <Compile Include="Unit\Service\Controllers\TestsControllerTests.cs" />
-    <Compile Include="Unit\Service\Controllers\UnitOfWorkAttributeTests.cs" />
     <Compile Include="Unit\Service\DependencyResolution\DefaultRegistryTests.cs" />
     <Compile Include="Unit\Service\Jobs\DbCleanupJobTests.cs" />
     <Compile Include="Unit\Service\Parallel\BatchManagerTests.cs" />

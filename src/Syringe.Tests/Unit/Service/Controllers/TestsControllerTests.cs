@@ -64,12 +64,5 @@ namespace Syringe.Tests.Unit.Service.Controllers
             Assert.That(result, Is.EqualTo(expectedResult));
             Assert.That(expectedExistingTestFile.Filename, Is.EqualTo(targetFilename));
         }
-
-        [Test]
-        public void TestsController_should_be_decorated_with_UnitOfWorkAttribute()
-        {
-            // given + when + then
-            Assert.IsTrue(typeof(TestsController).IsDefined(typeof(UnitOfWorkAttribute), false));
-        }
     }
 }
