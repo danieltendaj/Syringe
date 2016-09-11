@@ -59,7 +59,7 @@ namespace Syringe.Web.DependencyResolution
             SetupRestClients();
 
             For<IEncryption>()
-                .Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+                .Use(x => new AesEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
         }
 
         private void SetupConfiguration(IConfiguration configuration)

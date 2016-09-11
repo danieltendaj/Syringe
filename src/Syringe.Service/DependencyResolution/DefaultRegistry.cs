@@ -65,7 +65,7 @@ namespace Syringe.Service.DependencyResolution
 			IConfiguration configuration = configurationStore.Load();
 			For<IConfiguration>().Use(configuration);
 
-			For<IEncryption>().Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+			For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
             // ParallelTestFileQueue dependencies
