@@ -9,7 +9,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 	/// <summary>
 	/// Simple AES wrapper for with a randomnly generated IV, and a static salt.
 	/// </summary>
-	public class RijndaelEncryption : IEncryption
+	public class AesEncryption : IEncryption
 	{
 		private static readonly byte[] _salt = new byte[]
 		{
@@ -23,7 +23,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		internal string Password { get; set; } // SecureString this?
 
-		public RijndaelEncryption(string password)
+		public AesEncryption(string password)
 		{
 			if (string.IsNullOrEmpty(password))
 				return;

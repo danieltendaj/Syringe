@@ -10,7 +10,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 		{
 			// given
 			string value = "jcydwHTHkdPHlUZudXKhcw==";
-			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
+			var encryptor = new VariableEncryptor(new AesEncryption("my password"));
 
 			// when
 			string actualValue = encryptor.Decrypt(value);
@@ -26,7 +26,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 			string plainText = "shut the door";
 			string expectedValue = "enc:jcydwHTHkdPHlUZudXKhcw==";
 
-			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
+			var encryptor = new VariableEncryptor(new AesEncryption("my password"));
 
 			// when
 			string actualValue = encryptor.Encrypt(plainText);
@@ -42,7 +42,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 			string expectedValue = "shut the door";
 			string plainText = "enc:jcydwHTHkdPHlUZudXKhcw==";
 
-			var encryptor = new VariableEncryptor(new RijndaelEncryption("my password"));
+			var encryptor = new VariableEncryptor(new AesEncryption("my password"));
 
 			// when
 			string actualValue = encryptor.Decrypt(plainText);

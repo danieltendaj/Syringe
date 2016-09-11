@@ -10,7 +10,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 		{
 			// given
 			string plainText = "hands on your head";
-			var encryption = new RijndaelEncryption("");
+			var encryption = new AesEncryption("");
 
 			// when
 			string actualValue = encryption.Encrypt(plainText);
@@ -24,7 +24,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 		{
 			// given
 			string plainText = "touch my what?!";
-			var encryption = new RijndaelEncryption("");
+			var encryption = new AesEncryption("");
 
 			// when
 			string actualValue = encryption.Decrypt(plainText);
@@ -39,7 +39,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 			// given
 			string plainText = "trap the Zapdos";
 			string expectedValue = "fHFAc4zPBd3+pAE6Rf69IQ==";
-			var encryption = new RijndaelEncryption("password");
+			var encryption = new AesEncryption("password");
 
 			// when
 			string actualValue = encryption.Encrypt(plainText);
@@ -54,7 +54,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 			// given
 			string expectedValue= "trap the Zapdos";
 			string encryptedValue = "fHFAc4zPBd3+pAE6Rf69IQ==";
-			var encryption = new RijndaelEncryption("password");
+			var encryption = new AesEncryption("password");
 
 			// when
 			string actualValue = encryption.Decrypt(encryptedValue);
@@ -68,7 +68,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Variables.Encryption
 		{
 			// given
 			string encryptedValue = "f";
-			var encryption = new RijndaelEncryption("password");
+			var encryption = new AesEncryption("password");
 
 			// when
 			string actualValue = encryption.Decrypt(encryptedValue);

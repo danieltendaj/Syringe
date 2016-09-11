@@ -242,7 +242,7 @@
     <Compile Include="Tests\Scripting\ScriptSnippets.cs" />
     <Compile Include="Tests\Variables\Encryption\IEncryption.cs" />
     <Compile Include="Tests\Variables\Encryption\IVariableEncryptor.cs" />
-    <Compile Include="Tests\Variables\Encryption\RijndaelEncryption.cs" />
+    <Compile Include="Tests\Variables\Encryption\AesEncryption.cs" />
     <Compile Include="Tests\Variables\Encryption\VariableEncryptor.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\IReservedVariable.cs" />
     <Compile Include="Tests\Variables\ReservedVariables\IReservedVariableProvider.cs" />

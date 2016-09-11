@@ -100,7 +100,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			IContainer container = GetContainer(configStore);
 
 			// when
-			var encryptionInstance = container.GetInstance<IEncryption>() as RijndaelEncryption;
+			var encryptionInstance = container.GetInstance<IEncryption>() as AesEncryption;
 
 			// then
 			Assert.That(encryptionInstance, Is.Not.Null);
