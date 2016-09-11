@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Syringe.Core.Configuration;
-using Syringe.Core.Logging;
 using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Jobs
@@ -43,10 +42,7 @@ namespace Syringe.Service.Jobs
         internal void Cleanup(object guff)
         {
             DateTime cleanupBefore = DateTime.Today.AddDays(-_configuration.DaysOfDataRetention);
-
-            Log.Information($"Cleaning up DB, deleting records before {cleanupBefore}");
             _repository.DeleteBeforeDate(cleanupBefore).Wait();
-            Log.Information("Cleaning done.");
         }
     }
 }

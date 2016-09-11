@@ -6,8 +6,8 @@ using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
-using Syringe.Core.Logging;
 using Syringe.Core.Runner.Assertions;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Runner.Messaging;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Results;
@@ -24,6 +24,7 @@ namespace Syringe.Core.Runner
         private readonly IHttpClient _httpClient;
         private readonly IConfiguration _configuration;
         private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
+        private readonly ITestFileRunnerLoggerFactory _loggerFactory;
         private bool _isStopPending;
         private List<TestResult> _currentResults;
 
@@ -46,7 +47,9 @@ namespace Syringe.Core.Runner
         public int TestsRun { get; set; }
         public int TotalTests { get; set; }
 
-        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepositoryFactory repositoryFactory, IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory)
+        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepositoryFactory repositoryFactory, 
+            IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory,
+            ITestFileRunnerLoggerFactory loggerFactory)
         {
             if (httpClient == null)
                 throw new ArgumentNullException(nameof(httpClient));
@@ -54,12 +57,16 @@ namespace Syringe.Core.Runner
             if (repositoryFactory == null)
                 throw new ArgumentNullException(nameof(repositoryFactory));
 
+            if (loggerFactory == null)
+                throw new ArgumentNullException(nameof(loggerFactory));
+
             _httpClient = httpClient;
             _configuration = configuration;
             _capturedVariableProviderFactory = capturedVariableProviderFactory;
+            _loggerFactory = loggerFactory;
             _currentResults = new List<TestResult>();
-            RepositoryFactory = repositoryFactory;
 
+            RepositoryFactory = repositoryFactory;
             SessionId = Guid.NewGuid();
         }
 
@@ -129,7 +136,7 @@ namespace Syringe.Core.Runner
             ICapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
             variables.AddOrUpdateVariables(testFile.Variables);
 
-            var verificationsMatcher = new AssertionsMatcher(variables);
+            var verificationsMatcher = new AssertionsMatcher(variables, _loggerFactory.CreateLogger());
 
             List<Test> tests = testFile.Tests.ToList();
 
@@ -164,7 +171,6 @@ namespace Syringe.Core.Runner
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(ex, "An exception occurred running index {0}", i);
                     ReportError(ex);
                 }
                 finally
@@ -235,10 +241,10 @@ namespace Syringe.Core.Runner
                 }
 
                 IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, postBody, test.Headers);
-                var logger = new SimpleLogger();
+                var logger = _loggerFactory.CreateLogger();
 
                 // Scripting part
-                if (test.ScriptSnippets != null)
+                if (test.ScriptSnippets != null && !string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
                 {
                     logger.WriteLine("Evaluating C# script");
 
@@ -252,14 +258,14 @@ namespace Syringe.Core.Runner
                         {
                             request = evaluator.RequestGlobals.Request;
                             test = evaluator.RequestGlobals.Test;
-                            logger.WriteIndentedLine("Compilation successful.");
+                            logger.WriteLine("Compilation successful.");
                         }
                     }
                     catch (Exception ex)
                     {
                         testResult.ScriptCompilationSuccess = false;
                         testResult.ExceptionMessage = "The script failed to compile - see the log file for a stack trace.";
-                        logger.WriteIndentedLine("Compilation failed: {0}", ex);
+                        logger.WriteLine("Compilation failed: {0}", ex);
                     }
                 }
 
@@ -290,7 +296,7 @@ namespace Syringe.Core.Runner
                     logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
                     foreach (Assertion item in testResult.AssertionResults)
                     {
-                        logger.Write(item.Log);
+                        logger.AppendTextLine(item.Log);
                     }
 
                     // Store the log

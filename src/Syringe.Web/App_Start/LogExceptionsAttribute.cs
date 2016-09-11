@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Syringe.Core.Logging;
 
 namespace Syringe.Web
 {
@@ -7,7 +6,7 @@ namespace Syringe.Web
 	{
 		public override void OnException(ExceptionContext filterContext)
 		{
-			Log.Error(filterContext.Exception, "An MVC error occurred");
+			// TODO
 		}
 	}
 }

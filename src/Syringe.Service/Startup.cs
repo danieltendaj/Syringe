@@ -5,7 +5,6 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
-using Syringe.Core.Logging;
 using Syringe.Service.Jobs;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 
@@ -61,10 +60,7 @@ namespace Syringe.Service
 
 			}).EnableSwaggerUi();
 
-			// Log to bin/errors.log
-			Log.UseAllTargets();
 			httpConfiguration.Services.Add(typeof(IExceptionLogger), new ServiceExceptionLogger());
-
 			httpConfiguration.MapHttpAttributeRoutes();
 			httpConfiguration.DependencyResolver = _webDependencyResolver;
 
@@ -76,7 +72,6 @@ namespace Syringe.Service
 	{
 		public override void Log(ExceptionLoggerContext context)
 		{
-			Syringe.Core.Logging.Log.Error(context.Exception, "Service exception");
 			base.Log(context);
 		}
 	}

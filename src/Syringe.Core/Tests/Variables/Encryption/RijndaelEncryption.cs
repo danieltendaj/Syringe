@@ -3,7 +3,6 @@ using System.IO;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using Syringe.Core.Logging;
 
 namespace Syringe.Core.Tests.Variables.Encryption
 {
@@ -69,8 +68,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Error decrypting value {0}", plainValue);
-				return plainValue;
+                throw new Exception(string.Format("Error encrypting value {0} - {1}", plainValue, ex));
 			}
 		}
 
@@ -98,8 +96,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Error decrypting value {0}", encryptedValue);
-				return encryptedValue;
+			    return encryptedValue;
 			}
 		}
 
