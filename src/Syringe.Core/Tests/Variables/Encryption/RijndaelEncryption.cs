@@ -7,13 +7,19 @@ using System.Text;
 namespace Syringe.Core.Tests.Variables.Encryption
 {
 	/// <summary>
-	/// Simple Rijndael wrapper for with a randomnly generated IV.
+	/// Simple AES wrapper for with a randomnly generated IV, and a static salt.
 	/// </summary>
 	public class RijndaelEncryption : IEncryption
 	{
-		private static readonly byte[] SALT = new byte[] { 0x3c, 0x8b, 0x08, 0x00, 0x35, 0xe9, 0xf7, 0x45, 0x6e, 0xa8, 0xbb, 0xe4, 0x6b, 0x4a, 0xd0, 0x0b };
+		private static readonly byte[] _salt = new byte[]
+		{
+		    0x3c, 0x8b, 0x08, 0x00,
+            0x35, 0xe9, 0xf7, 0x45,
+            0x6e, 0xa8, 0xbb, 0xe4,
+            0x6b, 0x4a, 0xd0, 0x0b
+		};
 
-		private readonly Rijndael _rijndael;
+		private readonly Aes _aes;
 
 		internal string Password { get; set; } // SecureString this?
 
@@ -22,16 +28,17 @@ namespace Syringe.Core.Tests.Variables.Encryption
 			if (string.IsNullOrEmpty(password))
 				return;
 
+            // Some of this setup is for Rijndael - the no padding may not be necessary.
 			Password = password;
-			_rijndael = Rijndael.Create();
-			_rijndael.Padding = PaddingMode.Zeros;
+			_aes = Aes.Create();
+			_aes.Padding = PaddingMode.Zeros;
 			Rfc2898DeriveBytes pdb = null;
 
 			try
 			{
-				pdb = new Rfc2898DeriveBytes(password, SALT);
-				_rijndael.Key = pdb.GetBytes(32);
-				_rijndael.IV = pdb.GetBytes(16);
+				pdb = new Rfc2898DeriveBytes(password, _salt);
+				_aes.Key = pdb.GetBytes(32);
+				_aes.IV = pdb.GetBytes(16);
 			}
 			finally
 			{
@@ -46,12 +53,12 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		public string Encrypt(string plainValue)
 		{
-			if (_rijndael == null)
+			if (_aes == null)
 				return plainValue;
 
 			try
 			{
-				using (var encryptor = _rijndael.CreateEncryptor())
+				using (var encryptor = _aes.CreateEncryptor())
 				using (var stream = new MemoryStream())
 				using (var crypto = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
 				{
@@ -74,12 +81,12 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		public string Decrypt(string encryptedValue)
 		{
-			if (_rijndael == null)
+			if (_aes == null)
 				return encryptedValue;
 
 			try
 			{
-				using (var decryptor = _rijndael.CreateDecryptor())
+				using (var decryptor = _aes.CreateDecryptor())
 				using (var stream = new MemoryStream())
 				using (var crypto = new CryptoStream(stream, decryptor, CryptoStreamMode.Write))
 				{
@@ -102,7 +109,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 
 		public void Dispose()
 		{
-			_rijndael?.Dispose();
+			_aes?.Dispose();
 		}
 	}
 }
