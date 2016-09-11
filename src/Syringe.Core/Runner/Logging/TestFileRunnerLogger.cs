@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Text;
 
-namespace Syringe.Core.Logging
+namespace Syringe.Core.Runner.Logging
 {
-    public class SimpleLogger
+    /// <summary>
+    /// StringBuilder based ITestRunnerLogger.
+    /// </summary>
+    public class TestFileRunnerLogger : ITestFileRunnerLogger
     {
         internal readonly StringBuilder LogStringBuilder;
 
-        public SimpleLogger()
+        public TestFileRunnerLogger()
         {
             LogStringBuilder = new StringBuilder();
         }

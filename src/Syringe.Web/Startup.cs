@@ -12,7 +12,6 @@ using StructureMap;
 using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
-using Syringe.Core.Logging;
 using Syringe.Web.App_Start;
 using Syringe.Web.Configuration;
 using Syringe.Web.DependencyResolution;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using Syringe.Core.Logging;
 using Syringe.Core.Runner;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Variables;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Tests.Extensions;
@@ -34,7 +34,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string content = "<html class='bootstrap'><p>Tap tap tap 123</p></html>";
 
 			// when
-			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new TestFileRunnerLoggerMock());
 
 			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
@@ -55,7 +55,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string content = "<html>123 abc</html>";
 
 			// when
-			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new TestFileRunnerLoggerMock());
 
 			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
@@ -75,7 +75,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string content = "<html>123 abc</html>";
 
 			// when
-			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new TestFileRunnerLoggerMock());
 
 			// then
 			Assert.That(variables.Count, Is.EqualTo(2));
@@ -94,7 +94,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 			string content = "<html>The number 3 and the number 4 combined make 7</html>";
 
 			// when
-			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new SimpleLogger());
+			List<Variable> variables = CapturedVariableProvider.MatchVariables(parseResponses, content, new TestFileRunnerLogger());
 
 			// then
 			Assert.That(variables.ValueByName("var1"), Is.EqualTo("3"));

@@ -22,6 +22,8 @@ using StructureMap.Graph;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.IO;
+using Syringe.Core.Runner;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Repositories.Json.Writer;
@@ -63,14 +65,15 @@ namespace Syringe.Service.DependencyResolution
 			IConfiguration configuration = configurationStore.Load();
 			For<IConfiguration>().Use(configuration);
 
-
 			For<IEncryption>().Use(x => new RijndaelEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
+            // ParallelTestFileQueue dependencies
+	        For<ITestFileRunnerLoggerFactory>().Use<TestFileRunnerLoggerFactory>().Singleton();
             For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
-
             For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
             For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
+
             Forward<ITestFileQueue, ITaskObserver>();
 
             For<IBatchManager>().Use<BatchManager>().Singleton();

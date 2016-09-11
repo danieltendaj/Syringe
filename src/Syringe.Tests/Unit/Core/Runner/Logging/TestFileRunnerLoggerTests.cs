@@ -1,15 +1,15 @@
 ﻿using System;
 using NUnit.Framework;
-using Syringe.Core.Logging;
+using Syringe.Core.Runner.Logging;
 
-namespace Syringe.Tests.Unit.Core.Logging
+namespace Syringe.Tests.Unit.Core.Runner.Logging
 {
 	[TestFixture]
-	public class SimpleLoggerTests
+	public class TestFileRunnerLoggerTests
 	{
-		private SimpleLogger CreateLogger()
+		private TestFileRunnerLogger CreateLogger()
 		{
-			return new SimpleLogger();
+			return new TestFileRunnerLogger();
 		}
 
 	    private string ExpectedMessage(string message)
@@ -22,7 +22,7 @@ namespace Syringe.Tests.Unit.Core.Logging
 		public void GetLog_should_return_current_log_text()
 		{
 			// given
-			SimpleLogger logger = CreateLogger();
+			TestFileRunnerLogger logger = CreateLogger();
 			string expectedText = ExpectedMessage("a message");
 			logger.Write("a message");
 
@@ -37,7 +37,7 @@ namespace Syringe.Tests.Unit.Core.Logging
 		public void Write_should_append_to_log_with_formatting()
 		{
 			// given
-			SimpleLogger logger = CreateLogger();
+			TestFileRunnerLogger logger = CreateLogger();
 			string expectedText = ExpectedMessage("a message item1 item2");
 
 			// when
@@ -52,8 +52,8 @@ namespace Syringe.Tests.Unit.Core.Logging
         public void AppendTextLine_should_not_add_timestamp()
         {
             // given
-            SimpleLogger logger = CreateLogger();
-            string expectedText = "a message";
+            TestFileRunnerLogger logger = CreateLogger();
+            string expectedText = "a message" +Environment.NewLine;
 
             // when
             logger.AppendTextLine("a message");
@@ -67,11 +67,11 @@ namespace Syringe.Tests.Unit.Core.Logging
 		public void Write_should_swallow_bad_string_formatting()
 		{
 			// given
-			SimpleLogger logger = CreateLogger();
-            string expectedText = ExpectedMessage("Logger caught a formatting exception.");
+			TestFileRunnerLogger logger = CreateLogger();
+            string expectedText = ExpectedMessage("Logger caught a formatting exception. Message: 'bad formatting {0} {1} {4}' args.length: 1");
 
             // when
-            logger.Write("bad formatting {0} {1} {4}");
+            logger.Write("bad formatting {0} {1} {4}", 1);
 
 			// then
 			string actualText = logger.LogStringBuilder.ToString();
@@ -84,7 +84,7 @@ namespace Syringe.Tests.Unit.Core.Logging
 		public void WriteLine_should_append_to_log_with_formatting_and_newline()
 		{
 			// given
-			SimpleLogger logger = CreateLogger();
+			TestFileRunnerLogger logger = CreateLogger();
 			string expectedText = ExpectedMessage("a message item1 item2" +Environment.NewLine);
 
 			// when
@@ -99,7 +99,7 @@ namespace Syringe.Tests.Unit.Core.Logging
 		public void WriteLine_should_append_exception_type_and_message()
 		{
 			// given
-			SimpleLogger logger = CreateLogger();
+			TestFileRunnerLogger logger = CreateLogger();
 			string expectedText = ExpectedMessage(string.Format("message{0}System.Exception: exception message{0}", Environment.NewLine));
 
 			// when

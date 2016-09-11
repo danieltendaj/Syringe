@@ -1,5 +1,5 @@
 using System;
-using Syringe.Core.Logging;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests;
 
 namespace Syringe.Core.Runner.Assertions
@@ -7,14 +7,14 @@ namespace Syringe.Core.Runner.Assertions
 	internal class AssertionLogger
 	{
 		public static readonly string EMPTY_ASSERTION_TEXT = "Skipping as the assertion value/http content was empty.";
-		private readonly SimpleLogger _logger;
+		private readonly ITestFileRunnerLogger _logger;
 
-		public AssertionLogger()
+		public AssertionLogger(ITestFileRunnerLogger logger)
 		{
-			_logger = new SimpleLogger();
+		    _logger = logger;
 		}
 
-		public string GetLog()
+	    public string GetLog()
 		{
 			return _logger.GetLog();
 		}

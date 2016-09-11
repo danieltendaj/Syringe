@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Syringe.Core.Logging;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Variables;
 using Syringe.Core.Tests.Variables.Encryption;
 
@@ -100,7 +100,7 @@ namespace Syringe.Core.Runner
         /// <summary>
         /// Finds text in the content, returning them as variables, e.g. {capturedvariable1} = value
         /// </summary>
-        public static List<Variable> MatchVariables(List<CapturedVariable> capturedVariables, string content, SimpleLogger logger)
+        public static List<Variable> MatchVariables(List<CapturedVariable> capturedVariables, string content, ITestFileRunnerLogger logger)
         {
             var variables = new List<Variable>();
             var variablePostProcessor = new VariablePostProcessor();

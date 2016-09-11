@@ -6,6 +6,7 @@ using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.IO;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Repositories.Json.Writer;
@@ -56,9 +57,10 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 
 			AssertDefaultType<ITestFileResultRepository, MongoTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
-		}
+            AssertDefaultType<ITestFileRunnerLogger, TestFileRunnerLogger>();
+        }
 
-		[Test]
+        [Test]
 		public void configurationstore_should_be_called()
 		{
 			// given

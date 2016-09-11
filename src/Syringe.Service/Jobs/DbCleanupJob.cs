@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using Syringe.Core.Configuration;
-using Syringe.Core.Logging;
 using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Jobs

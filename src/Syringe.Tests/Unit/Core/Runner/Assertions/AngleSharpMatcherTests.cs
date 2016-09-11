@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Tests.StubsMocks;
@@ -20,7 +21,8 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
         {
             _variableContainerStub = new VariableContainerStub();
             _variableProvider = new CapturedVariableProvider(_variableContainerStub, "development", new VariableEncryptorStub());
-            _assertionLogger = new AssertionLogger();
+
+            _assertionLogger = new AssertionLogger(new TestFileRunnerLogger());
         }
 
         private AngleSharpMatcher CreateAngleSharpMatcher()

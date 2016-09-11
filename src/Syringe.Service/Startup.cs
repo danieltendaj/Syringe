@@ -5,7 +5,6 @@ using Microsoft.Owin.Hosting;
 using Owin;
 using Swashbuckle.Application;
 using Syringe.Core.Configuration;
-using Syringe.Core.Logging;
 using Syringe.Service.Jobs;
 using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
 

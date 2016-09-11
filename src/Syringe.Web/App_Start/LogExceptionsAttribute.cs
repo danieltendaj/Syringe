@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Syringe.Core.Logging;
 
 namespace Syringe.Web
 {

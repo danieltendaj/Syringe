@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests;
 
 namespace Syringe.Core.Runner.Assertions
@@ -6,19 +7,21 @@ namespace Syringe.Core.Runner.Assertions
     internal class AssertionsMatcher
     {
         private readonly ICapturedVariableProvider _variableProvider;
+        private readonly ITestFileRunnerLogger _logger;
 
-	    public AssertionsMatcher(ICapturedVariableProvider variableProvider)
-	    {
-		    _variableProvider = variableProvider;
-	    }
+        public AssertionsMatcher(ICapturedVariableProvider variableProvider, ITestFileRunnerLogger logger)
+        {
+            _variableProvider = variableProvider;
+            _logger = logger;
+        }
 
-	    public List<Assertion> MatchVerifications(List<Assertion> verifications, string httpContent)
+        public List<Assertion> MatchVerifications(List<Assertion> verifications, string httpContent)
         {
             var matchedItems = new List<Assertion>();
 
             foreach (Assertion item in verifications)
             {
-                var assertionLogger = new AssertionLogger();
+                var assertionLogger = new AssertionLogger(_logger);
 				assertionLogger.LogItem(item.AssertionType, item);
 
 	            switch (item.AssertionMethod)

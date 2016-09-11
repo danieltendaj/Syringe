@@ -206,7 +206,10 @@
     <Compile Include="IO\IFileHandler.cs" />
     <Compile Include="Helpers\IUrlHelper.cs" />
     <Compile Include="Helpers\UrlHelper.cs" />
-    <Compile Include="Logging\SimpleLogger.cs" />
+    <Compile Include="Runner\Logging\ITestFileRunnerLogger.cs" />
+    <Compile Include="Runner\Logging\ITestFileRunnerLoggerFactory.cs" />
+    <Compile Include="Runner\Logging\TestFileRunnerLogger.cs" />
+    <Compile Include="Runner\Logging\TestFileRunnerLoggerFactory.cs" />
     <Compile Include="Runner\CapturedVariableProviderFactory.cs" />
     <Compile Include="Runner\ICapturedVariableProvider.cs" />
     <Compile Include="Runner\ICapturedVariableProviderFactory.cs" />

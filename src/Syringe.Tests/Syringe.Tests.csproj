@@ -245,12 +245,14 @@
     <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
     <Compile Include="StubsMocks\TestFileQueueStub.cs" />
     <Compile Include="StubsMocks\TestFileResultRepositoryFactoryMock.cs" />
+    <Compile Include="StubsMocks\TestFileRunnerLogFactoryMock.cs" />
+    <Compile Include="StubsMocks\TestFileRunnerLoggerMock.cs" />
     <Compile Include="StubsMocks\VariableContainerStub.cs" />
     <Compile Include="StubsMocks\Web\TestControllerWrapper.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
     <Compile Include="Unit\Client\TestsClientTests.cs" />
     <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
-    <Compile Include="Unit\Core\Logging\SimpleLoggerTests.cs" />
+    <Compile Include="Unit\Core\Runner\Logging\TestFileRunnerLoggerTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\AngleSharpMatcherTests.cs" />
     <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
     <Compile Include="StubsMocks\VariableEncryptorStub.cs" />
@@ -297,7 +299,7 @@
     <Compile Include="Unit\Core\Runner\TestFileResultTests.cs" />
     <Compile Include="Unit\Core\Runner\Assertions\AssertionsMatcherTests.cs" />
     <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
-    <Compile Include="Unit\Core\Runner\TestSessionRunnerTests.cs" />
+    <Compile Include="Unit\Core\Runner\TestFileRunnerTests.cs" />
     <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
     <Compile Include="StubsMocks\HttpClientMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

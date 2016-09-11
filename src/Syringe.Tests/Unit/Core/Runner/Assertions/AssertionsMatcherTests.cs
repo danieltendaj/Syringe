@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Runner;
 using Syringe.Core.Runner.Assertions;
+using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Variables;
 using Syringe.Tests.StubsMocks;
@@ -19,12 +20,18 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 			_variableContainer = new VariableContainerStub();
 		}
 
+	    private AssertionsMatcher GetMatcher(CapturedVariableProvider provider)
+	    {
+            ITestFileRunnerLogger logger = new Mock<ITestFileRunnerLogger>().Object;
+	        return new AssertionsMatcher(provider, logger);
+	    }
+
 		[Test]
 		public void MatchVerifications_invalid_regex_should_set_success_to_false()
 		{
 			// given
-			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
-			var matcher = new AssertionsMatcher(sessionVariables);
+			var provider = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
+			var matcher = GetMatcher(provider);
 
 			var verifications = new List<Assertion>();
 			verifications.Add(new Assertion("dodgy regex", "((*)", AssertionType.Positive, AssertionMethod.Regex));
@@ -43,8 +50,8 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_return_veriftype_positives_in_list()
 		{
 			// given
-			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
-			var matcher = new AssertionsMatcher(sessionVariables);
+			var provider = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
+			var matcher = GetMatcher(provider);
 
 			var verifications = new List<Assertion>();
 			verifications.Add(new Assertion("p1", "a regex", AssertionType.Positive, AssertionMethod.Regex));
@@ -65,8 +72,8 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_match_text_in_content()
 		{
 			// given
-			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
-			var matcher = new AssertionsMatcher(sessionVariables);
+			var provider = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
+			var matcher = GetMatcher(provider);
 
 			var verifications = new List<Assertion>();
 			verifications.Add(new Assertion("desc1", "content here", AssertionType.Positive, AssertionMethod.Regex));
@@ -92,8 +99,8 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_not_match_text_that_is_not_in_content()
 		{
 			// given
-			var sessionVariables = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
-			var matcher = new AssertionsMatcher(sessionVariables);
+			var provider = new CapturedVariableProvider(_variableContainer, "", new VariableEncryptorStub());
+			var matcher = GetMatcher(provider);
 
 			var verifications = new List<Assertion>();
 			verifications.Add(new Assertion("desc1", "this isnt in the text", AssertionType.Negative, AssertionMethod.Regex));
@@ -119,10 +126,10 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
 		public void MatchVerifications_should_replace_variables_in_value()
 		{
 			// given
-			var sessionVariables = new CapturedVariableProvider(_variableContainer, "dev", new VariableEncryptorStub());
-			sessionVariables.AddOrUpdateVariable(new Variable("password", "tedx123", "dev"));
+			var provider = new CapturedVariableProvider(_variableContainer, "dev", new VariableEncryptorStub());
+			provider.AddOrUpdateVariable(new Variable("password", "tedx123", "dev"));
 
-			var matcher = new AssertionsMatcher(sessionVariables);
+			var matcher = GetMatcher(provider);
 
 			var verifications = new List<Assertion>();
 			verifications.Add(new Assertion("desc1", "({password})", AssertionType.Positive, AssertionMethod.Regex));

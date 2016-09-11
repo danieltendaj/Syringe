@@ -3,7 +3,6 @@ using System.IO;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-using Syringe.Core.Logging;
 
 namespace Syringe.Core.Tests.Variables.Encryption
 {
