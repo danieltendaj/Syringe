@@ -16,11 +16,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Runtime.Caching;
-using Octopus.Client;
 using StructureMap;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
+using Syringe.Core.Environment.Json;
+using Syringe.Core.Environment.Octopus;
 using Syringe.Core.IO;
 using Syringe.Core.Runner;
 using Syringe.Core.Runner.Logging;

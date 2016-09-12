@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Syringe.Core.Configuration;
 
-namespace Syringe.Core.Environment
+namespace Syringe.Core.Environment.Json
 {
     public class JsonEnvironmentProvider : IEnvironmentProvider
     {

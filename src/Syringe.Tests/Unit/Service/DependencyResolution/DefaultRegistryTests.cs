@@ -1,10 +1,10 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using Octopus.Client;
 using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
+using Syringe.Core.Environment.Octopus;
 using Syringe.Core.IO;
 using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Repositories;
