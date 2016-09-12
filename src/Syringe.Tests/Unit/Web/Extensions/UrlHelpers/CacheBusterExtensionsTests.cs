@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
-using Syringe.Web.Extensions.HtmlHelpers;
+using Syringe.Web.Extensions.UrlHelpers;
 
-namespace Syringe.Tests.Unit.Web.Extensions.HtmlHelpers
+namespace Syringe.Tests.Unit.Web.Extensions.UrlHelpers
 {
     [TestFixture]
     public class CacheBusterExtensionsTests
     {
-        private Func<string, string> _mapPathFunc;
+        private Func<UrlHelper, string, string> _resolvePathFunc;
 
         [SetUp]
         public void Setup()
         {
-            _mapPathFunc = CacheBusterExtensions.MapServerPath;
+            _resolvePathFunc = CacheBusterExtensions.ResolvePath;
         }
 
         [TearDown]
         public void TearDown()
         {
-            CacheBusterExtensions.MapServerPath = _mapPathFunc;
+            CacheBusterExtensions.ResolvePath = _resolvePathFunc;
         }
 
         [Test]
@@ -30,7 +29,7 @@ namespace Syringe.Tests.Unit.Web.Extensions.HtmlHelpers
             // given
             const string expectedPath = "booya-beaches";
             string givenPath = null;
-            CacheBusterExtensions.MapServerPath = s => { givenPath = s; return expectedPath; };
+            CacheBusterExtensions.ResolvePath = (helper, s) => { givenPath = s; return expectedPath; };
 
             // when
             const string path = "yo-wuzzup";
