@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Configuration;
+using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -33,7 +34,7 @@ namespace Syringe.Web
         private void ConfigureOAuth(IAppBuilder app)
         {
             // Call the service to get its configuration back
-            var provider = new MvcConfigurationProvider(new ConfigLocator());
+            var provider = new MvcConfigurationProvider(ConfigurationManager.AppSettings);
             MvcConfiguration mvcConfiguration = provider.Load();
 
             var configClient = new ConfigurationClient(mvcConfiguration.ServiceUrl);

@@ -15,6 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Configuration;
 using System.Web.Mvc;
 using StructureMap;
 using StructureMap.Graph;
@@ -77,7 +78,7 @@ namespace Syringe.Web.DependencyResolution
             }
 
             For<IMvcConfigurationProvider>()
-                .Use<MvcConfigurationProvider>()
+                .Use(x => new MvcConfigurationProvider(ConfigurationManager.AppSettings))
                 .Singleton();
             For<MvcConfiguration>()
                 .Use(x => x.GetInstance<IMvcConfigurationProvider>().Load());

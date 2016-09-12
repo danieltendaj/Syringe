@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Syringe.Web;
 using Syringe.Web.Configuration;
 
 namespace Syringe.Tests.Integration.Web.Configuration

@@ -400,9 +400,6 @@
     <Content Include="Views\Shared\Partials\_RunTest.cshtml" />
     <Content Include="Views\System\EncryptData.cshtml" />
     <Content Include="Views\System\Settings.cshtml" />
-    <Content Include="websiteconfig.default.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
