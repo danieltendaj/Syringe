@@ -1,7 +1,6 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using Octopus.Client;
 using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;

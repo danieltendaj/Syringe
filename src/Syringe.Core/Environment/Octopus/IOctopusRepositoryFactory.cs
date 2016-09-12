@@ -1,4 +1,3 @@
-using Octopus.Client;
 
 namespace Syringe.Core.Environment.Octopus
 {

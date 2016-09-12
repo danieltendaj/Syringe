@@ -1,4 +1,3 @@
-using Octopus.Client;
 using Syringe.Core.Configuration;
 
 namespace Syringe.Core.Environment.Octopus
@@ -14,7 +13,8 @@ namespace Syringe.Core.Environment.Octopus
 
         public IOctopusRepository Create()
         {
-            return new OctopusRepository(new OctopusServerEndpoint(_config.OctopusConfiguration.OctopusUrl, _config.OctopusConfiguration.OctopusApiKey));
+            return new OctopusRepository();
+            //return new OctopusRepository(new OctopusServerEndpoint(_config.OctopusConfiguration.OctopusUrl, _config.OctopusConfiguration.OctopusApiKey));
         }
     }
 }

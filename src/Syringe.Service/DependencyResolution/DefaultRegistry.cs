@@ -16,7 +16,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Runtime.Caching;
-using Octopus.Client;
 using StructureMap;
 using StructureMap.Graph;
 using Syringe.Core.Configuration;

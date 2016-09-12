@@ -92,10 +92,6 @@
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Octopus.Client, Version=3.3.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Octopus.Client.3.3.9\lib\net40\Octopus.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
       <Private>True</Private>
@@ -194,9 +190,11 @@
     <Compile Include="Environment\Environment.cs" />
     <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
+    <Compile Include="Environment\Octopus\IOctopusRepository.cs" />
     <Compile Include="Environment\Octopus\IOctopusRepositoryFactory.cs" />
     <Compile Include="Environment\Json\JsonEnvironmentProvider.cs" />
     <Compile Include="Environment\Octopus\OctopusEnvironmentProvider.cs" />
+    <Compile Include="Environment\Octopus\OctopusRepository.cs" />
     <Compile Include="Environment\Octopus\OctopusRepositoryFactory.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
