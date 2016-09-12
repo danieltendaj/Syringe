@@ -194,10 +194,10 @@
     <Compile Include="Environment\Environment.cs" />
     <Compile Include="Environment\EnvironmentRole.cs" />
     <Compile Include="Environment\IEnvironmentProvider.cs" />
-    <Compile Include="Environment\IOctopusRepositoryFactory.cs" />
-    <Compile Include="Environment\JsonEnvironmentProvider.cs" />
-    <Compile Include="Environment\OctopusEnvironmentProvider.cs" />
-    <Compile Include="Environment\OctopusRepositoryFactory.cs" />
+    <Compile Include="Environment\Octopus\IOctopusRepositoryFactory.cs" />
+    <Compile Include="Environment\Json\JsonEnvironmentProvider.cs" />
+    <Compile Include="Environment\Octopus\OctopusEnvironmentProvider.cs" />
+    <Compile Include="Environment\Octopus\OctopusRepositoryFactory.cs" />
     <Compile Include="Exceptions\HealthCheckException.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Extensions\Pager.cs" />

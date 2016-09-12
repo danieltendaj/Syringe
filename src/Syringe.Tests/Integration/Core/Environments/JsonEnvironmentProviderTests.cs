@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
+using Syringe.Core.Environment.Json;
 using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Tests.Integration.Core.Environments
