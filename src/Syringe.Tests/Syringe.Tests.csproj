@@ -273,10 +273,11 @@
     <Compile Include="Unit\Web\Controllers\Attributes\EditableTestsRequiredAttributeTests.cs" />
     <Compile Include="Unit\Web\Controllers\SystemControllerTests.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\Extensions\HtmlHelpers\CacheBusterExtensionsTests.cs" />
     <Compile Include="Unit\Web\FilterConfigTests.cs" />
     <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
-    <Compile Include="Unit\Web\ExtensionsTests.cs" />
+    <Compile Include="Unit\Web\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\Controllers\JsonControllerTests.cs" />
     <Compile Include="Unit\Web\Controllers\ResultsControllerTests.cs" />
