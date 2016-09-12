@@ -241,10 +241,6 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="$(SolutionDir)tools\start-service.ps1" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
-    <Copy SourceFiles="$(SolutionDir)tools\install-service.ps1" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
-  </Target>
   <Import Project="..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
     <Error Condition="!Exists('..\..\packages\OctoPack.3.0.60\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
