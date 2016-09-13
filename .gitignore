@@ -213,3 +213,7 @@ src/Syringe.Service/shared-variables.json
 syringe.db
 _site/
 docs/_site/
+
+# DotNet Core
+project.lock.json
+.DS_Store
