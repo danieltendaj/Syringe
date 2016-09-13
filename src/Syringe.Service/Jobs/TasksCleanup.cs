@@ -25,7 +25,7 @@ namespace Syringe.Service.Jobs
         {
             if (_timer == null)
             {
-                _timer = new Timer(callback, null, new TimeSpan(), TimeSpan.FromMinutes(1));
+                _timer = new Timer(callback, null, new TimeSpan(), TimeSpan.FromMinutes(3));
             }
         }
 
