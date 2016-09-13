@@ -1,0 +1,46 @@
+﻿@model List<VariableViewModel>
+
+@if (Model.Count > 0)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="#" class="available-variables-title" data-toggle="collapse" data-target="#available-variables">
+                <h5 class="panel-title">
+                    <span class="glyphicon glyphicon-collapse-down"></span>
+                    Available variables
+                </h5>
+            </a>
+        </div>
+        <div id="available-variables" class="panel-body collapse">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 30%">Name</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <input id="@Html.AttributeEncode(@item.Name)" value="{@item.Name}" readonly="readonly" type="text" class="form-control" style="padding-left: 10px;">
+
+                                <span class="input-group-btn">
+                                    <button class="btn" type="button" data-clipboard-target="#@Html.AttributeEncode(@item.Name)">
+                                        <img class="clippy" src="/img/clippy.svg" width="13" alt="Copy to clipboard">
+                                    </button>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group" style="width: 50%">
+                                <input value="@item.Value" readonly="readonly" type="text" class="form-control" style="padding-left: 10px;">
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualBasic.FileIO;
 using Syringe.Core.Configuration;
 using SearchOption = System.IO.SearchOption;
 
@@ -78,7 +77,7 @@ namespace Syringe.Core.IO
 
         public bool DeleteFile(string path)
         {
-            FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            File.Delete(path);
             return true;
         }
     }

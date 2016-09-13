@@ -6,6 +6,7 @@ using RestSharp;
 using Syringe.Core.Configuration;
 using Syringe.Core.Exceptions;
 using System.IO;
+using System.Reflection;
 
 namespace Syringe.Core.Tests.Scripting
 {
@@ -49,11 +50,11 @@ namespace Syringe.Core.Tests.Scripting
 			RequestGlobals.Test = test;
 			RequestGlobals.Request = request;
 
-			ScriptOptions scriptOptions = ScriptOptions.Default
-				.WithReferences(typeof (IRestRequest).Assembly)
-				.AddImports(new[] {"RestSharp"});
+            ScriptOptions scriptOptions = ScriptOptions.Default
+                .WithReferences(typeof(IRestRequest).GetTypeInfo().Assembly)
+                .AddImports(new[] { "RestSharp" });
 
-			try
+            try
 			{
 				CSharpScript.EvaluateAsync(scriptContent, options: scriptOptions, globals: RequestGlobals).Wait();
                 return true;

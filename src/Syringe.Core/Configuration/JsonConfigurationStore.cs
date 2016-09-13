@@ -41,7 +41,7 @@ namespace Syringe.Core.Configuration
             if (directoryPath.StartsWith(".."))
             {
                 // Convert to a relative path
-                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directoryPath);
+                string fullPath = Path.Combine(System.AppContext.BaseDirectory, directoryPath);
                 directoryPath = Path.GetFullPath(fullPath);
             }
             else

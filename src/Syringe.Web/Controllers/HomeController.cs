@@ -1,79 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using Syringe.Client;
-using Syringe.Core.Configuration;
-using Syringe.Core.Extensions;
-using Syringe.Core.Security;
-using Syringe.Core.Services;
-using Syringe.Web.Controllers.Attribute;
-using Syringe.Web.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Syringe.Web.Controllers
 {
-	[AuthorizeWhenOAuth]
     public class HomeController : Controller
     {
-        private readonly ITestService _testsClient;
-        private readonly Func<IRunViewModel> _runViewModelFactory;
-		private readonly IHealthCheck _healthCheck;
-	    private readonly IEnvironmentsService _environmentsService;
-		private readonly IConfiguration _configuration;
-
-		public HomeController(
-            ITestService testsClient,
-            Func<IRunViewModel> runViewModelFactory,
-			IHealthCheck healthCheck,
-            IEnvironmentsService environmentsService,
-			IConfiguration configuration)
+        public IActionResult Index()
         {
-            _testsClient = testsClient;
-            _runViewModelFactory = runViewModelFactory;
-			_healthCheck = healthCheck;
-	        _environmentsService = environmentsService;
-			_configuration = configuration;
+            return View();
         }
 
-        public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
+        public IActionResult About()
         {
-            RunHealthChecks();
-			ViewBag.Title = "All test files";
+            ViewData["Message"] = "Your application description page.";
 
-			IEnumerable<string> files = _testsClient.ListFiles().ToList();
-
-            var model = new IndexViewModel
-            {
-                PageNumber = pageNumber,
-                NoOfResults = noOfResults,
-                PageNumbers = files.GetPageNumbersToShow(noOfResults),
-                Files = files.GetPaged(noOfResults, pageNumber),
-                Environments = _environmentsService.Get().OrderBy(x => x.Order).ThenBy(x => x.Name).Select(x => x.Name).ToArray()
-            };
-
-			string viewName = "Index";
-			if (_configuration.ReadonlyMode)
-			{
-				viewName = "Index-ReadonlyMode";
-			}
-
-			return View(viewName, model);
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult Run(string filename, string environment)
+        public IActionResult Contact()
         {
-			UserContext context = UserContext.GetFromFormsAuth(HttpContext);
+            ViewData["Message"] = "Your contact page.";
 
-			var runViewModel = _runViewModelFactory();
-            runViewModel.Run(context, filename, environment);
-            return View("Run", runViewModel);
+            return View();
         }
 
-        private void RunHealthChecks()
+        public IActionResult Error()
         {
-			_healthCheck.CheckServiceConfiguration();
-			_healthCheck.CheckServiceSwaggerIsRunning();
+            return View();
         }
-	}
+    }
 }

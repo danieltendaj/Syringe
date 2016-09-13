@@ -17,8 +17,9 @@ namespace Syringe.Core.Http
 
 		static HttpClient()
 		{
-			// Allow invalid SSL certificates
-			ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+            // netstandard: TODO
+            // Allow invalid SSL certificates
+            //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
 		}
 
 		public HttpClient(IRestClient restClient)
@@ -33,7 +34,9 @@ namespace Syringe.Core.Http
 			// Get the response back, parsing the headers
 			//
             DateTime startTime = DateTime.UtcNow;
-			IRestResponse response = await _restClient.ExecuteTaskAsync(request);
+
+            // netstandard: TODO
+            IRestResponse response = await _restClient.ExecuteTaskAsync(request);
 		    TimeSpan responseTime = DateTime.UtcNow - startTime;
 
 			var headers = new List<HttpHeader>();

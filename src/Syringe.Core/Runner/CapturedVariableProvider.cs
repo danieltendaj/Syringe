@@ -51,7 +51,7 @@ namespace Syringe.Core.Runner
 
         public string GetVariableValue(string name)
         {
-            var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+            var variable = _currentVariables.FirstOrDefault(x => x.Name.Equals(name));
             return variable != null ? variable.Value : string.Empty;
         }
 

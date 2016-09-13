@@ -24,7 +24,7 @@ namespace Syringe.Core.Tests.Variables
 	        environmentToTest = environmentToTest ?? string.Empty;
 	        string thisEnvironment = Environment?.Name ?? string.Empty;
 
-	        bool matched = string.IsNullOrEmpty(thisEnvironment) || environmentToTest.Equals(thisEnvironment, StringComparison.InvariantCultureIgnoreCase);
+	        bool matched = string.IsNullOrEmpty(thisEnvironment) || environmentToTest.Equals(thisEnvironment);
 	        return matched;
 	    }
 
@@ -34,10 +34,10 @@ namespace Syringe.Core.Tests.Variables
 
 	        if (variableToTest != null)
 	        {
-	            matched = Name.Equals(variableToTest.Name, StringComparison.InvariantCultureIgnoreCase);
+	            matched = Name.Equals(variableToTest.Name);
 	            if (matched)
 	            {
-                    matched = Environment.Name.Equals(variableToTest.Environment.Name, StringComparison.InvariantCultureIgnoreCase);
+                    matched = Environment.Name.Equals(variableToTest.Environment.Name);
                 }
             }
 

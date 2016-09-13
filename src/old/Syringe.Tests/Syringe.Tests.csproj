@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ADA9A97D-B946-4D49-A1D3-0ACEFAE34EA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Syringe.Tests</RootNamespace>
+    <AssemblyName>Syringe.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AngleSharp, Version=0.9.8.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AngleSharp.0.9.8\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FakeN.Web, Version=1.0.4608.14607, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FakeN.Web.1.0.4608.14607\lib\net40\FakeN.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.1.2.1\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Scripting.Common.1.2.1\lib\dotnet\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Testing, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Testing.3.0.1\lib\net45\Microsoft.Owin.Testing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture, Version=3.50.1.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoFixture.3.50.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=4.2.0.402, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.2.0.402\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.AppContext.4.0.0\lib\net46\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.StackTrace, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Diagnostics.StackTrace.4.0.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.FileSystem.4.0.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.FileSystem.Primitives.4.0.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reflection.Metadata.1.2.0\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extensions\VariableExtensions.cs" />
+    <Compile Include="Integration\ClientAndService\EnvironmentsClientTests.cs" />
+    <Compile Include="Integration\ClientAndService\Helpers.cs" />
+    <Compile Include="Integration\ClientAndService\TaskClientTests.cs" />
+    <Compile Include="Integration\Core\Configuration\ConfigLocatorTests.cs" />
+    <Compile Include="Integration\Core\Configuration\JsonConfigurationStoreTests.cs" />
+    <Compile Include="Integration\Core\Environments\JsonEnvironmentProviderTests.cs" />
+    <Compile Include="Integration\Core\IO\FileHandlerTests.cs" />
+    <Compile Include="Integration\ClientAndService\ServiceStarter.cs" />
+    <Compile Include="Integration\ClientAndService\ConfigurationClientTests.cs" />
+    <Compile Include="Integration\ClientAndService\TestsClientTests.cs" />
+    <Compile Include="Integration\Core\Repository\MongoDB\SetUpFixture.cs" />
+    <Compile Include="Integration\Core\Repository\MongoDB\TestCaseSessionRepositoryTests.cs" />
+    <Compile Include="Integration\Core\Scripting\SnippetFileReaderTests.cs" />
+    <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileReaderTests.cs" />
+    <Compile Include="Integration\Core\Tests\Repositories\Json\TestFileWriterTests.cs" />
+    <Compile Include="Integration\Core\Tests\Variables\SharedVariables\SharedVariablesProviderTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationProviderTests.cs" />
+    <Compile Include="Integration\Web\Configuration\MvcConfigurationTests.cs" />
+    <Compile Include="StubsMocks\CapturedVariableProviderStub.cs" />
+    <Compile Include="StubsMocks\ConfigurationStoreMock.cs" />
+    <Compile Include="StubsMocks\HealthCheckMock.cs" />
+    <Compile Include="StubsMocks\ReservedVariableProviderStub.cs" />
+    <Compile Include="StubsMocks\ReservedVariableStub.cs" />
+    <Compile Include="StubsMocks\SharedVariablesProviderStub.cs" />
+    <Compile Include="StubsMocks\TestCaseSessionRepositoryMock.cs" />
+    <Compile Include="StubsMocks\TestFileQueueStub.cs" />
+    <Compile Include="StubsMocks\TestFileResultRepositoryFactoryMock.cs" />
+    <Compile Include="StubsMocks\TestFileRunnerLogFactoryMock.cs" />
+    <Compile Include="StubsMocks\TestFileRunnerLoggerMock.cs" />
+    <Compile Include="StubsMocks\VariableContainerStub.cs" />
+    <Compile Include="StubsMocks\Web\TestControllerWrapper.cs" />
+    <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />
+    <Compile Include="Unit\Client\TestsClientTests.cs" />
+    <Compile Include="Unit\Core\Configuration\ConfigurationExtensionTests.cs" />
+    <Compile Include="Unit\Core\Runner\Logging\TestFileRunnerLoggerTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\AngleSharpMatcherTests.cs" />
+    <Compile Include="StubsMocks\SnippetFileReaderMock.cs" />
+    <Compile Include="StubsMocks\VariableEncryptorStub.cs" />
+    <Compile Include="Unit\Core\Scripting\TestFileScriptEvaluatorTests.cs" />
+    <Compile Include="Unit\Core\Security\OAuth2\UrnLookupTests.cs" />
+    <Compile Include="Unit\Core\Security\UserContextTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\Encryption\RijndaelEncryptionTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\Encryption\VariableEncryptorTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\ReservedVariables\RandomNumberVariableTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\VariableContainerTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\VariablePostProcessorTests.cs" />
+    <Compile Include="Unit\Core\Tests\Variables\VariableTests.cs" />
+    <Compile Include="Unit\Core\Helpers\UrlHelperTests.cs" />
+    <Compile Include="Unit\Service\Controllers\TestsControllerTests.cs" />
+    <Compile Include="Unit\Service\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Service\Jobs\DbCleanupJobTests.cs" />
+    <Compile Include="Unit\Service\Parallel\BatchManagerTests.cs" />
+    <Compile Include="Unit\Service\Parallel\TestFileAssemblerTests.cs" />
+    <Compile Include="Unit\Service\Parallel\TestFileResultFactoryTests.cs" />
+    <Compile Include="Unit\Web\Controllers\Attributes\AuthorizeWhenOAuthAttributeTests.cs" />
+    <Compile Include="StubsMocks\ConfigurationServiceMock.cs" />
+    <Compile Include="Unit\Web\Controllers\Attributes\EditableTestsRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Web\Controllers\SystemControllerTests.cs" />
+    <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\FilterConfigTests.cs" />
+    <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
+    <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
+    <Compile Include="Unit\Web\ExtensionsTests.cs" />
+    <Compile Include="Unit\Web\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\JsonControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\ResultsControllerTests.cs" />
+    <Compile Include="Unit\Web\Models\RunViewModelTests.cs" />
+    <Compile Include="Unit\Web\Controllers\TestControllerTests.cs" />
+    <Compile Include="Unit\Web\Controllers\TestFileControllerTests.cs" />
+    <Compile Include="TestHelpers.cs" />
+    <Compile Include="Unit\Core\Http\HttpResponseTests.cs" />
+    <Compile Include="StubsMocks\RestResponseStub.cs" />
+    <Compile Include="StubsMocks\RestClientMock.cs" />
+    <Compile Include="Unit\Core\Http\HttpClientTests.cs" />
+    <Compile Include="Unit\Core\Tests\Results\TestResultTests.cs" />
+    <Compile Include="Unit\Core\Runner\CapturedVariableProviderTests.cs" />
+    <Compile Include="Unit\Core\Runner\TestFileResultsBuilder.cs" />
+    <Compile Include="Unit\Core\Runner\TestFileResultTests.cs" />
+    <Compile Include="Unit\Core\Runner\Assertions\AssertionsMatcherTests.cs" />
+    <Compile Include="StubsMocks\TestCaseReaderMock.cs" />
+    <Compile Include="Unit\Core\Runner\TestFileRunnerTests.cs" />
+    <Compile Include="Unit\Core\Http\HttpLogWriterTests.cs" />
+    <Compile Include="StubsMocks\HttpClientMock.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Web\RouteConfigTests.cs" />
+    <Compile Include="Unit\Web\ValidationAttributes\ValidCsQueryAttributesTests.cs" />
+    <Compile Include="Unit\Web\ValidationAttributes\ValidationAttributesTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj">
+      <Project>{2C10ABB4-4FC4-4AFE-AEFE-B9935E0AB324}</Project>
+      <Name>Syringe.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj">
+      <Project>{543b728d-5dc3-45a8-9c01-7ba5ae07e861}</Project>
+      <Name>Syringe.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Syringe.Service\Syringe.Service.csproj">
+      <Project>{b3aaaa32-4160-419f-9117-179037f88748}</Project>
+      <Name>Syringe.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Syringe.Web\Syringe.Web.csproj">
+      <Project>{F7EAD6A8-1BD0-43C6-A916-4CBFA0BEFCE3}</Project>
+      <Name>Syringe.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <Content Include="Integration\Core\Environments\environments.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Web\Configuration\empty-websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Integration\Core\Tests\Repositories\Json\JsonExamples\full-test-file.json" />
+    <EmbeddedResource Include="Integration\Core\Tests\Variables\SharedVariables\JsonExamples\shared-variables-example.json" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Integration\Web\Configuration\websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="websiteconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="environments.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="shared-variables.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

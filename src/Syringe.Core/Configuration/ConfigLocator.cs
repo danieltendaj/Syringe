@@ -11,7 +11,7 @@ namespace Syringe.Core.Configuration
         {
             _configurationDirectories = new[]
             {
-                AppDomain.CurrentDomain.BaseDirectory,
+                System.AppContext.BaseDirectory,
                 GetAppDataFolder()
             };
         }
@@ -40,6 +40,7 @@ namespace Syringe.Core.Configuration
             throw new FileNotFoundException(errorMessage, fileName);
         }
 
+        // netstandard: TODO
         private static string GetAppDataFolder() => Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
     }
 }

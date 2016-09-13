@@ -1,78 +1,43 @@
 ﻿using System;
-using System.Web.Http;
-using System.Web.Http.ExceptionHandling;
-using Microsoft.Owin.Hosting;
-using Owin;
-using Swashbuckle.Application;
-using Syringe.Core.Configuration;
-using Syringe.Service.Jobs;
-using IDependencyResolver = System.Web.Http.Dependencies.IDependencyResolver;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Syringe.Service
 {
-	public class Startup
-	{
-		protected IDisposable WebApplication;
-		private readonly IDependencyResolver _webDependencyResolver;
-		private readonly IConfiguration _configuration;
-	    private readonly IDbCleanupJob _cleanupJob;
+    public class Startup
+    {
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
 
-	    public Startup(
-			IDependencyResolver webDependencyResolver,
-			IConfiguration configuration,
-            IDbCleanupJob cleanupJob)
-		{
-			_webDependencyResolver = webDependencyResolver;
-			_configuration = configuration;
-	        _cleanupJob = cleanupJob;
-		}
+        public IConfigurationRoot Configuration { get; }
 
-		public void Start()
-		{
-			try
-			{
-                _cleanupJob.Start();
-                WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
-			}
-			catch (Exception ex)
-			{
-				if (ex.InnerException != null && ex.InnerException.Message.ToLowerInvariant().Contains("access is denied"))
-					throw new InvalidOperationException("Access denied - if you're running Visual Studio, restart it in adminsitrator mode. Otherwise is the service running as an administrator or privileges to listen on TCP ports?");
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // Add framework services.
+            services.AddMvc();
+        }
 
-				throw;
-			}
-		}
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
-		public void Stop()
-		{
-            _cleanupJob.Stop();
-			WebApplication.Dispose();
-		}
-
-		public void Configuration(IAppBuilder application)
-		{
-			var httpConfiguration = new HttpConfiguration();
-			httpConfiguration.EnableSwagger(swaggerConfig =>
-			{
-				swaggerConfig
-					.SingleApiVersion("v1", "Syringe REST API")
-					.Description("REST API for Syringe, this is used by the web UI.");
-
-			}).EnableSwaggerUi();
-
-			httpConfiguration.Services.Add(typeof(IExceptionLogger), new ServiceExceptionLogger());
-			httpConfiguration.MapHttpAttributeRoutes();
-			httpConfiguration.DependencyResolver = _webDependencyResolver;
-
-			application.UseWebApi(httpConfiguration);
-		}
-	}
-
-	public class ServiceExceptionLogger : ExceptionLogger
-	{
-		public override void Log(ExceptionLoggerContext context)
-		{
-			base.Log(context);
-		}
-	}
+            app.UseMvc();
+        }
+    }
 }
