@@ -9,7 +9,7 @@ using Syringe.Service.Jobs;
 namespace Syringe.Tests.Unit.Service.Jobs
 {
     [TestFixture]
-    public class DbCleanupJobTests //TODO: FILL ME OUT
+    public class DbCleanupJobTests
     {
         private Mock<IConfiguration> _configurationMock;
         private Mock<ITestFileResultRepository> _repositoryMock;

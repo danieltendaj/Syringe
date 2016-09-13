@@ -6,12 +6,12 @@ using Syringe.Service.Parallel;
 
 namespace Syringe.Service.Jobs
 {
-    public class TasksCleanup : IJob
+    public class TasksCleanupJob : IJob
     {
         private readonly ITestFileQueue _testFileQueue;
         private Timer _timer;
 
-        public TasksCleanup(ITestFileQueue testFileQueue)
+        public TasksCleanupJob(ITestFileQueue testFileQueue)
         {
             _testFileQueue = testFileQueue;
         }

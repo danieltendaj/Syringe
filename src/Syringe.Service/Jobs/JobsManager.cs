@@ -4,9 +4,9 @@
     {
         private readonly IJob[] _jobs;
 
-        public JobsManager(DbCleanupJob dbCleanupJob, TasksCleanup tasksCleanup)
+        public JobsManager(DbCleanupJob dbCleanupJob, TasksCleanupJob tasksCleanupJob)
         {
-            _jobs = new IJob[] { dbCleanupJob, tasksCleanup };
+            _jobs = new IJob[] { dbCleanupJob, tasksCleanupJob };
         }
 
         public void Start()
