@@ -5,7 +5,7 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Jobs
 {
-    public class DbCleanupJob : IDbCleanupJob
+    public class DbCleanupJob : IJob
     {
         private readonly IConfiguration _configuration;
         private readonly ITestFileResultRepository _repository;

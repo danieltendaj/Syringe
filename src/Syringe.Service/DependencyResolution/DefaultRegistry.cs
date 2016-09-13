@@ -31,6 +31,7 @@ using Syringe.Core.Tests.Repositories.Json.Writer;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Service.Jobs;
 using Syringe.Service.Parallel;
 
 namespace Syringe.Service.DependencyResolution
@@ -84,6 +85,7 @@ namespace Syringe.Service.DependencyResolution
             SetupEnvironmentSource(configuration);
 
 	        For<ObjectCache>().Use(x => MemoryCache.Default);
+	        For<IJob>().Use<JobsManager>();
         }
 
         internal void SetupEnvironmentSource(IConfiguration configuration)
