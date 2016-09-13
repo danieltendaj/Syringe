@@ -172,6 +172,7 @@
     <Compile Include="Controllers\Attribute\AuthorizeWhenOAuthAttribute.cs" />
     <Compile Include="Controllers\Attribute\EditableTestsRequiredAttribute.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="Extensions\UrlHelpers\CacheBusterExtensions.cs" />
     <Compile Include="Models\TaskProgressViewMode.cs" />
     <Compile Include="DependencyResolution\InjectingActionInvoker.cs" />
     <Compile Include="DependencyResolution\MvcAttributeProvider.cs" />
@@ -187,7 +188,7 @@
     <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Models\ResultsViewModel.cs" />
     <Compile Include="Controllers\TestFileController.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />

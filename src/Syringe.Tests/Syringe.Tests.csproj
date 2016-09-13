@@ -273,10 +273,11 @@
     <Compile Include="Unit\Web\Controllers\Attributes\EditableTestsRequiredAttributeTests.cs" />
     <Compile Include="Unit\Web\Controllers\SystemControllerTests.cs" />
     <Compile Include="Unit\Web\DependencyResolution\DefaultRegistryTests.cs" />
+    <Compile Include="Unit\Web\Extensions\UrlHelpers\CacheBusterExtensionsTests.cs" />
     <Compile Include="Unit\Web\FilterConfigTests.cs" />
     <Compile Include="Unit\Web\Mappers\TestFileMapperTests.cs" />
     <Compile Include="Unit\Core\Tests\Repositories\TestRepositoryTests.cs" />
-    <Compile Include="Unit\Web\ExtensionsTests.cs" />
+    <Compile Include="Unit\Web\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Web\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\Web\Controllers\JsonControllerTests.cs" />
     <Compile Include="Unit\Web\Controllers\ResultsControllerTests.cs" />
@@ -346,7 +347,9 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unit\Web\Extensions\HtmlHelpers\" />
+  </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />

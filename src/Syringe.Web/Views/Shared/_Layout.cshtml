@@ -1,5 +1,6 @@
 ﻿@using Syringe.Core.Security
 @using Syringe.Web.Extensions.HtmlHelpers
+@using Syringe.Web.Extensions.UrlHelpers
 @{
     var userContext = UserContext.GetFromFormsAuth(this.Context);
 }
@@ -7,7 +8,7 @@
 <html>
 <head>
     <title>@ViewBag.Title - Syringe</title>
-    <link href="~/Css/Syringe.css?v=@typeof(Startup).Assembly.GetName().Version" rel="stylesheet" />
+    <link href="@Url.GetCacheBuster("~/Css/Syringe.css")" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,19 +62,18 @@
     </nav>
 
     @RenderBody()
-
-    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/jquery.textcomplete-1.6.1.min.js"></script>
-    <script src="~/Scripts/jquery.overlay-0.0.5.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/material.js"></script>
-    <script src="~/Scripts/ripples.js"></script>
-    <script src="~/Scripts/bootbox.min.js"></script>
-    <script src="~/Scripts/clipboard.min.js"></script>
-    <script src="~/Scripts/Syringe.js"></script>
-    <script src="~/Scripts/cheet.min.js"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/jquery-1.11.3.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/jquery.textcomplete-1.6.1.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/jquery.overlay-0.0.5.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/material.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/ripples.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/bootbox.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/clipboard.min.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/Syringe.js")"></script>
+    <script src="@Url.GetCacheBuster("~/Scripts/cheet.min.js")"></script>
     <script>
         $.material.init();
         $.material.ripples();
