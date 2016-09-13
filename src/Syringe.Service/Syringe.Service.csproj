@@ -189,6 +189,7 @@
     <Compile Include="Jobs\DbCleanupJob.cs" />
     <Compile Include="Jobs\IJob.cs" />
     <Compile Include="Jobs\JobsManager.cs" />
+    <Compile Include="Jobs\TasksCleanup.cs" />
     <Compile Include="Models\BatchStatus.cs" />
     <Compile Include="Models\LightweightResult.cs" />
     <Compile Include="Parallel\BatchManager.cs" />

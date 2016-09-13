@@ -94,6 +94,7 @@ namespace Syringe.Service.Parallel
                     IsComplete = task.CurrentTask.IsCompleted,
                     CurrentIndex = (runner != null) ? task.Runner.TestsRun : 0,
                     TotalTests = (runner != null) ? task.Runner.TotalTests : 0,
+                    StartTime = task.StartTime
                 };
             });
         }
@@ -104,6 +105,12 @@ namespace Syringe.Service.Parallel
             _currentTasks.TryGetValue(taskId, out task);
 
             return task;
+        }
+
+        public void Remove(int taskId)
+        {
+            TestFileRunnerTaskInfo throwaway;
+            _currentTasks.TryRemove(taskId, out throwaway);
         }
 
         /// <summary>

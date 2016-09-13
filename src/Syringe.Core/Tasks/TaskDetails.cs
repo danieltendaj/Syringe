@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Syringe.Core.Tests.Results;
 
 namespace Syringe.Core.Tasks
@@ -16,8 +17,9 @@ namespace Syringe.Core.Tasks
 
 		public List<TestResult> Results { get; set; }
 		public string Errors { get; set; }
+	    public DateTime StartTime { get; set; }
 
-		public TaskDetails()
+	    public TaskDetails()
 		{
 			Results = new List<TestResult>();
 		}
