@@ -41,6 +41,7 @@ namespace Syringe.Core.Configuration
         }
 
         // netstandard: TODO
+        // looks like the latest BETA supports this again... https://github.com/dotnet/corefx/issues/5248#issuecomment-245741688
         private static string GetAppDataFolder() => Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
     }
 }
