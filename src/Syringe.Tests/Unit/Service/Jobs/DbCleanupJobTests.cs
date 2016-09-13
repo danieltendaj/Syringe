@@ -35,7 +35,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
                 .Returns(expectedDaysOfRetention);
 
             // when
-            _job.Cleanup(null);
+            _job.Cleanup();
 
             // then
             _repositoryMock
@@ -48,18 +48,18 @@ namespace Syringe.Tests.Unit.Service.Jobs
             // given
             _configurationMock
                 .Setup(x => x.CleanupSchedule)
-                .Returns(new TimeSpan(0, 0, 0, 0, 10)); // 10 milli
+                .Returns(TimeSpan.FromMilliseconds(5));
 
             // when
             _job.Start(DummyCallback);
 
             // then
-            Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+            Thread.Sleep(TimeSpan.FromMilliseconds(60));
             Assert.That(_callbackCount, Is.GreaterThanOrEqualTo(3));
 
             _job.Stop();
             int localCallbackStore = _callbackCount;
-            Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+            Thread.Sleep(TimeSpan.FromMilliseconds(30));
             Assert.That(_callbackCount, Is.EqualTo(localCallbackStore));
         }
 
@@ -70,7 +70,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 
             // when
             _job.Start();
-            Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+            Thread.Sleep(TimeSpan.FromMilliseconds(50));
 
             // then
             _repositoryMock

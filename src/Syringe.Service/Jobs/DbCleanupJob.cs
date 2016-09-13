@@ -39,7 +39,7 @@ namespace Syringe.Service.Jobs
             }
         }
 
-        internal void Cleanup(object guff)
+        internal void Cleanup(object unused = null)
         {
             DateTime cleanupBefore = DateTime.Today.AddDays(-_configuration.DaysOfDataRetention);
             _repository.DeleteBeforeDate(cleanupBefore).Wait();
