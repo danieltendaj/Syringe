@@ -54,7 +54,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
             _job.Start(DummyCallback);
 
             // then
-            Thread.Sleep(TimeSpan.FromMilliseconds(60));
+            Thread.Sleep(TimeSpan.FromMilliseconds(100));
             Assert.That(_callbackCount, Is.GreaterThanOrEqualTo(3));
 
             _job.Stop();
