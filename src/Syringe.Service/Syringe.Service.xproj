@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>29d9ddcd-c977-4e74-aa87-fc7dc338644b</ProjectGuid>
+    <ProjectGuid>e25ae013-cde0-4fbd-95dd-25de3762b2c8</ProjectGuid>
     <RootNamespace>Syringe.Service</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
