@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Syringe.Core.Configuration
 {
@@ -41,7 +40,11 @@ namespace Syringe.Core.Configuration
         }
 
         // netstandard: TODO
-        // looks like the latest BETA supports this again... https://github.com/dotnet/corefx/issues/5248#issuecomment-245741688
-        private static string GetAppDataFolder() => Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
+        // looks like the latest BETA of netstandard 1.7 supports SpecialFolders again... https://github.com/dotnet/corefx/issues/5248#issuecomment-245741688
+        private static string GetAppDataFolder()
+        {
+            return "";
+            //return Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "Syringe");
+        }
     }
 }
