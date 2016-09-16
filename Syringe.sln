@@ -5,11 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Syringe.Web", "src\Syringe.Web\Syringe.Web.xproj", "{AFCB4F82-79DF-41DB-B080-C4BD12842E42}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Syringe.Service", "src\Syringe.Service\Syringe.Service.xproj", "{E25AE013-CDE0-4FBD-95DD-25DE3762B2C8}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Syringe.Core", "src\Syringe.Core\Syringe.Core.xproj", "{C70928DC-B3ED-403D-B498-A14B5AD672DC}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Syringe.Client", "src\Syringe.Client\Syringe.Client.xproj", "{C068B09A-58DE-47E7-AD83-D567102BD041}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Syringe.Service", "src\Syringe.Service\Syringe.Service.xproj", "{29D9DDCD-C977-4E74-AA87-FC7DC338644B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{AFCB4F82-79DF-41DB-B080-C4BD12842E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFCB4F82-79DF-41DB-B080-C4BD12842E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFCB4F82-79DF-41DB-B080-C4BD12842E42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E25AE013-CDE0-4FBD-95DD-25DE3762B2C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E25AE013-CDE0-4FBD-95DD-25DE3762B2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E25AE013-CDE0-4FBD-95DD-25DE3762B2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E25AE013-CDE0-4FBD-95DD-25DE3762B2C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C70928DC-B3ED-403D-B498-A14B5AD672DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C70928DC-B3ED-403D-B498-A14B5AD672DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C70928DC-B3ED-403D-B498-A14B5AD672DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{C068B09A-58DE-47E7-AD83-D567102BD041}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C068B09A-58DE-47E7-AD83-D567102BD041}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C068B09A-58DE-47E7-AD83-D567102BD041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29D9DDCD-C977-4E74-AA87-FC7DC338644B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29D9DDCD-C977-4E74-AA87-FC7DC338644B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29D9DDCD-C977-4E74-AA87-FC7DC338644B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29D9DDCD-C977-4E74-AA87-FC7DC338644B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
