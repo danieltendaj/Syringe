@@ -33,30 +33,31 @@ namespace Syringe.Core.Http
 			//
 			// Get the response back, parsing the headers
 			//
-            DateTime startTime = DateTime.UtcNow;
+   //         DateTime startTime = DateTime.UtcNow;
 
-            // netstandard: TODO
-            IRestResponse response = await _restClient.ExecuteTaskAsync(request);
-		    TimeSpan responseTime = DateTime.UtcNow - startTime;
+   //         // netstandard: TODO
+   //         IRestResponse response = await _restClient.ExecuteTaskAsync(request);
+		 //   TimeSpan responseTime = DateTime.UtcNow - startTime;
 
-			var headers = new List<HttpHeader>();
-			if (response.Headers != null)
-			{ 
-				headers = response.Headers.Select(x => new HttpHeader(x.Name, Convert.ToString(x.Value)))
-												.ToList();
-			}
+			//var headers = new List<HttpHeader>();
+			//if (response.Headers != null)
+			//{ 
+			//	headers = response.Headers.Select(x => new HttpHeader(x.Name, Convert.ToString(x.Value)))
+			//									.ToList();
+			//}
 
-			// Logging
-			httpLogWriter.AppendRequest(_restClient.BaseUrl, request);
-			httpLogWriter.AppendResponse(response);
+			//// Logging
+			//httpLogWriter.AppendRequest(_restClient.BaseUrl, request);
+			//httpLogWriter.AppendResponse(response);
 
-			return new HttpResponse()
-			{
-				StatusCode = response.StatusCode,
-				Content = response.Content,
-				Headers = headers,
-                ResponseTime = responseTime
-			};
+			//return new HttpResponse()
+			//{
+			//	StatusCode = response.StatusCode,
+			//	Content = response.Content,
+			//	Headers = headers,
+   //             ResponseTime = responseTime
+			//};
+            throw new NotImplementedException();
 		}
 
 		public IRestRequest CreateRestRequest(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)
