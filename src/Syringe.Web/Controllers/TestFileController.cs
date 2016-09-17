@@ -190,6 +190,24 @@ namespace Syringe.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [EditableTestsRequired]
+        public JsonResult ReorderTests(TestFileOrder testFile)
+        {
+            var originalFile = _testsClient.GetTestFile(testFile.Filename);
+            var testFileOrder = _testsClient.Reorder(testFile, originalFile);
+
+            return Json("{success: " + testFileOrder + "}");
+        }
+
+        [EditableTestsRequired]
+        [HttpPost]
+        public ActionResult ReorderTests(string filename)
+        {
+            var testFileOrder = _testsClient.GetTestFileOrder(filename);
+
+            return PartialView("Partials/_ReorderTest", testFileOrder);
+        }
+
         private SelectListItem[] GetEnvironmentsDropDown()
         {
             List<Environment> environments = _environmentsService.Get().ToList();

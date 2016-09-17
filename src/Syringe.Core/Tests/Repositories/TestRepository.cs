@@ -6,39 +6,39 @@ using Syringe.Core.IO;
 
 namespace Syringe.Core.Tests.Repositories
 {
-	public class TestRepository : ITestRepository
-	{
-		private readonly ITestFileReader _testFileReader;
-		private readonly ITestFileWriter _testFileWriter;
-		private readonly IFileHandler _fileHandler;
+    public class TestRepository : ITestRepository
+    {
+        private readonly ITestFileReader _testFileReader;
+        private readonly ITestFileWriter _testFileWriter;
+        private readonly IFileHandler _fileHandler;
 
-		public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler)
-		{
-			_testFileReader = testFileReader;
-			_testFileWriter = testFileWriter;
-			_fileHandler = fileHandler;
-		}
+        public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler)
+        {
+            _testFileReader = testFileReader;
+            _testFileWriter = testFileWriter;
+            _fileHandler = fileHandler;
+        }
 
-		public Test GetTest(string filename, int position)
-		{
-			string fullPath = _fileHandler.GetFileFullPath(filename);
-			string fileContents = _fileHandler.ReadAllText(fullPath);
+        public Test GetTest(string filename, int position)
+        {
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			using (var stringReader = new StringReader(fileContents))
-			{
-				TestFile testFile = _testFileReader.Read(stringReader);
-				Test test = testFile.Tests.ElementAtOrDefault(position);
+            using (var stringReader = new StringReader(fileContents))
+            {
+                TestFile testFile = _testFileReader.Read(stringReader);
+                Test test = testFile.Tests.ElementAtOrDefault(position);
 
-				if (test == null)
-				{
-					throw new NullReferenceException("Could not find specified Test Case:" + position);
-				}
+                if (test == null)
+                {
+                    throw new NullReferenceException("Could not find specified Test Case:" + position);
+                }
 
-				return test;
-			}
-		}
+                return test;
+            }
+        }
 
-	    public bool CreateTest(string filename, Test test)
+        public bool CreateTest(string filename, Test test)
         {
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);
@@ -57,7 +57,7 @@ namespace Syringe.Core.Tests.Repositories
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-	    public bool SaveTest(string filename, int position, Test test)
+        public bool SaveTest(string filename, int position, Test test)
         {
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);
@@ -88,93 +88,129 @@ namespace Syringe.Core.Tests.Repositories
         }
 
         public bool DeleteTest(int position, string filename)
-		{
-			string fullPath = _fileHandler.GetFileFullPath(filename);
-			string fileContents = _fileHandler.ReadAllText(fullPath);
+        {
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			TestFile testFile;
+            TestFile testFile;
 
-			using (var stringReader = new StringReader(fileContents))
-			{
-				testFile = _testFileReader.Read(stringReader);
+            using (var stringReader = new StringReader(fileContents))
+            {
+                testFile = _testFileReader.Read(stringReader);
 
-				Test testToDelete = testFile.Tests.ElementAtOrDefault(position);
+                Test testToDelete = testFile.Tests.ElementAtOrDefault(position);
 
-				if (testToDelete == null)
-				{
-					throw new NullReferenceException(string.Concat("could not find test case:", position));
-				}
+                if (testToDelete == null)
+                {
+                    throw new NullReferenceException(string.Concat("could not find test case:", position));
+                }
 
-				testFile.Tests = testFile.Tests.Where(x => x != testToDelete);
-			}
+                testFile.Tests = testFile.Tests.Where(x => x != testToDelete);
+            }
 
-			string contents = _testFileWriter.Write(testFile);
+            string contents = _testFileWriter.Write(testFile);
 
-			return _fileHandler.WriteAllText(fullPath, contents);
-		}
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
 
-		public bool CreateTestFile(TestFile testFile)
-		{
-			testFile.Filename = _fileHandler.GetFilenameWithExtension(testFile.Filename);
+        public bool CreateTestFile(TestFile testFile)
+        {
+            testFile.Filename = _fileHandler.GetFilenameWithExtension(testFile.Filename);
 
-			string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
-			bool fileExists = _fileHandler.FileExists(filePath);
+            string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
+            bool fileExists = _fileHandler.FileExists(filePath);
 
-			if (fileExists)
-			{
-				throw new IOException("File already exists");
-			}
+            if (fileExists)
+            {
+                throw new IOException("File already exists");
+            }
 
-			string contents = _testFileWriter.Write(testFile);
+            string contents = _testFileWriter.Write(testFile);
 
-			return _fileHandler.WriteAllText(filePath, contents);
-		}
+            return _fileHandler.WriteAllText(filePath, contents);
+        }
 
-		public bool UpdateTestVariables(TestFile testFile)
-		{
-			string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
-			string fileContents = _fileHandler.ReadAllText(fileFullPath);
+        public bool UpdateTestVariables(TestFile testFile)
+        {
+            string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
+            string fileContents = _fileHandler.ReadAllText(fileFullPath);
 
-			using (var stringReader = new StringReader(fileContents))
-			{
-				TestFile updatedTestFile = _testFileReader.Read(stringReader);
+            using (var stringReader = new StringReader(fileContents))
+            {
+                TestFile updatedTestFile = _testFileReader.Read(stringReader);
 
-				updatedTestFile.Variables = testFile.Variables;
+                updatedTestFile.Variables = testFile.Variables;
 
-				string contents = _testFileWriter.Write(updatedTestFile);
-				return _fileHandler.WriteAllText(fileFullPath, contents);
-			}
-		}
+                string contents = _testFileWriter.Write(updatedTestFile);
+                return _fileHandler.WriteAllText(fileFullPath, contents);
+            }
+        }
 
-		public TestFile GetTestFile(string filename)
-		{
-			string fullPath = _fileHandler.GetFileFullPath(filename);
-			string fileContents = _fileHandler.ReadAllText(fullPath);
+        public TestFile GetTestFile(string filename)
+        {
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
 
-			using (var stringReader = new StringReader(fileContents))
-			{
-				TestFile testFile = _testFileReader.Read(stringReader);
-				testFile.Filename = filename;
+            using (var stringReader = new StringReader(fileContents))
+            {
+                TestFile testFile = _testFileReader.Read(stringReader);
+                testFile.Filename = filename;
 
-			    return testFile;
-			}
-		}
-        
-	    public string GetRawFile(string filename)
-		{
-			var fullPath = _fileHandler.GetFileFullPath(filename);
-			return _fileHandler.ReadAllText(fullPath);
-		}
+                return testFile;
+            }
+        }
 
-		public bool DeleteFile(string filename)
-		{
-			var fullPath = _fileHandler.GetFileFullPath(filename);
-			return _fileHandler.DeleteFile(fullPath);
-		}
-        
-	    public IEnumerable<string> ListFiles()
-		{
-			return _fileHandler.GetFileNames();
-		}
-	}
+        public string GetRawFile(string filename)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename);
+            return _fileHandler.ReadAllText(fullPath);
+        }
+
+        public bool DeleteFile(string filename)
+        {
+            var fullPath = _fileHandler.GetFileFullPath(filename);
+            return _fileHandler.DeleteFile(fullPath);
+        }
+
+        public bool Reorder(TestFileOrder testFile, TestFile testFileOriginal)
+        {
+            string fullPath = _fileHandler.GetFileFullPath(testFileOriginal.Filename);
+            var newOrderList = new List<Test>();
+
+            for (int i = 0; i < testFile.Tests.Count; i++)
+            {
+                var test = testFile.Tests[i];
+                newOrderList.Add(testFileOriginal.Tests.ElementAtOrDefault(test.OriginalPostion));
+            }
+
+            TestFile reorderedTestFile = new TestFile
+            {
+                Filename = testFile.Filename,
+                Tests = newOrderList
+            };
+
+            string contents = _testFileWriter.Write(reorderedTestFile);
+
+            return _fileHandler.WriteAllText(fullPath, contents);
+        }
+
+        public TestFileOrder GetTestFileOrder(string testFilename)
+        {
+            var testFile = GetTestFile(testFilename);
+            TestFileOrder testFileOrder = new TestFileOrder { Filename = testFilename };
+            var tests = testFile.Tests.ToList();
+            for (int i = 0; i < tests.Count; i++)
+            {
+                testFileOrder.Tests.Add(new TestPosition { Description = tests[i].Description, OriginalPostion = i });
+            }
+
+            return testFileOrder;
+
+        }
+
+        public IEnumerable<string> ListFiles()
+        {
+            return _fileHandler.GetFileNames();
+        }
+    }
 }

@@ -1,0 +1,13 @@
+﻿@model Syringe.Core.Tests.TestFileOrder
+
+<h2>Reorder tests for @Model.Filename</h2>
+<ul class="list-unstyled">
+    @foreach (var item in Model.Tests)
+    {
+        <li data-original="@item.OriginalPostion">@item.Description</li>
+    }
+
+</ul>
+
+<button id="saveOrder" data-filename="@Model.Filename">Save</button>
+<button id="cancelOrder">Cancel</button>

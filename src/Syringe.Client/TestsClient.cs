@@ -177,6 +177,31 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
+        public bool Reorder(TestFileOrder testFileToReorder, TestFile testFile)
+        {
+            var client = new RestClient(ServiceUrl);
+
+            IRestRequest request = _restSharpHelper.CreateRequest("test/reorder");
+            request.Method = Method.POST;
+            request.AddJsonBody(testFile);
+            request.AddJsonBody(testFileToReorder);
+            IRestResponse response = client.Execute(request);
+
+            return _restSharpHelper.DeserializeOrThrow<bool>(response);
+        }
+
+        public TestFileOrder GetTestFileOrder(string testFile)
+        {
+            var client = new RestClient(ServiceUrl);
+
+            IRestRequest request = _restSharpHelper.CreateRequest("test/reorder");
+            request.Method = Method.GET;
+            request.AddQueryParameter("testFile",testFile);
+            IRestResponse response = client.Execute(request);
+
+            return _restSharpHelper.DeserializeOrThrow<TestFileOrder>(response);
+        }
+
         public bool DeleteFile(string fileName)
         {
             var client = new RestClient(ServiceUrl);
