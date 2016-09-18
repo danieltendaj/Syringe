@@ -196,7 +196,7 @@ namespace Syringe.Web.Controllers
         {
             var testFileOrder = _testsClient.Reorder(testFile);
 
-            return Json("{success: " + testFileOrder + "}");
+            return Json(testFileOrder);
         }
 
         [EditableTestsRequired]

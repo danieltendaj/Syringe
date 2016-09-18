@@ -55,7 +55,9 @@ module Syringe.Web {
                 testFileOrder.Tests = testPosition;
 
                 $.post("/TestFile/ReorderTests", { "testFile" : testFileOrder }, function(e) {
-                    console.log(e);
+                    if (e) {
+                        window.location.reload();
+                    }
                 });
             });
         };
