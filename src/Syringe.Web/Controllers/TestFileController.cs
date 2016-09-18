@@ -191,17 +191,16 @@ namespace Syringe.Web.Controllers
         }
 
         [EditableTestsRequired]
+        [HttpPost]
         public JsonResult ReorderTests(TestFileOrder testFile)
         {
-            var originalFile = _testsClient.GetTestFile(testFile.Filename);
-            var testFileOrder = _testsClient.Reorder(testFile, originalFile);
+            var testFileOrder = _testsClient.Reorder(testFile);
 
             return Json("{success: " + testFileOrder + "}");
         }
 
         [EditableTestsRequired]
-        [HttpPost]
-        public ActionResult ReorderTests(string filename)
+        public ActionResult GetTestsToReorder(string filename)
         {
             var testFileOrder = _testsClient.GetTestFileOrder(filename);
 

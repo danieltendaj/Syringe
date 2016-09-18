@@ -177,13 +177,12 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-        public bool Reorder(TestFileOrder testFileToReorder, TestFile testFile)
+        public bool Reorder(TestFileOrder testFileToReorder)
         {
             var client = new RestClient(ServiceUrl);
 
             IRestRequest request = _restSharpHelper.CreateRequest("test/reorder");
             request.Method = Method.POST;
-            request.AddJsonBody(testFile);
             request.AddJsonBody(testFileToReorder);
             IRestResponse response = client.Execute(request);
 

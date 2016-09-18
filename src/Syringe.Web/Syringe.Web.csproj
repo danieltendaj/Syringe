@@ -249,14 +249,8 @@
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\cheet.min.js" />
     <Content Include="Scripts\clipboard.min.js" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.overlay-0.0.5.min.js" />
     <Content Include="Scripts\jquery.textcomplete-1.6.1.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />

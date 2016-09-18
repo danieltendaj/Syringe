@@ -22,7 +22,7 @@ namespace Syringe.Core.Services
         Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "");
         TestFileResult GetResultById(Guid id);
         bool DeleteResult(Guid id);
-        bool Reorder(TestFileOrder testFileToReorder, TestFile testFile);
+        bool Reorder(TestFileOrder testFileToReorder);
         TestFileOrder GetTestFileOrder(string testFile);
     }
 }

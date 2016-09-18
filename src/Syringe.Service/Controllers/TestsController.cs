@@ -128,9 +128,9 @@ namespace Syringe.Service.Controllers
 
         [Route("api/test/reorder")]
         [HttpPost]
-        public bool Reorder([FromBody]TestFileOrder testFileToReorder, [FromBody]TestFile testFile)
+        public bool Reorder([FromBody]TestFileOrder testFileToReorder)
 	    {
-            return _testRepository.Reorder(testFileToReorder, testFile);
+            return _testRepository.Reorder(testFileToReorder);
         }
 
         [Route("api/test/reorder")]

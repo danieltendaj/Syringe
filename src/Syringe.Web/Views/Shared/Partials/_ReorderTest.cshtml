@@ -1,7 +1,7 @@
 ﻿@model Syringe.Core.Tests.TestFileOrder
 
 <h2>Reorder tests for @Model.Filename</h2>
-<ul class="list-unstyled">
+<ul class="list-unstyled" id="reorderedTestsList">
     @foreach (var item in Model.Tests)
     {
         <li data-original="@item.OriginalPostion">@item.Description</li>

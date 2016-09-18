@@ -172,9 +172,12 @@ namespace Syringe.Core.Tests.Repositories
             return _fileHandler.DeleteFile(fullPath);
         }
 
-        public bool Reorder(TestFileOrder testFile, TestFile testFileOriginal)
+        public bool Reorder(TestFileOrder testFile)
         {
+            TestFile testFileOriginal = GetTestFile(testFile.Filename);
             string fullPath = _fileHandler.GetFileFullPath(testFileOriginal.Filename);
+
+
             var newOrderList = new List<Test>();
 
             for (int i = 0; i < testFile.Tests.Count; i++)
