@@ -265,5 +265,40 @@ namespace Syringe.Tests.Unit.Web.Controllers
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Index"));
             Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Home"));
         }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ReorderTests_should_return_true_or_false_depending_on_reorder_success(bool testsReordered)
+        {
+            // given
+            _testServiceMock.Setup(x => x.Reorder(It.IsAny<TestFileOrder>())).Returns(testsReordered);
+            // when
+            var jsonResult = _testFileController.ReorderTests(It.IsAny<TestFileOrder>());
+
+            // then
+            _testServiceMock.Verify(x => x.Reorder(It.IsAny<TestFileOrder>()), Times.Once);
+
+            Assert.That(jsonResult, Is.Not.Null);
+            Assert.AreEqual(jsonResult.Data, testsReordered);
+        }
+
+        [Test]
+        public void GetTestsToReorder_should_return_testFile_and_correct_partial_view()
+        {
+            // given
+            string filename = "i.love.a.good.filename";
+            TestFileOrder order = new TestFileOrder();
+            _testServiceMock.Setup(x => x.GetTestFileOrder(filename)).Returns(order);
+            // when
+            var partialViewResult = _testFileController.GetTestsToReorder(filename) as PartialViewResult;
+
+            // then
+            _testServiceMock.Verify(x => x.GetTestFileOrder(filename), Times.Once);
+
+            Assert.That(partialViewResult, Is.Not.Null);
+            Assert.AreEqual("Partials/_ReorderTest", partialViewResult.ViewName);
+            Assert.IsInstanceOf<TestFileOrder>(partialViewResult.Model);
+        }
     }
 }
