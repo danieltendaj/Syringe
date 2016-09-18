@@ -4,7 +4,7 @@
 <ul  class="list-group" id="reorderedTestsList">
     @foreach (var item in Model.Tests)
     {
-        <li class="list-group-item" data-original="@item.OriginalPostion">@item.Description</li>
+        <li class="list-group-item" data-original="@item.OriginalPostion"><span class="drag-handle">&#9776;</span>@item.Description</li>
     }
 
 </ul>
