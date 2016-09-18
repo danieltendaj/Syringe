@@ -1,7 +1,8 @@
 ﻿/// <reference path="../typings/jquery/jquery.d.ts" />
  
 module Syringe.Web {
-
+    // declared Sortable so the sortable library can be used
+    declare var Sortable: any;
     export class TestPostion {
 
         public OriginalPostion: number;
@@ -32,6 +33,10 @@ module Syringe.Web {
 
                 $.get("/TestFile/GetTestsToReorder", { "filename": filename }, html => {
                     bootbox.alert(html, () => {
+                       
+                    }).on("shown.bs.modal", function (e) {
+                        var el = document.getElementById('reorderedTestsList');
+                        var sortable = Sortable.create(el);
                     });
                 });
             });

@@ -254,6 +254,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />
+    <Content Include="Scripts\sortable-1.4.2.min.js" />
     <Content Include="Scripts\Syringe.js.map" />
     <Content Include="package.json" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.eot" />
