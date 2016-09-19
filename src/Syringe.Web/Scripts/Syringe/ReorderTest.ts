@@ -29,14 +29,14 @@ module Syringe.Web {
                 e.preventDefault();
                 $(this).hide();
 
-                var testFileOrder = new TestFilerOrder();
-                testFileOrder.Filename = $(this).data("filename");
+                var tests = new Array<TestPostion>();
+                var filename = $(this).data("filename");
 
                 $("#reorderedTestsList li").each(function (e) {
-                    testFileOrder.Tests.push(new TestPostion($(this).data("original"), ""));
+                    tests.push(new TestPostion($(this).data("original"), ""));
                 });
 
-                $.post("/TestFile/ReorderTests", { "testFile" : testFileOrder }, function(e) {
+                $.post("/TestFile/ReorderTests", { "filename": filename, "tests": tests }, function(e) {
                     if (e) {
                         window.location.reload();
                     }

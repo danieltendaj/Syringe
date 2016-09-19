@@ -126,18 +126,11 @@ namespace Syringe.Service.Controllers
             return true;
         }
 
-        [Route("api/test/reorder")]
+	    [Route("api/test/reorder")]
         [HttpPost]
-        public bool Reorder([FromBody]TestFileOrder testFileToReorder)
+        public bool Reorder(string fileName, [FromBody]IEnumerable<TestPosition> tests)
 	    {
-            return _testRepository.Reorder(testFileToReorder);
-        }
-
-        [Route("api/test/reorder")]
-        [HttpGet]
-        public TestFileOrder GetTestFileOrder(string testFile)
-	    {
-            return _testRepository.GetTestFileOrder(testFile);
+            return _testRepository.Reorder(fileName, tests);
         }
     }
 }

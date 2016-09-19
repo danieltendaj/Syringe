@@ -192,9 +192,9 @@ namespace Syringe.Web.Controllers
 
         [EditableTestsRequired]
         [HttpPost]
-        public JsonResult ReorderTests(TestFileOrder testFile)
+        public JsonResult ReorderTests(string filename, IEnumerable<TestPosition> tests)
         {
-            var testFileOrder = _testsClient.Reorder(testFile);
+            var testFileOrder = _testsClient.Reorder(filename, tests);
 
             return Json(testFileOrder);
         }
@@ -202,9 +202,9 @@ namespace Syringe.Web.Controllers
         [EditableTestsRequired]
         public ActionResult GetTestsToReorder(string filename)
         {
-            var testFileOrder = _testsClient.GetTestFileOrder(filename);
+            var testFile = _testsClient.GetTestFile(filename);
 
-            return PartialView("Partials/_ReorderTest", testFileOrder);
+            return PartialView("Partials/_ReorderTest", testFile);
         }
 
         private SelectListItem[] GetEnvironmentsDropDown()

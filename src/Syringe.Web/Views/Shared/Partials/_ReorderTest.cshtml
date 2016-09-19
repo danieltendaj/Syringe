@@ -1,10 +1,10 @@
-﻿@model Syringe.Core.Tests.TestFileOrder
+﻿@model TestFile
 
 <h2>Reorder tests for @Model.Filename</h2>
-<ul  class="list-group" id="reorderedTestsList">
-    @foreach (var item in Model.Tests)
+<ul class="list-group" id="reorderedTestsList">
+    @for (int i = 0; i < Model.Tests.Count(); i++)
     {
-        <li class="list-group-item" data-original="@item.OriginalPostion"><span class="drag-handle">&#9776;</span>@item.Description</li>
+        <li class="list-group-item" data-original="@i"><span class="drag-handle">&#9776;</span>@Model.Tests.ElementAtOrDefault(i).Description</li>
     }
 
 </ul>

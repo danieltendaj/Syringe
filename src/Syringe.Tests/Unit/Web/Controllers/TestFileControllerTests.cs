@@ -272,12 +272,12 @@ namespace Syringe.Tests.Unit.Web.Controllers
         public void ReorderTests_should_return_true_or_false_depending_on_reorder_success(bool testsReordered)
         {
             // given
-            _testServiceMock.Setup(x => x.Reorder(It.IsAny<TestFileOrder>())).Returns(testsReordered);
+            _testServiceMock.Setup(x => x.Reorder(It.IsAny<string>(),It.IsAny<IEnumerable<TestPosition>>())).Returns(testsReordered);
             // when
-            var jsonResult = _testFileController.ReorderTests(It.IsAny<TestFileOrder>());
+            var jsonResult = _testFileController.ReorderTests(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>());
 
             // then
-            _testServiceMock.Verify(x => x.Reorder(It.IsAny<TestFileOrder>()), Times.Once);
+            _testServiceMock.Verify(x => x.Reorder(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>()), Times.Once);
 
             Assert.That(jsonResult, Is.Not.Null);
             Assert.AreEqual(jsonResult.Data, testsReordered);
@@ -288,17 +288,17 @@ namespace Syringe.Tests.Unit.Web.Controllers
         {
             // given
             string filename = "i.love.a.good.filename";
-            TestFileOrder order = new TestFileOrder();
-            _testServiceMock.Setup(x => x.GetTestFileOrder(filename)).Returns(order);
+            TestFile toReorder = new TestFile();
+            _testServiceMock.Setup(x => x.GetTestFile(filename)).Returns(toReorder);
             // when
             var partialViewResult = _testFileController.GetTestsToReorder(filename) as PartialViewResult;
 
             // then
-            _testServiceMock.Verify(x => x.GetTestFileOrder(filename), Times.Once);
+            _testServiceMock.Verify(x => x.GetTestFile(filename), Times.Once);
 
             Assert.That(partialViewResult, Is.Not.Null);
             Assert.AreEqual("Partials/_ReorderTest", partialViewResult.ViewName);
-            Assert.IsInstanceOf<TestFileOrder>(partialViewResult.Model);
+            Assert.IsInstanceOf<TestFile>(partialViewResult.Model);
         }
     }
 }

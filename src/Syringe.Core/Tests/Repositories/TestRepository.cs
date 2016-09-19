@@ -172,23 +172,24 @@ namespace Syringe.Core.Tests.Repositories
             return _fileHandler.DeleteFile(fullPath);
         }
 
-        public bool Reorder(TestFileOrder testFile)
+        public bool Reorder(string filename, IEnumerable<TestPosition> tests)
         {
-            TestFile testFileOriginal = GetTestFile(testFile.Filename);
+            TestFile testFileOriginal = GetTestFile(filename);
             string fullPath = _fileHandler.GetFileFullPath(testFileOriginal.Filename);
 
 
             var newOrderList = new List<Test>();
 
-            for (int i = 0; i < testFile.Tests.Count; i++)
+            var testPositions = tests.ToList();
+            for (int i = 0; i < testPositions.Count; i++)
             {
-                var test = testFile.Tests[i];
+                var test = testPositions[i];
                 newOrderList.Add(testFileOriginal.Tests.ElementAtOrDefault(test.OriginalPostion));
             }
 
             TestFile reorderedTestFile = new TestFile
             {
-                Filename = testFile.Filename,
+                Filename = filename,
                 Tests = newOrderList
             };
 
@@ -197,19 +198,6 @@ namespace Syringe.Core.Tests.Repositories
             return _fileHandler.WriteAllText(fullPath, contents);
         }
 
-        public TestFileOrder GetTestFileOrder(string testFilename)
-        {
-            var testFile = GetTestFile(testFilename);
-            TestFileOrder testFileOrder = new TestFileOrder { Filename = testFilename };
-            var tests = testFile.Tests.ToList();
-            for (int i = 0; i < tests.Count; i++)
-            {
-                testFileOrder.Tests.Add(new TestPosition { Description = tests[i].Description, OriginalPostion = i });
-            }
-
-            return testFileOrder;
-
-        }
 
         public IEnumerable<string> ListFiles()
         {
