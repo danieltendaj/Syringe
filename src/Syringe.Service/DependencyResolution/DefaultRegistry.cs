@@ -1,4 +1,6 @@
-﻿using StructureMap;
+﻿using Microsoft.Extensions.Configuration;
+using StructureMap;
+using StructureMap.Pipeline;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Environment.Json;
@@ -12,15 +14,16 @@ using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service.Parallel;
+using IConfiguration = Syringe.Core.Configuration.IConfiguration;
 
 namespace Syringe.Service.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry() : this(null)
+        public DefaultRegistry() : this(Startup.Configuration)
         { }
 
-        public DefaultRegistry(IConfigurationStore configurationStore)
+        public DefaultRegistry(IConfigurationRoot configurationRoot)
         {
             Scan(
                 scan =>
@@ -32,16 +35,10 @@ namespace Syringe.Service.DependencyResolution
 
             For<Startup>().Use<Startup>().Singleton();
 
-            // Configuration: load the configuration from the store
-            if (configurationStore == null)
-            {
-                configurationStore = new JsonConfigurationStore(new ConfigLocator());
-            }
-
-            For<IConfigurationStore>().Use(configurationStore).Singleton();
-
-            IConfiguration configuration = configurationStore.Load();
-            For<IConfiguration>().Use(configuration);
+            For<IConfigurationRoot>().Use(configurationRoot);
+            For<IConfigurationStore>().Use<JsonConfigurationStore>().Singleton();
+            
+            For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load()).Singleton();
 
             For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
             For<IVariableEncryptor>().Use<VariableEncryptor>();
@@ -58,7 +55,7 @@ namespace Syringe.Service.DependencyResolution
             For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
             SetupTestFileFormat();
-            SetupEnvironmentSource(configuration);
+            SetupEnvironmentSource(null);//configuration);
 
             //TODO?
             //For<ObjectCache>().Use(x => MemoryCache.Default);
@@ -67,19 +64,19 @@ namespace Syringe.Service.DependencyResolution
         internal void SetupEnvironmentSource(IConfiguration configuration)
         {
             // Environments, use Octopus if keys exist
-            bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey);
-            bool containsOctopusUrl = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusUrl);
+            //bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusApiKey);
+            //bool containsOctopusUrl = !string.IsNullOrEmpty(configuration.OctopusConfiguration?.OctopusUrl);
 
-            if (containsOctopusApiKey && containsOctopusUrl)
-            {
-                For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
-                For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
-                For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>().Singleton();
-            }
-            else
-            {
+            //if (containsOctopusApiKey && containsOctopusUrl)
+            //{
+            //    For<IOctopusRepositoryFactory>().Use<OctopusRepositoryFactory>();
+            //    For<IOctopusRepository>().Use(x => x.GetInstance<IOctopusRepositoryFactory>().Create());
+            //    For<IEnvironmentProvider>().Use<OctopusEnvironmentProvider>().Singleton();
+            //}
+            //else
+            //{
                 For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
-            }
+            //}
         }
 
         private void SetupTestFileFormat()
