@@ -174,28 +174,33 @@ namespace Syringe.Core.Tests.Repositories
 
         public bool Reorder(string filename, IEnumerable<TestPosition> tests)
         {
-            TestFile testFileOriginal = GetTestFile(filename);
-            string fullPath = _fileHandler.GetFileFullPath(testFileOriginal.Filename);
+            string fullPath = _fileHandler.GetFileFullPath(filename);
+            string fileContents = _fileHandler.ReadAllText(fullPath);
 
-
-            var newOrderList = new List<Test>();
-
-            var testPositions = tests.ToList();
-            for (int i = 0; i < testPositions.Count; i++)
+            using (var stringReader = new StringReader(fileContents))
             {
-                var test = testPositions[i];
-                newOrderList.Add(testFileOriginal.Tests.ElementAtOrDefault(test.OriginalPostion));
+                TestFile testFile = _testFileReader.Read(stringReader);
+                testFile.Filename = filename;
+
+                var newOrderList = new List<Test>();
+
+                List<TestPosition> testPositions = tests.ToList();
+                for (int i = 0; i < testPositions.Count; i++)
+                {
+                    var test = testPositions[i];
+                    newOrderList.Add(testFile.Tests.ElementAtOrDefault(test.OriginalPostion));
+                }
+
+                TestFile reorderedTestFile = new TestFile
+                {
+                    Filename = filename,
+                    Tests = newOrderList
+                };
+
+                string contents = _testFileWriter.Write(reorderedTestFile);
+
+                return _fileHandler.WriteAllText(fullPath, contents);
             }
-
-            TestFile reorderedTestFile = new TestFile
-            {
-                Filename = filename,
-                Tests = newOrderList
-            };
-
-            string contents = _testFileWriter.Write(reorderedTestFile);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
         }
 
 
