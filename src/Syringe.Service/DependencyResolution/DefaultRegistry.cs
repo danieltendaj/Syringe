@@ -60,7 +60,7 @@ namespace Syringe.Service.DependencyResolution
             SetupTestFileFormat();
             SetupEnvironmentSource(configuration);
 
-            //TODO
+            //TODO?
             //For<ObjectCache>().Use(x => MemoryCache.Default);
         }
 
