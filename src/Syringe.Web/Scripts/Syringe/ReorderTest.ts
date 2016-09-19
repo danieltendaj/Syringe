@@ -16,8 +16,16 @@ module Syringe.Web {
                 var filename = $(this).data("filename");
 
                 $.get("/TestFile/GetTestsToReorder", { "filename": filename }, html => {
-                    bootbox.alert(html, () => {
+
+                    //bootbox.alert(html, () => {
                        
+                    //}).on("shown.bs.modal", function (e) {
+                    //    var el = document.getElementById('reorderedTestsList');
+                    //    var sortable = Sortable.create(el);
+                    //});
+
+                    bootbox.dialog({
+                        message: html
                     }).on("shown.bs.modal", function (e) {
                         var el = document.getElementById('reorderedTestsList');
                         var sortable = Sortable.create(el);
