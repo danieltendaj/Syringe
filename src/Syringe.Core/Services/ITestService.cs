@@ -13,7 +13,7 @@ namespace Syringe.Core.Services
 	    string GetRawFile(string filename);
         bool EditTest(string filename, int position, Test test);
 	    bool CreateTest(string filename, Test test);
-        bool DeleteTest(int position, string fileName);
+        bool DeleteTest(int position, string filename);
         bool CopyTest(int position, string fileName);
         bool DeleteFile(string fileName);
 	    bool CreateTestFile(TestFile testFile);
