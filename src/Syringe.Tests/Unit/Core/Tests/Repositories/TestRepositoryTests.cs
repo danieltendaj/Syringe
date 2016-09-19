@@ -222,5 +222,20 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.DeleteFile(It.IsAny<string>()), Times.Once);
             Assert.IsFalse(deleteFile);
         }
+
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void Reorder_should_return_true_or_false_if_file_got_saved_after_the_tests_got_reordered(bool fileSaved)
+        {
+            // given + when
+            _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(fileSaved);
+            var reorder = _testRepository.Reorder(It.IsAny<string>(), new List<TestPosition>());
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual(fileSaved, reorder);
+        }
     }
 }

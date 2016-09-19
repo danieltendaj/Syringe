@@ -177,6 +177,19 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
+        public bool Reorder(string fileName, IEnumerable<TestPosition> tests)
+        {
+            var client = new RestClient(ServiceUrl);
+
+            IRestRequest request = _restSharpHelper.CreateRequest("test/reorder");
+            request.Method = Method.POST;
+            request.AddJsonBody(tests);
+            request.AddQueryParameter("filename",fileName);
+            IRestResponse response = client.Execute(request);
+
+            return _restSharpHelper.DeserializeOrThrow<bool>(response);
+        }
+
         public bool DeleteFile(string fileName)
         {
             var client = new RestClient(ServiceUrl);
