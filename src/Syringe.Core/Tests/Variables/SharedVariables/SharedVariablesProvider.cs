@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Syringe.Core.Tests.Variables.SharedVariables
@@ -10,7 +9,7 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
         private readonly IOptions<SharedVariables> _options;
         private Variable[] _sharedVariables;
 
-        public SharedVariablesProvider(ConfigurationRoot configurationRoot, IOptions<SharedVariables> options)
+        public SharedVariablesProvider(IOptions<SharedVariables> options)
         {
             _options = options;
         }
@@ -19,9 +18,9 @@ namespace Syringe.Core.Tests.Variables.SharedVariables
         {
             if (_sharedVariables == null)
             {
-                if (_options.Value != null && _options.Value.Variables.Any())
+                if (_options.Value != null && _options.Value.Any())
                 {
-                    _sharedVariables = _options.Value.Variables.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToArray();
+                    _sharedVariables = _options.Value.Select(x => new Variable(x.Name, x.Value, x.Environment)).ToArray();
                 }
                 else
                 {

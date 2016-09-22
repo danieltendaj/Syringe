@@ -2,8 +2,13 @@
 
 namespace Syringe.Core.Tests.Variables.SharedVariables
 {
-    public class SharedVariables
+    public class SharedVariables : List<SharedVariables.SharedVariable>
     {
-        public List<SharedVariable> Variables { get; set; }
+        public class SharedVariable
+        {
+            public string Name { get; set; }
+            public string Value { get; set; }
+            public string Environment { get; set; }
+        }
     }
 }
