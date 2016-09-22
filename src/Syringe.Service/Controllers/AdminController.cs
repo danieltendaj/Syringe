@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
+using Syringe.Core.Environment;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.SharedVariables;
 

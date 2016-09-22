@@ -39,6 +39,7 @@ namespace Syringe.Service
             services.AddMemoryCache();
             services.Configure<JsonConfiguration>(Configuration.GetSection("settings"));
             services.Configure<SharedVariables>(Configuration.GetSection("sharedVariables"));
+            services.Configure<Environments>(Configuration.GetSection("environments"));
 
             var container = new Container();
             container.Configure(config =>

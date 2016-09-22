@@ -1,40 +1,33 @@
 using System.Collections.Generic;
-using System.IO;
+using Microsoft.Extensions.Options;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using Syringe.Core.Configuration;
 
 namespace Syringe.Core.Environment.Json
 {
     public class JsonEnvironmentProvider : IEnvironmentProvider
     {
-        private readonly IConfigurationRoot _configurationRoot;
-        //private readonly IConfigLocator _configLocator;
-        private List<Environment> _environments;
+        private readonly IOptions<Environments> _options;
+        private Environment[] _environments;
 
-        //public JsonEnvironmentProvider(IConfigLocator configLocator)
-        //{
-        //    _configLocator = configLocator;
-        //}
-
-        public JsonEnvironmentProvider(IConfigurationRoot configurationRoot)
+        public JsonEnvironmentProvider(IOptions<Environments> options)
         {
-            _configurationRoot = configurationRoot;
+            _options = options;
         }
 
         public IEnumerable<Environment> GetAll()
         {
             if (_environments == null)
             {
-                //string configPath = _configLocator.ResolveConfigFile("environments.json");
-                //string json = File.ReadAllText(configPath);
-                //List<Environment> environments = JsonConvert.DeserializeObject<List<Environment>>(json);
-
-                var environments = _configurationRoot.GetValue<List<Environment>>("environments");
-                _environments = environments.OrderBy(x => x.Order).ToList();
+                if (_options.Value != null && _options.Value.Any())
+                {
+                    _environments = _options.Value.OrderBy(x => x.Order).ToArray();
+                }
+                else
+                {
+                    _environments = new Environment[0];
+                }
             }
-
+            
             return _environments;
         }
     }
