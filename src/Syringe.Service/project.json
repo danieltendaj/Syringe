@@ -18,7 +18,8 @@
     "Syringe.Core": "1.0.0-*",
     "Swashbuckle": "6.0.0-beta902",
     "structuremap": "4.4.0",
-    "StructureMap.Microsoft.DependencyInjection": "1.0.1"
+    "StructureMap.Microsoft.DependencyInjection": "1.0.1",
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.0"
   },
 
   "tools": {
