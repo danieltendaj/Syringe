@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using StructureMap;
-using StructureMap.Pipeline;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Environment.Json;
-using Syringe.Core.Environment.Octopus;
 using Syringe.Core.IO;
 using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Repositories;
@@ -20,10 +18,7 @@ namespace Syringe.Service.DependencyResolution
 {
     public class DefaultRegistry : Registry
     {
-        public DefaultRegistry() : this(Startup.Configuration)
-        { }
-
-        public DefaultRegistry(IConfigurationRoot configurationRoot)
+        public DefaultRegistry()
         {
             Scan(
                 scan =>
@@ -35,9 +30,7 @@ namespace Syringe.Service.DependencyResolution
 
             For<Startup>().Use<Startup>().Singleton();
 
-            For<IConfigurationRoot>().Use(configurationRoot);
             For<IConfigurationStore>().Use<JsonConfigurationStore>().Singleton();
-            
             For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load()).Singleton();
 
             For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
@@ -75,7 +68,7 @@ namespace Syringe.Service.DependencyResolution
             //}
             //else
             //{
-                For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
+            For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
             //}
         }
 
