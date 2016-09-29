@@ -214,6 +214,7 @@ syringe.db
 _site/
 docs/_site/
 appsettings.debug.json
+appsettings.development.json
 
 # DotNet Core
 project.lock.json
