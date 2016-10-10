@@ -12,6 +12,9 @@ namespace Syringe.Web.Models.ValidationAttributes
         {
             var model = (AssertionViewModel)context.ObjectInstance;
 
+            if (value == null)
+                return new ValidationResult("This field is mandatory");
+
             // replace variables so they don't interfere with validation
             value = ReplaceVariables(value.ToString());
 
