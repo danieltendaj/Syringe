@@ -25,5 +25,11 @@ namespace Syringe.Tests.Unit.Web.ValidationAttributes
         {
             Assert.IsTrue(new ValidRegexAttribute().IsValid(regex));
         }
+
+        [Test]
+        public void IsValid_should_return_false_when_AssertionTypeValidation_value_is_null()
+        {
+            Assert.IsFalse(new AssertionTypeValidationAttribute().IsValid(null));
+        }
     }
 }

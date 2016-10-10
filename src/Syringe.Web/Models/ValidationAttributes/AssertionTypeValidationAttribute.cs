@@ -10,13 +10,13 @@ namespace Syringe.Web.Models.ValidationAttributes
 
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
-            var model = (AssertionViewModel)context.ObjectInstance;
-
             if (value == null)
                 return new ValidationResult("This field is mandatory");
 
             // replace variables so they don't interfere with validation
             value = ReplaceVariables(value.ToString());
+
+            var model = (AssertionViewModel)context.ObjectInstance;
 
             if (model.AssertionMethod == AssertionMethod.CssSelector)
             {
@@ -32,7 +32,6 @@ namespace Syringe.Web.Models.ValidationAttributes
             //no assertion type so always valid
             return ValidationResult.Success;
         }
-
 
         private static string ReplaceVariables(string value)
         {
