@@ -11,7 +11,7 @@ namespace Syringe.Web.Models.ValidationAttributes
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
             if (value == null)
-                return new ValidationResult("This field is mandatory");
+                value = string.Empty;
 
             // replace variables so they don't interfere with validation
             value = ReplaceVariables(value.ToString());
