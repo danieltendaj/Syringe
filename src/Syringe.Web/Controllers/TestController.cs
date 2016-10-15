@@ -28,10 +28,10 @@ namespace Syringe.Web.Controllers
 
         [HttpGet]
         [EditableTestsRequired]
-        public ActionResult Edit(string filename, int position)
+        public ActionResult Edit(string filename, int position, int pageNumber = 1)
         {
             TestFile testFile = _testsClient.GetTestFile(filename);
-            TestViewModel model = _testFileMapper.BuildTestViewModel(testFile, position);
+            TestViewModel model = _testFileMapper.BuildTestViewModel(testFile, position, pageNumber);
 
             return View("Edit", model);
         }
@@ -45,7 +45,7 @@ namespace Syringe.Web.Controllers
             {
                 Test test = _testFileMapper.BuildTestObject(model);
                 _testsClient.EditTest(model.Filename, model.Position, test);
-                return RedirectToAction("View", "TestFile", new { filename = model.Filename });
+                return RedirectToAction("View", "TestFile", new { filename = model.Filename, pageNumber = model.PageNumber });
             }
 
             return View("Edit", model);

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Web.Mvc;
-using Syringe.Core.Tests;
 
 namespace Syringe.Web.Models
 {
@@ -39,6 +36,8 @@ namespace Syringe.Web.Models
 
 		public string BeforeExecuteScriptFilename { get; set; }
 	    public IEnumerable<string> BeforeExecuteScriptSnippets { get; set; }
+
+        public int PageNumber { get; set; }
 
 	    public TestViewModel()
         {

@@ -7,7 +7,7 @@ namespace Syringe.Web.Mappers
 {
     public interface ITestFileMapper
     {
-        TestViewModel BuildTestViewModel(TestFile testFile, int position);
+        TestViewModel BuildTestViewModel(TestFile testFile, int position, int pageNo = 1);
         IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults);
         Test BuildTestObject(TestViewModel testModel);
         List<VariableViewModel> BuildVariableViewModel(TestFile test);
