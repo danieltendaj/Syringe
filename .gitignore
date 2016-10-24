@@ -213,3 +213,4 @@ src/Syringe.Service/shared-variables.json
 syringe.db
 _site/
 docs/_site/
+appsettings.development.json
