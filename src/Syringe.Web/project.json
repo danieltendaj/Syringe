@@ -21,7 +21,7 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "structuremap": "4.4.0",
-    "StructureMap.Microsoft.DependencyInjection": "1.2.0"
+    "StructureMap.Microsoft.DependencyInjection": "1.0.1"
   },
 
   "tools": {
