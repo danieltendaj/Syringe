@@ -14,5 +14,6 @@ namespace Syringe.Core.Tests.Repositories
         bool UpdateTestVariables(TestFile testFile);
         string GetRawFile(string filename);
         bool DeleteFile(string filename);
+        bool Reorder(string filename, IEnumerable<TestPosition> tests);
     }
 }

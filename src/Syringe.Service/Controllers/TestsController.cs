@@ -13,12 +13,12 @@ namespace Syringe.Service.Controllers
 	public class TestsController : ApiController, ITestService
     {
         private readonly ITestRepository _testRepository;
-        internal readonly ITestFileResultRepository TestFileResultRepository;
+        internal readonly ITestFileResultRepository _testFileResultRepository;
 
         public TestsController(ITestRepository testRepository, ITestFileResultRepository testFileResultRepository)
         {
             _testRepository = testRepository;
-            TestFileResultRepository = testFileResultRepository;
+            _testFileResultRepository = testFileResultRepository;
         }
 
         [Route("api/testfiles")]
@@ -108,22 +108,29 @@ namespace Syringe.Service.Controllers
         [HttpGet]
         public Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "")
         {
-            return TestFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
+            return _testFileResultRepository.GetSummaries(fromDateTime, pageNumber, noOfResults, environment);
         }
 
         [Route("api/test/result")]
         [HttpGet]
         public TestFileResult GetResultById(Guid id)
         {
-            return TestFileResultRepository.GetById(id);
+            return _testFileResultRepository.GetById(id);
         }
 
         [Route("api/test/result")]
         [HttpDelete]
         public bool DeleteResult(Guid id)
         {
-            TestFileResultRepository.Delete(id).Wait();
+            _testFileResultRepository.Delete(id).Wait();
             return true;
+        }
+
+	    [Route("api/test/reorder")]
+        [HttpPost]
+        public bool Reorder(string fileName, [FromBody]IEnumerable<TestPosition> tests)
+	    {
+            return _testRepository.Reorder(fileName, tests);
         }
     }
 }

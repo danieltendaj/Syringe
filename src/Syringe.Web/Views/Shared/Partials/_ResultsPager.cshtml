@@ -5,7 +5,7 @@
     <ul class="pagination">
         @for (int i = 1; i <= Model.PageNumbers; i++)
         {
-            <li class=@(Model.PageNumber == i ? "active" : "")><a href="@Url.Action("Index", "Results", new {pageNumber = i, noOfResults = Model.NoOfResults, environment=Model.Environment})">@i</a></li>
+            <li class=@(Model.PageNumber == i ? "active" : "")><a href="@Url.Action(ViewContext.RouteData.Values["action"] as string, "Results", new {pageNumber = i, noOfResults = Model.NoOfResults, environment=Model.Environment})">@i</a></li>
         }
     </ul>
 }

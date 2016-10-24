@@ -238,6 +238,7 @@
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="Tests\Scripting\ScriptSnippets.cs" />
+    <Compile Include="Tests\TestPosition.cs" />
     <Compile Include="Tests\Variables\Encryption\IEncryption.cs" />
     <Compile Include="Tests\Variables\Encryption\IVariableEncryptor.cs" />
     <Compile Include="Tests\Variables\Encryption\AesEncryption.cs" />

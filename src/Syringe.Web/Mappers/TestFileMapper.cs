@@ -19,7 +19,7 @@ namespace Syringe.Web.Mappers
             _configurationService = configurationService;
         }
 
-        public TestViewModel BuildTestViewModel(TestFile testFile, int position)
+        public TestViewModel BuildTestViewModel(TestFile testFile, int position, int pageNo = 1)
         {
             if (testFile == null)
             {
@@ -48,6 +48,7 @@ namespace Syringe.Web.Mappers
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
+                PageNumber = pageNo
             };
 
             PopulateScriptSnippets(model);

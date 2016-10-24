@@ -52,7 +52,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
 
             var expectedViewModel = new TestViewModel();
             _testFileMapperMock
-                .Setup(x => x.BuildTestViewModel(expectedTestFile, expectedPosition))
+                .Setup(x => x.BuildTestViewModel(expectedTestFile, expectedPosition, 1))
                 .Returns(expectedViewModel);
 
             // when
@@ -69,7 +69,7 @@ namespace Syringe.Tests.Unit.Web.Controllers
         public void Edit_should_be_decorated_with_httpGet_and_EditableTestsRequired()
         {
             // given + when
-            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(string), typeof(int) });
+            var editMethod = typeof(TestController).GetMethod("Edit", new[] { typeof(string), typeof(int), typeof(int) });
 
             // then
             Assert.IsTrue(editMethod.IsDefined(typeof(HttpGetAttribute), false));

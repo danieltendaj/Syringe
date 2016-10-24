@@ -254,6 +254,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
     <Content Include="Scripts\ripples.js" />
+    <Content Include="Scripts\sortable-1.4.2.min.js" />
     <Content Include="Scripts\Syringe.js.map" />
     <Content Include="package.json" />
     <Content Include="Css\bootstrap-sass\fonts\bootstrap\glyphicons-halflings-regular.eot" />
@@ -389,6 +390,7 @@
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff2" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />
@@ -401,6 +403,7 @@
     <Content Include="Views\Shared\Partials\_RunTest.cshtml" />
     <Content Include="Views\System\EncryptData.cshtml" />
     <Content Include="Views\System\Settings.cshtml" />
+    <Content Include="Views\Shared\Partials\_ReorderTest.cshtml" />
     <TypeScriptCompile Include="Scripts\Syringe\EnvironmentDropdown.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ButtonSetup.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\IRowAdder.ts" />
@@ -427,7 +430,9 @@
     <Content Include="Views\Test\EditorTemplates\AssertionViewModel.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\TestFile\View.cshtml" />
+    <TypeScriptCompile Include="Scripts\Syringe\ReorderTest.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\RowHandler.ts" />
+    <TypeScriptCompile Include="Scripts\Syringe\TestPostion.ts" />
     <TypeScriptCompile Include="Scripts\Syringe\ViewResult.ts" />
     <TypeScriptCompile Include="Scripts\typings\bootbox.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
