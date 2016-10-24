@@ -214,3 +214,4 @@ syringe.db
 _site/
 docs/_site/
 appsettings.development.json
+*.lock.json
