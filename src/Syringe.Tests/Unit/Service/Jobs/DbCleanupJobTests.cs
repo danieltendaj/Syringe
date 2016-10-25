@@ -9,7 +9,7 @@ using Syringe.Service.Jobs;
 namespace Syringe.Tests.Unit.Service.Jobs
 {
     [TestFixture]
-    public class DbCleanupJobTests //TODO: FILL ME OUT
+    public class DbCleanupJobTests
     {
         private Mock<IConfiguration> _configurationMock;
         private Mock<ITestFileResultRepository> _repositoryMock;
@@ -43,7 +43,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
         }
 
         [Test]
-        public void should_execute_given_callback_via_timer_and_then_stop()
+        public void Lshould_execute_given_callback_via_timer_and_then_stop()
         {
             // given
             _configurationMock

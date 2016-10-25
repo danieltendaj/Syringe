@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Syringe.Core.Configuration;
 using Syringe.Core.Tasks;
 using Syringe.Service.Parallel;
 
@@ -8,11 +9,14 @@ namespace Syringe.Service.Jobs
 {
     public class TasksCleanupJob : IJob
     {
+        internal readonly TimeSpan _retention = TimeSpan.FromHours(2);
+        private readonly IConfiguration _configuration;
         private readonly ITestFileQueue _testFileQueue;
         private Timer _timer;
 
-        public TasksCleanupJob(ITestFileQueue testFileQueue)
+        public TasksCleanupJob(IConfiguration configuration, ITestFileQueue testFileQueue)
         {
+            _configuration = configuration;
             _testFileQueue = testFileQueue;
         }
 
@@ -25,7 +29,7 @@ namespace Syringe.Service.Jobs
         {
             if (_timer == null)
             {
-                _timer = new Timer(callback, null, new TimeSpan(), TimeSpan.FromMinutes(3));
+                _timer = new Timer(callback, null, new TimeSpan(), _configuration.CleanupSchedule);
             }
         }
 
@@ -41,10 +45,11 @@ namespace Syringe.Service.Jobs
         internal void Cleanup(object guff)
         {
             var toRemove = new List<int>();
+            DateTime earliestTime = DateTime.UtcNow.Subtract(_retention);
 
             foreach (TaskDetails task in _testFileQueue.GetRunningTasks())
             {
-                if (task.IsComplete && task.StartTime < DateTime.UtcNow.AddHours(-1))
+                if (task.IsComplete && task.StartTime.ToUniversalTime() < earliestTime)
                 {
                     toRemove.Add(task.TaskId);
                 }
