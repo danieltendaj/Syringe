@@ -23,5 +23,10 @@ namespace Syringe.Service.Parallel
         TaskDetails GetRunningTaskDetails(int taskId);
 
         TestFileRunnerTaskInfo GetTestFileTaskInfo(int taskId);
+
+        /// <summary>
+        /// Will remove task from list/memory
+        /// </summary>
+        void Remove(int taskId);
     }
 }

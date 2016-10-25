@@ -3,47 +3,55 @@ using System.Threading;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
-using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Tasks;
 using Syringe.Service.Jobs;
+using Syringe.Service.Parallel;
 
 namespace Syringe.Tests.Unit.Service.Jobs
 {
     [TestFixture]
-    public class DbCleanupJobTests
+    public class TasksCleanupJobTests
     {
         private Mock<IConfiguration> _configurationMock;
-        private Mock<ITestFileResultRepository> _repositoryMock;
+        private Mock<ITestFileQueue> _testFileQueueMock;
         private int _callbackCount;
-        private DbCleanupJob _job;
+        private TasksCleanupJob _job;
 
         [SetUp]
         public void Setup()
         {
             _callbackCount = 0;
             _configurationMock = new Mock<IConfiguration>();
-            _repositoryMock = new Mock<ITestFileResultRepository>();
-            _job = new DbCleanupJob(_configurationMock.Object, _repositoryMock.Object);
+            _testFileQueueMock = new Mock<ITestFileQueue>();
+            _job = new TasksCleanupJob(_configurationMock.Object, _testFileQueueMock.Object);
         }
 
         [Test]
-        public void should_clear_results_before_now()
+        public void should_clear_results_before_older_than_specified()
         {
             // given
-            const int expectedDaysOfRetention = 66;
-            _configurationMock
-                .Setup(x => x.DaysOfDataRetention)
-                .Returns(expectedDaysOfRetention);
+            TaskDetails[] tasks =
+            {
+                new TaskDetails { TaskId = 1, IsComplete = false, StartTime = DateTime.Now },
+                new TaskDetails { TaskId = 6, IsComplete = true, StartTime = DateTime.Now.Subtract(TimeSpan.FromHours(5)) },
+                new TaskDetails { TaskId = 55, IsComplete = true, StartTime = DateTime.Now.Subtract(_job._retention).AddMinutes(1) },
+            };
+            _testFileQueueMock
+                .Setup(x => x.GetRunningTasks())
+                .Returns(tasks);
 
             // when
-            _job.Cleanup();
+            _job.Cleanup(null);
 
             // then
-            _repositoryMock
-                .Verify(x => x.DeleteBeforeDate(DateTime.Today.AddDays(-expectedDaysOfRetention)), Times.Once);
+            _testFileQueueMock.Verify(x => x.Remove(6));
+
+            _testFileQueueMock.Verify(x => x.Remove(1), Times.Never);
+            _testFileQueueMock.Verify(x => x.Remove(55), Times.Never);
         }
 
         [Test]
-        public void Lshould_execute_given_callback_via_timer_and_then_stop()
+        public void should_execute_given_callback_via_timer_and_then_stop()
         {
             // given
             _configurationMock
@@ -62,23 +70,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
             Thread.Sleep(TimeSpan.FromMilliseconds(30));
             Assert.That(_callbackCount, Is.EqualTo(localCallbackStore));
         }
-
-        [Test]
-        public void start_should_clear_data()
-        {
-            // given
-
-            // when
-            _job.Start();
-            Thread.Sleep(TimeSpan.FromMilliseconds(50));
-
-            // then
-            _repositoryMock
-                .Verify(x => x.DeleteBeforeDate(It.IsAny<DateTime>()), Times.AtLeastOnce);
-
-            _job.Stop();
-        }
-
+        
         private void DummyCallback(object guff)
         {
             _callbackCount++;

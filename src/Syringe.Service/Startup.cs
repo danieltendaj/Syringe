@@ -15,23 +15,23 @@ namespace Syringe.Service
 		protected IDisposable WebApplication;
 		private readonly IDependencyResolver _webDependencyResolver;
 		private readonly IConfiguration _configuration;
-	    private readonly IDbCleanupJob _cleanupJob;
+	    private readonly IJob _jobManager;
 
 	    public Startup(
 			IDependencyResolver webDependencyResolver,
 			IConfiguration configuration,
-            IDbCleanupJob cleanupJob)
+            IJob jobManager)
 		{
 			_webDependencyResolver = webDependencyResolver;
 			_configuration = configuration;
-	        _cleanupJob = cleanupJob;
+	        _jobManager = jobManager;
 		}
 
 		public void Start()
 		{
 			try
 			{
-                _cleanupJob.Start();
+                _jobManager.Start();
                 WebApplication = WebApp.Start(_configuration.ServiceUrl, Configuration);
 			}
 			catch (Exception ex)
@@ -45,7 +45,7 @@ namespace Syringe.Service
 
 		public void Stop()
 		{
-            _cleanupJob.Stop();
+            _jobManager.Stop();
 			WebApplication.Dispose();
 		}
 

@@ -1,6 +1,6 @@
 ﻿namespace Syringe.Service.Jobs
 {
-    public interface IDbCleanupJob
+    public interface IJob
     {
         void Start();
         void Stop();

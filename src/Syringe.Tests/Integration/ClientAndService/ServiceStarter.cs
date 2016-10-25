@@ -95,7 +95,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 			Container.Configure(x => x.For<IConfiguration>().Use(jsonConfiguration));
 
 			// Inject instances into it
-			var service = new Startup(Container.GetInstance<IDependencyResolver>(), jsonConfiguration, Container.GetInstance<IDbCleanupJob>());
+			var service = new Startup(Container.GetInstance<IDependencyResolver>(), jsonConfiguration, Container.GetInstance<IJob>());
 
 			// Start it up
 			OwinServer = WebApp.Start(BaseUrl, service.Configuration);

@@ -5,7 +5,7 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Jobs
 {
-    public class DbCleanupJob : IDbCleanupJob
+    public class DbCleanupJob : IJob
     {
         private readonly IConfiguration _configuration;
         private readonly ITestFileResultRepository _repository;
@@ -39,7 +39,7 @@ namespace Syringe.Service.Jobs
             }
         }
 
-        internal void Cleanup(object guff)
+        internal void Cleanup(object unused = null)
         {
             DateTime cleanupBefore = DateTime.Today.AddDays(-_configuration.DaysOfDataRetention);
             _repository.DeleteBeforeDate(cleanupBefore).Wait();

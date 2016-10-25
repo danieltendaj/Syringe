@@ -29,5 +29,10 @@ namespace Syringe.Tests.StubsMocks
         {
             throw new System.NotImplementedException();
         }
+
+        public void Remove(int taskId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
