@@ -92,7 +92,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             // then
             string expectedJson = TestHelpers.ReadEmbeddedFile("full-test-file.json", _jsonExamplesFolder);
             Assert.That(result.Replace("\r\n", "\n"), Is.EqualTo(expectedJson.Replace("\r\n", "\n")));
-            Assert.That(result, Is.Not.StringContaining(_blackListText));
+            Assert.That(result, Does.Not.Contain(_blackListText));
         }
     }
 }

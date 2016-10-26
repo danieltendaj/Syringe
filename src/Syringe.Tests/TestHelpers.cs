@@ -8,14 +8,16 @@ namespace Syringe.Tests
 	{
 		public static string ReadEmbeddedFile(string file, string namespacePath)
 		{
-			string resourcePath = string.Format("{0}{1}", namespacePath, file);
+			string resourcePath = $"{namespacePath}{file}";
 
 			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourcePath);
-			if (stream == null)
-				throw new InvalidOperationException(string.Format("Unable to find '{0}' as an embedded resource", resourcePath));
+		    if (stream == null)
+		    {
+		        throw new InvalidOperationException($"Unable to find '{resourcePath}' as an embedded resource");
+		    }
 
-			string textContent = "";
-			using (StreamReader reader = new StreamReader(stream))
+			string textContent;
+			using (var reader = new StreamReader(stream))
 			{
 				textContent = reader.ReadToEnd();
 			}
