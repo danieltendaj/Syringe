@@ -1,4 +1,5 @@
 using System;
+using Syringe.Core.Tests.Results;
 
 namespace Syringe.Service.Models
 {
@@ -12,6 +13,7 @@ namespace Syringe.Service.Models
 		public bool ResponseCodeSuccess { get; set; }
 		public string ExceptionMessage { get; set; }
 
+        public TestResultState ResultState { get; set; }
 		public bool Success { get; set; }
 		public bool AssertionsSuccess { get; set; }
 		public bool ScriptCompilationSuccess { get; set; }

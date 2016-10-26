@@ -8,8 +8,9 @@ namespace Syringe.Core.Tests.Results
 {
     [BsonIgnoreExtraElements]
     public class TestResult
-	{
-		public int Position { get; set; }
+    {
+        public TestResultState ResultState { get; set; }
+        public int Position { get; set; }
 		public Guid SessionId { get; set; }
 	    public Test Test { get; set; }
 		public string ActualUrl { get; set; }
@@ -23,6 +24,7 @@ namespace Syringe.Core.Tests.Results
 		public string HttpContent { get; set; }
 		public string Log { get; set; }
 
+        [Obsolete("Please use ResultState")]
 		public bool Success
 		{
 			get { return ResponseCodeSuccess && AssertionsSuccess && ScriptCompilationSuccess; }

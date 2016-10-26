@@ -23,17 +23,23 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 		public TestFileResultsBuilder WithSuccess()
 		{
-			_currentTestResult.ResponseCodeSuccess = true;
+			_currentTestResult.ResultState = TestResultState.Success;
 			return this;
 		}
 
 		public TestFileResultsBuilder WithFail()
-		{
-			_currentTestResult.ResponseCodeSuccess = false;
-			return this;
-		}
+        {
+            _currentTestResult.ResultState = TestResultState.Failed;
+            return this;
+        }
 
-		public TestFileResultsBuilder AddPositiveVerify(bool success = true)
+        public TestFileResultsBuilder WithSkipped()
+        {
+            _currentTestResult.ResultState = TestResultState.Skipped;
+            return this;
+        }
+
+        public TestFileResultsBuilder AddPositiveVerify(bool success = true)
 		{
 			_currentTestResult.AssertionResults.Add(new Assertion("item " + DateTime.Now, "regex", AssertionType.Positive, AssertionMethod.Regex) {Success = success});
 			return this;

@@ -80,7 +80,15 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                             new HeaderItem { Key = "Some Key", Value = "Some Value" }
                         },
                         PostBody = "SOOOO MANY PROPERTIES, I am getting bored",
-                        Url = "FML"
+                        Url = "FML",
+                        TestConditions = new TestConditions
+                        {
+                            RequireEnvironments = new List<string>
+                            {
+                                "int",
+                                "prod"
+                            }
+                        }
                     }
                 }
             };
