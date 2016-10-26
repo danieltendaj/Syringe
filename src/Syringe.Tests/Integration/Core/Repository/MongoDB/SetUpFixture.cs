@@ -10,7 +10,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         private Process _mongoDbProcess;
 
         [SetUp]
-        public void TestFixtureSetUp()
+        public void OneTimeSetUp()
         {
             // Check if MongoDb is running
             if (!Process.GetProcessesByName("mongod").Any() && !Process.GetProcessesByName("com.docker.service").Any())
@@ -20,7 +20,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
         }
 
         [TearDown]
-        public void TestFixtureTearDown()
+        public void OneTimeTearDown()
         {
             // Only kill mongod if the tests started it
             _mongoDbProcess?.Kill();

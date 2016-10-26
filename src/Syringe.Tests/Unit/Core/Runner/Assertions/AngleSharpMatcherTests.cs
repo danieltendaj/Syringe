@@ -41,7 +41,7 @@ namespace Syringe.Tests.Unit.Core.Runner.Assertions
             matcher.Match(assertion, "");
 
             // then
-            Assert.That(_assertionLogger.GetLog(), Is.StringContaining(AssertionLogger.EMPTY_ASSERTION_TEXT));
+            Assert.That(_assertionLogger.GetLog(), Does.Contain(AssertionLogger.EMPTY_ASSERTION_TEXT));
         }
 
         [Test]
@@ -139,8 +139,8 @@ Server: gws
 
             // then
             string log = _assertionLogger.GetLog();
-            Assert.That(log, Is.StringContaining("Original assertion value: #id .class body"));
-            Assert.That(log, Is.StringContaining("Assertion value with variables transformed: #id .class body"));
+            Assert.That(log, Does.Contain("Original assertion value: #id .class body"));
+            Assert.That(log, Does.Contain("Assertion value with variables transformed: #id .class body"));
         }
 
         [Test]
@@ -158,7 +158,7 @@ Server: gws
 
             // then
             string log = _assertionLogger.GetLog();
-            Assert.That(log, Is.StringContaining("Positive verification successful: the CssSelector \"body#mybody\" matched."));
+            Assert.That(log, Does.Contain("Positive verification successful: the CssSelector \"body#mybody\" matched."));
         }
 
         [Test]
@@ -176,7 +176,7 @@ Server: gws
 
             // then
             string log = _assertionLogger.GetLog();
-            Assert.That(log, Is.StringContaining("Positive verification failed: the CssSelector \"pre\" did not match."));
+            Assert.That(log, Does.Contain("Positive verification failed: the CssSelector \"pre\" did not match."));
         }
 
         [Test]

@@ -14,8 +14,8 @@ namespace Syringe.Tests.Integration.Core.IO
         private FileHandler _fileHandler;
         private string _baseDirectory;
 
-        [TestFixtureSetUp]
-        public void TestfixtureSetup()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             _baseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "integration", "FileHandlerTests");
             CreateTestFileDirectory();
