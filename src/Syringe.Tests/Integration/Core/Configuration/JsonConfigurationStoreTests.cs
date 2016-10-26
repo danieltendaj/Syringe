@@ -41,8 +41,10 @@ namespace Syringe.Tests.Integration.Core.Configuration
         public void load_should_resolve_relative_config_file()
         {
 			// given
-			string expectedTestDirPath = new DirectoryInfo("..\\..\\..\\..\\Example-TestFiles").FullName;
-			string expectedSnippetsDirPath = new DirectoryInfo("..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets").FullName;
+            string resolveBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\");
+
+            string expectedTestDirPath = new DirectoryInfo(Path.Combine(resolveBasePath, "Example-TestFiles")).FullName;
+			string expectedSnippetsDirPath = new DirectoryInfo(Path.Combine(resolveBasePath, "Example-TestFiles\\ScriptSnippets")).FullName;
 
 			var store = new JsonConfigurationStore(_configLocatorMock.Object);
 
