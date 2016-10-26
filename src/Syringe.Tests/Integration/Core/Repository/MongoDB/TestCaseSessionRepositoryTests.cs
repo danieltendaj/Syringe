@@ -14,6 +14,7 @@ using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Tests.Integration.Core.Repository.MongoDB
 {
+    [TestFixture]
     public class TestFileResultRepositoryTests
     {
         private MongoTestFileResultRepository GetTestFileResultRepository()

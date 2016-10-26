@@ -9,7 +9,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
     {
         private Process _mongoDbProcess;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void OneTimeSetUp()
         {
             // Check if MongoDb is running
@@ -19,7 +19,7 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
             }
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void OneTimeTearDown()
         {
             // Only kill mongod if the tests started it
