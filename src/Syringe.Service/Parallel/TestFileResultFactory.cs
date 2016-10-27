@@ -85,7 +85,7 @@ namespace Syringe.Service.Parallel
             return runnerInfo?.TestFileResults?.TestResults?.Select(result => new LightweightResult
             {
                 Success = result.ResultState == TestResultState.Success,
-                ResultState = result.ResultState,
+                ResultState = result.ResultState.ToString(),
                 Message = result.Message,
                 ExceptionMessage = result.ExceptionMessage,
                 AssertionsSuccess = result.AssertionsSuccess,

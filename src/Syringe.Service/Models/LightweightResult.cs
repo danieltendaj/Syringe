@@ -13,7 +13,7 @@ namespace Syringe.Service.Models
 		public bool ResponseCodeSuccess { get; set; }
 		public string ExceptionMessage { get; set; }
 
-        public TestResultState ResultState { get; set; }
+        public string ResultState { get; set; }
 		public bool Success { get; set; }
 		public bool AssertionsSuccess { get; set; }
 		public bool ScriptCompilationSuccess { get; set; }

@@ -25,12 +25,9 @@ namespace Syringe.Core.Tests.Results
 		public string Log { get; set; }
 
         [Obsolete("Please use ResultState")]
-		public bool Success
-		{
-			get { return ResponseCodeSuccess && AssertionsSuccess && ScriptCompilationSuccess; }
-		}
-		
-		public bool AssertionsSuccess
+		public bool Success => ResponseCodeSuccess && AssertionsSuccess && ScriptCompilationSuccess;
+
+        public bool AssertionsSuccess
 		{
 			get
 			{
