@@ -5,7 +5,7 @@ namespace Syringe.Core.Environment.Octopus
 {
     public class OctopusEnvironmentProvider : IEnvironmentProvider
     {
-        private Environment[] _environments = null;
+        //private Environment[] _environments = null;
 
         public IEnumerable<Environment> GetAll()
         {

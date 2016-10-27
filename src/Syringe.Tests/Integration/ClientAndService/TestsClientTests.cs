@@ -15,14 +15,14 @@ namespace Syringe.Tests.Integration.ClientAndService
     [TestFixture]
     public class TestsClientTests
     {
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             ServiceStarter.StartSelfHostedOwin();
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
             ServiceStarter.StopSelfHostedOwin();
         }
@@ -84,7 +84,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 
             // then
             Assert.That(rawFile, Is.Not.Null);
-            Assert.That(rawFile, Is.StringContaining(@"""Tests"": ["));
+            Assert.That(rawFile, Does.Contain(@"""Tests"": ["));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Syringe.Tests.Integration.ClientAndService
             TestFile actualTest = client.GetTestFile(testFile.Filename);
 
             Assert.True(success);
-            Assert.That(actualTest.Tests.First().Description, Is.StringContaining("new description"));
+            Assert.That(actualTest.Tests.First().Description, Does.Contain("new description"));
         }
 
         [Test]

@@ -9,14 +9,14 @@ namespace Syringe.Tests.Integration.ClientAndService
 	[TestFixture]
 	public class EnvironmentsClientTests
 	{
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 			ServiceStarter.StartSelfHostedOwin();
 		}
 
-		[TestFixtureTearDown]
-		public void TestFixtureTearDown()
+		[OneTimeTearDown]
+		public void OneTimeTearDown()
         {
             ServiceStarter.StopSelfHostedOwin();
         }
