@@ -276,7 +276,6 @@ namespace Syringe.Tests.Unit.Core.Runner
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
             // then
-            Assert.That(session.TestResults.Single().Success, Is.True);
             Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Success));
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
         }
@@ -302,7 +301,6 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             // then
             Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Failed));
-            Assert.That(session.TestResults.Single().Success, Is.False);
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
         }
 
@@ -357,7 +355,6 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             // then
             var result = session.TestResults.Single();
-            Assert.That(result.Success, Is.True);
             Assert.That(result.ResultState, Is.EqualTo(TestResultState.Success));
             Assert.That(result.AssertionResults.Where(x => x.AssertionType == AssertionType.Positive).Count, Is.EqualTo(1));
             Assert.That(result.AssertionResults[0].Success, Is.True);
@@ -544,7 +541,6 @@ namespace Syringe.Tests.Unit.Core.Runner
             // then
             Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
             Assert.That(capturedResult.TestResult, Is.Not.Null, "Should have test result.");
-            Assert.That(capturedResult.TestResult.Success, Is.False, "Should not have succeeded.");
             Assert.That(capturedResult.TestResult.ResultState, Is.EqualTo(TestResultState.Failed), "Should not have succeeded.");
         }
 

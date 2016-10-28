@@ -47,7 +47,7 @@
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @foreach (TestResult result in Model.TestResults)
                         {
-                            <div class="panel @(result.Success ? "test-passed panel-success" : "test-failed panel-danger")">
+                            <div class="panel @(result.ResultState == TestResultState.Success ? "test-passed panel-success" : "test-failed panel-danger")">
                                 <div class="panel-heading" role="tab" id="heading@(result.Position)">
                                     <h3 class="panel-title">
                                         <a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
