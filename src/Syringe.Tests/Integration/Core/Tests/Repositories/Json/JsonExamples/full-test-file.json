@@ -31,7 +31,7 @@
         "BeforeExecuteFilename": "uploadfile.snippet"
       },
       "TestConditions": {
-        "RequireEnvironments": [
+        "RequiredEnvironments": [
           "int",
           "prod"
         ]
