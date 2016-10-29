@@ -33,7 +33,6 @@ namespace Syringe.Core.Tests
             AvailableVariables = new List<Variable>();
             ScriptSnippets = new ScriptSnippets();
             TestConditions = new TestConditions();
-
         }
 
 		public void AddHeader(string key, string value)

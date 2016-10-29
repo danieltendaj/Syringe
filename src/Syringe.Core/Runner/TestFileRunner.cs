@@ -156,7 +156,7 @@ namespace Syringe.Core.Runner
 
                 try
                 {
-                    TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher);
+                    TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher, environment);
                     AddResult(testFileResult, result);
 
                     if (result.ResponseTime < minResponseTime)
@@ -220,7 +220,7 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnError(exception));
         }
 
-        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher, string environment)
         {
             var testResult = new TestResult
             {
@@ -229,6 +229,18 @@ namespace Syringe.Core.Runner
                 Test = test,
                 ResultState = TestResultState.Failed
             };
+
+            if (test.TestConditions.RequiredEnvironments.Any())
+            {
+                bool inEnvironment = test.TestConditions.RequiredEnvironments
+                                                            .Where(x => !string.IsNullOrEmpty(x))
+                                                            .Any(x => x.Equals(environment, StringComparison.InvariantCultureIgnoreCase));
+                if (!inEnvironment)
+                {
+                    testResult.ResultState = TestResultState.Skipped;
+                    return testResult;
+                }
+            }
 
             try
             {

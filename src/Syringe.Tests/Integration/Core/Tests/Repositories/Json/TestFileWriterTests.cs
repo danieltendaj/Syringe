@@ -83,7 +83,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
                         Url = "FML",
                         TestConditions = new TestConditions
                         {
-                            RequireEnvironments = new List<string>
+                            RequiredEnvironments = new List<string>
                             {
                                 "int",
                                 "prod"
