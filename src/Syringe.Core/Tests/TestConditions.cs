@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Syringe.Core.Tests
 {
+    [BsonIgnoreExtraElements]
     public class TestConditions
     {
-        public List<string> RequireEnvironments { get; set; } = new List<string>();
+        public List<string> RequiredEnvironments { get; set; } = new List<string>();
     }
 }
