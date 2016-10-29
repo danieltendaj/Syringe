@@ -281,7 +281,7 @@ namespace Syringe.Tests.Unit.Core.Runner
         }
 
         [Test]
-        public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
+        public async Task Run_should_set_result_state_and_response_when_httpcode_fails()
         {
             // given
             TestFileRunner runner = CreateRunner();
@@ -302,6 +302,31 @@ namespace Syringe.Tests.Unit.Core.Runner
             // then
             Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Failed));
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
+        }
+
+        [Test]
+        public async Task Run_should_skip_test_if_it_is_set_to_ignore_environment()
+        {
+            // given
+            TestFileRunner runner = CreateRunner();
+            _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
+
+            var testFile = CreateTestFile(new[]
+            {
+                new Test()
+                {
+                    TestConditions = new TestConditions
+                    {
+                        RequiredEnvironments = {"not-development"}
+                    }
+                },
+            });
+
+            // when
+            TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
+
+            // then
+            Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Skipped));
         }
 
         [Test]
