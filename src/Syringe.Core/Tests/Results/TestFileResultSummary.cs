@@ -12,6 +12,7 @@ namespace Syringe.Core.Tests.Results
         public TimeSpan TotalRunTime { get; set; }
 	    public int TotalPassed { get; set; }
 	    public int TotalFailed { get; set; }
+	    public int TotalSkipped { get; set; }
 	    public int TotalRun { get; set; }
 	}
 }

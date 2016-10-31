@@ -75,6 +75,7 @@ namespace Syringe.Core.Tests.Results.Repositories
                         TotalRunTime = x.TotalRunTime,
                         TotalPassed = x.TotalTestsPassed,
                         TotalFailed = x.TotalTestsFailed,
+                        TotalSkipped = x.TotalTestsSkipped,
                         TotalRun = x.TotalTestsRun,
                         Environment = x.Environment,
                         Username = x.Username
