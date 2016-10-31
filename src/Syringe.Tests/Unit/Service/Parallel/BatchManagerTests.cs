@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Tests.Results;
 using Syringe.Service.Models;
 using Syringe.Service.Parallel;
 using Syringe.Tests.StubsMocks;
@@ -88,7 +89,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(batchStatus.BatchId, Is.EqualTo(batchId));
             Assert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
             Assert.That(batchStatus.BatchFinished, Is.True);
-            Assert.That(batchStatus.AllTestsPassed, Is.True);
+            Assert.That(batchStatus.HasFailedTests, Is.False);
             Assert.That(batchStatus.TestFilesRunning, Is.EqualTo(0));
             Assert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
             Assert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
@@ -111,7 +112,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
                 .Setup(x => x.GetTestFileTaskInfo(5))
                 .Returns(testFileInfo);
 
-            TestFileRunResult runResult = GenerateStubTestFileResult(failedTests: true);
+            TestFileRunResult runResult = GenerateStubTestFileResult(TestResultState.Failed);
             resultFactory
                 .Setup(x => x.Create(testFileInfo, false, TimeSpan.Zero))
                 .Returns(runResult);
@@ -123,7 +124,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(batchStatus, Is.Not.Null);
             Assert.That(batchStatus.BatchFinished, Is.True);
-            Assert.That(batchStatus.AllTestsPassed, Is.False);
+            Assert.That(batchStatus.HasFailedTests, Is.True);
             Assert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
             Assert.That(batchStatus.TestFilesWithFailedTests.First(), Is.EqualTo(runResult.ResultId));
             Assert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
@@ -158,7 +159,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             // then
             Assert.That(batchStatus, Is.Not.Null);
             Assert.That(batchStatus.BatchFinished, Is.False);
-            Assert.That(batchStatus.AllTestsPassed, Is.False);
+            Assert.That(batchStatus.HasFailedTests, Is.True);
             Assert.That(batchStatus.TestFilesFinished, Is.EqualTo(0));
             Assert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
             Assert.That(batchStatus.TestFilesResultIds, Is.Empty);
@@ -166,13 +167,50 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(batchStatus.FailedTasks.First(), Is.EqualTo(5));
         }
 
-        private static TestFileRunResult GenerateStubTestFileResult(bool failedTests = false, bool taskFails = false)
+        [Test]
+        public void should_return_expected_batch_status_when_some_tests_are_skipped()
+        {
+            // given
+            const int batchId = 8;
+            var testFileQueue = new Mock<ITestFileQueue>();
+            var memoryCache = new MemoryCache("test");
+            var resultFactory = new Mock<ITestFileResultFactory>();
+
+            memoryCache.Set($"{BatchManager.KeyPrefix}{batchId}", new List<int> { 5 }, DateTimeOffset.MaxValue);
+            var testFileInfo = new TestFileRunnerTaskInfo(5);
+            testFileQueue
+                .Setup(x => x.GetTestFileTaskInfo(5))
+                .Returns(testFileInfo);
+
+            TestFileRunResult runResult = GenerateStubTestFileResult(TestResultState.Skipped);
+            resultFactory
+                .Setup(x => x.Create(testFileInfo, false, TimeSpan.Zero))
+                .Returns(runResult);
+
+            // when
+            var batchManager = new BatchManager(testFileQueue.Object, memoryCache, resultFactory.Object);
+            BatchStatus batchStatus = batchManager.GetBatchStatus(batchId);
+
+            // then
+            Assert.That(batchStatus, Is.Not.Null);
+            Assert.That(batchStatus.BatchId, Is.EqualTo(batchId));
+            Assert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
+            Assert.That(batchStatus.BatchFinished, Is.True);
+            Assert.That(batchStatus.HasFailedTests, Is.False);
+            Assert.That(batchStatus.TestFilesRunning, Is.EqualTo(0));
+            Assert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
+            Assert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
+            Assert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
+            Assert.That(batchStatus.FailedTasks, Is.Empty);
+        }
+
+        private static TestFileRunResult GenerateStubTestFileResult(TestResultState resultState = TestResultState.Success, bool taskFails = false)
         {
             var runResult = new TestFileRunResult
             {
                 ResultId = taskFails ? (Guid?)null : Guid.NewGuid(),
                 Finished = !taskFails,
-                HasFailedTests = failedTests,
+                HasFailedTests = resultState == TestResultState.Failed,
                 ErrorMessage = string.Empty,
                 TestRunFailed = taskFails,
                 TimeTaken = TimeSpan.FromDays(1),
@@ -180,7 +218,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
                 {
                     new LightweightResult
                     {
-                        Success = !failedTests,
+                        ResultState = resultState,
                         ActualUrl = "some-url",
                         AssertionsSuccess = true,
                         ExceptionMessage = "ExceptionMessage",

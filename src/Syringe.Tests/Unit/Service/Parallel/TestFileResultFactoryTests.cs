@@ -216,8 +216,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(result.TestResults.Count(), Is.EqualTo(1));
 
             var result1 = result.TestResults.First();
-            Assert.That(result1.Success, Is.True);
-            Assert.That(result1.ResultState, Is.EqualTo("Success"));
+            Assert.That(result1.ResultState, Is.EqualTo(testResult.ResultState));
             Assert.That(result1.Message, Is.EqualTo(testResult.Message));
             Assert.That(result1.ExceptionMessage, Is.EqualTo(testResult.ExceptionMessage));
             Assert.That(result1.AssertionsSuccess, Is.EqualTo(testResult.AssertionsSuccess));

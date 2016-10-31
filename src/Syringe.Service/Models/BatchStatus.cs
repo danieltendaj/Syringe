@@ -7,7 +7,7 @@ namespace Syringe.Service.Models
     {
         public int BatchId { get; set; }
         public bool BatchFinished { get; set; }
-        public bool AllTestsPassed { get; set; }
+        public bool HasFailedTests { get; set; }
         public int TestFilesRunning { get; set; }
         public int TestFilesFinished { get; set; }
         public int TestFilesFailed { get; set; }
