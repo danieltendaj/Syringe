@@ -48,7 +48,8 @@ namespace Syringe.Web.Mappers
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
-                PageNumber = pageNo
+                PageNumber = pageNo,
+                RequiredEnvironments = test.TestConditions.RequiredEnvironments
             };
 
             PopulateScriptSnippets(model);
@@ -58,7 +59,7 @@ namespace Syringe.Web.Mappers
 
         public void PopulateScriptSnippets(TestViewModel model)
         {
-			model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
+            model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
         }
 
         public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults)
@@ -106,6 +107,7 @@ namespace Syringe.Web.Mappers
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
                 ScriptSnippets = new ScriptSnippets { BeforeExecuteFilename = testModel.BeforeExecuteScriptFilename },
+                TestConditions = new TestConditions { RequiredEnvironments = testModel.RequiredEnvironments }
             };
         }
 
