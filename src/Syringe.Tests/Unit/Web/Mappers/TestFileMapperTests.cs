@@ -133,14 +133,16 @@ namespace Syringe.Tests.Unit.Web.Mappers
                         Description = "Description 1",
                         Url = "http://www.google.com",
                         Assertions = new List<Assertion>() { new Assertion(), new Assertion()},
-                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable() }
+                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable() },
+                        TestConditions = new TestConditions {RequiredEnvironments = new List<string> { "my-env" }}
                     },
                     new Test
                     {
                         Description = "Description 2",
                         Url = "http://www.arsenal.com",
                         Assertions = new List<Assertion>() { new Assertion(), new Assertion(), new Assertion()},
-                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable(), new CapturedVariable() }
+                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable(), new CapturedVariable() },
+                        TestConditions = new TestConditions { RequiredEnvironments = new List<string> { "different-env" } }
                     },
                 }
             };
@@ -159,12 +161,14 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.AreEqual("http://www.google.com", firstCase.Url);
             Assert.That(firstCase.Assertions.Count, Is.EqualTo(2));
             Assert.That(firstCase.CapturedVariables.Count, Is.EqualTo(2));
+            Assert.That(firstCase.RequiredEnvironments, Is.EqualTo(testFile.Tests.First().TestConditions.RequiredEnvironments));
 
             var lastCase = viewModels.Last();
             Assert.AreEqual(11, lastCase.Position);
             Assert.AreEqual("Description 2", lastCase.Description);
             Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
             Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
+            Assert.That(lastCase.RequiredEnvironments, Is.EqualTo(testFile.Tests.Skip(1).First().TestConditions.RequiredEnvironments));
         }
 
         [Test]

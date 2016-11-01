@@ -256,11 +256,18 @@
     }
 }
 
-.drag-handle{
+.drag-handle {
     margin-right: 10px;
     font: bold 20px Sans-Serif;
     color: #5F9EDF;
     display: inline-block;
     cursor: move;
     cursor: -webkit-grabbing;
+}
+
+// Test file page
+.tests-table {
+    .required-environments {
+        padding-left: 0px;
+    }
 }

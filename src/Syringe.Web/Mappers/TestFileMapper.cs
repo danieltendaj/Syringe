@@ -83,6 +83,7 @@ namespace Syringe.Web.Mappers
                     Url = test.Url,
                     Assertions = test.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
                     CapturedVariables = test.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
+                    RequiredEnvironments = test.TestConditions.RequiredEnvironments
                 });
             }
 
