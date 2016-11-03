@@ -81,6 +81,7 @@ namespace Syringe.Core.Tests.Repositories
             singleTest.Url = test.Url;
             singleTest.ExpectedHttpStatusCode = test.ExpectedHttpStatusCode;
             singleTest.ScriptSnippets = test.ScriptSnippets;
+            singleTest.TestConditions = test.TestConditions;
 
             string contents = _testFileWriter.Write(testFile);
 

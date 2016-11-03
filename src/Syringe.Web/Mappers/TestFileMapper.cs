@@ -111,7 +111,7 @@ namespace Syringe.Web.Mappers
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
                 ScriptSnippets = new ScriptSnippets { BeforeExecuteFilename = testModel.BeforeExecuteScriptFilename },
-                TestConditions = new TestConditions { RequiredEnvironments = testModel.RequiredEnvironments }
+                TestConditions = new TestConditions { RequiredEnvironments = testModel.RequiredEnvironments ?? new List<string>(0) }
             };
         }
 
