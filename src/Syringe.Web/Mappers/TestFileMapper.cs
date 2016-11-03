@@ -13,10 +13,12 @@ namespace Syringe.Web.Mappers
     public class TestFileMapper : ITestFileMapper
     {
         private readonly IConfigurationService _configurationService;
+        private readonly IEnvironmentsService _environmentsService;
 
-        public TestFileMapper(IConfigurationService configurationService)
+        public TestFileMapper(IConfigurationService configurationService, IEnvironmentsService environmentsService)
         {
             _configurationService = configurationService;
+            _environmentsService = environmentsService;
         }
 
         public TestViewModel BuildTestViewModel(TestFile testFile, int position, int pageNo = 1)
@@ -49,7 +51,8 @@ namespace Syringe.Web.Mappers
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
                 PageNumber = pageNo,
-                RequiredEnvironments = test.TestConditions.RequiredEnvironments
+                RequiredEnvironments = test.TestConditions.RequiredEnvironments,
+                Environments = _environmentsService.Get().OrderBy(x => x.Order).Select(x => x.Name).ToList()
             };
 
             PopulateScriptSnippets(model);

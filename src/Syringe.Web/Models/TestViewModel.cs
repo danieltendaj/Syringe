@@ -38,6 +38,7 @@ namespace Syringe.Web.Models
 	    public IEnumerable<string> BeforeExecuteScriptSnippets { get; set; }
 
         public List<string> RequiredEnvironments { get; set; }
+        public List<string> Environments { get; set; }
 
         public int PageNumber { get; set; }
 

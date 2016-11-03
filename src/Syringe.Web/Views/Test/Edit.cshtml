@@ -83,12 +83,12 @@
                                             You can alter the request and test file <b>before it is run</b> using C# script. Two variables are available:
                                         </p>
 
-										<ul>
-											<li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
-											<li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
-										</ul>
-										@Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptFilename, x => x.BeforeExecuteScriptSnippets , null)
-									</div>
+                                        <ul>
+                                            <li><code>Test</code> (Syringe.Core.Tests.Test). This contains information for the test.</li>
+                                            <li><code>Request</code>(Restsharp.IRestRequest). This is the HTTP request sent to the server</li>
+                                        </ul>
+                                        @Html.GenerateScriptSnippetsDropdown(x => x.BeforeExecuteScriptFilename, x => x.BeforeExecuteScriptSnippets, null)
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -102,9 +102,9 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new {@class = "col-sm-2 control-label"})
+                        @Html.LabelFor(x => x.ExpectedHttpStatusCode, new { @class = "col-sm-2 control-label" })
                         <div class="col-sm-4">
-                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new {@class = "form-control"})
+                            @Html.GenerateHttpStatusDropdown(x => x.ExpectedHttpStatusCode, new { @class = "form-control" })
                         </div>
                     </div>
                     <ul id="responseTabs" class="nav nav-tabs" data-tabs="responseTabs">
@@ -142,6 +142,20 @@
                 </div>
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Test Conditions</h3>
+                </div>
+                <div class="panel-body">
+                    <ul id="required-environments">
+                        @foreach (string environment in Model.RequiredEnvironments)
+                        {
+                            <li>@environment</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
             <div class="pull-right">
                 <a href="@Url.Action("View", "TestFile", new {filename = Model.Filename, pageNumber = Model.PageNumber})" class="btn btn-primary">Cancel</a>
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -149,13 +163,30 @@
         </form>
     </div>
 </div>
+<br/>
 
 <input id="available-variables-json" type="hidden" value="@JsonConvert.SerializeObject(Model.AvailableVariables.Select(x => x.Name))" />
+<input id="environments-json" type="hidden" value="@JsonConvert.SerializeObject(Model.Environments)" />
+
 @section Scripts
 {
-	<script type="text/javascript">
-		$(document).ready(function() {
-			var clipboard = new Clipboard(".btn");
-		});
-	</script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                var clipboard = new Clipboard(".btn");
+                
+                var environments = $("#environments-json");
+
+                if (environments && environments.length === 1) {
+                    environments = JSON.parse(environments.val());
+                } else {
+                    environments = [];
+                }
+
+                $("#required-environments").tagit({
+                    availableTags: environments,
+                    showAutocompleteOnFocus: true
+                });
+            });
+    </script>
 }

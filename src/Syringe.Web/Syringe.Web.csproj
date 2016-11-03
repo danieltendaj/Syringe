@@ -241,6 +241,14 @@
     <Content Include="Css\bootstrap-social\assets\js\jquery.js" />
     <Content Include="Css\font-awesome-4.4.0\css\font-awesome.min.css" />
     <Content Include="Css\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Css\images\ui-icons_444444_256x240.png" />
+    <Content Include="Css\images\ui-icons_555555_256x240.png" />
+    <Content Include="Css\images\ui-icons_777620_256x240.png" />
+    <Content Include="Css\images\ui-icons_777777_256x240.png" />
+    <Content Include="Css\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Css\jquery-ui.1.11.4.css" />
+    <Content Include="Css\jquery.tagit.2.0.0.css" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="gulpfile.js" />
     <Content Include="img\kmi.jpg" />
@@ -249,7 +257,9 @@
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\cheet.min.js" />
     <Content Include="Scripts\clipboard.min.js" />
+    <Content Include="Scripts\jquery-ui.1.11.4.min.js" />
     <Content Include="Scripts\jquery.overlay-0.0.5.min.js" />
+    <Content Include="Scripts\jquery.tag-it.2.0.0.min.js" />
     <Content Include="Scripts\jquery.textcomplete-1.6.1.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\material.js" />
@@ -390,7 +400,6 @@
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff2" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-1.11.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.11.3.js" />
     <Content Include="Scripts\jquery-1.11.3.min.js" />

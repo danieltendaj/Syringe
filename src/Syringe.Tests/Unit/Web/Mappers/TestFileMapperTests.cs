@@ -11,6 +11,7 @@ using Syringe.Core.Tests.Variables;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
+using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Tests.Unit.Web.Mappers
 {
@@ -18,13 +19,15 @@ namespace Syringe.Tests.Unit.Web.Mappers
     public class TestFileMapperTests
     {
         private Mock<IConfigurationService> _configurationServiceMock;
+        private Mock<IEnvironmentsService> _environmentServiceMock;
         private TestFileMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
             _configurationServiceMock = new Mock<IConfigurationService>();
-            _mapper = new TestFileMapper(_configurationServiceMock.Object);
+            _environmentServiceMock = new Mock<IEnvironmentsService>();
+            _mapper = new TestFileMapper(_configurationServiceMock.Object, _environmentServiceMock.Object);
 
             _configurationServiceMock
                 .Setup(x => x.GetSystemVariables())
@@ -178,7 +181,17 @@ namespace Syringe.Tests.Unit.Web.Mappers
             const int testPosition = 1;
             _configurationServiceMock
                 .Setup(x => x.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute))
-                .Returns(new string[] { "snippet1.snippet", "snippet2.snippet" });
+                .Returns(new[] { "snippet1.snippet", "snippet2.snippet" });
+
+            List<Environment> environments = new List<Environment>
+            {
+                new Environment { Name = "Last", Order = 2},
+                new Environment { Name = "First", Order = 0}
+            };
+
+            _environmentServiceMock
+                .Setup(x => x.Get())
+                .Returns(environments);
 
             var expectedTest = new Test
             {
@@ -258,6 +271,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.That(actualModel.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
 
             Assert.That(actualModel.RequiredEnvironments, Is.EqualTo(expectedTest.TestConditions.RequiredEnvironments));
+            Assert.That(actualModel.Environments, Is.EqualTo(new List<string> { "First", "Last" }));
         }
 
         [Test]
