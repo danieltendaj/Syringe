@@ -71,7 +71,7 @@ namespace Syringe.Web.Controllers
             return View("Add", model);
         }
 
-        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 10)
+        public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 20)
         {
             TestFile testFile = _testsClient.GetTestFile(filename);
             IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);

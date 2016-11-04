@@ -101,7 +101,7 @@ namespace Syringe.Core.Tests.Variables.Encryption
 					return Encoding.UTF8.GetString(decryptedBytes).TrimEnd('\0');
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 			    return encryptedValue;
 			}

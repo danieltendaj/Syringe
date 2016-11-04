@@ -21,27 +21,45 @@ namespace Syringe.Tests.Unit.Core.Runner
 
 			// when + then
 			Assert.That(testFileResult.TotalTestsPassed, Is.EqualTo(3));
-		}
+        }
 
-		[Test]
-		public void TotalTestsFailed_should_count_passed_tests()
-		{
-			// given
-			var builder = new TestFileResultsBuilder()
-								.New().WithSuccess().Add()
-								.New().WithSuccess().Add()
-								.New().WithFail().Add()
-								.New().WithFail().Add()
-								.New().WithFail().Add();
+        [Test]
+        public void TotalTestsFailed_should_count_passed_tests()
+        {
+            // given
+            var builder = new TestFileResultsBuilder()
+                                .New().WithSuccess().Add()
+                                .New().WithSuccess().Add()
+                                .New().WithFail().Add()
+                                .New().WithFail().Add()
+                                .New().WithFail().Add();
 
-			var testFileResult = new TestFileResult();
-			testFileResult.TestResults = builder.GetCollection();
+            var testFileResult = new TestFileResult();
+            testFileResult.TestResults = builder.GetCollection();
 
-			// when + then
-			Assert.That(testFileResult.TotalTestsFailed, Is.EqualTo(3));
-		}
+            // when + then
+            Assert.That(testFileResult.TotalTestsFailed, Is.EqualTo(3));
+        }
 
-		[Test]
+        [Test]
+        public void TotalTestsFailed_should_count_skipped_tests()
+        {
+            // given
+            var builder = new TestFileResultsBuilder()
+                                .New().WithSkipped().Add()
+                                .New().WithSkipped().Add()
+                                .New().WithFail().Add()
+                                .New().WithFail().Add()
+                                .New().WithFail().Add();
+
+            var testFileResult = new TestFileResult();
+            testFileResult.TestResults = builder.GetCollection();
+
+            // when + then
+            Assert.That(testFileResult.TotalTestsSkipped, Is.EqualTo(2));
+        }
+
+        [Test]
 		public void TotalAssertionsPassed_should_count_passed_tests()
 		{
 			// given

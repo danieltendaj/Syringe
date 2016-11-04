@@ -23,6 +23,8 @@ namespace Syringe.Core.Tests
 
         public ScriptSnippets ScriptSnippets { get; set; }
 
+	    public TestConditions TestConditions { get; set; }
+
 	    public Test()
 		{
 			Headers = new List<HeaderItem>();
@@ -30,7 +32,8 @@ namespace Syringe.Core.Tests
 			Assertions = new List<Assertion>();
             AvailableVariables = new List<Variable>();
             ScriptSnippets = new ScriptSnippets();
-		}
+            TestConditions = new TestConditions();
+        }
 
 		public void AddHeader(string key, string value)
 		{

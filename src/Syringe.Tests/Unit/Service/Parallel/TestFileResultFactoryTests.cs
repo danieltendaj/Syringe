@@ -91,8 +91,8 @@ namespace Syringe.Tests.Unit.Service.Parallel
                 {
                     TestResults = new List<TestResult>
                     {
-                        new TestResult { ResponseCodeSuccess = !hasFailedTests },
-                        new TestResult { ResponseCodeSuccess = true } // SUCCESS ;-)
+                        new TestResult { ResultState = hasFailedTests ? TestResultState.Failed : TestResultState.Success},
+                        new TestResult { ResultState = TestResultState.Success }
                     }
                 }
             };
@@ -191,6 +191,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
                 ResponseTime = TimeSpan.FromMinutes(3),
                 ResponseCodeSuccess = true,
                 ActualUrl = "foo-bar",
+                ResultState = TestResultState.Success,
                 Test = new Test
                 {
                     Url = "url-bar",
@@ -215,7 +216,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
             Assert.That(result.TestResults.Count(), Is.EqualTo(1));
 
             var result1 = result.TestResults.First();
-            Assert.That(result1.Success, Is.EqualTo(testResult.Success));
+            Assert.That(result1.ResultState, Is.EqualTo(testResult.ResultState));
             Assert.That(result1.Message, Is.EqualTo(testResult.Message));
             Assert.That(result1.ExceptionMessage, Is.EqualTo(testResult.ExceptionMessage));
             Assert.That(result1.AssertionsSuccess, Is.EqualTo(testResult.AssertionsSuccess));

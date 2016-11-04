@@ -33,7 +33,7 @@
 	}
 	else
 	{
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped tests-table">
             <thead>
                 <tr>
                     <td>#</td>
@@ -53,6 +53,17 @@
                                 <strong>@test.Description</strong>
                             </p>
                             <h6>@test.Url</h6>
+                            
+                            @if (test.RequiredEnvironments.Any())
+                            {
+                                <span class="small"><strong>Required Environments:</strong></span>
+                                <ul class="required-environments">
+                                    @foreach (string environment in test.RequiredEnvironments)
+                                    {
+                                        <li class="label label-warning">@environment</li>
+                                    }
+                                </ul>
+                            }
                         </td>
                         <td class="actions">
                             <a title="Edit Test" class="btn btn-sm btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = test.Position, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">

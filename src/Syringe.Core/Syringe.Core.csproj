@@ -219,6 +219,7 @@
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Results\Repositories\MongoTestFileResultRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepositoryFactory.cs" />
+    <Compile Include="Tests\Results\TestResultState.cs" />
     <Compile Include="Tests\Scripting\ISnippetFileReader.cs" />
     <Compile Include="Tests\Scripting\RequestGlobals.cs" />
     <Compile Include="Tests\Scripting\ScriptSnippetType.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Services\IEnvironmentsService.cs" />
     <Compile Include="Tests\Scripting\ScriptSnippets.cs" />
+    <Compile Include="Tests\TestConditions.cs" />
     <Compile Include="Tests\TestPosition.cs" />
     <Compile Include="Tests\Variables\Encryption\IEncryption.cs" />
     <Compile Include="Tests\Variables\Encryption\IVariableEncryptor.cs" />

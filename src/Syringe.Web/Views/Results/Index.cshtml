@@ -1,5 +1,11 @@
 ﻿@model TestFileResultSummaryCollection
 
+<style>
+    table span {
+        border: 1px dashed;
+    }
+</style>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
@@ -60,6 +66,10 @@
                                     <td>
                                         <span class="label label-success results-label">Total Passed: @summary.TotalPassed</span>
                                         <span class="label label-danger results-label">Total Failed: @summary.TotalFailed</span>
+                                        @if (summary.TotalSkipped > 0)
+                                        {
+                                            <span class="label label-warning results-label">Total Skipped: @summary.TotalSkipped</span>
+                                        }
                                         <span class="label label-info results-label">Run Time: @summary.TotalRunTime.MinutesAndSecondsFormat()</span>
                                     </td>
                                     <td>

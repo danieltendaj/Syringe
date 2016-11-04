@@ -11,6 +11,7 @@ using Syringe.Core.Tests.Variables;
 using Syringe.Web.Mappers;
 using Syringe.Web.Models;
 using HeaderItem = Syringe.Web.Models.HeaderItem;
+using Environment = Syringe.Core.Environment.Environment;
 
 namespace Syringe.Tests.Unit.Web.Mappers
 {
@@ -18,13 +19,15 @@ namespace Syringe.Tests.Unit.Web.Mappers
     public class TestFileMapperTests
     {
         private Mock<IConfigurationService> _configurationServiceMock;
+        private Mock<IEnvironmentsService> _environmentServiceMock;
         private TestFileMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
             _configurationServiceMock = new Mock<IConfigurationService>();
-            _mapper = new TestFileMapper(_configurationServiceMock.Object);
+            _environmentServiceMock = new Mock<IEnvironmentsService>();
+            _mapper = new TestFileMapper(_configurationServiceMock.Object, _environmentServiceMock.Object);
 
             _configurationServiceMock
                 .Setup(x => x.GetSystemVariables())
@@ -51,7 +54,8 @@ namespace Syringe.Tests.Unit.Web.Mappers
                     Url = "url",
                     Method = MethodType.POST,
                     ExpectedHttpStatusCode = HttpStatusCode.Accepted,
-                    BeforeExecuteScriptFilename = "ISomething something = new Something();"
+                    BeforeExecuteScriptFilename = "ISomething something = new Something();",
+                    RequiredEnvironments = new List<string> { "test-env-1", "another-test-env" }
                 };
             }
         }
@@ -74,6 +78,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.AreEqual(_testViewModel.Method.ToString(), test.Method);
             Assert.AreEqual(_testViewModel.ExpectedHttpStatusCode, test.ExpectedHttpStatusCode);
             Assert.AreEqual(_testViewModel.BeforeExecuteScriptFilename, test.ScriptSnippets.BeforeExecuteFilename);
+            Assert.AreEqual(_testViewModel.RequiredEnvironments, test.TestConditions.RequiredEnvironments);
         }
 
         [Test]
@@ -131,14 +136,16 @@ namespace Syringe.Tests.Unit.Web.Mappers
                         Description = "Description 1",
                         Url = "http://www.google.com",
                         Assertions = new List<Assertion>() { new Assertion(), new Assertion()},
-                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable() }
+                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable() },
+                        TestConditions = new TestConditions {RequiredEnvironments = new List<string> { "my-env" }}
                     },
                     new Test
                     {
                         Description = "Description 2",
                         Url = "http://www.arsenal.com",
                         Assertions = new List<Assertion>() { new Assertion(), new Assertion(), new Assertion()},
-                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable(), new CapturedVariable() }
+                        CapturedVariables = new List<CapturedVariable>() { new CapturedVariable(), new CapturedVariable(), new CapturedVariable() },
+                        TestConditions = new TestConditions { RequiredEnvironments = new List<string> { "different-env" } }
                     },
                 }
             };
@@ -157,12 +164,14 @@ namespace Syringe.Tests.Unit.Web.Mappers
             Assert.AreEqual("http://www.google.com", firstCase.Url);
             Assert.That(firstCase.Assertions.Count, Is.EqualTo(2));
             Assert.That(firstCase.CapturedVariables.Count, Is.EqualTo(2));
+            Assert.That(firstCase.RequiredEnvironments, Is.EqualTo(testFile.Tests.First().TestConditions.RequiredEnvironments));
 
             var lastCase = viewModels.Last();
             Assert.AreEqual(11, lastCase.Position);
             Assert.AreEqual("Description 2", lastCase.Description);
             Assert.That(lastCase.Assertions.Count, Is.EqualTo(3));
             Assert.That(lastCase.CapturedVariables.Count, Is.EqualTo(3));
+            Assert.That(lastCase.RequiredEnvironments, Is.EqualTo(testFile.Tests.Skip(1).First().TestConditions.RequiredEnvironments));
         }
 
         [Test]
@@ -172,7 +181,17 @@ namespace Syringe.Tests.Unit.Web.Mappers
             const int testPosition = 1;
             _configurationServiceMock
                 .Setup(x => x.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute))
-                .Returns(new string[] {"snippet1.snippet", "snippet2.snippet"});
+                .Returns(new[] { "snippet1.snippet", "snippet2.snippet" });
+
+            List<Environment> environments = new List<Environment>
+            {
+                new Environment { Name = "Last", Order = 2},
+                new Environment { Name = "First", Order = 0}
+            };
+
+            _environmentServiceMock
+                .Setup(x => x.Get())
+                .Returns(environments);
 
             var expectedTest = new Test
             {
@@ -188,6 +207,7 @@ namespace Syringe.Tests.Unit.Web.Mappers
                 {
                     BeforeExecuteFilename = "// this is some script"
                 },
+                TestConditions = new TestConditions { RequiredEnvironments = new List<string> { "expected-env", "h3mang-and-d1cks" } }
             };
 
             var testFile = new TestFile
@@ -249,34 +269,37 @@ namespace Syringe.Tests.Unit.Web.Mappers
 
             Assert.That(actualModel.BeforeExecuteScriptFilename, Is.EqualTo(expectedTest.ScriptSnippets.BeforeExecuteFilename));
             Assert.That(actualModel.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
+
+            Assert.That(actualModel.RequiredEnvironments, Is.EqualTo(expectedTest.TestConditions.RequiredEnvironments));
+            Assert.That(actualModel.Environments, Is.EqualTo(new List<string> { "First", "Last" }));
         }
 
         [Test]
-		public void should_populate_snippets_from_snippetreader()
-		{
-			// given
-			var testFile = new TestFile
-			{
-				Tests = new[]
-				{
-					new Test()
-				}
-			};
+        public void should_populate_snippets_from_snippetreader()
+        {
+            // given
+            var testFile = new TestFile
+            {
+                Tests = new[]
+                {
+                    new Test()
+                }
+            };
 
-			_configurationServiceMock
-				.Setup(x => x.GetScriptSnippetFilenames(It.IsAny<ScriptSnippetType>()))
-				.Returns(new string[] { "snippet1", "snippet2" });
+            _configurationServiceMock
+                .Setup(x => x.GetScriptSnippetFilenames(It.IsAny<ScriptSnippetType>()))
+                .Returns(new string[] { "snippet1", "snippet2" });
 
-			// when
-			TestViewModel result = _mapper.BuildTestViewModel(testFile, 0);
+            // when
+            TestViewModel result = _mapper.BuildTestViewModel(testFile, 0);
 
-			// then
-			Assert.That(result.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
-			Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet1"));
-			Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet2"));
-		}
+            // then
+            Assert.That(result.BeforeExecuteScriptSnippets.Count(), Is.EqualTo(2));
+            Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet1"));
+            Assert.That(result.BeforeExecuteScriptSnippets, Contains.Item("snippet2"));
+        }
 
-		[Test]
+        [Test]
         public void should_include_reserved_variables_in_available_variable_list()
         {
             // given

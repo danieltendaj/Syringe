@@ -21,10 +21,11 @@ namespace Syringe.Core.Tests.Results
 		public TimeSpan MinResponseTime { get; set; }
 		public List<TestResult> TestResults { get; set; }
 
-		public int TotalTestsPassed => TestResults.Count(x => x.Success == true);
-	    public int TotalTestsFailed => TestResults.Count(x => x.Success == false);
+		public int TotalTestsPassed => TestResults.Count(x => x.ResultState == TestResultState.Success);
+        public int TotalTestsFailed => TestResults.Count(x => x.ResultState == TestResultState.Failed);
+        public int TotalTestsSkipped => TestResults.Count(x => x.ResultState == TestResultState.Skipped);
 
-	    public int TotalAssertionsPassed
+        public int TotalAssertionsPassed
 		{
 			get
 			{

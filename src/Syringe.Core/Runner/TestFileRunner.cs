@@ -156,7 +156,7 @@ namespace Syringe.Core.Runner
 
                 try
                 {
-                    TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher);
+                    TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher, environment);
                     AddResult(testFileResult, result);
 
                     if (result.ResponseTime < minResponseTime)
@@ -220,14 +220,27 @@ namespace Syringe.Core.Runner
             NotifySubscribers(observer => observer.OnError(exception));
         }
 
-        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher, string environment)
         {
             var testResult = new TestResult
             {
                 Position = position,
                 SessionId = SessionId,
-                Test = test
+                Test = test,
+                ResultState = TestResultState.Failed
             };
+
+            if (test.TestConditions.RequiredEnvironments.Any())
+            {
+                bool inEnvironment = test.TestConditions.RequiredEnvironments
+                                                            .Where(x => !string.IsNullOrEmpty(x))
+                                                            .Any(x => x.Equals(environment, StringComparison.InvariantCultureIgnoreCase));
+                if (!inEnvironment)
+                {
+                    testResult.ResultState = TestResultState.Skipped;
+                    return testResult;
+                }
+            }
 
             try
             {
@@ -240,11 +253,11 @@ namespace Syringe.Core.Runner
                     header.Value = variables.ReplacePlainTextVariablesIn(header.Value);
                 }
 
-                IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, postBody, test.Headers);
                 var logger = _loggerFactory.CreateLogger();
+                IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, postBody, test.Headers);
 
                 // Scripting part
-                if (test.ScriptSnippets != null && !string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
+                if (!string.IsNullOrEmpty(test.ScriptSnippets?.BeforeExecuteFilename))
                 {
                     logger.WriteLine("Evaluating C# script");
 
@@ -271,43 +284,8 @@ namespace Syringe.Core.Runner
 
                 var httpLogWriter = new HttpLogWriter();
                 HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
-                testResult.ResponseTime = response.ResponseTime;
-                testResult.HttpResponse = response;
-                testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
-                testResult.HttpContent = response.Content;
 
-                if (response.StatusCode == test.ExpectedHttpStatusCode)
-                {
-                    testResult.ResponseCodeSuccess = true;
-                    string content = response.ToString();
-
-                    // Put the captured variables regex values in the current variable set
-                    foreach (var capturedVariable in test.CapturedVariables)
-                    {
-                        capturedVariable.Regex = variables.ReplacePlainTextVariablesIn(capturedVariable.Regex);
-                    }
-
-                    List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
-                    variables.AddOrUpdateVariables(parsedVariables);
-                    logger.WriteLine("{0} captured variable(s) parsed.", parsedVariables.Count);
-
-                    // Verify assertions
-                    testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
-                    logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
-                    foreach (Assertion item in testResult.AssertionResults)
-                    {
-                        logger.AppendTextLine(item.Log);
-                    }
-
-                    // Store the log
-                    testResult.Log = logger.GetLog();
-                }
-                else
-                {
-                    testResult.ResponseCodeSuccess = false;
-                    testResult.Log = $"No verifications run - the response code {response.StatusCode} did not match the expected response code {test.ExpectedHttpStatusCode}.";
-                }
-
+                ProcessResponse(test, variables, assertionMatcher, testResult, response, httpLogWriter, logger);
             }
             catch (Exception ex)
             {
@@ -316,7 +294,53 @@ namespace Syringe.Core.Runner
                 testResult.ExceptionMessage = ex.Message;
             }
 
+            if (testResult.ResponseCodeSuccess && testResult.AssertionsSuccess && testResult.ScriptCompilationSuccess)
+            {
+                testResult.ResultState = TestResultState.Success;
+            }
+
             return testResult;
+        }
+
+        private static void ProcessResponse(Test test, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher,
+            TestResult testResult, HttpResponse response, HttpLogWriter httpLogWriter, ITestFileRunnerLogger logger)
+        {
+            testResult.ResponseTime = response.ResponseTime;
+            testResult.HttpResponse = response;
+            testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
+            testResult.HttpContent = response.Content;
+
+            if (response.StatusCode == test.ExpectedHttpStatusCode)
+            {
+                testResult.ResponseCodeSuccess = true;
+                string content = response.ToString();
+
+                // Put the captured variables regex values in the current variable set
+                foreach (var capturedVariable in test.CapturedVariables)
+                {
+                    capturedVariable.Regex = variables.ReplacePlainTextVariablesIn(capturedVariable.Regex);
+                }
+
+                List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
+                variables.AddOrUpdateVariables(parsedVariables);
+                logger.WriteLine("{0} captured variable(s) parsed.", parsedVariables.Count);
+
+                // Verify assertions
+                testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
+                logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
+                foreach (Assertion item in testResult.AssertionResults)
+                {
+                    logger.AppendTextLine(item.Log);
+                }
+
+                // Store the log
+                testResult.Log = logger.GetLog();
+            }
+            else
+            {
+                testResult.ResponseCodeSuccess = false;
+                testResult.Log = $"No verifications run - the response code {response.StatusCode} did not match the expected response code {test.ExpectedHttpStatusCode}.";
+            }
         }
 
         private sealed class TestSessionRunnerSubscriber : IDisposable

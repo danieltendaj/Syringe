@@ -29,6 +29,12 @@
       ],
       "ScriptSnippets": {
         "BeforeExecuteFilename": "uploadfile.snippet"
+      },
+      "TestConditions": {
+        "RequiredEnvironments": [
+          "int",
+          "prod"
+        ]
       }
     }
   ],

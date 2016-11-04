@@ -1,9 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using Syringe.Client;
 using Syringe.Core.Configuration;
 using Syringe.Core.Extensions;
-using Syringe.Web.Configuration;
 
 namespace Syringe.Web.Controllers.Attribute
 {

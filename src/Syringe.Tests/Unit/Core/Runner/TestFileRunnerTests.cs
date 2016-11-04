@@ -276,12 +276,12 @@ namespace Syringe.Tests.Unit.Core.Runner
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
             // then
-            Assert.That(session.TestResults.Single().Success, Is.True);
+            Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Success));
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
         }
 
         [Test]
-        public async Task Run_should_set_testresult_success_and_response_when_httpcode_fails()
+        public async Task Run_should_set_result_state_and_response_when_httpcode_fails()
         {
             // given
             TestFileRunner runner = CreateRunner();
@@ -300,8 +300,33 @@ namespace Syringe.Tests.Unit.Core.Runner
             TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
 
             // then
-            Assert.That(session.TestResults.Single().Success, Is.False);
+            Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Failed));
             Assert.That(session.TestResults.Single().HttpResponse, Is.EqualTo(_httpClientMock.Response));
+        }
+
+        [Test]
+        public async Task Run_should_skip_test_if_it_is_set_to_ignore_environment()
+        {
+            // given
+            TestFileRunner runner = CreateRunner();
+            _httpClientMock.Response.StatusCode = HttpStatusCode.OK;
+
+            var testFile = CreateTestFile(new[]
+            {
+                new Test()
+                {
+                    TestConditions = new TestConditions
+                    {
+                        RequiredEnvironments = {"not-development"}
+                    }
+                },
+            });
+
+            // when
+            TestFileResult session = await runner.RunAsync(testFile, "development", "bob");
+
+            // then
+            Assert.That(session.TestResults.Single().ResultState, Is.EqualTo(TestResultState.Skipped));
         }
 
         [Test]
@@ -355,7 +380,7 @@ namespace Syringe.Tests.Unit.Core.Runner
 
             // then
             var result = session.TestResults.Single();
-            Assert.That(result.Success, Is.True);
+            Assert.That(result.ResultState, Is.EqualTo(TestResultState.Success));
             Assert.That(result.AssertionResults.Where(x => x.AssertionType == AssertionType.Positive).Count, Is.EqualTo(1));
             Assert.That(result.AssertionResults[0].Success, Is.True);
 
@@ -541,7 +566,7 @@ namespace Syringe.Tests.Unit.Core.Runner
             // then
             Assert.That(capturedResult, Is.Not.Null, "Should have notified of the result.");
             Assert.That(capturedResult.TestResult, Is.Not.Null, "Should have test result.");
-            Assert.That(capturedResult.TestResult.Success, Is.False, "Should not have succeeded.");
+            Assert.That(capturedResult.TestResult.ResultState, Is.EqualTo(TestResultState.Failed), "Should not have succeeded.");
         }
 
         private TestFileRunner CreateRunner()

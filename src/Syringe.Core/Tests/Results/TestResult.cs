@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Syringe.Core.Http;
 
 namespace Syringe.Core.Tests.Results
 {
     [BsonIgnoreExtraElements]
     public class TestResult
-	{
-		public int Position { get; set; }
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public TestResultState ResultState { get; set; }
+        public int Position { get; set; }
 		public Guid SessionId { get; set; }
 	    public Test Test { get; set; }
 		public string ActualUrl { get; set; }
@@ -22,13 +26,8 @@ namespace Syringe.Core.Tests.Results
 		public string HttpLog { get; set; }
 		public string HttpContent { get; set; }
 		public string Log { get; set; }
-
-		public bool Success
-		{
-			get { return ResponseCodeSuccess && AssertionsSuccess && ScriptCompilationSuccess; }
-		}
-		
-		public bool AssertionsSuccess
+        
+        public bool AssertionsSuccess
 		{
 			get
 			{

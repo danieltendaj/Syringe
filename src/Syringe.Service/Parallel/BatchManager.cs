@@ -83,7 +83,7 @@ namespace Syringe.Service.Parallel
                 BatchId = batchId,
                 TestFilesResultIds = testFilesResultIds,
                 BatchFinished = batchFinished,
-                AllTestsPassed = batchFinished && testFilesState.TrueForAll(x => !x.HasFailedTests),
+                HasFailedTests = testFilesState.Any(x => x.TestRunFailed) || batchFinished && testFilesState.Any(x => x.HasFailedTests),
                 TestFilesRunning = testFilesState.Count(x => !x.Finished),
                 TestFilesFinished = testFilesState.Count(x => x.Finished),
                 TestFilesWithFailedTests = testFilesState.Where(x => x.HasFailedTests && x.ResultId.HasValue).Select(x => x.ResultId.Value),

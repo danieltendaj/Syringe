@@ -13,10 +13,12 @@ namespace Syringe.Web.Mappers
     public class TestFileMapper : ITestFileMapper
     {
         private readonly IConfigurationService _configurationService;
+        private readonly IEnvironmentsService _environmentsService;
 
-        public TestFileMapper(IConfigurationService configurationService)
+        public TestFileMapper(IConfigurationService configurationService, IEnvironmentsService environmentsService)
         {
             _configurationService = configurationService;
+            _environmentsService = environmentsService;
         }
 
         public TestViewModel BuildTestViewModel(TestFile testFile, int position, int pageNo = 1)
@@ -48,7 +50,9 @@ namespace Syringe.Web.Mappers
                 Assertions = test.Assertions.Select(x => new AssertionViewModel { Value = x.Value, Description = x.Description, AssertionType = x.AssertionType, AssertionMethod = x.AssertionMethod }).ToList(),
                 AvailableVariables = BuildVariableViewModel(testFile),
                 BeforeExecuteScriptFilename = test.ScriptSnippets.BeforeExecuteFilename,
-                PageNumber = pageNo
+                PageNumber = pageNo,
+                RequiredEnvironments = test.TestConditions.RequiredEnvironments,
+                Environments = _environmentsService.Get().OrderBy(x => x.Order).Select(x => x.Name).ToList()
             };
 
             PopulateScriptSnippets(model);
@@ -58,7 +62,7 @@ namespace Syringe.Web.Mappers
 
         public void PopulateScriptSnippets(TestViewModel model)
         {
-			model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
+            model.BeforeExecuteScriptSnippets = _configurationService.GetScriptSnippetFilenames(ScriptSnippetType.BeforeExecute);
         }
 
         public IEnumerable<TestViewModel> BuildTests(IEnumerable<Test> tests, int pageNumber, int noOfResults)
@@ -82,6 +86,7 @@ namespace Syringe.Web.Mappers
                     Url = test.Url,
                     Assertions = test.Assertions.Select(y => new AssertionViewModel { Value = y.Value, Description = y.Description, AssertionType = y.AssertionType, AssertionMethod = y.AssertionMethod }).ToList(),
                     CapturedVariables = test.CapturedVariables.Select(y => new CapturedVariableItem { Name = y.Name, Regex = y.Regex }).ToList(),
+                    RequiredEnvironments = test.TestConditions.RequiredEnvironments
                 });
             }
 
@@ -106,6 +111,7 @@ namespace Syringe.Web.Mappers
                 Method = testModel.Method.ToString(),
                 ExpectedHttpStatusCode = testModel.ExpectedHttpStatusCode,
                 ScriptSnippets = new ScriptSnippets { BeforeExecuteFilename = testModel.BeforeExecuteScriptFilename },
+                TestConditions = new TestConditions { RequiredEnvironments = testModel.RequiredEnvironments ?? new List<string>(0) }
             };
         }
 

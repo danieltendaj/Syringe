@@ -1,8 +1,9 @@
 ﻿// Bootstrap and material design
 @import "bootswatch/_variables";
 @import "bootstrap-sass/stylesheets/_bootstrap";
-
 @import "bootswatch/_bootswatch";
+@import "jquery-ui.1.11.4.css";
+@import "jquery.tagit.2.0.0.css";
 
 // All test case files
 #test-cases {
@@ -256,11 +257,18 @@
     }
 }
 
-.drag-handle{
+.drag-handle {
     margin-right: 10px;
     font: bold 20px Sans-Serif;
     color: #5F9EDF;
     display: inline-block;
     cursor: move;
     cursor: -webkit-grabbing;
+}
+
+// Test file page
+.tests-table {
+    .required-environments {
+        padding-left: 0px;
+    }
 }

@@ -47,70 +47,90 @@
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                         @foreach (TestResult result in Model.TestResults)
                         {
-                            <div class="panel @(result.Success ? "test-passed panel-success" : "test-failed panel-danger")">
-                                <div class="panel-heading" role="tab" id="heading@(result.Position)">
-                                    <h3 class="panel-title">
-                                        <a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
-                                            @result.Test.Description
-                                        </a>
-                                    </h3>
-                                </div>
-                                <div id="collapse@(result.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Position)">
-                                    <div class="panel-body">
-                                        <ul>
-                                            <li><a href="@result.ActualUrl" target="_new">@result.ActualUrl</a></li>
-                                            <li>Took @result.ResponseTime.MinutesAndSecondsFormat()</li>
-                                            <li>Response Code Success: @result.ResponseCodeSuccess</li>
-                                        </ul>
-
-                                        <p>
-                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
-                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
-                                            <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
-                                            <a class="btn btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
-                                        </p>
-
-                                        @if (!string.IsNullOrEmpty(result.ExceptionMessage))
-                                        {
-                                            <p>
-                                                <strong>Exception in the test:</strong><br />
-                                                @result.ExceptionMessage
-                                            </p>
-                                        }
-
-                                        @if (result.ResponseCodeSuccess)
-                                        {
-
-                                            <table class="table table-bordered table-striped">
-                                                <tr>
-                                                    <td>Description</td>
-                                                    <td>Value</td>
-                                                    <td>Assertion type</td>
-                                                    <td>Assertion method</td>
-                                                </tr>
-
-                                                @foreach (var item in result.AssertionResults)
-                                                {
-                                                    <tr class="@(item.Success ? "success" : "danger")">
-                                                        <td>
-                                                            @item.Description
-                                                        </td>
-                                                        <td>
-                                                            @item.Value
-                                                        </td>
-                                                        <td>
-                                                            @item.AssertionType.ToString()
-                                                        </td>
-                                                        <td>
-                                                            @item.AssertionMethod.ToString()
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </table>
-                                        }
+                            if (result.ResultState == TestResultState.Skipped)
+                            {
+                                <div class="panel test-passed panel-warning">
+                                    <div class="panel-heading" role="tab" id="heading@(result.Position)">
+                                        <h3 class="panel-title">
+                                            <a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
+                                                @result.Test.Description (skipped)
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapse@(result.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Position)">
+                                        <div class="panel-body">
+                                            Test was skipped due to Test Conditions
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="panel @(result.ResultState == TestResultState.Success ? "test-passed panel-success" : "test-failed panel-danger")">
+                                    <div class="panel-heading" role="tab" id="heading@(result.Position)">
+                                        <h3 class="panel-title">
+                                            <a role="button" data-toggle="collapse" href="#collapse@(result.Position)" aria-expanded="false" aria-controls="collapse@(result.Position)">
+                                                @result.Test.Description
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div id="collapse@(result.Position)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading@(result.Position)">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><a href="@result.ActualUrl" target="_new">@result.ActualUrl</a></li>
+                                                <li>Took @result.ResponseTime.MinutesAndSecondsFormat()</li>
+                                                <li>Response Code Success: @result.ResponseCodeSuccess</li>
+                                            </ul>
+
+                                            <p>
+                                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View Log</a>
+                                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHttpLog", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTTP Log</a>
+                                                <a class="btn btn-primary" target="_blank" href="@Url.Action("ViewHtml", "Results", new {testFileResultId = Model.Id, resultId = result.Position})">View HTML</a>
+                                                <a class="btn btn-primary" href="@Url.Action("Edit", "Test", new {filename = Model.Filename, position = result.Position})">Edit</a>
+                                            </p>
+
+                                            @if (!string.IsNullOrEmpty(result.ExceptionMessage))
+                                            {
+                                                <p>
+                                                    <strong>Exception in the test:</strong><br />
+                                                    @result.ExceptionMessage
+                                                </p>
+                                            }
+
+                                            @if (result.ResponseCodeSuccess)
+                                            {
+
+                                                <table class="table table-bordered table-striped">
+                                                    <tr>
+                                                        <td>Description</td>
+                                                        <td>Value</td>
+                                                        <td>Assertion type</td>
+                                                        <td>Assertion method</td>
+                                                    </tr>
+
+                                                    @foreach (var item in result.AssertionResults)
+                                                    {
+                                                        <tr class="@(item.Success ? "success" : "danger")">
+                                                            <td>
+                                                                @item.Description
+                                                            </td>
+                                                            <td>
+                                                                @item.Value
+                                                            </td>
+                                                            <td>
+                                                                @item.AssertionType.ToString()
+                                                            </td>
+                                                            <td>
+                                                                @item.AssertionMethod.ToString()
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         }
                     </div>
                 </div>

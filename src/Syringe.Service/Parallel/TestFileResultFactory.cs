@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Syringe.Core.Tests.Results;
 using Syringe.Service.Models;
 
 namespace Syringe.Service.Parallel
@@ -35,7 +36,7 @@ namespace Syringe.Service.Parallel
                 }
                 else
                 {
-                    int failCount = runnerInfo.TestFileResults?.TestResults?.Count(x => !x.Success) ?? 0;
+                    int failCount = runnerInfo.TestFileResults?.TotalTestsFailed ?? 0;
 
                     result = new TestFileRunResult
                     {
@@ -81,18 +82,18 @@ namespace Syringe.Service.Parallel
 
         private static IEnumerable<LightweightResult> GenerateTestResults(TestFileRunnerTaskInfo runnerInfo)
         {
-            return runnerInfo?.TestFileResults?.TestResults?.Select(lightResult => new LightweightResult
+            return runnerInfo?.TestFileResults?.TestResults?.Select(result => new LightweightResult
             {
-                Success = lightResult.Success,
-                Message = lightResult.Message,
-                ExceptionMessage = lightResult.ExceptionMessage,
-                AssertionsSuccess = lightResult.AssertionsSuccess,
-                ScriptCompilationSuccess = lightResult.ScriptCompilationSuccess,
-                ResponseTime = lightResult.ResponseTime,
-                ResponseCodeSuccess = lightResult.ResponseCodeSuccess,
-                ActualUrl = lightResult.ActualUrl,
-                TestUrl = lightResult.Test?.Url,
-                TestDescription = lightResult.Test?.Description
+                ResultState = result.ResultState,
+                Message = result.Message,
+                ExceptionMessage = result.ExceptionMessage,
+                AssertionsSuccess = result.AssertionsSuccess,
+                ScriptCompilationSuccess = result.ScriptCompilationSuccess,
+                ResponseTime = result.ResponseTime,
+                ResponseCodeSuccess = result.ResponseCodeSuccess,
+                ActualUrl = result.ActualUrl,
+                TestUrl = result.Test?.Url,
+                TestDescription = result.Test?.Description
             }) ?? new LightweightResult[0];
         }
     }
