@@ -6,6 +6,7 @@ namespace Syringe.Core.Configuration
 	{
 		string ServiceUrl { get; }
 		string WebsiteUrl { get; }
+        int EngineVersion { get; }
 		string TestFilesBaseDirectory { get; }
 		OAuthConfiguration OAuthConfiguration { get; }
         OctopusConfiguration OctopusConfiguration { get; }

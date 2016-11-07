@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
 using Syringe.Core.IO;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Tests.Repositories
 {
@@ -16,9 +18,10 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         private Mock<ITestFileReader> _testFileReader;
         private Mock<ITestFileWriter> _testFileWriter;
         private Mock<IFileHandler> _fileHandler;
+        private Mock<IConfiguration> _configuration;
         private TestRepository _testRepository;
         const string filename = "filepath.json";
-        const string jsonContent = "Do you know Json?";
+        const string jsonContent = "Do you even know Json?";
 
         [SetUp]
         public void Setup()
@@ -26,12 +29,13 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileReader = new Mock<ITestFileReader>();
             _testFileWriter = new Mock<ITestFileWriter>();
             _fileHandler = new Mock<IFileHandler>();
+            _configuration = new Mock<IConfiguration>();
 
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>())).Returns("path");
             _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns(filename);
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(jsonContent);
             _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = filename, Tests = new List<Test> { new Test() } });
-            _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object);
+            _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object, _configuration.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
             _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns(jsonContent);
@@ -62,6 +66,22 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
             Assert.IsTrue(success);
+        }
+
+        [Test]
+        public void should_set_engine_version_when_saving_file()
+        {
+            // given
+            _configuration.Setup(x => x.EngineVersion).Returns(54);
+            var writerStub = new TestFileWriterStub { Write_Result = jsonContent };
+            _testRepository = new TestRepository(_testFileReader.Object, writerStub, _fileHandler.Object, _configuration.Object);
+            var testFile = new TestFile();
+
+            // when
+            _testRepository.UpdateTests(testFile);
+
+            // then
+            Assert.That(writerStub.Write_Value.EngineVersion, Is.EqualTo(54));
         }
 
         [Test]

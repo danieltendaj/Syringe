@@ -243,6 +243,7 @@
     <Compile Include="StubsMocks\TestFileResultRepositoryFactoryMock.cs" />
     <Compile Include="StubsMocks\TestFileRunnerLogFactoryMock.cs" />
     <Compile Include="StubsMocks\TestFileRunnerLoggerMock.cs" />
+    <Compile Include="StubsMocks\TestFileWriterStub.cs" />
     <Compile Include="StubsMocks\VariableContainerStub.cs" />
     <Compile Include="StubsMocks\Web\TestControllerWrapper.cs" />
     <Compile Include="Unit\Client\RestSharpHelpers\RestSharpClientFactoryTests.cs" />

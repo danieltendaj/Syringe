@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Syringe.Core.Configuration;
 using Syringe.Core.IO;
 
 namespace Syringe.Core.Tests.Repositories
@@ -11,12 +12,14 @@ namespace Syringe.Core.Tests.Repositories
         private readonly ITestFileReader _testFileReader;
         private readonly ITestFileWriter _testFileWriter;
         private readonly IFileHandler _fileHandler;
+        private readonly IConfiguration _configuration;
 
-        public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler)
+        public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler, IConfiguration configuration)
         {
             _testFileReader = testFileReader;
             _testFileWriter = testFileWriter;
             _fileHandler = fileHandler;
+            _configuration = configuration;
         }
 
         public Test GetTest(string filename, int position)
@@ -154,6 +157,8 @@ namespace Syringe.Core.Tests.Repositories
 
         private bool SaveTestFile(TestFile testFile, string fileFullPath)
         {
+            testFile.EngineVersion = _configuration.EngineVersion;
+
             string contents = _testFileWriter.Write(testFile);
             return _fileHandler.WriteAllText(fileFullPath, contents);
         }
