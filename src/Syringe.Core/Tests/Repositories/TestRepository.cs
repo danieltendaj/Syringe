@@ -43,18 +43,16 @@ namespace Syringe.Core.Tests.Repositories
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);
 
-            TestFile collection;
+            TestFile testFile;
 
             using (var stringReader = new StringReader(fileContents))
             {
-                collection = _testFileReader.Read(stringReader);
+                testFile = _testFileReader.Read(stringReader);
 
-                collection.Tests = collection.Tests.Concat(new[] { test });
+                testFile.Tests = testFile.Tests.Concat(new[] { test });
             }
 
-            string contents = _testFileWriter.Write(collection);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool SaveTest(string filename, int position, Test test)
@@ -83,9 +81,7 @@ namespace Syringe.Core.Tests.Repositories
             singleTest.ScriptSnippets = test.ScriptSnippets;
             singleTest.TestConditions = test.TestConditions;
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool DeleteTest(int position, string filename)
@@ -109,26 +105,22 @@ namespace Syringe.Core.Tests.Repositories
                 testFile.Tests = testFile.Tests.Where(x => x != testToDelete);
             }
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool CreateTestFile(TestFile testFile)
         {
             testFile.Filename = _fileHandler.GetFilenameWithExtension(testFile.Filename);
 
-            string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
-            bool fileExists = _fileHandler.FileExists(filePath);
+            string fullPath = _fileHandler.CreateFileFullPath(testFile.Filename);
+            bool fileExists = _fileHandler.FileExists(fullPath);
 
             if (fileExists)
             {
                 throw new IOException("File already exists");
             }
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(filePath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool UpdateTestVariables(TestFile testFile)
@@ -142,8 +134,7 @@ namespace Syringe.Core.Tests.Repositories
 
                 updatedTestFile.Variables = testFile.Variables;
 
-                string contents = _testFileWriter.Write(updatedTestFile);
-                return _fileHandler.WriteAllText(fileFullPath, contents);
+                return SaveTestFile(updatedTestFile, fileFullPath);
             }
         }
 
@@ -155,12 +146,16 @@ namespace Syringe.Core.Tests.Repositories
             using (var stringReader = new StringReader(fileContents))
             {
                 TestFile updatedTestFile = _testFileReader.Read(stringReader);
-
                 updatedTestFile.Tests = testFile.Tests;
 
-                string contents = _testFileWriter.Write(updatedTestFile);
-                return _fileHandler.WriteAllText(fileFullPath, contents);
+                return SaveTestFile(updatedTestFile, fileFullPath);
             }
+        }
+
+        private bool SaveTestFile(TestFile testFile, string fileFullPath)
+        {
+            string contents = _testFileWriter.Write(testFile);
+            return _fileHandler.WriteAllText(fileFullPath, contents);
         }
 
         public TestFile GetTestFile(string filename)
