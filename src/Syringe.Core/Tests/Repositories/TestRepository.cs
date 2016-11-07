@@ -147,6 +147,22 @@ namespace Syringe.Core.Tests.Repositories
             }
         }
 
+        public bool UpdateTests(TestFile testFile)
+        {
+            string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
+            string fileContents = _fileHandler.ReadAllText(fileFullPath);
+
+            using (var stringReader = new StringReader(fileContents))
+            {
+                TestFile updatedTestFile = _testFileReader.Read(stringReader);
+
+                updatedTestFile.Tests = testFile.Tests;
+
+                string contents = _testFileWriter.Write(updatedTestFile);
+                return _fileHandler.WriteAllText(fileFullPath, contents);
+            }
+        }
+
         public TestFile GetTestFile(string filename)
         {
             string fullPath = _fileHandler.GetFileFullPath(filename);
@@ -172,38 +188,6 @@ namespace Syringe.Core.Tests.Repositories
             var fullPath = _fileHandler.GetFileFullPath(filename);
             return _fileHandler.DeleteFile(fullPath);
         }
-
-        public bool Reorder(string filename, IEnumerable<TestPosition> tests)
-        {
-            string fullPath = _fileHandler.GetFileFullPath(filename);
-            string fileContents = _fileHandler.ReadAllText(fullPath);
-
-            using (var stringReader = new StringReader(fileContents))
-            {
-                TestFile testFile = _testFileReader.Read(stringReader);
-                testFile.Filename = filename;
-
-                var newOrderList = new List<Test>();
-
-                List<TestPosition> testPositions = tests.ToList();
-                for (int i = 0; i < testPositions.Count; i++)
-                {
-                    var test = testPositions[i];
-                    newOrderList.Add(testFile.Tests.ElementAtOrDefault(test.OriginalPostion));
-                }
-
-                TestFile reorderedTestFile = new TestFile
-                {
-                    Filename = filename,
-                    Tests = newOrderList
-                };
-
-                string contents = _testFileWriter.Write(reorderedTestFile);
-
-                return _fileHandler.WriteAllText(fullPath, contents);
-            }
-        }
-
 
         public IEnumerable<string> ListFiles()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Syringe.Core.Services;
@@ -13,7 +14,7 @@ namespace Syringe.Service.Controllers
 	public class TestsController : ApiController, ITestService
     {
         private readonly ITestRepository _testRepository;
-        internal readonly ITestFileResultRepository _testFileResultRepository;
+        private readonly ITestFileResultRepository _testFileResultRepository;
 
         public TestsController(ITestRepository testRepository, ITestFileResultRepository testFileResultRepository)
         {
@@ -128,9 +129,21 @@ namespace Syringe.Service.Controllers
 
 	    [Route("api/test/reorder")]
         [HttpPost]
-        public bool Reorder(string fileName, [FromBody]IEnumerable<TestPosition> tests)
-	    {
-            return _testRepository.Reorder(fileName, tests);
+        public bool ReorderTests(string fileName, [FromBody]IEnumerable<TestPosition> tests)
+        {
+            TestFile testFile = _testRepository.GetTestFile(fileName);
+
+            var newOrderList = new List<Test>();
+
+            List<TestPosition> testPositions = tests.ToList();
+            foreach (var test in testPositions)
+            {
+                newOrderList.Add(testFile.Tests.ElementAtOrDefault(test.OriginalPostion));
+            }
+
+            testFile.Tests = newOrderList;
+            
+            return _testRepository.UpdateTests(testFile);
         }
     }
 }

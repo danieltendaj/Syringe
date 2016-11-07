@@ -305,5 +305,31 @@ namespace Syringe.Tests.Integration.ClientAndService
             Assert.True(success);
             Assert.False(File.Exists(fullPath));
         }
+
+        [Test]
+        public void ReorderTests_should_change_ordering_of_tests_on_disk()
+        {
+            // given
+            TestsClient client = Helpers.CreateTestsClient();
+            TestFile testFile = Helpers.CreateTestFileAndTest(client);
+            var reorder = new List<TestPosition>
+            {
+                new TestPosition { OriginalPostion = 1 },
+                new TestPosition { OriginalPostion = 0 }
+            };
+
+            // when
+            bool success = client.ReorderTests(testFile.Filename, reorder);
+
+            // then
+            Assert.True(success);
+
+            var updatedTestFile = client.GetTestFile(testFile.Filename);
+            Assert.That(updatedTestFile.Tests.Count(), Is.EqualTo(2));
+            Assert.That(updatedTestFile.Variables.Count, Is.EqualTo(testFile.Variables.Count));
+
+            Assert.That(updatedTestFile.Tests.First().Description, Is.EqualTo(testFile.Tests.Skip(1).First().Description));
+            Assert.That(updatedTestFile.Tests.Skip(1).First().Description, Is.EqualTo(testFile.Tests.First().Description));
+        }
     }
 }

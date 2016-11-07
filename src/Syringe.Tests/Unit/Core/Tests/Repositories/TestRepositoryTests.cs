@@ -168,12 +168,27 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
         }
 
-
         [Test]
-        public void UpdateTestFile_should_return_true_if_file_exists()
+        public void UpdateTestVariables_should_return_true_if_file_exists()
         {
             // given + when
             bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = filename });
+
+            // then
+            Assert.IsTrue(success);
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
+            _testFileReader.Verify(x => x.Read(It.IsAny<TextReader>()), Times.Once);
+        }
+
+        [Test]
+        public void UpdateTests_should_return_true_if_file_exists()
+        {
+            // given + when
+            bool success = _testRepository.UpdateTests(new TestFile { Filename = filename });
 
             // then
             Assert.IsTrue(success);
@@ -221,21 +236,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.DeleteFile(It.IsAny<string>()), Times.Once);
             Assert.IsFalse(deleteFile);
-        }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Reorder_should_return_true_or_false_if_file_got_saved_after_the_tests_got_reordered(bool fileSaved)
-        {
-            // given + when
-            _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(fileSaved);
-            var reorder = _testRepository.Reorder(It.IsAny<string>(), new List<TestPosition>());
-            // then
-            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            Assert.AreEqual(fileSaved, reorder);
         }
     }
 }

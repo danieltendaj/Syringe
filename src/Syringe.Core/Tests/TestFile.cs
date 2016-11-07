@@ -8,6 +8,7 @@ namespace Syringe.Core.Tests
 		public IEnumerable<Test> Tests { get; set; }
 		public string Filename { get; set; }
 		public List<Variable> Variables { get; set; }
+	    public int EngineVersion { get; set; }
 
 	    public TestFile()
 		{

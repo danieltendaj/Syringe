@@ -194,7 +194,7 @@ namespace Syringe.Web.Controllers
         [HttpPost]
         public JsonResult ReorderTests(string filename, IEnumerable<TestPosition> tests)
         {
-            var testFileOrder = _testsClient.Reorder(filename, tests);
+            var testFileOrder = _testsClient.ReorderTests(filename, tests);
 
             return Json(testFileOrder);
         }
