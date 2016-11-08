@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 using Syringe.Core.IO;
 
 namespace Syringe.Core.Tests.Repositories
@@ -157,6 +158,11 @@ namespace Syringe.Core.Tests.Repositories
 
         private bool SaveTestFile(TestFile testFile, string fileFullPath)
         {
+            if (testFile.EngineVersion > _configuration.EngineVersion)
+            {
+                throw new InvalidEngineException("The file you are trying to save was built with a newer version of Syringe. Please update your copy of Syringe.");
+            }
+
             testFile.EngineVersion = _configuration.EngineVersion;
 
             string contents = _testFileWriter.Write(testFile);

@@ -5,6 +5,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 using Syringe.Core.IO;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
@@ -22,6 +23,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         private TestRepository _testRepository;
         const string filename = "filepath.json";
         const string jsonContent = "Do you even know Json?";
+        private const int baseEngineVersion = 2;
 
         [SetUp]
         public void Setup()
@@ -34,7 +36,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>())).Returns("path");
             _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns(filename);
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(jsonContent);
-            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = filename, Tests = new List<Test> { new Test() } });
+            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { EngineVersion = baseEngineVersion, Filename = filename, Tests = new List<Test> { new Test() } });
             _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object, _configuration.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
@@ -82,6 +84,23 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
 
             // then
             Assert.That(writerStub.Write_Value.EngineVersion, Is.EqualTo(54));
+        }
+
+        [Test]
+        public void SaveTest_should_throw_exception_if_engine_version_is_older_than_test_file_engine_version()
+        {
+            // given
+            _configuration.Setup(x => x.EngineVersion).Returns(1);
+            const string filename = "my expected filename.wzzup";
+            const int position = 0;
+
+            // when
+            Assert.Throws<InvalidEngineException>(() => _testRepository.SaveTest(filename, position, new Test()));
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(filename), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Never);
         }
 
         [Test]
