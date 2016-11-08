@@ -41,6 +41,7 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
             _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns(jsonContent);
+            _configuration.Setup(x => x.EngineVersion).Returns(54);
         }
 
         [Test]
