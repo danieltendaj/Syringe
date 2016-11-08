@@ -22,6 +22,6 @@ namespace Syringe.Core.Services
         Task<TestFileResultSummaryCollection> GetSummaries(DateTime fromDateTime, int pageNumber = 1, int noOfResults = 20, string environment = "");
         TestFileResult GetResultById(Guid id);
         bool DeleteResult(Guid id);
-	    bool Reorder(string fileName, IEnumerable<TestPosition> tests);
+	    bool ReorderTests(string fileName, IEnumerable<TestPosition> tests);
 	}
 }

@@ -12,7 +12,9 @@ namespace Syringe.Core.Configuration
 		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string WebsiteUrl { get; set; }
 
-		[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+	    public int EngineVersion { get; } = 1; // update this when new features are released
+
+	    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 		public string TestFilesBaseDirectory { get; set; }
         
 		public OAuthConfiguration OAuthConfiguration { get; set; }
@@ -36,7 +38,7 @@ namespace Syringe.Core.Configuration
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public TimeSpan CleanupSchedule { get; set; }
-
+        
         public JsonConfiguration()
 		{
 			// Defaults

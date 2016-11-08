@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 using Syringe.Core.IO;
 
 namespace Syringe.Core.Tests.Repositories
@@ -11,12 +13,14 @@ namespace Syringe.Core.Tests.Repositories
         private readonly ITestFileReader _testFileReader;
         private readonly ITestFileWriter _testFileWriter;
         private readonly IFileHandler _fileHandler;
+        private readonly IConfiguration _configuration;
 
-        public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler)
+        public TestRepository(ITestFileReader testFileReader, ITestFileWriter testFileWriter, IFileHandler fileHandler, IConfiguration configuration)
         {
             _testFileReader = testFileReader;
             _testFileWriter = testFileWriter;
             _fileHandler = fileHandler;
+            _configuration = configuration;
         }
 
         public Test GetTest(string filename, int position)
@@ -43,18 +47,16 @@ namespace Syringe.Core.Tests.Repositories
             string fullPath = _fileHandler.GetFileFullPath(filename);
             string fileContents = _fileHandler.ReadAllText(fullPath);
 
-            TestFile collection;
+            TestFile testFile;
 
             using (var stringReader = new StringReader(fileContents))
             {
-                collection = _testFileReader.Read(stringReader);
+                testFile = _testFileReader.Read(stringReader);
 
-                collection.Tests = collection.Tests.Concat(new[] { test });
+                testFile.Tests = testFile.Tests.Concat(new[] { test });
             }
 
-            string contents = _testFileWriter.Write(collection);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool SaveTest(string filename, int position, Test test)
@@ -83,9 +85,7 @@ namespace Syringe.Core.Tests.Repositories
             singleTest.ScriptSnippets = test.ScriptSnippets;
             singleTest.TestConditions = test.TestConditions;
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool DeleteTest(int position, string filename)
@@ -109,26 +109,22 @@ namespace Syringe.Core.Tests.Repositories
                 testFile.Tests = testFile.Tests.Where(x => x != testToDelete);
             }
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(fullPath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool CreateTestFile(TestFile testFile)
         {
             testFile.Filename = _fileHandler.GetFilenameWithExtension(testFile.Filename);
 
-            string filePath = _fileHandler.CreateFileFullPath(testFile.Filename);
-            bool fileExists = _fileHandler.FileExists(filePath);
+            string fullPath = _fileHandler.CreateFileFullPath(testFile.Filename);
+            bool fileExists = _fileHandler.FileExists(fullPath);
 
             if (fileExists)
             {
                 throw new IOException("File already exists");
             }
 
-            string contents = _testFileWriter.Write(testFile);
-
-            return _fileHandler.WriteAllText(filePath, contents);
+            return SaveTestFile(testFile, fullPath);
         }
 
         public bool UpdateTestVariables(TestFile testFile)
@@ -142,9 +138,35 @@ namespace Syringe.Core.Tests.Repositories
 
                 updatedTestFile.Variables = testFile.Variables;
 
-                string contents = _testFileWriter.Write(updatedTestFile);
-                return _fileHandler.WriteAllText(fileFullPath, contents);
+                return SaveTestFile(updatedTestFile, fileFullPath);
             }
+        }
+
+        public bool UpdateTests(TestFile testFile)
+        {
+            string fileFullPath = _fileHandler.GetFileFullPath(testFile.Filename);
+            string fileContents = _fileHandler.ReadAllText(fileFullPath);
+
+            using (var stringReader = new StringReader(fileContents))
+            {
+                TestFile updatedTestFile = _testFileReader.Read(stringReader);
+                updatedTestFile.Tests = testFile.Tests;
+
+                return SaveTestFile(updatedTestFile, fileFullPath);
+            }
+        }
+
+        private bool SaveTestFile(TestFile testFile, string fileFullPath)
+        {
+            if (testFile.EngineVersion > _configuration.EngineVersion)
+            {
+                throw new InvalidEngineException("The file you are trying to save was built with a newer version of Syringe. Please update your copy of Syringe.");
+            }
+
+            testFile.EngineVersion = _configuration.EngineVersion;
+
+            string contents = _testFileWriter.Write(testFile);
+            return _fileHandler.WriteAllText(fileFullPath, contents);
         }
 
         public TestFile GetTestFile(string filename)
@@ -172,38 +194,6 @@ namespace Syringe.Core.Tests.Repositories
             var fullPath = _fileHandler.GetFileFullPath(filename);
             return _fileHandler.DeleteFile(fullPath);
         }
-
-        public bool Reorder(string filename, IEnumerable<TestPosition> tests)
-        {
-            string fullPath = _fileHandler.GetFileFullPath(filename);
-            string fileContents = _fileHandler.ReadAllText(fullPath);
-
-            using (var stringReader = new StringReader(fileContents))
-            {
-                TestFile testFile = _testFileReader.Read(stringReader);
-                testFile.Filename = filename;
-
-                var newOrderList = new List<Test>();
-
-                List<TestPosition> testPositions = tests.ToList();
-                for (int i = 0; i < testPositions.Count; i++)
-                {
-                    var test = testPositions[i];
-                    newOrderList.Add(testFile.Tests.ElementAtOrDefault(test.OriginalPostion));
-                }
-
-                TestFile reorderedTestFile = new TestFile
-                {
-                    Filename = filename,
-                    Tests = newOrderList
-                };
-
-                string contents = _testFileWriter.Write(reorderedTestFile);
-
-                return _fileHandler.WriteAllText(fullPath, contents);
-            }
-        }
-
 
         public IEnumerable<string> ListFiles()
         {

@@ -42,6 +42,13 @@ choco install nodejs -y
 # Refresh the path vars for npm (Chocolatey 0.98+)
 refreshenv
 
+# try and stop the service if it's installed
+$servicePath = ".\src\Syringe.Service\bin\release\Syringe.Service.exe"
+if(Test-Path $servicePath)
+{
+    & $servicePath stop
+}
+
 try
 {
     pushd src\Syringe.Web

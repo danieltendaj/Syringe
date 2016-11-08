@@ -4,9 +4,12 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
+using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 using Syringe.Core.IO;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
+using Syringe.Tests.StubsMocks;
 
 namespace Syringe.Tests.Unit.Core.Tests.Repositories
 {
@@ -16,9 +19,11 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
         private Mock<ITestFileReader> _testFileReader;
         private Mock<ITestFileWriter> _testFileWriter;
         private Mock<IFileHandler> _fileHandler;
+        private Mock<IConfiguration> _configuration;
         private TestRepository _testRepository;
         const string filename = "filepath.json";
-        const string jsonContent = "Do you know Json?";
+        const string jsonContent = "Do you even know Json?";
+        private const int baseEngineVersion = 2;
 
         [SetUp]
         public void Setup()
@@ -26,15 +31,17 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileReader = new Mock<ITestFileReader>();
             _testFileWriter = new Mock<ITestFileWriter>();
             _fileHandler = new Mock<IFileHandler>();
+            _configuration = new Mock<IConfiguration>();
 
             _fileHandler.Setup(x => x.GetFileFullPath(It.IsAny<string>())).Returns("path");
             _fileHandler.Setup(x => x.CreateFileFullPath(It.IsAny<string>())).Returns(filename);
             _fileHandler.Setup(x => x.ReadAllText(It.IsAny<string>())).Returns(jsonContent);
-            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { Filename = filename, Tests = new List<Test> { new Test() } });
-            _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object);
+            _testFileReader.Setup(x => x.Read(It.IsAny<TextReader>())).Returns(new TestFile { EngineVersion = baseEngineVersion, Filename = filename, Tests = new List<Test> { new Test() } });
+            _testRepository = new TestRepository(_testFileReader.Object, _testFileWriter.Object, _fileHandler.Object, _configuration.Object);
             _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             _fileHandler.Setup(x => x.GetFileNames()).Returns(new List<string> { { "test" } });
             _testFileWriter.Setup(x => x.Write(It.IsAny<TestFile>())).Returns(jsonContent);
+            _configuration.Setup(x => x.EngineVersion).Returns(54);
         }
 
         [Test]
@@ -62,6 +69,39 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
             Assert.IsTrue(success);
+        }
+
+        [Test]
+        public void should_set_engine_version_when_saving_file()
+        {
+            // given
+            _configuration.Setup(x => x.EngineVersion).Returns(54);
+            var writerStub = new TestFileWriterStub { Write_Result = jsonContent };
+            _testRepository = new TestRepository(_testFileReader.Object, writerStub, _fileHandler.Object, _configuration.Object);
+            var testFile = new TestFile();
+
+            // when
+            _testRepository.UpdateTests(testFile);
+
+            // then
+            Assert.That(writerStub.Write_Value.EngineVersion, Is.EqualTo(54));
+        }
+
+        [Test]
+        public void SaveTest_should_throw_exception_if_engine_version_is_older_than_test_file_engine_version()
+        {
+            // given
+            _configuration.Setup(x => x.EngineVersion).Returns(1);
+            const string filename = "my expected filename.wzzup";
+            const int position = 0;
+
+            // when
+            Assert.Throws<InvalidEngineException>(() => _testRepository.SaveTest(filename, position, new Test()));
+
+            // then
+            _fileHandler.Verify(x => x.GetFileFullPath(filename), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Never);
         }
 
         [Test]
@@ -168,12 +208,27 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
         }
 
-
         [Test]
-        public void UpdateTestFile_should_return_true_if_file_exists()
+        public void UpdateTestVariables_should_return_true_if_file_exists()
         {
             // given + when
             bool success = _testRepository.UpdateTestVariables(new TestFile { Filename = filename });
+
+            // then
+            Assert.IsTrue(success);
+            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
+
+            _testFileWriter.Verify(x => x.Write(It.IsAny<TestFile>()), Times.Once);
+            _testFileReader.Verify(x => x.Read(It.IsAny<TextReader>()), Times.Once);
+        }
+
+        [Test]
+        public void UpdateTests_should_return_true_if_file_exists()
+        {
+            // given + when
+            bool success = _testRepository.UpdateTests(new TestFile { Filename = filename });
 
             // then
             Assert.IsTrue(success);
@@ -221,21 +276,6 @@ namespace Syringe.Tests.Unit.Core.Tests.Repositories
             _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
             _fileHandler.Verify(x => x.DeleteFile(It.IsAny<string>()), Times.Once);
             Assert.IsFalse(deleteFile);
-        }
-
-        [Test]
-        [TestCase(true)]
-        [TestCase(false)]
-        public void Reorder_should_return_true_or_false_if_file_got_saved_after_the_tests_got_reordered(bool fileSaved)
-        {
-            // given + when
-            _fileHandler.Setup(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>())).Returns(fileSaved);
-            var reorder = _testRepository.Reorder(It.IsAny<string>(), new List<TestPosition>());
-            // then
-            _fileHandler.Verify(x => x.GetFileFullPath(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.ReadAllText(It.IsAny<string>()), Times.Once);
-            _fileHandler.Verify(x => x.WriteAllText(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-            Assert.AreEqual(fileSaved, reorder);
         }
     }
 }

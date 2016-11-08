@@ -23,6 +23,7 @@ namespace Syringe.Tests.Integration.Core.Tests.Repositories.Json
             var testFile = new TestFile
             {
                 Filename = "I SHOULD ALSO NOT EXIST",
+                EngineVersion = 3,
                 Variables = new List<Variable>
                 {
                     new Variable

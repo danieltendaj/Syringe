@@ -272,12 +272,13 @@ namespace Syringe.Tests.Unit.Web.Controllers
         public void ReorderTests_should_return_true_or_false_depending_on_reorder_success(bool testsReordered)
         {
             // given
-            _testServiceMock.Setup(x => x.Reorder(It.IsAny<string>(),It.IsAny<IEnumerable<TestPosition>>())).Returns(testsReordered);
+            _testServiceMock.Setup(x => x.ReorderTests(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>())).Returns(testsReordered);
+
             // when
             var jsonResult = _testFileController.ReorderTests(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>());
 
             // then
-            _testServiceMock.Verify(x => x.Reorder(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>()), Times.Once);
+            _testServiceMock.Verify(x => x.ReorderTests(It.IsAny<string>(), It.IsAny<IEnumerable<TestPosition>>()), Times.Once);
 
             Assert.That(jsonResult, Is.Not.Null);
             Assert.AreEqual(jsonResult.Data, testsReordered);

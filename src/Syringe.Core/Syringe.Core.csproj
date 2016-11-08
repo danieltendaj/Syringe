@@ -216,6 +216,7 @@
     <Compile Include="Runner\Messaging\IMessage.cs" />
     <Compile Include="Runner\Messaging\TestResultMessage.cs" />
     <Compile Include="Runner\TestFileRunnerFactory.cs" />
+    <Compile Include="Exceptions\InvalidEngineException.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Results\Repositories\MongoTestFileResultRepository.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepositoryFactory.cs" />

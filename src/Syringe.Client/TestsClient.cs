@@ -177,7 +177,7 @@ namespace Syringe.Client
             return _restSharpHelper.DeserializeOrThrow<bool>(response);
         }
 
-        public bool Reorder(string fileName, IEnumerable<TestPosition> tests)
+        public bool ReorderTests(string fileName, IEnumerable<TestPosition> tests)
         {
             var client = new RestClient(ServiceUrl);
 
