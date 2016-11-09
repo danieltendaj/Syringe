@@ -43,10 +43,12 @@ choco install nodejs -y
 refreshenv
 
 # try and stop the service if it's installed
-$servicePath = ".\src\Syringe.Service\bin\release\Syringe.Service.exe"
-if(Test-Path $servicePath)
+$service = Get-Service Syringe -ErrorAction SilentlyContinue
+$resumeService = $false
+if($service -ne $null -and $service.Status -eq "Running") 
 {
-    & $servicePath stop
+    $service.Stop()
+    $resumeService = $true
 }
 
 try
@@ -72,6 +74,12 @@ Write-Host "Building solution." -ForegroundColor Green
 # Setup IIS
 Write-Host "Running IIS install script." -ForegroundColor Green
 .\src\Syringe.Web\bin\iis.ps1 -websitePath "$websiteDir" -websitePort 1980
+
+if($resumeService -eq $true)
+{
+    Write-Host "Resuming service..."
+    (Get-Service Syringe).Start()
+}
 
 # Done
 Write-Host ""
