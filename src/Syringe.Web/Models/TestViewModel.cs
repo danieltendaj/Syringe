@@ -48,6 +48,9 @@ namespace Syringe.Web.Models
             CapturedVariables = new List<CapturedVariableItem>();
             Assertions = new List<AssertionViewModel>();
             AvailableVariables = new List<VariableViewModel>();
+            RequiredEnvironments = new List<string>();
+            Environments = new List<string>();
+            BeforeExecuteScriptSnippets = new List<string>();
         }
     }
 }
