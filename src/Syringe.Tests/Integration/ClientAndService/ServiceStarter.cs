@@ -19,7 +19,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		private static string _baseUrl;
 		private static string _testFilesDirectoryPath;
 
-        public static string MongodbDatabaseName => "Syringe-Tests";
+        public static string MongoDbConnectionString => "mongodb://localhost:27017/Syringe-Tests";
         public static IDisposable OwinServer;
         public static IContainer Container;
 		private static string _scriptSnippetDirectoryPath;
@@ -82,7 +82,7 @@ namespace Syringe.Tests.Integration.ClientAndService
 		{
             var jsonConfiguration = new JsonConfiguration()
 			{
-                MongoDbDatabaseName = MongodbDatabaseName,
+                MongoDbConnectionString = MongoDbConnectionString,
                 TestFilesBaseDirectory = TestFilesDirectoryPath,
 				ScriptSnippetDirectory = ScriptSnippetDirectoryPath,
 				ServiceUrl = BaseUrl

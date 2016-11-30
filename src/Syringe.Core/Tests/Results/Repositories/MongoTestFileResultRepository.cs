@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Syringe.Core.Configuration;
+using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Tests.Results.Repositories
 {
@@ -15,9 +16,13 @@ namespace Syringe.Core.Tests.Results.Repositories
 
         public MongoTestFileResultRepository(MongoDbConfiguration mongoDbConfiguration)
         {
-            var mongoClient = new MongoClient(mongoDbConfiguration.ConnectionString);
+	        MongoUrl mongoUrl = MongoUrl.Create(mongoDbConfiguration.ConnectionString);
+	        if (string.IsNullOrEmpty(mongoUrl.DatabaseName))
+				throw new SyringeException("No database was specified in the mongodb connection string. Use the format: mongodb://localhost:27017/Databasename");
+			
+			var mongoClient = new MongoClient(mongoUrl);
 
-            _database = mongoClient.GetDatabase(mongoDbConfiguration.DatabaseName);
+            _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
             _collection = _database.GetCollection<TestFileResult>(MONGDB_COLLECTION_NAME);
         }
 

@@ -219,6 +219,7 @@
     <Compile Include="Exceptions\InvalidEngineException.cs" />
     <Compile Include="Tests\Results\Repositories\ITestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Results\Repositories\MongoTestFileResultRepository.cs" />
+    <Compile Include="Exceptions\SyringeException.cs" />
     <Compile Include="Tests\Results\Repositories\TestFileResultRepositoryFactory.cs" />
     <Compile Include="Tests\Results\TestResultState.cs" />
     <Compile Include="Tests\Scripting\ISnippetFileReader.cs" />

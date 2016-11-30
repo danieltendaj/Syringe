@@ -13,7 +13,7 @@ namespace Syringe.Core.Configuration
 		bool ReadonlyMode { get; }
         string ScriptSnippetDirectory { get; }
 		string EncryptionKey { get; }
-	    string MongoDbDatabaseName { get; }
+	    string MongoDbConnectionString { get; }
         int DaysOfDataRetention { get; }
 	    TimeSpan CleanupSchedule { get; }
 	}

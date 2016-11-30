@@ -19,7 +19,12 @@ namespace Syringe.Tests.Integration.Core.Repository.MongoDB
     {
         private MongoTestFileResultRepository GetTestFileResultRepository()
         {
-            return new MongoTestFileResultRepository(new MongoDbConfiguration(new JsonConfiguration()) { DatabaseName = "Syringe-Tests" });
+	        var config = new MongoDbConfiguration(new JsonConfiguration()
+	        {
+		        MongoDbConnectionString = "mongodb://localhost:27017/Syringe-Tests"
+	        });
+
+			return new MongoTestFileResultRepository(config);
         }
 
         [SetUp]

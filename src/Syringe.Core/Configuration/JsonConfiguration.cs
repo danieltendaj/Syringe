@@ -31,7 +31,7 @@ namespace Syringe.Core.Configuration
 		public string EncryptionKey { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string MongoDbDatabaseName { get; set; }
+        public string MongoDbConnectionString { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int DaysOfDataRetention { get; set; }
@@ -47,7 +47,7 @@ namespace Syringe.Core.Configuration
 			TestFilesBaseDirectory = @"C:\Syringe\";
 			ReadonlyMode = false;
             ScriptSnippetDirectory = Path.Combine(TestFilesBaseDirectory, "ScriptSnippets");
-            MongoDbDatabaseName = "Syringe";
+            MongoDbConnectionString = "mongodb://localhost:27017/Syringe";
             DaysOfDataRetention = 10;
             CleanupSchedule = TimeSpan.FromHours(1);
 
