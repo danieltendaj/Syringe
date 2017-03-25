@@ -10,7 +10,8 @@
     "bower": "^1.6.5",
     "gulp": "^3.9.1",
     "gulp-sass": "^2.2.0",
-    "gulp-clean-css": "^2.0.4",
+    "gulp-clean-css": "2.3.2",
+    "clean-css": "^2.0.4",
     "del": "^2.2.0",
     "vinyl-paths": "^2.1.0"
   },
