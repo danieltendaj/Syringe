@@ -215,3 +215,4 @@ _site/
 docs/_site/
 appsettings.development.json
 *.lock.json
+src/Syringe.Web/Css/Syringe.css
