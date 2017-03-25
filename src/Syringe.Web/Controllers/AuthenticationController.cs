@@ -83,19 +83,8 @@ namespace Syringe.Web.Controllers
 			var nameIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForName(provider), StringComparison.InvariantCultureIgnoreCase));
 			var uidIdentifier = claims.FirstOrDefault(x => x.Type.Equals(UrnLookup.GetNamespaceForId(), StringComparison.InvariantCultureIgnoreCase));
 
-			if (nameIdentifier == null || uidIdentifier == null)
-			{
-				string debugInfo = ""; 
-				foreach (Claim claim in claims)
-				{
-					debugInfo += $"{claim.Type} : {claim.Value}\n";
-				}
-
-				throw new InvalidOperationException("The OAuth provider didn't provide a name or nameidentifier:\n " + debugInfo);
-			}
-
-			string id = uidIdentifier.Value;
-			string name = nameIdentifier.Value;
+			string id = uidIdentifier == null ? "Anon" : uidIdentifier.Value;
+			string name = nameIdentifier == null ? "Anon" : uidIdentifier.Value;
 
 			string userData = JsonConvert.SerializeObject(new UserContext() {FullName = name, Id = id});
 			string encryptedData = FormsAuthentication.Encrypt(new FormsAuthenticationTicket(1, "Syringe", DateTime.Now, DateTime.UtcNow.AddDays(1), true, userData));
