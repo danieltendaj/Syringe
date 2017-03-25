@@ -73,6 +73,7 @@ namespace Syringe.Web.Controllers
 
         public ActionResult View(string filename, int pageNumber = 1, int noOfResults = 20)
         {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
             TestFile testFile = _testsClient.GetTestFile(filename);
             IEnumerable<Test> tests = testFile.Tests.GetPaged(noOfResults, pageNumber);
 

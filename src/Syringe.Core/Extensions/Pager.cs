@@ -8,7 +8,7 @@ namespace Syringe.Core.Extensions
     {
         public static IEnumerable<T> GetPaged<T>(this IEnumerable<T> collection, int noOfResults, int pageNumber)
         {
-            return collection.Skip((pageNumber - 1) * noOfResults).Take(noOfResults);
+            return collection.Skip(((pageNumber == 0 ? 1 : pageNumber) - 1) * noOfResults).Take(noOfResults);
         }
 
         public static double GetPageNumbersToShow<T>(this IEnumerable<T> collection, int noOfResults)
