@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using RestSharp;
 using Syringe.Core.Http.Logging;
 using Syringe.Core.Tests;
 
@@ -14,13 +13,6 @@ namespace Syringe.Core.Http
 	{
 		private readonly IRestClient _restClient;
 		private readonly CookieContainer _cookieContainer;
-
-		static HttpClient()
-		{
-            // netstandard: TODO
-            // Allow invalid SSL certificates
-            //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-		}
 
 		public HttpClient(IRestClient restClient)
 		{
@@ -33,15 +25,15 @@ namespace Syringe.Core.Http
 			//
 			// Get the response back, parsing the headers
 			//
-   //         DateTime startTime = DateTime.UtcNow;
+			//         DateTime startTime = DateTime.UtcNow;
 
-   //         // netstandard: TODO
-   //         IRestResponse response = await _restClient.ExecuteTaskAsync(request);
-		 //   TimeSpan responseTime = DateTime.UtcNow - startTime;
+			//         // netstandard: TODO
+			//         IRestResponse response = await _restClient.ExecuteTaskAsync(request);
+			//   TimeSpan responseTime = DateTime.UtcNow - startTime;
 
 			//var headers = new List<HttpHeader>();
 			//if (response.Headers != null)
-			//{ 
+			//{
 			//	headers = response.Headers.Select(x => new HttpHeader(x.Name, Convert.ToString(x.Value)))
 			//									.ToList();
 			//}
@@ -55,9 +47,9 @@ namespace Syringe.Core.Http
 			//	StatusCode = response.StatusCode,
 			//	Content = response.Content,
 			//	Headers = headers,
-   //             ResponseTime = responseTime
+			//             ResponseTime = responseTime
 			//};
-            throw new NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public IRestRequest CreateRestRequest(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)

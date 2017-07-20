@@ -1,35 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>Syringe.Core</AssemblyName>
-    <PackageId>Syringe.Core</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard1.6</TargetFramework>
+		<AssemblyName>Syringe.Core</AssemblyName>
+		<PackageId>Syringe.Core</PackageId>
+		<NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
+		<PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+		<GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+		<GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+		<GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="0.9.8.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.0.0-beta3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.0.0-beta3" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.0.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.3.0-rc1" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="RestSharp.CoreNet" Version="105.2.4-rc4-24214-03" />
-    <PackageReference Include="System.Reflection" Version="4.1.0" />
-    <PackageReference Include="System.Threading" Version="4.0.11" />
-    <PackageReference Include="System.Runtime" Version="4.1.0" />
-    <PackageReference Include="System.Text.Encoding" Version="4.0.11" />
-    <PackageReference Include="System.Net.Http" Version="4.1.1" />
-    <PackageReference Include="structuremap" Version="4.4.0" />
-  </ItemGroup>
-
+	<ItemGroup>
+	  <PackageReference Include="AngleSharp" Version="0.9.9" />
+	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.3.0" />
+	  <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.3.0" />
+	  <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
+	  <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
+	  <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+	  <PackageReference Include="StructureMap" Version="4.5.1" />
+	</ItemGroup>
 </Project>
