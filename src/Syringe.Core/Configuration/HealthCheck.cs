@@ -1,5 +1,6 @@
-﻿using System.Net;
-using RestSharp;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 using Syringe.Core.Exceptions;
 
 namespace Syringe.Core.Configuration
@@ -7,35 +8,42 @@ namespace Syringe.Core.Configuration
 	public class HealthCheck : IHealthCheck
 	{
 		internal readonly string ServiceUrl;
+		private HttpClient _client;
 
 		public HealthCheck(string serviceUrl)
 		{
 			ServiceUrl = serviceUrl;
+			_client = new HttpClient();
 		}
 
-		public void CheckServiceConfiguration()
+		public async void CheckServiceConfiguration()
 		{
-			var client = new RestClient(ServiceUrl);
-			var request = new RestRequest("/api/healthcheck/CheckConfiguration");
+			_client.BaseAddress = new Uri(ServiceUrl);
 
-			IRestResponse response = client.Execute(request);
+			var request = new HttpRequestMessage(HttpMethod.Get, "/api/healthcheck/CheckConfiguration");
+			var response = await _client.SendAsync(request);
 
 			if (response.StatusCode != HttpStatusCode.OK)
-				throw new HealthCheckException("The REST service at {0} did not return a 200 OK. Is the service running?", response.ResponseUri);
+				throw new HealthCheckException("The REST service at {0} did not return a 200 OK. Is the service running?", request.RequestUri);
 
-			if (!response.Content.Contains("Everything is OK"))
-				throw new HealthCheckException("The REST service at {0} configuration check failed: \n{1}", response.ResponseUri, response.Content);
+			string content = await response.Content.ReadAsStringAsync();
+			if (!content.Contains("Everything is OK"))
+				throw new HealthCheckException("The REST service at {0} configuration check failed: \n{1}", request.RequestUri, response.Content);
 		}
 
-		public void CheckServiceSwaggerIsRunning()
+		public async void CheckServiceSwaggerIsRunning()
 		{
-			var client = new RestClient(ServiceUrl);
-			var request = new RestRequest("/swagger/ui/index");
+			_client.BaseAddress = new Uri(ServiceUrl);
 
-			IRestResponse response = client.Execute(request);
+			var request = new HttpRequestMessage(HttpMethod.Get, "/swagger/ui/index");
+			var response = await _client.SendAsync(request);
 
-			if (response.Content.Contains("Syringe REST API"))
-				throw new HealthCheckException("The REST service at {0} did not return content with 'Syringe REST API' in the body.", response.ResponseUri);
+			if (response.StatusCode != HttpStatusCode.OK)
+				throw new HealthCheckException("The REST service at {0} did not return a 200 OK. Is the service running?", request.RequestUri);
+
+			string content = await response.Content.ReadAsStringAsync();
+			if (!content.Contains("Syringe REST API"))
+				throw new HealthCheckException("The REST service at {0} did not return content with 'Syringe REST API' in the body.", request.RequestUri);
 		}
 	}
 }

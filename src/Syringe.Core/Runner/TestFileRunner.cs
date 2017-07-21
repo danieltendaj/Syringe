@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using RestSharp;
+using AngleSharp.Network;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
 using Syringe.Core.Http.Logging;
@@ -14,338 +14,343 @@ using Syringe.Core.Tests.Results;
 using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Scripting;
 using Syringe.Core.Tests.Variables;
+using HttpMethod = System.Net.Http.HttpMethod;
 using HttpResponse = Syringe.Core.Http.HttpResponse;
 using IMessage = Syringe.Core.Runner.Messaging.IMessage;
 
 namespace Syringe.Core.Runner
 {
-    public class TestFileRunner : IObservable<IMessage>
-    {
-        private readonly IHttpClient _httpClient;
-        private readonly IConfiguration _configuration;
-        private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
-        private readonly ITestFileRunnerLoggerFactory _loggerFactory;
-        private bool _isStopPending;
-        private List<TestResult> _currentResults;
+	public class TestFileRunner : IObservable<IMessage>
+	{
+		private readonly IHttpClientAdapter _httpClientAdapter;
+		private readonly IConfiguration _configuration;
+		private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
+		private readonly ITestFileRunnerLoggerFactory _loggerFactory;
+		private bool _isStopPending;
+		private List<TestResult> _currentResults;
 
-        private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers = new Dictionary<Guid, TestSessionRunnerSubscriber>();
+		private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscribers = new Dictionary<Guid, TestSessionRunnerSubscriber>();
 
-        public ITestFileResultRepositoryFactory RepositoryFactory { get; set; }
-        public Guid SessionId { get; internal set; }
+		public ITestFileResultRepositoryFactory RepositoryFactory { get; set; }
+		public Guid SessionId { get; internal set; }
 
-        public IEnumerable<TestResult> CurrentResults
-        {
-            get
-            {
-                lock (_currentResults)
-                {
-                    return _currentResults.AsReadOnly();
-                }
-            }
-        }
+		public IEnumerable<TestResult> CurrentResults
+		{
+			get
+			{
+				lock (_currentResults)
+				{
+					return _currentResults.AsReadOnly();
+				}
+			}
+		}
 
-        public int TestsRun { get; set; }
-        public int TotalTests { get; set; }
+		public int TestsRun { get; set; }
+		public int TotalTests { get; set; }
 
-        public TestFileRunner(IHttpClient httpClient, ITestFileResultRepositoryFactory repositoryFactory, 
-            IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory,
-            ITestFileRunnerLoggerFactory loggerFactory)
-        {
-            if (httpClient == null)
-                throw new ArgumentNullException(nameof(httpClient));
+		public TestFileRunner(IHttpClientAdapter httpClientAdapter, ITestFileResultRepositoryFactory repositoryFactory,
+			IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory,
+			ITestFileRunnerLoggerFactory loggerFactory)
+		{
+			if (httpClientAdapter == null)
+				throw new ArgumentNullException(nameof(httpClientAdapter));
 
-            if (repositoryFactory == null)
-                throw new ArgumentNullException(nameof(repositoryFactory));
+			if (repositoryFactory == null)
+				throw new ArgumentNullException(nameof(repositoryFactory));
 
-            if (loggerFactory == null)
-                throw new ArgumentNullException(nameof(loggerFactory));
+			if (loggerFactory == null)
+				throw new ArgumentNullException(nameof(loggerFactory));
 
-            _httpClient = httpClient;
-            _configuration = configuration;
-            _capturedVariableProviderFactory = capturedVariableProviderFactory;
-            _loggerFactory = loggerFactory;
-            _currentResults = new List<TestResult>();
+			_httpClientAdapter = httpClientAdapter;
+			_configuration = configuration;
+			_capturedVariableProviderFactory = capturedVariableProviderFactory;
+			_loggerFactory = loggerFactory;
+			_currentResults = new List<TestResult>();
 
-            RepositoryFactory = repositoryFactory;
-            SessionId = Guid.NewGuid();
-        }
+			RepositoryFactory = repositoryFactory;
+			SessionId = Guid.NewGuid();
+		}
 
-        private void NotifySubscribers(Action<IObserver<IMessage>> observerAction)
-        {
-            IDictionary<Guid, TestSessionRunnerSubscriber> currentSubscribers;
-            lock (_subscribers)
-            {
-                currentSubscribers = _subscribers.ToDictionary(k => k.Key, v => v.Value);
-            }
+		private void NotifySubscribers(Action<IObserver<IMessage>> observerAction)
+		{
+			IDictionary<Guid, TestSessionRunnerSubscriber> currentSubscribers;
+			lock (_subscribers)
+			{
+				currentSubscribers = _subscribers.ToDictionary(k => k.Key, v => v.Value);
+			}
 
-            foreach (TestSessionRunnerSubscriber subscriber in currentSubscribers.Values)
-            {
-                observerAction(subscriber.Observer);
-            }
-        }
+			foreach (TestSessionRunnerSubscriber subscriber in currentSubscribers.Values)
+			{
+				observerAction(subscriber.Observer);
+			}
+		}
 
-        private void NotifySubscribersOfAddedResult(TestResult result)
-        {
-            IMessage message = new TestResultMessage { TestResult = result };
-            NotifySubscribers(observer => observer.OnNext(message));
-        }
+		private void NotifySubscribersOfAddedResult(TestResult result)
+		{
+			IMessage message = new TestResultMessage { TestResult = result };
+			NotifySubscribers(observer => observer.OnNext(message));
+		}
 
-        private void NotifySubscribersOfCompletion(Guid resultId)
-        {
-            IMessage message = new TestFileGuidMessage { ResultId = resultId };
-            NotifySubscribers(observer => observer.OnNext(message));
-            NotifySubscribers(observer => observer.OnCompleted());
-        }
-        
-        public IDisposable Subscribe(IObserver<IMessage> observer)
-        {
-            // Notify of the observer of existing results.
-            IEnumerable<TestResult> resultsCopy;
-            lock (_currentResults)
-            {
-                resultsCopy = _currentResults.ToArray();
-            }
+		private void NotifySubscribersOfCompletion(Guid resultId)
+		{
+			IMessage message = new TestFileGuidMessage { ResultId = resultId };
+			NotifySubscribers(observer => observer.OnNext(message));
+			NotifySubscribers(observer => observer.OnCompleted());
+		}
 
-            foreach (TestResult testResult in resultsCopy)
-            {
-                var message = new TestResultMessage { TestResult = testResult };
-                observer.OnNext(message);
-            }
+		public IDisposable Subscribe(IObserver<IMessage> observer)
+		{
+			// Notify of the observer of existing results.
+			IEnumerable<TestResult> resultsCopy;
+			lock (_currentResults)
+			{
+				resultsCopy = _currentResults.ToArray();
+			}
 
-            return new TestSessionRunnerSubscriber(observer, _subscribers);
-        }
+			foreach (TestResult testResult in resultsCopy)
+			{
+				var message = new TestResultMessage { TestResult = testResult };
+				observer.OnNext(message);
+			}
 
-        public async Task<TestFileResult> RunAsync(TestFile testFile, string environment, string username)
-        {
-            _isStopPending = false;
-            lock (_currentResults)
-            {
-                _currentResults = new List<TestResult>();
-            }
+			return new TestSessionRunnerSubscriber(observer, _subscribers);
+		}
 
-            var testFileResult = new TestFileResult
-            {
-                Id = SessionId,
-                Filename = testFile.Filename,
-                StartTime = DateTime.UtcNow,
-                Environment = environment,
+		public async Task<TestFileResult> RunAsync(TestFile testFile, string environment, string username)
+		{
+			_isStopPending = false;
+			lock (_currentResults)
+			{
+				_currentResults = new List<TestResult>();
+			}
+
+			var testFileResult = new TestFileResult
+			{
+				Id = SessionId,
+				Filename = testFile.Filename,
+				StartTime = DateTime.UtcNow,
+				Environment = environment,
 				Username = username
-            };
+			};
 
-            // Add all config variables and ones in this <test>
-            ICapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
-            variables.AddOrUpdateVariables(testFile.Variables);
+			// Add all config variables and ones in this <test>
+			ICapturedVariableProvider variables = _capturedVariableProviderFactory.Create(environment);
+			variables.AddOrUpdateVariables(testFile.Variables);
 
-            var verificationsMatcher = new AssertionsMatcher(variables, _loggerFactory.CreateLogger());
+			var verificationsMatcher = new AssertionsMatcher(variables, _loggerFactory.CreateLogger());
 
-            List<Test> tests = testFile.Tests.ToList();
+			List<Test> tests = testFile.Tests.ToList();
 
-            TimeSpan minResponseTime = TimeSpan.MaxValue;
-            TimeSpan maxResponseTime = TimeSpan.MinValue;
-            int totalTestsRun = 0;
-            TestsRun = 0;
-            TotalTests = tests.Count;
-            bool shouldSave = true;
+			TimeSpan minResponseTime = TimeSpan.MaxValue;
+			TimeSpan maxResponseTime = TimeSpan.MinValue;
+			int totalTestsRun = 0;
+			TestsRun = 0;
+			TotalTests = tests.Count;
+			bool shouldSave = true;
 
-            for (int i = 0; i < tests.Count; i++)
-            {
-                if (_isStopPending)
-                {
-                    break;
-                }
+			for (int i = 0; i < tests.Count; i++)
+			{
+				if (_isStopPending)
+				{
+					break;
+				}
 
-                try
-                {
-                    TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher);
-                    AddResult(testFileResult, result);
+				try
+				{
+					TestResult result = await RunTestAsync(tests.ElementAt(i), i, variables, verificationsMatcher);
+					AddResult(testFileResult, result);
 
-                    if (result.ResponseTime < minResponseTime)
-                    {
-                        minResponseTime = result.ResponseTime;
-                    }
+					if (result.ResponseTime < minResponseTime)
+					{
+						minResponseTime = result.ResponseTime;
+					}
 
-                    if (result.ResponseTime > maxResponseTime)
-                    {
-                        maxResponseTime = result.ResponseTime;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ReportError(ex);
-                }
-                finally
-                {
-                    totalTestsRun++;
-                    TestsRun++;
-                }
+					if (result.ResponseTime > maxResponseTime)
+					{
+						maxResponseTime = result.ResponseTime;
+					}
+				}
+				catch (Exception ex)
+				{
+					ReportError(ex);
+				}
+				finally
+				{
+					totalTestsRun++;
+					TestsRun++;
+				}
 
-                if (_isStopPending)
-                {
-                    shouldSave = false;
-                    break;
-                }
-            }
+				if (_isStopPending)
+				{
+					shouldSave = false;
+					break;
+				}
+			}
 
-            testFileResult.EndTime = DateTime.UtcNow;
-            testFileResult.TotalRunTime = testFileResult.EndTime - testFileResult.StartTime;
-            testFileResult.TotalTestsRun = totalTestsRun;
-            testFileResult.MinResponseTime = minResponseTime;
-            testFileResult.MaxResponseTime = maxResponseTime;
+			testFileResult.EndTime = DateTime.UtcNow;
+			testFileResult.TotalRunTime = testFileResult.EndTime - testFileResult.StartTime;
+			testFileResult.TotalTestsRun = totalTestsRun;
+			testFileResult.MinResponseTime = minResponseTime;
+			testFileResult.MaxResponseTime = maxResponseTime;
 
-            if (shouldSave)
-            {
-                using (ITestFileResultRepository repository = RepositoryFactory.GetRepository())
-                {
-                    await repository.Add(testFileResult);
-                }
-            }
+			if (shouldSave)
+			{
+				using (ITestFileResultRepository repository = RepositoryFactory.GetRepository())
+				{
+					await repository.Add(testFileResult);
+				}
+			}
 
-            NotifySubscribersOfCompletion(testFileResult.Id);
+			NotifySubscribersOfCompletion(testFileResult.Id);
 
-            return testFileResult;
-        }
+			return testFileResult;
+		}
 
-        private void AddResult(TestFileResult session, TestResult result)
-        {
-            session.TestResults.Add(result);
-            lock (_currentResults)
-            {
-                _currentResults.Add(result);
-            }
-            NotifySubscribersOfAddedResult(result);
-        }
+		private void AddResult(TestFileResult session, TestResult result)
+		{
+			session.TestResults.Add(result);
+			lock (_currentResults)
+			{
+				_currentResults.Add(result);
+			}
+			NotifySubscribersOfAddedResult(result);
+		}
 
-        public void ReportError(Exception exception)
-        {
-            NotifySubscribers(observer => observer.OnError(exception));
-        }
+		public void ReportError(Exception exception)
+		{
+			NotifySubscribers(observer => observer.OnError(exception));
+		}
 
-        internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
-        {
-            var testResult = new TestResult
-            {
-                Position = position,
-                SessionId = SessionId,
-                Test = test
-            };
+		internal async Task<TestResult> RunTestAsync(Test test, int position, ICapturedVariableProvider variables, AssertionsMatcher assertionMatcher)
+		{
+			var testResult = new TestResult
+			{
+				Position = position,
+				SessionId = SessionId,
+				Test = test
+			};
 
-            try
-            {
-                string resolvedUrl = variables.ReplacePlainTextVariablesIn(test.Url);
-                testResult.ActualUrl = resolvedUrl;
+			try
+			{
+				string resolvedUrl = variables.ReplacePlainTextVariablesIn(test.Url);
+				testResult.ActualUrl = resolvedUrl;
 
-                string postBody = variables.ReplacePlainTextVariablesIn(test.PostBody);
-                foreach (HeaderItem header in test.Headers)
-                {
-                    header.Value = variables.ReplacePlainTextVariablesIn(header.Value);
-                }
+				string postBody = variables.ReplacePlainTextVariablesIn(test.PostBody);
+				foreach (HeaderItem header in test.Headers)
+				{
+					header.Value = variables.ReplacePlainTextVariablesIn(header.Value);
+				}
 
-                IRestRequest request = _httpClient.CreateRestRequest(test.Method, resolvedUrl, postBody, test.Headers);
-                var logger = _loggerFactory.CreateLogger();
+				var logWriter = new HttpLogWriter();
+				var logger = _loggerFactory.CreateLogger();
 
-                // Scripting part
-                if (test.ScriptSnippets != null && !string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
-                {
-                    logger.WriteLine("Evaluating C# script");
+				// TODO: Scripting part
+				//TheScriptingPart(ref test, testResult, ref request, logger);
 
-                    try
-                    {
-						var snippetReader = new SnippetFileReader(_configuration);
-                        var evaluator = new TestFileScriptEvaluator(_configuration, snippetReader);
-                        bool success = evaluator.EvaluateBeforeExecute(test, request);
+				var httpLogWriter = new HttpLogWriter();
+				var response = await _httpClientAdapter.SendAsync(logWriter, test.Method, resolvedUrl, postBody, test.Headers);
+				testResult.ResponseTime = response.ResponseTime;
+				testResult.HttpResponse = response;
+				testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
+				testResult.HttpContent = response.Content;
 
-                        if (success)
-                        {
-                            request = evaluator.RequestGlobals.Request;
-                            test = evaluator.RequestGlobals.Test;
-                            logger.WriteLine("Compilation successful.");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        testResult.ScriptCompilationSuccess = false;
-                        testResult.ExceptionMessage = "The script failed to compile - see the log file for a stack trace.";
-                        logger.WriteLine("Compilation failed: {0}", ex);
-                    }
-                }
+				if (response.StatusCode == test.ExpectedHttpStatusCode)
+				{
+					testResult.ResponseCodeSuccess = true;
+					string content = response.ToString();
 
-                var httpLogWriter = new HttpLogWriter();
-                HttpResponse response = await _httpClient.ExecuteRequestAsync(request, httpLogWriter);
-                testResult.ResponseTime = response.ResponseTime;
-                testResult.HttpResponse = response;
-                testResult.HttpLog = httpLogWriter.StringBuilder.ToString();
-                testResult.HttpContent = response.Content;
+					// Put the captured variables regex values in the current variable set
+					foreach (var capturedVariable in test.CapturedVariables)
+					{
+						capturedVariable.Regex = variables.ReplacePlainTextVariablesIn(capturedVariable.Regex);
+					}
 
-                if (response.StatusCode == test.ExpectedHttpStatusCode)
-                {
-                    testResult.ResponseCodeSuccess = true;
-                    string content = response.ToString();
+					List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
+					variables.AddOrUpdateVariables(parsedVariables);
+					logger.WriteLine("{0} captured variable(s) parsed.", parsedVariables.Count);
 
-                    // Put the captured variables regex values in the current variable set
-                    foreach (var capturedVariable in test.CapturedVariables)
-                    {
-                        capturedVariable.Regex = variables.ReplacePlainTextVariablesIn(capturedVariable.Regex);
-                    }
+					// Verify assertions
+					testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
+					logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
+					foreach (Assertion item in testResult.AssertionResults)
+					{
+						logger.AppendTextLine(item.Log);
+					}
 
-                    List<Variable> parsedVariables = CapturedVariableProvider.MatchVariables(test.CapturedVariables, content, logger);
-                    variables.AddOrUpdateVariables(parsedVariables);
-                    logger.WriteLine("{0} captured variable(s) parsed.", parsedVariables.Count);
+					// Store the log
+					testResult.Log = logger.GetLog();
+				}
+				else
+				{
+					testResult.ResponseCodeSuccess = false;
+					testResult.Log = $"No verifications run - the response code {response.StatusCode} did not match the expected response code {test.ExpectedHttpStatusCode}.";
+				}
+			}
+			catch (Exception ex)
+			{
+				testResult.Log = "An exception occured: " + ex;
+				testResult.ResponseCodeSuccess = false;
+				testResult.ExceptionMessage = ex.Message;
+			}
 
-                    // Verify assertions
-                    testResult.AssertionResults = assertionMatcher.MatchVerifications(test.Assertions, content);
-                    logger.WriteLine("Verifying {0} assertion(s)", testResult.AssertionResults.Count);
-                    foreach (Assertion item in testResult.AssertionResults)
-                    {
-                        logger.AppendTextLine(item.Log);
-                    }
+			return testResult;
+		}
 
-                    // Store the log
-                    testResult.Log = logger.GetLog();
-                }
-                else
-                {
-                    testResult.ResponseCodeSuccess = false;
-                    testResult.Log = $"No verifications run - the response code {response.StatusCode} did not match the expected response code {test.ExpectedHttpStatusCode}.";
-                }
+		private void TheScriptingPart(ref Test test, TestResult testResult, ref HttpResponse request, ITestFileRunnerLogger logger)
+		{
+			//if (test.ScriptSnippets != null && !string.IsNullOrEmpty(test.ScriptSnippets.BeforeExecuteFilename))
+			//{
+			//	logger.WriteLine("Evaluating C# script");
 
-            }
-            catch (Exception ex)
-            {
-                testResult.Log = "An exception occured: " + ex;
-                testResult.ResponseCodeSuccess = false;
-                testResult.ExceptionMessage = ex.Message;
-            }
+			//	try
+			//	{
+			//		var snippetReader = new SnippetFileReader(_configuration);
+			//		var evaluator = new TestFileScriptEvaluator(_configuration, snippetReader);
+			//		bool success = evaluator.EvaluateBeforeExecute(test, request);
 
-            return testResult;
-        }
+			//		if (success)
+			//		{
+			//			request = evaluator.RequestGlobals.Request;
+			//			test = evaluator.RequestGlobals.Test;
+			//			logger.WriteLine("Compilation successful.");
+			//		}
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		testResult.ScriptCompilationSuccess = false;
+			//		testResult.ExceptionMessage = "The script failed to compile - see the log file for a stack trace.";
+			//		logger.WriteLine("Compilation failed: {0}", ex);
+			//	}
+			//}
+		}
 
-        private sealed class TestSessionRunnerSubscriber : IDisposable
-        {
-            private readonly Guid _key;
-            private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscriptionList;
+		private sealed class TestSessionRunnerSubscriber : IDisposable
+		{
+			private readonly Guid _key;
+			private readonly Dictionary<Guid, TestSessionRunnerSubscriber> _subscriptionList;
 
-            public TestSessionRunnerSubscriber(IObserver<IMessage> observer,
-                Dictionary<Guid, TestSessionRunnerSubscriber> subscriptionList)
-            {
-                Observer = observer;
-                _subscriptionList = subscriptionList;
-                _key = Guid.NewGuid();
+			public TestSessionRunnerSubscriber(IObserver<IMessage> observer,
+				Dictionary<Guid, TestSessionRunnerSubscriber> subscriptionList)
+			{
+				Observer = observer;
+				_subscriptionList = subscriptionList;
+				_key = Guid.NewGuid();
 
-                lock (subscriptionList)
-                {
-                    subscriptionList.Add(_key, this);
-                }
-            }
+				lock (subscriptionList)
+				{
+					subscriptionList.Add(_key, this);
+				}
+			}
 
-            public IObserver<IMessage> Observer { get; private set; }
+			public IObserver<IMessage> Observer { get; private set; }
 
-            public void Dispose()
-            {
-                lock (_subscriptionList)
-                {
-                    _subscriptionList.Remove(_key);
-                }
-            }
-        }
-    }
+			public void Dispose()
+			{
+				lock (_subscriptionList)
+				{
+					_subscriptionList.Remove(_key);
+				}
+			}
+		}
+	}
 }

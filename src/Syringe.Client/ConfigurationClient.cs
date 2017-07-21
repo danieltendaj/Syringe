@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using RestSharp;
 using Syringe.Client.Http;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
@@ -16,24 +15,24 @@ namespace Syringe.Client
 		public ConfigurationClient(string serviceUrl)
 		{
 			ServiceUrl = serviceUrl;
-            var factory = new CustomHttpClientFactory(serviceUrl);
+			var factory = new CustomHttpClientFactory(serviceUrl);
 			_wrapper = new FlurlWrapper(factory, "/api/configuration");
 		}
 
 		public IConfiguration GetConfiguration()
 		{
-		    return _wrapper.Get<IConfiguration>("").Result;
+			return _wrapper.Get<IConfiguration>("").Result;
 		}
 
-	    public IEnumerable<IVariable> GetSystemVariables()
-        {
-            return _wrapper.Get<List<Variable>>("systemvariables").Result;
-        }
+		public IEnumerable<IVariable> GetSystemVariables()
+		{
+			return _wrapper.Get<List<Variable>>("systemvariables").Result;
+		}
 
 		public IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType)
 		{
-            _wrapper.AddParameter("snippetType", snippetType.ToString());
-            return _wrapper.Get<List<string>>("scriptsnippetfilenames").Result;
-        }
-    }
+			_wrapper.AddParameter("snippetType", snippetType.ToString());
+			return _wrapper.Get<List<string>>("scriptsnippetfilenames").Result;
+		}
+	}
 }

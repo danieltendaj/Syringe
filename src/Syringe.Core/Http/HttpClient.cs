@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Syringe.Core.Http.Logging;
@@ -9,70 +10,27 @@ using Syringe.Core.Tests;
 
 namespace Syringe.Core.Http
 {
-	public class HttpClient : IHttpClient
+	public class HttpClientAdapter : IHttpClientAdapter
 	{
-		private readonly IRestClient _restClient;
+		private readonly HttpClient _httpClient;
 		private readonly CookieContainer _cookieContainer;
 
-		public HttpClient(IRestClient restClient)
+		public HttpClientAdapter(HttpClient httpClient)
 		{
-			_restClient = restClient;
+			_httpClient = httpClient;
 			_cookieContainer = new CookieContainer();
 		}
 
-		public async Task<HttpResponse> ExecuteRequestAsync(IRestRequest request, HttpLogWriter httpLogWriter)
+		public async Task<HttpResponse> SendAsync(HttpLogWriter httpLogWriter, string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)
 		{
-			//
-			// Get the response back, parsing the headers
-			//
-			//         DateTime startTime = DateTime.UtcNow;
+			// Construct the request
+			var method = new HttpMethod(httpMethod.ToUpper());
+			var uri = new Uri(url);
+			var httpRequestMessage = new HttpRequestMessage(method, uri);
 
-			//         // netstandard: TODO
-			//         IRestResponse response = await _restClient.ExecuteTaskAsync(request);
-			//   TimeSpan responseTime = DateTime.UtcNow - startTime;
-
-			//var headers = new List<HttpHeader>();
-			//if (response.Headers != null)
-			//{
-			//	headers = response.Headers.Select(x => new HttpHeader(x.Name, Convert.ToString(x.Value)))
-			//									.ToList();
-			//}
-
-			//// Logging
-			//httpLogWriter.AppendRequest(_restClient.BaseUrl, request);
-			//httpLogWriter.AppendResponse(response);
-
-			//return new HttpResponse()
-			//{
-			//	StatusCode = response.StatusCode,
-			//	Content = response.Content,
-			//	Headers = headers,
-			//             ResponseTime = responseTime
-			//};
-			throw new NotImplementedException();
-		}
-
-		public IRestRequest CreateRestRequest(string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)
-		{
-			Uri uri;
-			if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
-				throw new ArgumentException(url + " is not a valid Uri", nameof(url));
-
-			_restClient.BaseUrl = uri;
-			_restClient.CookieContainer = _cookieContainer;
-
-			//
-			// Make the request adding the content-type, body and headers
-			//
-			Method method = GetMethodEnum(httpMethod);
-			var request = new RestRequest(method);
-			if (method == Method.POST)
+			if (method == HttpMethod.Post)
 			{
-				const string contentType = "application/x-www-form-urlencoded";
-
-				// From the RestSharp docs:
-				// "The name of the parameter will be used as the Content-Type header for the request."
-				request.AddParameter(contentType, postBody, ParameterType.RequestBody);
+				httpRequestMessage.Content = new StringContent(postBody, Encoding.UTF8, "application/x-www-form-urlencoded");
 			}
 
 			if (headers != null)
@@ -80,23 +38,35 @@ namespace Syringe.Core.Http
 				headers = headers.ToList();
 				foreach (var keyValuePair in headers)
 				{
-					request.AddHeader(keyValuePair.Key, keyValuePair.Value);
+					httpRequestMessage.Headers.Add(keyValuePair.Key, keyValuePair.Value);
 				}
 			}
 
-			return request;
-		}
+			// Send the request
+			DateTime startTime = DateTime.UtcNow;
+			HttpResponseMessage httpResponse = await _httpClient.SendAsync(httpRequestMessage);
+			TimeSpan responseTime = DateTime.UtcNow - startTime;
 
-		private Method GetMethodEnum(string httpMethod)
-		{
-			var method = Method.GET;
-
-			if (!Enum.TryParse(httpMethod, true, out method))
+			// Craft a lighter weight response
+			var syringeHttpHeaders = new List<HttpHeader>();
+			if (httpResponse.Headers != null)
 			{
-				method = Method.GET;
+				syringeHttpHeaders = httpResponse.Headers.Select(x => new HttpHeader(x.Key, string.Join(",", x.Value))).ToList();
 			}
 
-			return method;
+			var syringeResponse = new HttpResponse()
+			{
+				Content = await httpResponse.Content.ReadAsStringAsync(),
+				Headers = syringeHttpHeaders,
+				ResponseTime = responseTime,
+				StatusCode = httpResponse.StatusCode
+			};
+
+			// Logging
+			httpLogWriter.AppendRequest(_httpClient.BaseAddress, httpRequestMessage);
+			httpLogWriter.AppendResponse(syringeResponse);
+
+			return syringeResponse;
 		}
 	}
 }
