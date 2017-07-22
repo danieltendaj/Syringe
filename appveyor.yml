@@ -20,7 +20,6 @@ services:
 
 # Add NodeJS/Gulp for the SASS compilation
 install:
-  - gem install sass
   - cd .\src\Syringe.Web\
   - npm install --global gulp-cli --loglevel=error
   - npm install --loglevel=error
