@@ -1,0 +1,17 @@
+﻿{
+	"compilerOptions": {
+		"module": "system",
+		"noImplicitAny": false,
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"outFile": "../syringe.js",
+		"sourceMap": true
+	},
+	"include": [
+		"./*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	]
+}

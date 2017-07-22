@@ -1,0 +1,257 @@
+﻿// Bootstrap and material design
+@import "bootswatch/_variables";
+@import "bootstrap-sass/stylesheets/_bootstrap";
+
+@import "bootswatch/_bootswatch";
+
+// All test case files
+#test-cases {
+    td {
+        .filename {
+            width: 85%;
+        }
+    }
+}
+
+// Single test file
+#view-file {
+    td {
+
+        &.description {
+            width: 70%;
+        }
+
+        &.actions {
+            text-align: center;
+        }
+
+        form {
+            display: inline;
+        }
+    }
+
+    .primary-actions {
+        form {
+            display: inline;
+        }
+    }
+}
+
+// Test edit page
+#edit-test {
+    .control-label {
+        font-weight: normal;
+        //color: #858585;
+    }
+
+    h3.panel-title {
+        font-size: 22px;
+    }
+}
+
+// Test results page
+.results-label {
+    display: inline-block;
+    padding: 5px;
+}
+
+#testcase-result {
+    .test-passed i {
+        background-color: green;
+    }
+
+    .test-failed i {
+        background-color: red;
+    }
+}
+
+#test-result {
+    .panel-title {
+        a {
+            display: block;
+        }
+    }
+}
+
+#running-items {
+
+    .case-result {
+        padding: 10px;
+
+        &.passed {
+            background-color: green !important;
+            color: white !important;
+        }
+
+        &.failed {
+            background-color: orange !important;
+            color: black !important;
+        }
+
+        &.error {
+            background-color: red !important;
+            color: white !important;
+        }
+    }
+
+    .panel-title {
+        a {
+            display: block;
+        }
+    }
+}
+
+.case-result-exception textarea {
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.case-result-errors {
+    padding-top: 40px;
+}
+
+
+.panel {
+
+    .form-control {
+        //border: 1px solid #d2d2d2 !important;
+        background-image: none;
+
+        &:focus {
+            background-image: none;
+        }
+
+        &.input-validation-error {
+            border: 1px solid red !important;
+
+            &:focus {
+                border: 1px solid red !important;
+            }
+        }
+    }
+
+    .btn {
+        margin-top: 0;
+    }
+}
+
+.pagination {
+    margin: 10px 0;
+}
+
+.validation-summary-errors {
+    padding: 10px !important;
+}
+
+.validation-summary-valid {
+    padding: 0px !important;
+    border: 0;
+}
+
+.form-horizontal {
+
+    .checkbox {
+        padding-top: 7px;
+    }
+}
+
+.file-list {
+    form {
+        display: inline;
+    }
+}
+
+.variable-update {
+    margin-top: 25px;
+
+    .form-group {
+        margin-top: 0;
+    }
+}
+
+.clippy {
+    margin-top: -3px;
+    position: relative;
+    top: 3px;
+}
+
+.available-variables-title {
+    .glyphicon {
+        transition-duration: 0.8s;
+        transition-property: transform;
+    }
+
+    &[aria-expanded="true"] {
+        .glyphicon {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.tab-content {
+    border-left: 1px solid $gray-lighter;
+    border-right: 1px solid $gray-lighter;
+    border-bottom: 1px solid $gray-lighter;
+    padding: 25px;
+}
+
+.nav-tabs {
+    margin-bottom: 0;
+}
+
+#encrypt-data {
+    .form-group {
+        margin-left: 0px !important;
+    }
+
+    #encrypted-value-container {
+        padding-top: 25px;
+
+        .zero-clipboard {
+            position: relative;
+        }
+
+        .btn-clipboard {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+            display: block;
+            padding: 5px 8px;
+            font-size: 12px;
+            color: #767676;
+            cursor: pointer;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 4px 0 4px;
+        }
+    }
+}
+
+.panel-body {
+
+    .group {
+        margin-bottom: 40px;
+    }
+}
+
+.environment-name {
+    color: $gray-dark;
+    font-size: 100%;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+.nav-tabs {
+    li {
+        a {
+            background: $gray-lighter;
+        }
+    }
+}

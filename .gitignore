@@ -219,3 +219,6 @@ appsettings.development.json
 # DotNet Core
 project.lock.json
 .DS_Store
+
+# Temporary for .NETCore conversion
+src/old

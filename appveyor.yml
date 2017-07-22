@@ -35,7 +35,7 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
-# Run grunt, and then the custom build script that runs Octopack
+# Run custom build script that runs Octopack
 build_script:
     - ps: .\build\build.ps1
 
