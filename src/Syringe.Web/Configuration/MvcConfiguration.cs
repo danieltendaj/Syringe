@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Syringe.Web.Configuration
+﻿namespace Syringe.Web.Configuration
 {
 	public class MvcConfiguration
 	{
