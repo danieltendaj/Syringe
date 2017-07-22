@@ -101,4 +101,8 @@
 	<ItemGroup>
 		<DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.2.301" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj" />
+	</ItemGroup>
 </Project>
