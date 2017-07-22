@@ -9,7 +9,7 @@ param ([string] $configuration = "Release")
 $ErrorActionPreference = "Stop"
 $solutionFile      = "Syringe.sln"
 $platform          = "Any CPU"
-$msbuild           = "C:\Program Files (x86)\MSBuild\14.0\Bin\MSBuild.exe"
+$msbuild           = "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\MSBuild.exe"
 
 $root              = $PSScriptRoot;
 $octopackTargetDir = "$root\_deploymentOutput\";
