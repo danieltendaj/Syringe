@@ -1,0 +1,60 @@
+﻿@model TestFileViewModel
+@{
+    ViewBag.Title = "Viewing " + Model.Filename;
+}
+<div class="container" id="view-file">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="breadcrumb">
+                <li><a title="View" href="/">Test Files</a></li>
+                <li>@Model.Filename</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <nav class="col-xs-7">
+            @Html.Partial("Partials/_TestPager")
+        </nav>
+        <div class="col-xs-5 text-right primary-actions">
+            <a class="btn btn-sm btn-primary" href="@Url.Action("ViewRawFile", "Test", new {filename = Model.Filename, pageNumber = Model.PageNumber, noOfResults = Model.NoOfResults})">View Raw File</a>
+            @using (Html.BeginForm("Run", "Home"))
+            {
+                <input type="hidden" name="filename" value="@Model.Filename" />
+                @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.RunAllTests))
+            }
+        </div>
+    </div>
+
+    @if (Model.Tests.Any() == false)
+    {
+        <p>No test tests found.</p>}
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TestViewModel test in Model.Tests)
+                {
+                    <tr>
+                        <td class="description">
+                            <p>
+                                <strong>@test.Description</strong>
+                            </p>
+                            <h6>@test.Url</h6>
+                        </td>
+                        <td class="actions">
+                            [None in read only mode]
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @Html.Partial("Partials/_TestPager")
+    }
+</div>

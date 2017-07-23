@@ -1,0 +1,35 @@
+﻿@model SystemSettingsViewModel
+@{
+    ViewBag.Title = "System Settings";
+}
+<div class="container" id="tests">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="breadcrumb">
+                <li>System</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+    </div>
+    <h2>System Variables</h2>
+    <table class="table table-bordered table-striped file-list">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <td>Value</td>
+                <td>Environment</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (VariableViewModel variable in Model.Variables)
+            {
+                <tr>
+                    <td>@variable.Name</td>
+                    <td>@variable.Value</td>
+                    <td>@variable.Environment</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

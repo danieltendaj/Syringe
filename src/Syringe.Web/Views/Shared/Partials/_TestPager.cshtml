@@ -1,0 +1,11 @@
+﻿@model TestFileViewModel
+
+@if (Model.PageNumbers > 1)
+{
+	<ul class="pagination">
+		@for (int i = 1; i <= Model.PageNumbers; i++)
+		{
+			<li class=@(Model.PageNumber == i ? "active" : "")><a href="@Url.Action("View", "TestFile", new {pageNumber = i, filename = Model.Filename, noOfResults = Model.NoOfResults})">@i</a></li>
+		}
+	</ul>
+}

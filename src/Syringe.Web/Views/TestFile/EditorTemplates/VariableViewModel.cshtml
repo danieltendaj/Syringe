@@ -1,0 +1,20 @@
+﻿@model VariableViewModel
+<div class="variable-update group">
+    <div class="form-group">
+        @Html.LabelFor(x => Model.Environment, new { @class = "col-xs-1 control-label" })
+        <div class="col-xs-2">
+            @Html.DropDownListFor(x => x.Environment, Model.AvailableEnvironments, new { @class = "form-control", placeholder = "Environment" })
+        </div>
+        @Html.LabelFor(x => Model.Name, new { @class = "col-sm-1 control-label" })
+        <div class="col-xs-3">
+            @Html.TextBoxFor(x => Model.Name, new { @class = "form-control", placeholder = "Key" })
+        </div>
+        @Html.LabelFor(x => Model.Value, new { @class = "col-sm-1 control-label" })
+        <div class="col-xs-3">
+            @Html.TextBoxFor(x => Model.Value, new { @class = "form-control", placeholder = "Value" })
+        </div>
+        <div class="col-xs-1 col-sm-2 col-lg-1">
+            @Html.Partial("Partials/_RemoveRow")
+        </div>
+    </div>
+</div>

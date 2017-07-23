@@ -1,0 +1,47 @@
+﻿@model IndexViewModel
+@{
+    ViewBag.Title = "Home";
+}
+<div class="container" id="tests">
+    <div class="row">
+        <div class="col-xs-12">
+            <ul class="breadcrumb">
+                <li>Test Files</li>
+            </ul>
+        </div>
+    </div>
+    <h2>Test Files</h2>
+    <div class="row">
+        <nav class="col-xs-9">
+            @Html.Partial("Partials/_TestFilePager")
+        </nav>
+    </div>
+    <table class="table table-bordered table-striped file-list">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (string filename in Model.Files)
+            {
+                <tr>
+                    <td class="filename">@filename</td>
+                    <td>
+                        <a title="View" class="btn btn-sm btn-primary" href="@Url.Action("View", "TestFile", new {filename = filename})">
+                            <i class="material-icons">description</i>
+                        </a>
+                        @using (Html.BeginForm("Run", "Home"))
+                        {
+                            @Html.Hidden("filename", filename)
+                            @Html.Partial("Partials/_RunTest", new EnvironmentSelectorViewModel(Model.Environments, RunButtonType.PlayButton))
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Partial("Partials/_TestFilePager")
+</div>

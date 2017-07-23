@@ -1,0 +1,11 @@
+﻿@model IndexViewModel
+
+@if (Model.PageNumbers > 1)
+{
+	<ul class="pagination">
+		@for (int i = 1; i <= Model.PageNumbers; i++)
+		{
+			<li class=@(Model.PageNumber == i ? "active" : "")><a href="@Url.Action("Index", "Home", new {pageNumber = i, noOfResults = Model.NoOfResults})">@i</a></li>
+		}
+	</ul>
+}
