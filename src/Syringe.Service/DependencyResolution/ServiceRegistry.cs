@@ -48,7 +48,8 @@ namespace Syringe.Service.DependencyResolution
 			For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
 			SetupTestFileFormat();
-			SetupEnvironmentSource(null);//configuration);
+			//SetupEnvironmentSource
+			For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
 
 			//TODO?
 			//For<ObjectCache>().Use(x => MemoryCache.Default);
