@@ -11,43 +11,44 @@ using Syringe.Core.Tests.Variables.SharedVariables;
 
 namespace Syringe.Service.Controllers
 {
-    public class ConfigurationController : ApiController, IConfigurationService
-    {
-        private readonly IConfiguration _configuration;
-        private readonly ISharedVariablesProvider _sharedVariablesProvider;
-        private readonly IReservedVariableProvider _reservedVariableProvider;
-        private readonly SnippetFileReader _snippetFileReader;
+	[Route("api/[controller]")]
+	public class ConfigurationController : ApiController, IConfigurationService
+	{
+		private readonly IConfiguration _configuration;
+		private readonly ISharedVariablesProvider _sharedVariablesProvider;
+		private readonly IReservedVariableProvider _reservedVariableProvider;
+		private readonly SnippetFileReader _snippetFileReader;
 
-        public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, SnippetFileReader snippetFileReader)
-        {
-            _configuration = configuration;
-            _sharedVariablesProvider = sharedVariablesProvider;
-            _reservedVariableProvider = reservedVariableProvider;
-            _snippetFileReader = snippetFileReader;
-        }
+		public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, SnippetFileReader snippetFileReader)
+		{
+			_configuration = configuration;
+			_sharedVariablesProvider = sharedVariablesProvider;
+			_reservedVariableProvider = reservedVariableProvider;
+			_snippetFileReader = snippetFileReader;
+		}
 
-        [Route("api/configuration/")]
-        [HttpGet]
-        public IConfiguration GetConfiguration()
-        {
-            return _configuration;
-        }
+		[Route("api/configuration/")]
+		[HttpGet]
+		public IConfiguration GetConfiguration()
+		{
+			return _configuration;
+		}
 
-        [Route("api/configuration/systemvariables")]
-        [HttpGet]
-        public IEnumerable<IVariable> GetSystemVariables()
-        {
-            return _sharedVariablesProvider
-                        .ListSharedVariables()
-                        .Concat(_reservedVariableProvider.ListAvailableVariables()
-                        .Select(x => x.CreateVariable()));
-        }
+		[Route("api/configuration/systemvariables")]
+		[HttpGet]
+		public IEnumerable<IVariable> GetSystemVariables()
+		{
+			return _sharedVariablesProvider
+						.ListSharedVariables()
+						.Concat(_reservedVariableProvider.ListAvailableVariables()
+						.Select(x => x.CreateVariable()));
+		}
 
-        [Route("api/configuration/scriptsnippetfilenames")]
-        [HttpGet]
-        public IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType)
-        {
-            return _snippetFileReader.GetSnippetFilenames(snippetType);
-        }
-    }
+		[Route("api/configuration/scriptsnippetfilenames")]
+		[HttpGet]
+		public IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType)
+		{
+			return _snippetFileReader.GetSnippetFilenames(snippetType);
+		}
+	}
 }
