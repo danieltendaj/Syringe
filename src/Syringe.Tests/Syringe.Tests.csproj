@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj" />
+    <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj" />
+    <ProjectReference Include="..\Syringe.Service\Syringe.Service.csproj" />
+    <ProjectReference Include="..\Syringe.Web\Syringe.Web.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>

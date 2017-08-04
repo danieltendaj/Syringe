@@ -1,15 +1,11 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StructureMap;
-using Syringe.Core.Configuration;
-using Syringe.Web.Configuration;
 using Syringe.Web.DependencyResolution;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace Syringe.Web
 {

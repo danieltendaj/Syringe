@@ -1,0 +1,20 @@
+﻿{
+	"ServiceUrl": "http://*:1981",
+	"WebsiteUrl": "http://localhost:1980",
+	"TestFilesBaseDirectory": "..\\..\\..\\..\\Example-TestFiles",
+	"ScriptSnippetDirectory": "..\\..\\..\\..\\Example-TestFiles\\ScriptSnippets",
+  "ReadonlyMode": false,
+  "MongoDbDatabaseName": "Syringe-Tests",
+	"OAuthConfiguration": {
+		"GithubAuthClientId": "",
+		"GithubAuthClientSecret": "",
+		"GoogleAuthClientId": "",
+		"GoogleAuthClientSecret": "",
+		"MicrosoftAuthClientId": "",
+		"MicrosoftAuthClientSecret": ""
+	},
+	"OctopusConfiguration": {
+		"OctopusUrl": "",
+		"OctopusApiKey": ""
+	}
+}

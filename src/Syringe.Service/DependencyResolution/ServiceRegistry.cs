@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using StructureMap;
+﻿using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Environment.Json;

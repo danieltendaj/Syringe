@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
@@ -12,7 +11,7 @@ using Syringe.Core.Tests.Variables.SharedVariables;
 namespace Syringe.Service.Controllers
 {
 	[Route("api/[controller]")]
-	public class ConfigurationController : ApiController, IConfigurationService
+	public class ConfigurationController : Controller, IConfigurationService
 	{
 		private readonly IConfiguration _configuration;
 		private readonly ISharedVariablesProvider _sharedVariablesProvider;

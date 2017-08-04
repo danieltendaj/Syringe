@@ -30,23 +30,11 @@ namespace Syringe.Service
 			Configuration = builder.Build();
 
 			// Setup Sirilog
-			if (env.IsDevelopment())
-			{
-				Log.Logger = new LoggerConfiguration()
-					.Enrich.FromLogContext()
-					.WriteTo.LiterateConsole(Serilog.Events.LogEventLevel.Information,
-						"[{Timestamp}] [Website] {Message}{NewLine}{Exception}")
-					.CreateLogger();
-			}
-			else
-			{
-				// Remove the colour logging for production, it fills the logs with "\[n" etc.
-				Log.Logger = new LoggerConfiguration()
-					.Enrich.FromLogContext()
-					.WriteTo.Console(Serilog.Events.LogEventLevel.Information,
-						"[{Timestamp}] [Website] {Message}{NewLine}{Exception}")
-					.CreateLogger();
-			}
+			Log.Logger = new LoggerConfiguration()
+				.Enrich.FromLogContext()
+				.WriteTo.Console(Serilog.Events.LogEventLevel.Information,
+					"[{Timestamp}] [Website] {Message}{NewLine}{Exception}")
+				.CreateLogger();
 		}
 
 		public void ConfigureServices(IServiceCollection services)
