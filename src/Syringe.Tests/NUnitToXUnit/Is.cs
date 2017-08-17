@@ -1,4 +1,6 @@
-﻿namespace Syringe.Tests.NUnitToXUnit
+﻿using Xunit.Sdk;
+
+namespace Syringe.Tests.NUnitToXUnit
 {
 	public class Is
 	{
@@ -12,6 +14,8 @@
 			}
 		}
 
+		public static bool True => true;
+		public static bool False => false;
 		public static object Null => null;
 
 		public override bool Equals(object obj)
