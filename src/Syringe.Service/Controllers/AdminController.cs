@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Syringe.Core.Tests.Results.Repositories;
+using Syringe.Core.Repositories;
 
 namespace Syringe.Service.Controllers
 {
@@ -34,7 +34,7 @@ namespace Syringe.Service.Controllers
 		{
 			if (adminKey == ValidAdminKey)
 			{
-				await _testFileResultRepository.Wipe();
+				await _testFileResultRepository.ClearDatabase();
 				return true;
 			}
 

@@ -2,32 +2,20 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using Serilog;
 using StructureMap;
-using Syringe.Core.Configuration;
-using Syringe.Core.Environment.Json;
-using Syringe.Core.Tests.Variables.SharedVariables;
 using Syringe.Service.DependencyResolution;
 
 namespace Syringe.Service
 {
 	public class Startup
 	{
-		public IConfigurationRoot Configuration { get; private set; }
-
 		public Startup(IHostingEnvironment env)
 		{
-			var builder = new ConfigurationBuilder()
-				.SetBasePath(env.ContentRootPath)
-				.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-				.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-				.AddEnvironmentVariables();
-
-			Configuration = builder.Build();
+			// ConfigurationBuilder is in JsonConfigurationStore.
 
 			// Setup Sirilog
 			Log.Logger = new LoggerConfiguration()
@@ -37,30 +25,20 @@ namespace Syringe.Service
 				.CreateLogger();
 		}
 
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
 			// Add framework services.
 			services.AddMvc();
-		}
-
-		// This method gets called by the runtime. Use this method to add services to the container.
-		public IServiceProvider ConfigureServices2(IServiceCollection services)
-		{
-			// Add framework services.
 			services.AddOptions();
-			services.AddMvc();
-			services.AddMemoryCache();
-			services.Configure<JsonConfiguration>(Configuration.GetSection("settings"));
-			services.Configure<SharedVariables>(Configuration.GetSection("sharedVariables"));
-			services.Configure<Environments>(Configuration.GetSection("environments"));
 
 			var container = new Container();
 			container.Configure(config =>
 			{
-				config.AddRegistry<ServiceRegistry>();
+				config.AddRegistry(new ServiceRegistry());
 				config.Populate(services);
 			});
-			Log.Information(container.WhatDoIHave());
+
+			container.AssertConfigurationIsValid();
 
 			return container.GetInstance<IServiceProvider>();
 		}
@@ -69,7 +47,7 @@ namespace Syringe.Service
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			//loggerFactory.AddSerilog();
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddConsole();
 			loggerFactory.AddDebug();
 
 			app.UseStaticFiles();

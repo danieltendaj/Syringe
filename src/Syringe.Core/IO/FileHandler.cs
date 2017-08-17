@@ -6,79 +6,79 @@ using SearchOption = System.IO.SearchOption;
 
 namespace Syringe.Core.IO
 {
-    public class FileHandler : IFileHandler
-    {
-        private readonly IConfiguration _configuration;
-        private const string FileExtension = "json";
+	public class FileHandler : IFileHandler
+	{
+		private readonly IConfiguration _configuration;
+		private const string FileExtension = "json";
 
-        public FileHandler(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        public string GetFileFullPath(string fileName)
-        {
-	        string fullPath = CreateFileFullPath(fileName);
-
-			if (!File.Exists(fullPath))
-                throw new FileNotFoundException("The test file path cannot be found", fileName);
-
-            return fullPath;
-        }
-
-        public string CreateFileFullPath(string fileName)
-        {
-			return Path.Combine(_configuration.TestFilesBaseDirectory, fileName);
+		public FileHandler(IConfiguration configuration)
+		{
+			_configuration = configuration;
 		}
 
-        public bool FileExists(string filePath)
-        {
-            return File.Exists(filePath);
-        }
+		public string GetFileFullPath(string fileName)
+		{
+			string fullPath = CreateFileFullPath(fileName);
 
-        public string ReadAllText(string path)
-        {
-            return File.ReadAllText(path);
-        }
+			if (!File.Exists(fullPath))
+				throw new FileNotFoundException("The test file path cannot be found", fileName);
 
-        public bool WriteAllText(string path, string contents)
-        {
-            File.WriteAllText(path, contents);
-            return true;
-        }
+			return fullPath;
+		}
 
-        public IEnumerable<string> GetFileNames()
-        {
-            string baseDirectory = _configuration.TestFilesBaseDirectory;
-            
-            foreach (string file in Directory.EnumerateFiles(baseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
-            {
-                string relativeFileName = file.Substring(baseDirectory.Length);
-                relativeFileName = relativeFileName.TrimStart('/', '\\');
+		public string CreateFileFullPath(string fileName)
+		{
+			return Path.Combine(_configuration.Settings.TestFilesBaseDirectory, fileName);
+		}
 
-                yield return relativeFileName;
-            }
-        }
+		public bool FileExists(string filePath)
+		{
+			return File.Exists(filePath);
+		}
 
-        public string GetFilenameWithExtension(string filename)
-        {
-            if (string.IsNullOrEmpty(filename))
-            {
-                throw new ArgumentNullException(nameof(filename));
-            }
+		public string ReadAllText(string path)
+		{
+			return File.ReadAllText(path);
+		}
 
-            if (!filename.EndsWith("." + FileExtension))
-            {
-                filename = string.Concat(filename, "." + FileExtension);
-            }
+		public bool WriteAllText(string path, string contents)
+		{
+			File.WriteAllText(path, contents);
+			return true;
+		}
 
-            return filename;
-        }
+		public IEnumerable<string> GetFileNames()
+		{
+			string baseDirectory = _configuration.Settings.TestFilesBaseDirectory;
 
-        public bool DeleteFile(string path)
-        {
-            File.Delete(path);
-            return true;
-        }
-    }
+			foreach (string file in Directory.EnumerateFiles(baseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
+			{
+				string relativeFileName = file.Substring(baseDirectory.Length);
+				relativeFileName = relativeFileName.TrimStart('/', '\\');
+
+				yield return relativeFileName;
+			}
+		}
+
+		public string GetFilenameWithExtension(string filename)
+		{
+			if (string.IsNullOrEmpty(filename))
+			{
+				throw new ArgumentNullException(nameof(filename));
+			}
+
+			if (!filename.EndsWith("." + FileExtension))
+			{
+				filename = string.Concat(filename, "." + FileExtension);
+			}
+
+			return filename;
+		}
+
+		public bool DeleteFile(string path)
+		{
+			File.Delete(path);
+			return true;
+		}
+	}
 }

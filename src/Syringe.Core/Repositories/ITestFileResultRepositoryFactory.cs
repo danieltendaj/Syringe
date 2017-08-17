@@ -1,4 +1,4 @@
-﻿namespace Syringe.Core.Tests.Results.Repositories
+﻿namespace Syringe.Core.Repositories
 {
     public interface ITestFileResultRepositoryFactory
     {

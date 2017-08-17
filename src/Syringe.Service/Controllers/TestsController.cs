@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Syringe.Core.Repositories;
 using Syringe.Core.Services;
 using Syringe.Core.Tests;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Results;
-using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Service.Controllers
 {
@@ -113,9 +113,9 @@ namespace Syringe.Service.Controllers
 
 		[Route("api/test/result")]
 		[HttpGet]
-		public TestFileResult GetResultById(Guid id)
+		public async Task<TestFileResult> GetResultById(Guid id)
 		{
-			return TestFileResultRepository.GetById(id);
+			return await TestFileResultRepository.GetById(id);
 		}
 
 		[Route("api/test/result")]

@@ -17,14 +17,14 @@ namespace Syringe.Service.Controllers
 		[HttpGet]
 		public string CheckConfiguration()
 		{
-			if (string.IsNullOrEmpty(_configuration.WebsiteUrl))
+			if (string.IsNullOrEmpty(_configuration.Settings.WebsiteUrl))
 				return "The service WebsiteUrl key is empty - please enter the website url including port number in configuration.json, e.g. http://localhost:1980";
 
-			if (string.IsNullOrEmpty(_configuration.TestFilesBaseDirectory))
+			if (string.IsNullOrEmpty(_configuration.Settings.TestFilesBaseDirectory))
 				return "The service TestFilesBaseDirectory is empty - please enter the folder the test XML files are stored in configuration.json, e.g. D:\\syringe";
 
-			if (!Directory.Exists(_configuration.TestFilesBaseDirectory))
-				return string.Format("The service TestFilesBaseDirectory folder '{0}' does not exist", _configuration.TestFilesBaseDirectory);
+			if (!Directory.Exists(_configuration.Settings.TestFilesBaseDirectory))
+				return string.Format("The service TestFilesBaseDirectory folder '{0}' does not exist", _configuration.Settings.TestFilesBaseDirectory);
 
 			return "Everything is OK";
 		}

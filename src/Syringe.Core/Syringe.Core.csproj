@@ -17,12 +17,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="AngleSharp" Version="0.9.9" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.3.0" />
-	  <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.3.0" />
-	  <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
-	  <PackageReference Include="MongoDB.Driver" Version="2.4.4" />
-	  <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-	  <PackageReference Include="StructureMap" Version="4.5.1" />
+		<PackageReference Include="AngleSharp" Version="0.9.9" />
+		<PackageReference Include="Marten" Version="2.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.3.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
+		<PackageReference Include="MongoDB.Driver" Version="2.4.4" />
+		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+		<PackageReference Include="StructureMap" Version="4.5.1" />
+		<PackageReference Include="System.Linq" Version="4.3.0" />
+		<PackageReference Include="microsoft.extensions.configuration.json" Version="1.1.2" />
+		<PackageReference Include="microsoft.extensions.options.configurationextensions" Version="1.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Microsoft.Extensions.Configuration">
+			<HintPath>..\..\..\..\Users\chris\.nuget\packages\microsoft.extensions.configuration\1.1.2\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
+		</Reference>
+		<Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+			<HintPath>..\..\..\..\Users\chris\.nuget\packages\microsoft.extensions.configuration.abstractions\1.1.2\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 </Project>

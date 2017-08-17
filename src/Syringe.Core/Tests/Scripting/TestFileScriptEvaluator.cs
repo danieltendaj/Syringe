@@ -38,7 +38,7 @@ namespace Syringe.Core.Tests.Scripting
 			try
 			{
 				string typeName = ScriptSnippetType.BeforeExecute.ToString().ToLower();
-				string path = Path.Combine(_configuration.ScriptSnippetDirectory, typeName, test.ScriptSnippets.BeforeExecuteFilename);
+				string path = Path.Combine(_configuration.Settings.ScriptSnippetDirectory, typeName, test.ScriptSnippets.BeforeExecuteFilename);
 				scriptContent = _snippetReader.ReadFile(path);
 			}
 			catch (IOException ex)

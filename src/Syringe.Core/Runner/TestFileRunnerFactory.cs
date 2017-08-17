@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using Syringe.Core.Configuration;
 using Syringe.Core.Http;
+using Syringe.Core.Repositories;
 using Syringe.Core.Runner.Logging;
-using Syringe.Core.Tests.Results.Repositories;
 
 namespace Syringe.Core.Runner
 {

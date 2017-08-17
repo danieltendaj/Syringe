@@ -1,13 +1,15 @@
-﻿using StructureMap;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using StructureMap;
 using Syringe.Core.Configuration;
 using Syringe.Core.Environment;
 using Syringe.Core.Environment.Json;
 using Syringe.Core.IO;
+using Syringe.Core.Repositories;
 using Syringe.Core.Runner.Logging;
 using Syringe.Core.Tests.Repositories;
 using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Repositories.Json.Writer;
-using Syringe.Core.Tests.Results.Repositories;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Service.Parallel;
@@ -29,16 +31,16 @@ namespace Syringe.Service.DependencyResolution
 
 			For<Startup>().Use<Startup>().Singleton();
 
-			For<IConfigurationStore>().Use<JsonConfigurationStore>().Singleton();
+			For<IConfigurationStore>().Use(x => new JsonConfigurationStore()).Singleton();
 			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load()).Singleton();
 
-			For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().EncryptionKey));
+			For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().Settings.EncryptionKey));
 			For<IVariableEncryptor>().Use<VariableEncryptor>();
 
 			// ParallelTestFileQueue dependencies
 			For<ITestFileRunnerLoggerFactory>().Use<TestFileRunnerLoggerFactory>().Singleton();
 			For<ITestFileResultRepositoryFactory>().Use(ctx => new TestFileResultRepositoryFactory(ctx));
-			For<ITestFileResultRepository>().Use<MongoTestFileResultRepository>().Singleton();
+			For<ITestFileResultRepository>().Use<PostgresTestFileResultRepository>().Singleton();
 			For<ITestFileQueue>().Use<ParallelTestFileQueue>().Singleton();
 
 			Forward<ITestFileQueue, ITaskObserver>();
@@ -47,7 +49,7 @@ namespace Syringe.Service.DependencyResolution
 			For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
 			SetupTestFileFormat();
-			//SetupEnvironmentSource
+			SetupEnvironmentSource(new JsonConfiguration());
 			For<IEnvironmentProvider>().Use<JsonEnvironmentProvider>();
 
 			//TODO?

@@ -51,7 +51,7 @@ namespace Syringe.Web.Controllers
 			};
 
 			string viewName = "Index";
-			if (_configuration.ReadonlyMode)
+			if (_configuration.Settings.ReadonlyMode)
 			{
 				viewName = "Index-ReadonlyMode";
 			}

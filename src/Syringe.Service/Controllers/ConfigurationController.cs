@@ -16,9 +16,9 @@ namespace Syringe.Service.Controllers
 		private readonly IConfiguration _configuration;
 		private readonly ISharedVariablesProvider _sharedVariablesProvider;
 		private readonly IReservedVariableProvider _reservedVariableProvider;
-		private readonly SnippetFileReader _snippetFileReader;
+		private readonly ISnippetFileReader _snippetFileReader;
 
-		public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, SnippetFileReader snippetFileReader)
+		public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, ISnippetFileReader snippetFileReader)
 		{
 			_configuration = configuration;
 			_sharedVariablesProvider = sharedVariablesProvider;

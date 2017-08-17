@@ -1,6 +1,6 @@
 ﻿using StructureMap;
 
-namespace Syringe.Core.Tests.Results.Repositories
+namespace Syringe.Core.Repositories
 {
     public class TestFileResultRepositoryFactory : ITestFileResultRepositoryFactory
     {

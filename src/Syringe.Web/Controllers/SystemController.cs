@@ -24,7 +24,7 @@ namespace Syringe.Web.Controllers
 		{
 			var model = new EncryptedDataViewModel()
 			{
-				IsEnabled = !string.IsNullOrEmpty(_configurationClient.GetConfiguration().EncryptionKey)
+				IsEnabled = !string.IsNullOrEmpty(_configurationClient.GetConfiguration().Settings.EncryptionKey)
 			};
 
 			return View("EncryptData", model);

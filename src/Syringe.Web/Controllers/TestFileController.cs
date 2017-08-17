@@ -87,7 +87,7 @@ namespace Syringe.Web.Controllers
 			};
 
 			string viewName = "View";
-			if (_configuration.ReadonlyMode)
+			if (_configuration.Settings.ReadonlyMode)
 			{
 				viewName = "View-ReadonlyMode";
 			}

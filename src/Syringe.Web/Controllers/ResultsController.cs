@@ -49,17 +49,17 @@ namespace Syringe.Web.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Delete(Guid id)
+		public async Task<ActionResult> Delete(Guid id)
 		{
-			TestFileResult session = _testsClient.GetResultById(id);
+			TestFileResult session = await _testsClient.GetResultById(id);
 			_testsClient.DeleteResult(session.Id);
 
 			return RedirectToAction("Index");
 		}
 
-		public ActionResult ViewHtml(Guid testFileResultId, int resultId)
+		public async Task<ActionResult> ViewHtml(Guid testFileResultId, int resultId)
 		{
-			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+			TestFileResult testFileResult = await _testsClient.GetResultById(testFileResultId);
 			TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
 			if (result != null)
 			{
@@ -73,9 +73,9 @@ namespace Syringe.Web.Controllers
 			return Content("Result Id not found");
 		}
 
-		public ActionResult ViewHttpLog(Guid testFileResultId, int resultId)
+		public async Task<ActionResult> ViewHttpLog(Guid testFileResultId, int resultId)
 		{
-			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+			TestFileResult testFileResult = await _testsClient.GetResultById(testFileResultId);
 			TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
 			if (result != null)
 			{
@@ -85,9 +85,9 @@ namespace Syringe.Web.Controllers
 			return Content("Result Id not found");
 		}
 
-		public ActionResult ViewLog(Guid testFileResultId, int resultId)
+		public async Task<ActionResult> ViewLog(Guid testFileResultId, int resultId)
 		{
-			TestFileResult testFileResult = _testsClient.GetResultById(testFileResultId);
+			TestFileResult testFileResult = await _testsClient.GetResultById(testFileResultId);
 			TestResult result = testFileResult.TestResults.ElementAtOrDefault(resultId);
 			if (result != null)
 			{
