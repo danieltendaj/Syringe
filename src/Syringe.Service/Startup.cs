@@ -50,6 +50,11 @@ namespace Syringe.Service
 			loggerFactory.AddConsole();
 			loggerFactory.AddDebug();
 
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+
 			app.UseStaticFiles();
 			app.UseSwagger(Assembly.GetEntryAssembly(), new SwaggerSettings());
 			app.UseSwaggerUi(Assembly.GetEntryAssembly(), new SwaggerUiSettings());
