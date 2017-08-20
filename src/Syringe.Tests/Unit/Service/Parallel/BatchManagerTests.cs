@@ -18,7 +18,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 		{
 			// given
 			var testFileQueue = new TestFileQueueStub();
-			var memoryCache = new MemoryCache("test");
+			var memoryCache = new MemoryCache(new MemoryCacheOptions());
 			const string environment = "env-boot-ay";
 			const string username = "hemang-and-di**s";
 			string[] filenames = { "file1.sjon", "file2.json" };
@@ -38,7 +38,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			NUnitAssert.That(testFileQueue.Add_Tasks[1].Username, Is.EqualTo(username));
 			NUnitAssert.That(testFileQueue.Add_Tasks[1].Filename, Is.EqualTo(filenames[1]));
 
-			var taskIds = memoryCache[BatchManager.KeyPrefix + batchId] as List<int>;
+			var taskIds = memoryCache.Get(BatchManager.KeyPrefix + batchId) as List<int>;
 			NUnitAssert.That(taskIds, Is.Not.Null);
 			NUnitAssert.That(taskIds[0], Is.EqualTo(1));
 			NUnitAssert.That(taskIds[1], Is.EqualTo(2));
@@ -49,7 +49,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 		{
 			// given
 			var testFileQueue = new TestFileQueueStub();
-			var memoryCache = new MemoryCache("test");
+			var memoryCache = new MemoryCache(new MemoryCacheOptions());
 			var resultFactory = new Mock<ITestFileResultFactory>();
 
 			// when
@@ -65,7 +65,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			// given
 			const int batchId = 8;
 			var testFileQueue = new Mock<ITestFileQueue>();
-			var memoryCache = new MemoryCache("test");
+			var memoryCache = new MemoryCache(new MemoryCacheOptions());
 			var resultFactory = new Mock<ITestFileResultFactory>();
 
 			memoryCache.Set($"{BatchManager.KeyPrefix}{batchId}", new List<int> { 5 }, DateTimeOffset.MaxValue);
@@ -91,9 +91,9 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			NUnitAssert.That(batchStatus.AllTestsPassed, Is.True);
 			NUnitAssert.That(batchStatus.TestFilesRunning, Is.EqualTo(0));
 			NUnitAssert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
-			NUnitAssert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
+			Assert.Empty(batchStatus.TestFilesWithFailedTests);
 			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
-			NUnitAssert.That(batchStatus.FailedTasks, Is.Empty);
+			Assert.Empty(batchStatus.FailedTasks);
 		}
 
 		[Fact]
@@ -102,7 +102,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			// given
 			const int batchId = 4;
 			var testFileQueue = new Mock<ITestFileQueue>();
-			var memoryCache = new MemoryCache("test");
+			var memoryCache = new MemoryCache(new MemoryCacheOptions());
 			var resultFactory = new Mock<ITestFileResultFactory>();
 
 			memoryCache.Set($"{BatchManager.KeyPrefix}{batchId}", new List<int> { 5 }, DateTimeOffset.MaxValue);
@@ -128,7 +128,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			NUnitAssert.That(batchStatus.TestFilesWithFailedTests.First(), Is.EqualTo(runResult.ResultId));
 			NUnitAssert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
 			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
-			NUnitAssert.That(batchStatus.FailedTasks, Is.Empty);
+			Assert.Empty(batchStatus.FailedTasks);
 		}
 
 		[Fact]
@@ -137,7 +137,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			// given
 			const int batchId = 4;
 			var testFileQueue = new Mock<ITestFileQueue>();
-			var memoryCache = new MemoryCache("test");
+			var memoryCache = new MemoryCache(new MemoryCacheOptions());
 			var resultFactory = new Mock<ITestFileResultFactory>();
 
 			memoryCache.Set($"{BatchManager.KeyPrefix}{batchId}", new List<int> { 5 }, DateTimeOffset.MaxValue);
@@ -160,8 +160,8 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			NUnitAssert.That(batchStatus.BatchFinished, Is.False);
 			NUnitAssert.That(batchStatus.AllTestsPassed, Is.False);
 			NUnitAssert.That(batchStatus.TestFilesFinished, Is.EqualTo(0));
-			NUnitAssert.That(batchStatus.TestFilesWithFailedTests, Is.Empty);
-			NUnitAssert.That(batchStatus.TestFilesResultIds, Is.Empty);
+			Assert.Empty(batchStatus.TestFilesWithFailedTests);
+			Assert.Empty(batchStatus.TestFilesResultIds);
 			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(1));
 			NUnitAssert.That(batchStatus.FailedTasks.First(), Is.EqualTo(5));
 		}

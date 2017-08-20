@@ -1,18 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Moq" Version="4.7.99" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj" />
-    <ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj" />
-    <ProjectReference Include="..\Syringe.Service\Syringe.Service.csproj" />
-    <ProjectReference Include="..\Syringe.Web\Syringe.Web.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0-preview-20170810-02" />
+		<PackageReference Include="Moq" Version="4.7.99" />
+		<PackageReference Include="xunit" Version="2.3.0-beta4-build3742" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta4-build3742" />
+		<DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-beta4-build3742" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Syringe.Client\Syringe.Client.csproj" />
+		<ProjectReference Include="..\Syringe.Core\Syringe.Core.csproj" />
+		<ProjectReference Include="..\Syringe.Service\Syringe.Service.csproj" />
+		<ProjectReference Include="..\Syringe.Web\Syringe.Web.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Properties\" />
+	</ItemGroup>
 </Project>

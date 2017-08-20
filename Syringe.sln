@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F5DD5D87-901E-4F7F-A87D-4E7D1FA59C1D}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syringe.Core", "src\Syringe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syringe.Service", "src\Syringe.Service\Syringe.Service.csproj", "{29D9DDCD-C977-4E74-AA87-FC7DC338644B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syringe.Tests", "src\Syringe.Tests\Syringe.Tests.csproj", "{F07A2447-03C7-4F62-9399-E2C8463D1D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syringe.Tests", "src\Syringe.Tests\Syringe.Tests.csproj", "{F07A2447-03C7-4F62-9399-E2C8463D1D48}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Syringe.Client", "src\Syringe.Client\Syringe.Client.csproj", "{3E7D3769-F5A2-433A-B31B-820D1E9AF2A5}"
 EndProject
@@ -47,5 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F07A2447-03C7-4F62-9399-E2C8463D1D48} = {F5DD5D87-901E-4F7F-A87D-4E7D1FA59C1D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E9536B4-ECBE-44A5-9ACF-35DE9E46D9EA}
 	EndGlobalSection
 EndGlobal

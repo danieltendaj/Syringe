@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard1.6</TargetFramework>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
 		<AssemblyName>Syringe.Core</AssemblyName>
 		<PackageId>Syringe.Core</PackageId>
-		<NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
 		<PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
 		<GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
 		<GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -18,16 +17,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="AngleSharp" Version="0.9.9" />
-		<PackageReference Include="Marten" Version="2.0.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.3.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.3.0" />
-		<PackageReference Include="Microsoft.Extensions.Options" Version="1.1.2" />
+		<PackageReference Include="Marten" Version="2.1.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.3.1" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.3.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
 		<PackageReference Include="MongoDB.Driver" Version="2.4.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-		<PackageReference Include="StructureMap" Version="4.5.1" />
+		<PackageReference Include="StructureMap" Version="4.5.2" />
 		<PackageReference Include="System.Linq" Version="4.3.0" />
-		<PackageReference Include="microsoft.extensions.configuration.json" Version="1.1.2" />
-		<PackageReference Include="microsoft.extensions.options.configurationextensions" Version="1.1.2" />
+		<PackageReference Include="microsoft.extensions.configuration.json" Version="2.0.0" />
+		<PackageReference Include="microsoft.extensions.options.configurationextensions" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

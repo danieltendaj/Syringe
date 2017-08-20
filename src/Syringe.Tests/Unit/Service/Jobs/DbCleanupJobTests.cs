@@ -30,7 +30,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 			// given
 			const int expectedDaysOfRetention = 66;
 			_configurationMock
-				.Setup(x => x.DaysOfDataRetention)
+				.Setup(x => x.Settings.DaysOfDataRetention)
 				.Returns(expectedDaysOfRetention);
 
 			// when
@@ -46,7 +46,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 		{
 			// given
 			_configurationMock
-				.Setup(x => x.CleanupSchedule)
+				.Setup(x => x.Settings.CleanupSchedule)
 				.Returns(new TimeSpan(0, 0, 0, 0, 10)); // 10 milli
 
 			// when

@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -73,10 +75,6 @@ namespace Syringe.Web
 			{
 				ClientId = Configuration["Authentication:Google:ClientId"],
 				ClientSecret = Configuration["Authentication:Google:ClientSecret"]
-			});
-
-			app.UseOAuthAuthentication(new OAuthOptions()
-			{
 			});
 		}
 
