@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace Syringe.Tests.NUnitToXUnit
 {
-	public class Not : Is
+	public class Not : Is, IEqualityComparer<Not>
 	{
 		public bool IsNot { get; set; }
 		public bool IsNotNull { get; set; }
@@ -41,6 +43,16 @@ namespace Syringe.Tests.NUnitToXUnit
 				TheItem = item,
 				IsInverse = true
 			};
+		}
+
+		public bool Equals(Not x, Not y)
+		{
+			return Equals(y);
+		}
+
+		public int GetHashCode(Not obj)
+		{
+			return base.GetHashCode();
 		}
 	}
 }

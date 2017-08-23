@@ -18,7 +18,7 @@ namespace Syringe.Tests.NUnitToXUnit
 
 		public static void That(object a, Is isItem, string message = "", params object[] args)
 		{
-			Assert.Equal(a, isItem.Item);
+			Assert.Equal(a, isItem);
 		}
 
 		public static void That(IEnumerable<object> a, Contains containsItem, string message = "", params object[] args)

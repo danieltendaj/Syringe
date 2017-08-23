@@ -20,6 +20,8 @@ namespace Syringe.Tests.Unit.Service.Jobs
 		{
 			_callbackCount = 0;
 			_configurationMock = new Mock<IConfiguration>();
+			_configurationMock.Setup(x => x.Settings).Returns(new Settings());
+
 			_repositoryMock = new Mock<ITestFileResultRepository>();
 			_job = new DbCleanupJob(_configurationMock.Object, _repositoryMock.Object);
 		}
@@ -29,9 +31,14 @@ namespace Syringe.Tests.Unit.Service.Jobs
 		{
 			// given
 			const int expectedDaysOfRetention = 66;
+			var settings = new Settings()
+			{
+				DaysOfDataRetention = expectedDaysOfRetention
+			};
+
 			_configurationMock
-				.Setup(x => x.Settings.DaysOfDataRetention)
-				.Returns(expectedDaysOfRetention);
+				.Setup(x => x.Settings)
+				.Returns(settings);
 
 			// when
 			_job.Cleanup(null);
@@ -45,21 +52,26 @@ namespace Syringe.Tests.Unit.Service.Jobs
 		public void should_execute_given_callback_via_timer_and_then_stop()
 		{
 			// given
+			var settings = new Settings()
+			{
+				CleanupSchedule = new TimeSpan(0, 0, 0, 0, 10)
+			};
+
 			_configurationMock
-				.Setup(x => x.Settings.CleanupSchedule)
-				.Returns(new TimeSpan(0, 0, 0, 0, 10)); // 10 milli
+				.Setup(x => x.Settings)
+				.Returns(settings); // 10 ms
 
 			// when
 			_job.Start(DummyCallback);
 
 			// then
-			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
 			Assert.InRange(_callbackCount, 3, Int32.MaxValue);
 
 			_job.Stop();
 			int localCallbackStore = _callbackCount;
-			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
-			NUnitAssert.That(_callbackCount, Is.EqualTo(localCallbackStore));
+			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
+			Assert.Equal(_callbackCount, localCallbackStore);
 		}
 
 		[Fact]
@@ -69,7 +81,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 
 			// when
 			_job.Start();
-			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 milli
+			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
 
 			// then
 			_repositoryMock

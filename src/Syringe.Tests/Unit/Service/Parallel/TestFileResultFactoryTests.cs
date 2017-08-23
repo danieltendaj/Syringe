@@ -24,10 +24,10 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(null, true, timeTaken);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.Finished, Is.False);
-			NUnitAssert.That(result.TimeTaken, Is.EqualTo(timeTaken));
-			NUnitAssert.That(result.ErrorMessage, Is.EqualTo("The runner timed out."));
+			Assert.NotNull(result);
+			Assert.False(result.Finished);
+			Assert.Equal(result.TimeTaken, timeTaken);
+			Assert.Equal(result.ErrorMessage, "The runner timed out.");
 		}
 
 		[Fact]
@@ -45,10 +45,9 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, timeTaken);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.Finished, Is.False);
-			NUnitAssert.That(result.TimeTaken, Is.EqualTo(timeTaken));
-			NUnitAssert.That(result.ErrorMessage, Is.EqualTo(runnerInfo.Errors));
+			Assert.NotNull(result);
+			Assert.Equal(result.TimeTaken, timeTaken);
+			Assert.Equal(result.ErrorMessage, runnerInfo.Errors);
 		}
 
 		[Theory]
@@ -67,17 +66,17 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.ErrorMessage, Is.EqualTo(string.Empty));
-			NUnitAssert.That(result.TestResults, Is.EqualTo(new LightweightResult[0]));
+			Assert.NotNull(result);
+			Assert.Equal(result.ErrorMessage, string.Empty);
+			Assert.Equal(result.TestResults, new LightweightResult[0]);
 
 			if (idExists)
 			{
-				NUnitAssert.That(result.ResultId, Is.EqualTo(runnerInfo.TestFileResults.Id));
+				Assert.Equal(result.ResultId, runnerInfo.TestFileResults.Id);
 			}
 			else
 			{
-				NUnitAssert.That(result.ResultId, Is.Null);
+				Assert.Null(result.ResultId);
 			}
 		}
 
@@ -104,10 +103,10 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.ErrorMessage, Is.EqualTo(string.Empty));
-			NUnitAssert.That(result.HasFailedTests, Is.EqualTo(hasFailedTests));
-			NUnitAssert.That(result.TestResults.Count(), Is.EqualTo(2));
+			Assert.NotNull(result);
+			Assert.Empty(result.ErrorMessage);
+			Assert.Equal(result.HasFailedTests, hasFailedTests);
+			Assert.Equal(result.TestResults.Count(), 2);
 		}
 
 		[Theory]
@@ -139,9 +138,10 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, timeTaken);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.Finished, Is.EqualTo(completed));
-			NUnitAssert.That(result.TestRunFailed, Is.EqualTo(!completed));
+			Assert.NotNull(result);
+			Assert.Empty(result.ErrorMessage);
+			Assert.Equal(result.Finished, completed);
+			Assert.Equal(result.TestRunFailed, !completed);
 		}
 
 		[Fact]
@@ -156,9 +156,9 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, timeTaken);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.TimeTaken, Is.EqualTo(timeTaken));
-			NUnitAssert.That(result.TestResults, Is.EqualTo(new LightweightResult[0]));
+			Assert.NotNull(result);
+			Assert.Equal(result.TimeTaken, timeTaken);
+			Assert.Equal(result.TestResults, new LightweightResult[0]);
 		}
 
 		[Fact]
@@ -178,8 +178,8 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.TimeTaken, Is.EqualTo(runnerInfo.TestFileResults.TotalRunTime));
+			Assert.NotNull(result);
+			Assert.Equal(result.TimeTaken, runnerInfo.TestFileResults.TotalRunTime);
 		}
 
 		[Fact]
@@ -214,20 +214,20 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var result = factory.Create(runnerInfo, false, TimeSpan.Zero);
 
 			// then
-			NUnitAssert.That(result, Is.Not.Null);
-			NUnitAssert.That(result.TestResults.Count(), Is.EqualTo(1));
+			Assert.NotNull(result);
+			Assert.Equal(result.TestResults.Count(), 1);
 
 			var result1 = result.TestResults.First();
-			NUnitAssert.That(result1.Success, Is.EqualTo(testResult.Success));
-			NUnitAssert.That(result1.Message, Is.EqualTo(testResult.Message));
-			NUnitAssert.That(result1.ExceptionMessage, Is.EqualTo(testResult.ExceptionMessage));
-			NUnitAssert.That(result1.AssertionsSuccess, Is.EqualTo(testResult.AssertionsSuccess));
-			NUnitAssert.That(result1.ScriptCompilationSuccess, Is.EqualTo(testResult.ScriptCompilationSuccess));
-			NUnitAssert.That(result1.ResponseTime, Is.EqualTo(testResult.ResponseTime));
-			NUnitAssert.That(result1.ResponseCodeSuccess, Is.EqualTo(testResult.ResponseCodeSuccess));
-			NUnitAssert.That(result1.ActualUrl, Is.EqualTo(testResult.ActualUrl));
-			NUnitAssert.That(result1.TestUrl, Is.EqualTo(testResult.Test.Url));
-			NUnitAssert.That(result1.TestDescription, Is.EqualTo(testResult.Test.Description));
+			Assert.Equal(result1.Success, testResult.Success);
+			Assert.Equal(result1.Message, testResult.Message);
+			Assert.Equal(result1.ExceptionMessage, testResult.ExceptionMessage);
+			Assert.Equal(result1.AssertionsSuccess, testResult.AssertionsSuccess);
+			Assert.Equal(result1.ScriptCompilationSuccess, testResult.ScriptCompilationSuccess);
+			Assert.Equal(result1.ResponseTime, testResult.ResponseTime);
+			Assert.Equal(result1.ResponseCodeSuccess, testResult.ResponseCodeSuccess);
+			Assert.Equal(result1.ActualUrl, testResult.ActualUrl);
+			Assert.Equal(result1.TestUrl, testResult.Test.Url);
+			Assert.Equal(result1.TestDescription, testResult.Test.Description);
 		}
 	}
 }

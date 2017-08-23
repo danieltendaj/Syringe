@@ -28,20 +28,20 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			int batchId = batchManager.StartBatch(filenames, environment, username);
 
 			// then
-			NUnitAssert.That(batchId, Is.EqualTo(1));
-			NUnitAssert.That(testFileQueue.Add_Tasks.Count, Is.EqualTo(2));
-			NUnitAssert.That(testFileQueue.Add_Tasks[0].Environment, Is.EqualTo(environment));
-			NUnitAssert.That(testFileQueue.Add_Tasks[0].Username, Is.EqualTo(username));
-			NUnitAssert.That(testFileQueue.Add_Tasks[0].Filename, Is.EqualTo(filenames[0]));
+			Assert.Equal(batchId, 1);
+			Assert.Equal(testFileQueue.Add_Tasks.Count, 2);
+			Assert.Equal(testFileQueue.Add_Tasks[0].Environment, environment);
+			Assert.Equal(testFileQueue.Add_Tasks[0].Username, username);
+			Assert.Equal(testFileQueue.Add_Tasks[0].Filename, filenames[0]);
 
-			NUnitAssert.That(testFileQueue.Add_Tasks[1].Environment, Is.EqualTo(environment));
-			NUnitAssert.That(testFileQueue.Add_Tasks[1].Username, Is.EqualTo(username));
-			NUnitAssert.That(testFileQueue.Add_Tasks[1].Filename, Is.EqualTo(filenames[1]));
+			Assert.Equal(testFileQueue.Add_Tasks[1].Environment, environment);
+			Assert.Equal(testFileQueue.Add_Tasks[1].Username, username);
+			Assert.Equal(testFileQueue.Add_Tasks[1].Filename, filenames[1]);
 
 			var taskIds = memoryCache.Get(BatchManager.KeyPrefix + batchId) as List<int>;
-			NUnitAssert.That(taskIds, Is.Not.Null);
-			NUnitAssert.That(taskIds[0], Is.EqualTo(1));
-			NUnitAssert.That(taskIds[1], Is.EqualTo(2));
+			Assert.NotNull(taskIds);
+			Assert.Equal(taskIds[0], 1);
+			Assert.Equal(taskIds[1], 2);
 		}
 
 		[Fact]
@@ -84,15 +84,15 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			BatchStatus batchStatus = batchManager.GetBatchStatus(batchId);
 
 			// then
-			NUnitAssert.That(batchStatus, Is.Not.Null);
-			NUnitAssert.That(batchStatus.BatchId, Is.EqualTo(batchId));
-			NUnitAssert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
-			NUnitAssert.That(batchStatus.BatchFinished, Is.True);
-			NUnitAssert.That(batchStatus.AllTestsPassed, Is.True);
-			NUnitAssert.That(batchStatus.TestFilesRunning, Is.EqualTo(0));
-			NUnitAssert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
+			Assert.NotNull(batchStatus);
+			Assert.Equal(batchStatus.BatchId, batchId);
+			Assert.Equal(batchStatus.TestFilesResultIds.First(), runResult.ResultId);
+			Assert.Equal(batchStatus.BatchFinished, Is.True);
+			Assert.Equal(batchStatus.AllTestsPassed, Is.True);
+			Assert.Equal(batchStatus.TestFilesRunning, 0);
+			Assert.Equal(batchStatus.TestFilesFinished, 1);
 			Assert.Empty(batchStatus.TestFilesWithFailedTests);
-			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
+			Assert.Equal(batchStatus.TestFilesFailed, 0);
 			Assert.Empty(batchStatus.FailedTasks);
 		}
 
@@ -121,13 +121,13 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			BatchStatus batchStatus = batchManager.GetBatchStatus(batchId);
 
 			// then
-			NUnitAssert.That(batchStatus, Is.Not.Null);
-			NUnitAssert.That(batchStatus.BatchFinished, Is.True);
-			NUnitAssert.That(batchStatus.AllTestsPassed, Is.False);
-			NUnitAssert.That(batchStatus.TestFilesFinished, Is.EqualTo(1));
-			NUnitAssert.That(batchStatus.TestFilesWithFailedTests.First(), Is.EqualTo(runResult.ResultId));
-			NUnitAssert.That(batchStatus.TestFilesResultIds.First(), Is.EqualTo(runResult.ResultId));
-			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(0));
+			Assert.NotNull(batchStatus);
+			Assert.True(batchStatus.BatchFinished);
+			Assert.False(batchStatus.AllTestsPassed);
+			Assert.Equal(batchStatus.TestFilesFinished, 1);
+			Assert.Equal(batchStatus.TestFilesWithFailedTests.First(), runResult.ResultId);
+			Assert.Equal(batchStatus.TestFilesResultIds.First(), runResult.ResultId);
+			Assert.Equal(batchStatus.TestFilesFailed, 0);
 			Assert.Empty(batchStatus.FailedTasks);
 		}
 
@@ -156,14 +156,14 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			BatchStatus batchStatus = batchManager.GetBatchStatus(batchId);
 
 			// then
-			NUnitAssert.That(batchStatus, Is.Not.Null);
-			NUnitAssert.That(batchStatus.BatchFinished, Is.False);
-			NUnitAssert.That(batchStatus.AllTestsPassed, Is.False);
-			NUnitAssert.That(batchStatus.TestFilesFinished, Is.EqualTo(0));
+			Assert.NotNull(batchStatus);
+			Assert.False(batchStatus.BatchFinished);
+			Assert.False(batchStatus.AllTestsPassed);
+			Assert.Equal(batchStatus.TestFilesFinished, 0);
 			Assert.Empty(batchStatus.TestFilesWithFailedTests);
 			Assert.Empty(batchStatus.TestFilesResultIds);
-			NUnitAssert.That(batchStatus.TestFilesFailed, Is.EqualTo(1));
-			NUnitAssert.That(batchStatus.FailedTasks.First(), Is.EqualTo(5));
+			Assert.Equal(batchStatus.TestFilesFailed, 1);
+			Assert.Equal(batchStatus.FailedTasks.First(), 5);
 		}
 
 		private static TestFileRunResult GenerateStubTestFileResult(bool failedTests = false, bool taskFails = false)
