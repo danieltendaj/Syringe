@@ -25,7 +25,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 	{
 		private IContainer GetContainer(IConfigurationStore store)
 		{
-			var registry = new ServiceRegistry();
+			var registry = new ServiceRegistry(store);
 			var container = new Container(c =>
 			{
 				c.AddRegistry(registry);
@@ -61,52 +61,58 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		}
 
 		// TODO: services
-		//[Fact]
-		//public void configurationstore_should_be_called()
-		//{
-		//	// given
-		//	var configuration = new JsonConfiguration()
-		//	{
-		//		WebsiteUrl = "http://www.ee.i.eee.io"
-		//	};
+		[Fact]
+		public void configurationstore_should_be_called()
+		{
+			// given
+			var configuration = new JsonConfiguration()
+			{
+				Settings = new Settings()
+				{
+					WebsiteUrl = "http://www.ee.i.eee.io"
+				}
+			};
 
-		//	var configStoreMock = new Mock<IConfigurationStore>();
-		//	configStoreMock.Setup(x => x.Load())
-		//		.Returns(configuration)
-		//		.Verifiable("Load wasn't called");
+			var configStoreMock = new Mock<IConfigurationStore>();
+			configStoreMock.Setup(x => x.Load())
+				.Returns(configuration)
+				.Verifiable("Load wasn't called");
 
-		//	IContainer container = GetContainer(configStoreMock.Object);
+			IContainer container = GetContainer(configStoreMock.Object);
 
-		//	// when
-		//	var instance = container.GetInstance<IConfiguration>();
+			// when
+			var instance = container.GetInstance<IConfiguration>();
 
-		//	// then
-		//	configStoreMock.Verify(x => x.Load(), Times.Once);
+			// then
+			configStoreMock.Verify(x => x.Load(), Times.Once);
 
-		//	NUnitAssert.That(instance, Is.Not.Null);
-		//	NUnitAssert.That(instance, Is.EqualTo(configuration));
-		//}
+			NUnitAssert.That(instance, Is.Not.Null);
+			NUnitAssert.That(instance, Is.EqualTo(configuration));
+		}
 
-		//[Fact]
-		//public void should_inject_key_for_encryption()
-		//{
-		//	// given
-		//	var configuration = new JsonConfiguration()
-		//	{
-		//		EncryptionKey = "my-password"
-		//	};
+		[Fact]
+		public void should_inject_key_for_encryption()
+		{
+			// given
+			var configuration = new JsonConfiguration()
+			{
+				Settings = new Settings()
+				{
+					EncryptionKey = "my-password"
+				}
+			};
 
-		//	var configStore = new ConfigurationStoreMock();
-		//	configStore.Configuration = configuration;
-		//	IContainer container = GetContainer(configStore);
+			var configStore = new ConfigurationStoreMock();
+			configStore.Configuration = configuration;
+			IContainer container = GetContainer(configStore);
 
-		//	// when
-		//	var encryptionInstance = container.GetInstance<IEncryption>() as AesEncryption;
+			// when
+			var encryptionInstance = container.GetInstance<IEncryption>() as AesEncryption;
 
-		//	// then
-		//	NUnitAssert.That(encryptionInstance, Is.Not.Null);
-		//	NUnitAssert.That(encryptionInstance.Password, Is.EqualTo("my-password"));
-		//}
+			// then
+			NUnitAssert.That(encryptionInstance, Is.Not.Null);
+			NUnitAssert.That(encryptionInstance.Password, Is.EqualTo("my-password"));
+		}
 
 		[Fact]
 		public void should_inject_context_into_testfile_repository()
@@ -161,29 +167,33 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		}
 
 		// TODO: services
-		//[Fact]
-		//public void should_use_octopus_environment_provider_when_keys_exist()
-		//{
-		//	// given
-		//	var config = new JsonConfiguration()
-		//	{
-		//		OctopusConfiguration = new OctopusConfiguration()
-		//		{
-		//			OctopusApiKey = "I've got the key",
-		//			OctopusUrl = "http://localhost"
-		//		}
-		//	};
-		//	var configStoreMock = new ConfigurationStoreMock();
-		//	configStoreMock.Configuration = config;
-		//	IContainer container = GetContainer(configStoreMock);
+		[Fact]
+		public void should_use_octopus_environment_provider_when_keys_exist()
+		{
+			// given
+			var config = new JsonConfiguration()
+			{
+				Settings = new Settings()
+				{
+					OctopusConfiguration = new OctopusConfiguration()
+					{
+						OctopusApiKey = "I've got the key",
+						OctopusUrl = "http://localhost"
+					}
+				}
+			};
 
-		//	// when + then
-		//	AssertDefaultType<IOctopusRepositoryFactory, OctopusRepositoryFactory>(container);
+			var configStoreMock = new ConfigurationStoreMock();
+			configStoreMock.Configuration = config;
+			IContainer container = GetContainer(configStoreMock);
 
-		//	var octopusRepository = container.GetInstance<IOctopusRepository>() as OctopusRepository;
-		//	NUnitAssert.That(octopusRepository, Is.Not.Null);
+			// when + then
+			AssertDefaultType<IOctopusRepositoryFactory, OctopusRepositoryFactory>(container);
 
-		//	AssertDefaultType<IEnvironmentProvider, OctopusEnvironmentProvider>(container);
-		//}
+			var octopusRepository = container.GetInstance<IOctopusRepository>() as OctopusRepository;
+			Assert.NotNull(octopusRepository);
+
+			AssertDefaultType<IEnvironmentProvider, OctopusEnvironmentProvider>(container);
+		}
 	}
 }

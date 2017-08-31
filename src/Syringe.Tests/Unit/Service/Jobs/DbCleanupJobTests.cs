@@ -11,19 +11,13 @@ namespace Syringe.Tests.Unit.Service.Jobs
 {
 	public class DbCleanupJobTests
 	{
-		private readonly Mock<IConfiguration> _configurationMock;
 		private readonly Mock<ITestFileResultRepository> _repositoryMock;
 		private int _callbackCount;
-		private DbCleanupJob _job;
 
 		public DbCleanupJobTests()
 		{
 			_callbackCount = 0;
-			_configurationMock = new Mock<IConfiguration>();
-			_configurationMock.Setup(x => x.Settings).Returns(new Settings());
-
 			_repositoryMock = new Mock<ITestFileResultRepository>();
-			_job = new DbCleanupJob(_configurationMock.Object, _repositoryMock.Object);
 		}
 
 		[Fact]
@@ -36,12 +30,16 @@ namespace Syringe.Tests.Unit.Service.Jobs
 				DaysOfDataRetention = expectedDaysOfRetention
 			};
 
-			_configurationMock
+			var configurationMock = new Mock<IConfiguration>();
+			configurationMock
+				.SetupAllProperties()
 				.Setup(x => x.Settings)
 				.Returns(settings);
 
+			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
+
 			// when
-			_job.Cleanup(null);
+			job.Cleanup(null);
 
 			// then
 			_repositoryMock
@@ -57,18 +55,22 @@ namespace Syringe.Tests.Unit.Service.Jobs
 				CleanupSchedule = new TimeSpan(0, 0, 0, 0, 10)
 			};
 
-			_configurationMock
+			var configurationMock = new Mock<IConfiguration>();
+			configurationMock
+				.SetupAllProperties()
 				.Setup(x => x.Settings)
 				.Returns(settings); // 10 ms
 
+			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
+
 			// when
-			_job.Start(DummyCallback);
+			job.Start(DummyCallback);
 
 			// then
 			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
 			Assert.InRange(_callbackCount, 3, Int32.MaxValue);
 
-			_job.Stop();
+			job.Stop();
 			int localCallbackStore = _callbackCount;
 			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
 			Assert.Equal(_callbackCount, localCallbackStore);
@@ -78,16 +80,28 @@ namespace Syringe.Tests.Unit.Service.Jobs
 		public void start_should_clear_data()
 		{
 			// given
+			var settings = new Settings()
+			{
+				CleanupSchedule = new TimeSpan(0, 0, 0, 0, 10)
+			};
+
+			var configurationMock = new Mock<IConfiguration>();
+			configurationMock
+				.SetupAllProperties()
+				.Setup(x => x.Settings)
+				.Returns(settings); // 10 ms
+
+			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
 
 			// when
-			_job.Start();
+			job.Start();
 			Thread.Sleep(new TimeSpan(0, 0, 0, 0, 50)); // 50 ms
 
 			// then
 			_repositoryMock
 				.Verify(x => x.DeleteBeforeDate(It.IsAny<DateTime>()), Times.AtLeastOnce);
 
-			_job.Stop();
+			job.Stop();
 		}
 
 		private void DummyCallback(object guff)

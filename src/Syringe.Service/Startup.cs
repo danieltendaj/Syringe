@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using Serilog;
 using StructureMap;
+using Syringe.Core.Configuration;
 using Syringe.Service.DependencyResolution;
 
 namespace Syringe.Service
@@ -34,7 +35,8 @@ namespace Syringe.Service
 			var container = new Container();
 			container.Configure(config =>
 			{
-				config.AddRegistry(new ServiceRegistry());
+				var jsonConfigurationStore = new JsonConfigurationStore();
+				config.AddRegistry(new ServiceRegistry(jsonConfigurationStore));
 				config.Populate(services);
 			});
 

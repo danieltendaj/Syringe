@@ -19,7 +19,7 @@ namespace Syringe.Service.DependencyResolution
 {
 	public class ServiceRegistry : Registry
 	{
-		public ServiceRegistry()
+		public ServiceRegistry(IConfigurationStore configurationStore)
 		{
 			Scan(
 				scan =>
@@ -31,7 +31,7 @@ namespace Syringe.Service.DependencyResolution
 
 			For<Startup>().Use<Startup>().Singleton();
 
-			For<IConfigurationStore>().Use(x => new JsonConfigurationStore()).Singleton();
+			For<IConfigurationStore>().Use(configurationStore).Singleton();
 			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load()).Singleton();
 
 			For<IEncryption>().Use(x => new AesEncryption(x.GetInstance<IConfiguration>().Settings.EncryptionKey));
