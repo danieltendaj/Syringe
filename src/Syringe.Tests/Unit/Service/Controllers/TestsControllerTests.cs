@@ -34,8 +34,8 @@ namespace Syringe.Tests.Unit.Service.Controllers
 			bool result = controller.CopyTest(expectedPosition, expectedFilename);
 
 			// then
-			NUnitAssert.That(result, Is.EqualTo(expectedResult));
-			NUnitAssert.That(expectedExistingTest.Description, Is.EqualTo("Copy of Initial description"));
+			Assert.Equal(expectedResult, result);
+			Assert.Equal("Copy of Initial description", expectedExistingTest.Description);
 		}
 
 		[Theory]
@@ -63,8 +63,8 @@ namespace Syringe.Tests.Unit.Service.Controllers
 			bool result = controller.CopyTestFile(sourceFilename, targetFilename);
 
 			// then
-			NUnitAssert.That(result, Is.EqualTo(expectedResult));
-			NUnitAssert.That(expectedExistingTestFile.Filename, Is.EqualTo(targetFilename));
+			Assert.Equal(expectedResult, result);
+			Assert.Equal(expectedExistingTestFile.Filename, targetFilename);
 		}
 	}
 }

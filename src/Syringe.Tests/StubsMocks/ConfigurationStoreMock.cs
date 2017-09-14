@@ -1,4 +1,6 @@
-﻿using Syringe.Core.Configuration;
+﻿using System.Collections.Generic;
+using Syringe.Core.Configuration;
+using Syringe.Core.Environment;
 
 namespace Syringe.Tests.StubsMocks
 {
@@ -8,7 +10,11 @@ namespace Syringe.Tests.StubsMocks
 
 		public ConfigurationStoreMock()
 		{
-			Configuration = new JsonConfiguration();
+			Configuration = new JsonConfiguration()
+			{
+				Environments = new List<Environment>(),
+				Settings = new Settings()
+			};
 		}
 
 		public IConfiguration Load()
@@ -16,9 +22,9 @@ namespace Syringe.Tests.StubsMocks
 			return Configuration;
 		}
 
-	    public string ResolveConfigFile(string fileName)
-	    {
-	        throw new System.NotImplementedException();
-	    }
+		public string ResolveConfigFile(string fileName)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

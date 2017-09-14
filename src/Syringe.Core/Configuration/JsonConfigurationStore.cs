@@ -56,6 +56,9 @@ namespace Syringe.Core.Configuration
 
 			if (string.IsNullOrWhiteSpace(_jsonConfiguration.Settings.TestFilesBaseDirectory))
 				_jsonConfiguration.Settings.TestFilesBaseDirectory = Path.Combine(Directory.GetCurrentDirectory(), "ScriptSnippets");
+
+			if (string.IsNullOrEmpty(_jsonConfiguration.Settings.EncryptionKey))
+				_jsonConfiguration.Settings.EncryptionKey = "SyringeSyringe123";
 		}
 
 		private void EnsureEnvironments()

@@ -29,7 +29,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var testFile = assembler.AssembleTestFile(filename, null);
 
 			// then
-			NUnitAssert.That(testFile, Is.EqualTo(expectedTestFile));
+			Assert.Equal(testFile, expectedTestFile);
 		}
 
 		[Theory]
@@ -51,14 +51,14 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", environment);
 
 			// then
-			NUnitAssert.That(testFile.Variables.Count, Is.EqualTo(2));
+			Assert.Equal(2, testFile.Variables.Count);
 			var var1 = testFile.Variables.First(x => x.Name == "my-var-1");
-			NUnitAssert.That(var1.Value, Is.EqualTo("abc"));
-			NUnitAssert.That(var1.Environment.Name, Is.EqualTo(environment));
+			Assert.Equal("abc", var1.Value);
+			Assert.Equal(var1.Environment.Name, environment);
 
 			var var2 = testFile.Variables.First(x => x.Name == "my-var-2");
-			NUnitAssert.That(var2.Value, Is.EqualTo("cba"));
-			NUnitAssert.That(var2.Environment.Name, Is.EqualTo(environment));
+			Assert.Equal("cba", var2.Value);
+			Assert.Equal(var2.Environment.Name, environment);
 		}
 
 		[Fact]
@@ -86,18 +86,18 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", environment);
 
 			// then
-			NUnitAssert.That(testFile.Variables.Count, Is.EqualTo(3));
+			Assert.Equal(3, testFile.Variables.Count);
 			var var1 = testFile.Variables.First(x => x.Name == "my-var-1");
-			NUnitAssert.That(var1.Value, Is.EqualTo("abc"));
-			NUnitAssert.That(var1.Environment.Name, Is.EqualTo(environment));
+			Assert.Equal("abc", var1.Value);
+			Assert.Equal(var1.Environment.Name, environment);
 
 			var var2 = testFile.Variables.First(x => x.Name == "my-var-2");
-			NUnitAssert.That(var2.Value, Is.EqualTo("cba"));
-			NUnitAssert.That(var2.Environment.Name, Is.EqualTo(environment));
+			Assert.Equal("cba", var2.Value);
+			Assert.Equal(var2.Environment.Name, environment);
 
 			var existingVar = testFile.Variables.First(x => x.Name == "existing-var");
-			NUnitAssert.That(existingVar.Value, Is.EqualTo("doobeedoo"));
-			NUnitAssert.That(existingVar.Environment.Name, Is.EqualTo("hi"));
+			Assert.Equal("doobeedoo", existingVar.Value);
+			Assert.Equal("hi", existingVar.Environment.Name);
 		}
 
 		[Fact]
@@ -114,7 +114,7 @@ namespace Syringe.Tests.Unit.Service.Parallel
 			var testFile = assembler.AssembleTestFile(filename + "?my-var-1=abc&my-var-2=cba", null);
 
 			// then
-			NUnitAssert.That(testFile, Is.Null);
+			Assert.Equal(testFile, Is.Null);
 		}
 	}
 }

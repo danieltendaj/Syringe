@@ -13,12 +13,10 @@ namespace Syringe.Core.Http
 	public class HttpClientAdapter : IHttpClientAdapter
 	{
 		private readonly HttpClient _httpClient;
-		private readonly CookieContainer _cookieContainer;
 
 		public HttpClientAdapter(HttpClient httpClient)
 		{
 			_httpClient = httpClient;
-			_cookieContainer = new CookieContainer();
 		}
 
 		public async Task<HttpResponse> SendAsync(HttpLogWriter httpLogWriter, string httpMethod, string url, string postBody, IEnumerable<HeaderItem> headers)

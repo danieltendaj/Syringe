@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Options;
 using Moq;
 using StructureMap;
 using Syringe.Core.Configuration;
@@ -12,6 +13,7 @@ using Syringe.Core.Tests.Repositories.Json.Reader;
 using Syringe.Core.Tests.Repositories.Json.Writer;
 using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
+using Syringe.Core.Tests.Variables.SharedVariables;
 using Syringe.Service;
 using Syringe.Service.DependencyResolution;
 using Syringe.Service.Parallel;
@@ -30,6 +32,8 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			{
 				c.AddRegistry(registry);
 			});
+
+			//container.AssertConfigurationIsValid();
 
 			return container;
 		}
@@ -50,17 +54,21 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		[Fact]
 		public void should_inject_default_types()
 		{
-			AssertDefaultType<Startup, Startup>();
 			AssertDefaultType<IConfigurationStore, ConfigurationStoreMock>(); // ConfigurationStoreMock from this test
 			AssertDefaultType<IConfiguration, JsonConfiguration>();
 			AssertDefaultType<IVariableEncryptor, VariableEncryptor>();
+			AssertDefaultType<IOptions<SharedVariables>, OptionsWrapper<SharedVariables>>();
 
-			AssertDefaultType<ITestFileResultRepository, MongoTestFileResultRepository>();
+			AssertDefaultType<ITestFileResultRepository, PostgresTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
 			AssertDefaultType<ITestFileRunnerLogger, TestFileRunnerLogger>();
 		}
 
-		// TODO: services
+		[Fact(DisplayName = "IOptions", Skip = "TODO")]
+		public void should_inject_ioptions()
+		{
+		}
+
 		[Fact]
 		public void configurationstore_should_be_called()
 		{
@@ -84,10 +92,10 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			var instance = container.GetInstance<IConfiguration>();
 
 			// then
-			configStoreMock.Verify(x => x.Load(), Times.Once);
+			configStoreMock.Verify(x => x.Load(), Times.AtLeastOnce);
 
-			NUnitAssert.That(instance, Is.Not.Null);
-			NUnitAssert.That(instance, Is.EqualTo(configuration));
+			Assert.NotNull(instance);
+			Assert.Equal(instance, configuration);
 		}
 
 		[Fact]
@@ -110,8 +118,8 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			var encryptionInstance = container.GetInstance<IEncryption>() as AesEncryption;
 
 			// then
-			NUnitAssert.That(encryptionInstance, Is.Not.Null);
-			NUnitAssert.That(encryptionInstance.Password, Is.EqualTo("my-password"));
+			Assert.NotNull(encryptionInstance);
+			Assert.Equal("my-password", encryptionInstance.Password);
 		}
 
 		[Fact]
@@ -124,9 +132,9 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			var instance = container.GetInstance<ITestFileResultRepositoryFactory>() as TestFileResultRepositoryFactory;
 
 			// then
-			NUnitAssert.That(instance, Is.Not.Null);
-			NUnitAssert.That(instance.Context, Is.Not.Null);
-			Assert.IsType<IContext>(instance.Context);
+			Assert.NotNull(instance);
+			Assert.NotNull(instance.Context);
+			Assert.IsAssignableFrom<IContext>(instance.Context);
 		}
 
 		[Fact]
@@ -139,8 +147,8 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			var instance = container.GetInstance<ITaskObserver>() as ITestFileQueue;
 
 			// then
-			NUnitAssert.That(instance, Is.Not.Null);
-			Assert.IsType<ITestFileQueue>(instance);
+			Assert.NotNull(instance);
+			Assert.IsAssignableFrom<ITestFileQueue>(instance);
 		}
 
 		[Fact]
@@ -153,8 +161,8 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			var instance = container.GetInstance<IReservedVariableProvider>() as ReservedVariableProvider;
 
 			// then
-			NUnitAssert.That(instance, Is.Not.Null);
-			NUnitAssert.That(instance.Environment, Is.EqualTo("<environment here>"));
+			Assert.NotNull(instance);
+			Assert.Equal("<environment here>", instance.Environment);
 		}
 
 		[Fact]
@@ -166,7 +174,6 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 			AssertDefaultType<ITestFileWriter, TestFileWriter>();
 		}
 
-		// TODO: services
 		[Fact]
 		public void should_use_octopus_environment_provider_when_keys_exist()
 		{

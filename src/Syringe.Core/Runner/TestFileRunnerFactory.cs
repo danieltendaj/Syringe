@@ -12,20 +12,16 @@ namespace Syringe.Core.Runner
 		private readonly IConfiguration _configuration;
 		private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
 		private readonly ITestFileRunnerLoggerFactory _loggerFactory;
-		private static readonly HttpClient _httpClient;
-
-		static TestFileRunnerFactory()
-		{
-			_httpClient = new HttpClient();
-		}
+		private readonly HttpClient _httpClient;
 
 		public TestFileRunnerFactory(ITestFileResultRepositoryFactory repositoryFactory, IConfiguration configuration,
-			ICapturedVariableProviderFactory capturedVariableProviderFactory, ITestFileRunnerLoggerFactory loggerFactory)
+			ICapturedVariableProviderFactory capturedVariableProviderFactory, ITestFileRunnerLoggerFactory loggerFactory, HttpClient httpClient)
 		{
 			_repositoryFactory = repositoryFactory;
 			_configuration = configuration;
 			_capturedVariableProviderFactory = capturedVariableProviderFactory;
 			_loggerFactory = loggerFactory;
+			_httpClient = httpClient;
 		}
 
 		public TestFileRunner Create()
