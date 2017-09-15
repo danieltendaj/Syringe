@@ -8,20 +8,20 @@ namespace Syringe.Tests.StubsMocks
 {
 	public class ConfigurationServiceMock : IConfigurationService
 	{
-		public IConfiguration Configuration { get; set; }
+		public Settings Settings { get; set; }
 		public List<Variable> SystemVariables { get; set; }
 		public List<string> SnippetFilenames { get; set; }
 
 		public ConfigurationServiceMock()
 		{
-			Configuration = new JsonConfiguration();
+			Settings = new Settings();
 			SystemVariables = new List<Variable>();
 			SnippetFilenames = new List<string>();
 		}
 
-		public IConfiguration GetConfiguration()
+		public Settings GetSettings()
 		{
-			return Configuration;
+			return Settings;
 		}
 
 		public IEnumerable<IVariable> GetSystemVariables()

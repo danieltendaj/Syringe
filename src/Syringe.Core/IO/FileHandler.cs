@@ -8,12 +8,12 @@ namespace Syringe.Core.IO
 {
 	public class FileHandler : IFileHandler
 	{
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 		private const string FileExtension = "json";
 
-		public FileHandler(IConfiguration configuration)
+		public FileHandler(Settings settings)
 		{
-			_configuration = configuration;
+			_settings = settings;
 		}
 
 		public string GetFileFullPath(string fileName)
@@ -28,7 +28,7 @@ namespace Syringe.Core.IO
 
 		public string CreateFileFullPath(string fileName)
 		{
-			return Path.Combine(_configuration.Settings.TestFilesBaseDirectory, fileName);
+			return Path.Combine(_settings.TestFilesBaseDirectory, fileName);
 		}
 
 		public bool FileExists(string filePath)
@@ -49,7 +49,7 @@ namespace Syringe.Core.IO
 
 		public IEnumerable<string> GetFileNames()
 		{
-			string baseDirectory = _configuration.Settings.TestFilesBaseDirectory;
+			string baseDirectory = _settings.TestFilesBaseDirectory;
 
 			foreach (string file in Directory.EnumerateFiles(baseDirectory, "*." + FileExtension, SearchOption.AllDirectories))
 			{

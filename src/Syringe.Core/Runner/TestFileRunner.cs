@@ -23,7 +23,7 @@ namespace Syringe.Core.Runner
 	public class TestFileRunner : IObservable<IMessage>
 	{
 		private readonly IHttpClientAdapter _httpClientAdapter;
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 		private readonly ICapturedVariableProviderFactory _capturedVariableProviderFactory;
 		private readonly ITestFileRunnerLoggerFactory _loggerFactory;
 		private bool _isStopPending;
@@ -49,7 +49,7 @@ namespace Syringe.Core.Runner
 		public int TotalTests { get; set; }
 
 		public TestFileRunner(IHttpClientAdapter httpClientAdapter, ITestFileResultRepositoryFactory repositoryFactory,
-			IConfiguration configuration, ICapturedVariableProviderFactory capturedVariableProviderFactory,
+			Settings settings, ICapturedVariableProviderFactory capturedVariableProviderFactory,
 			ITestFileRunnerLoggerFactory loggerFactory)
 		{
 			if (httpClientAdapter == null)
@@ -62,7 +62,7 @@ namespace Syringe.Core.Runner
 				throw new ArgumentNullException(nameof(loggerFactory));
 
 			_httpClientAdapter = httpClientAdapter;
-			_configuration = configuration;
+			_settings = settings;
 			_capturedVariableProviderFactory = capturedVariableProviderFactory;
 			_loggerFactory = loggerFactory;
 			_currentResults = new List<TestResult>();

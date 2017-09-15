@@ -6,7 +6,7 @@ namespace Syringe.Web.Controllers.Attribute
 {
 	public class EditableTestsRequiredAttribute : ActionFilterAttribute, IActionFilter
 	{
-		public IConfiguration Configuration { get; set; }
+		public Settings Settings { get; set; }
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{

@@ -7,13 +7,13 @@ namespace Syringe.Service.Jobs
 {
 	public class DbCleanupJob : IDbCleanupJob
 	{
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 		private readonly ITestFileResultRepository _repository;
 		private Timer _timer;
 
-		public DbCleanupJob(IConfiguration configuration, ITestFileResultRepository repository)
+		public DbCleanupJob(Settings settings, ITestFileResultRepository repository)
 		{
-			_configuration = configuration;
+			_settings = settings;
 			_repository = repository;
 		}
 
@@ -26,7 +26,7 @@ namespace Syringe.Service.Jobs
 		{
 			if (_timer == null)
 			{
-				_timer = new Timer(callback, null, new TimeSpan(), _configuration.Settings.CleanupSchedule);
+				_timer = new Timer(callback, null, new TimeSpan(), _settings.CleanupSchedule);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace Syringe.Service.Jobs
 
 		internal void Cleanup(object guff)
 		{
-			DateTime cleanupBefore = DateTime.Today.AddDays(-_configuration.Settings.DaysOfDataRetention);
+			DateTime cleanupBefore = DateTime.Today.AddDays(-_settings.DaysOfDataRetention);
 			_repository.DeleteBeforeDate(cleanupBefore).Wait();
 		}
 	}

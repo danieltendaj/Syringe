@@ -7,6 +7,6 @@ namespace Syringe.Core.Tests.Scripting
 	{
 		public Test Test { get; set; }
 		public HttpRequestMessage Request { get; set; }
-		public IConfiguration Configuration { get; set; }
+		public Settings Settings { get; set; }
 	}
 }

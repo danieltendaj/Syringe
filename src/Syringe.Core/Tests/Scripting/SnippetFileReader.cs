@@ -7,16 +7,16 @@ namespace Syringe.Core.Tests.Scripting
 {
 	public class SnippetFileReader : ISnippetFileReader
 	{
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 
-		public SnippetFileReader(IConfiguration configuration)
+		public SnippetFileReader(Settings settings)
 		{
-			_configuration = configuration;
+			_settings = settings;
 		}
 
 		public IEnumerable<string> GetSnippetFilenames(ScriptSnippetType snippetType)
 		{
-			string fullPath = Path.Combine(_configuration.Settings.ScriptSnippetDirectory, snippetType.ToString().ToLower());
+			string fullPath = Path.Combine(_settings.ScriptSnippetDirectory, snippetType.ToString().ToLower());
 
 			IEnumerable<string> fileNames = new string[0];
 			if (Directory.Exists(fullPath))
@@ -31,7 +31,7 @@ namespace Syringe.Core.Tests.Scripting
 
 		public string ReadFile(string path)
 		{
-			string fullPath = Path.Combine(_configuration.Settings.ScriptSnippetDirectory, path);
+			string fullPath = Path.Combine(_settings.ScriptSnippetDirectory, path);
 			return File.ReadAllText(fullPath);
 		}
 	}

@@ -7,8 +7,10 @@ namespace Syringe.Core.Services
 {
 	public interface IConfigurationService
 	{
-		IConfiguration GetConfiguration();
-	    IEnumerable<IVariable> GetSystemVariables();
+		Settings GetSettings();
+
+		IEnumerable<IVariable> GetSystemVariables();
+
 		IEnumerable<string> GetScriptSnippetFilenames(ScriptSnippetType snippetType);
 	}
 }

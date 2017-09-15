@@ -3,13 +3,13 @@
 	public class OAuthConfiguration
 	{
 		public string GithubAuthClientId { get; set; }
-        public string GithubAuthClientSecret { get; set; }
+		public string GithubAuthClientSecret { get; set; }
 
-        public string GithubEnterpriseAuthorizationEndpoint { get; set; }
-        public string GithubEnterpriseTokenEndpoint { get; set; }
-        public string GithubEnterpriseUserInfoEndpoint { get; set; }
+		public string GithubEnterpriseAuthorizationEndpoint { get; set; }
+		public string GithubEnterpriseTokenEndpoint { get; set; }
+		public string GithubEnterpriseUserInfoEndpoint { get; set; }
 
-        public string GoogleAuthClientId { get; set; }
+		public string GoogleAuthClientId { get; set; }
 		public string GoogleAuthClientSecret { get; set; }
 
 		public string MicrosoftAuthClientId { get; set; }
@@ -25,11 +25,11 @@
 			MicrosoftAuthClientSecret = "";
 		}
 
-	    public bool ContainsGithubEnterpriseSettings()
-	    {
-	        return !string.IsNullOrEmpty(GithubEnterpriseAuthorizationEndpoint) &&
-	               !string.IsNullOrEmpty(GithubEnterpriseTokenEndpoint) &&
-	               !string.IsNullOrEmpty(GithubEnterpriseUserInfoEndpoint);
-	    }
+		public bool ContainsGithubEnterpriseSettings()
+		{
+			return !string.IsNullOrEmpty(GithubEnterpriseAuthorizationEndpoint) &&
+				   !string.IsNullOrEmpty(GithubEnterpriseTokenEndpoint) &&
+				   !string.IsNullOrEmpty(GithubEnterpriseUserInfoEndpoint);
+		}
 	}
 }

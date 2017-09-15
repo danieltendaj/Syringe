@@ -4,11 +4,11 @@ namespace Syringe.Core.Extensions
 {
 	public static class ConfigurationExtensions
 	{
-		public static bool ContainsOAuthCredentials(this IConfiguration configuration)
+		public static bool ContainsOAuthCredentials(this Settings settings)
 		{
-			return (!string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.GoogleAuthClientId) && !string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.GoogleAuthClientSecret))
-				   || (!string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.MicrosoftAuthClientId) && !string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.MicrosoftAuthClientSecret))
-				   || (!string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.GithubAuthClientId) && !string.IsNullOrEmpty(configuration.Settings.OAuthConfiguration?.GithubAuthClientSecret));
+			return (!string.IsNullOrEmpty(settings.OAuthConfiguration?.GoogleAuthClientId) && !string.IsNullOrEmpty(settings.OAuthConfiguration?.GoogleAuthClientSecret))
+				   || (!string.IsNullOrEmpty(settings.OAuthConfiguration?.MicrosoftAuthClientId) && !string.IsNullOrEmpty(settings.OAuthConfiguration?.MicrosoftAuthClientSecret))
+				   || (!string.IsNullOrEmpty(settings.OAuthConfiguration?.GithubAuthClientId) && !string.IsNullOrEmpty(settings.OAuthConfiguration?.GithubAuthClientSecret));
 		}
 	}
 }

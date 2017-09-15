@@ -30,13 +30,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 				DaysOfDataRetention = expectedDaysOfRetention
 			};
 
-			var configurationMock = new Mock<IConfiguration>();
-			configurationMock
-				.SetupAllProperties()
-				.Setup(x => x.Settings)
-				.Returns(settings);
-
-			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
+			var job = new DbCleanupJob(settings, _repositoryMock.Object);
 
 			// when
 			job.Cleanup(null);
@@ -55,13 +49,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 				CleanupSchedule = new TimeSpan(0, 0, 0, 0, 10)
 			};
 
-			var configurationMock = new Mock<IConfiguration>();
-			configurationMock
-				.SetupAllProperties()
-				.Setup(x => x.Settings)
-				.Returns(settings); // 10 ms
-
-			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
+			var job = new DbCleanupJob(settings, _repositoryMock.Object);
 
 			// when
 			job.Start(DummyCallback);
@@ -85,13 +73,7 @@ namespace Syringe.Tests.Unit.Service.Jobs
 				CleanupSchedule = new TimeSpan(0, 0, 0, 0, 10)
 			};
 
-			var configurationMock = new Mock<IConfiguration>();
-			configurationMock
-				.SetupAllProperties()
-				.Setup(x => x.Settings)
-				.Returns(settings); // 10 ms
-
-			var job = new DbCleanupJob(configurationMock.Object, _repositoryMock.Object);
+			var job = new DbCleanupJob(settings, _repositoryMock.Object);
 
 			// when
 			job.Start();

@@ -18,19 +18,19 @@
 			{
 				<input type="hidden" value="@Model.ReturnUrl" />
 
-				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.MicrosoftAuthClientSecret))
+				if (!string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.MicrosoftAuthClientId) && !string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.MicrosoftAuthClientSecret))
 				{
 					<button type="submit" name="provider" value="Microsoft" class="btn-microsoft" style="height: 34px;">
 						<span class="fa fa-windows"></span> Sign in with Microsoft
 					</button>
 				}
-				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GoogleAuthClientSecret))
+				if (!string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.GoogleAuthClientId) && !string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.GoogleAuthClientSecret))
 				{
 					<button type="submit" name="provider" value="Google" class="btn-google" style="height: 34px;">
 						<span class="fa fa-google"></span> Sign in with Google
 					</button>
 				}
-				if (!string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(Model.Configuration.OAuthConfiguration.GithubAuthClientSecret))
+				if (!string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.GithubAuthClientId) && !string.IsNullOrEmpty(Model.Settings.OAuthConfiguration.GithubAuthClientSecret))
 				{
 					<button type="submit" name="provider" value="GitHub" class="btn-github" style="height: 34px;">
 						<span class="fa fa-github"></span> Sign in with Github

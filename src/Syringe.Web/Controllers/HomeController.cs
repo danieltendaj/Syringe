@@ -18,20 +18,20 @@ namespace Syringe.Web.Controllers
 		private readonly Func<IRunViewModel> _runViewModelFactory;
 		private readonly IHealthCheck _healthCheck;
 		private readonly IEnvironmentsService _environmentsService;
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 
 		public HomeController(
 			ITestService testsClient,
 			Func<IRunViewModel> runViewModelFactory,
 			IHealthCheck healthCheck,
 			IEnvironmentsService environmentsService,
-			IConfiguration configuration)
+			Settings settings)
 		{
 			_testsClient = testsClient;
 			_runViewModelFactory = runViewModelFactory;
 			_healthCheck = healthCheck;
 			_environmentsService = environmentsService;
-			_configuration = configuration;
+			_settings = settings;
 		}
 
 		public ActionResult Index(int pageNumber = 1, int noOfResults = 10)
@@ -51,7 +51,7 @@ namespace Syringe.Web.Controllers
 			};
 
 			string viewName = "Index";
-			if (_configuration.Settings.ReadonlyMode)
+			if (_settings.ReadonlyMode)
 			{
 				viewName = "Index-ReadonlyMode";
 			}

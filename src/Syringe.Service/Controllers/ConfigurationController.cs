@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Syringe.Core.Configuration;
 using Syringe.Core.Services;
 using Syringe.Core.Tests.Scripting;
@@ -13,24 +14,24 @@ namespace Syringe.Service.Controllers
 	[Route("api/[controller]")]
 	public class ConfigurationController : Controller, IConfigurationService
 	{
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 		private readonly ISharedVariablesProvider _sharedVariablesProvider;
 		private readonly IReservedVariableProvider _reservedVariableProvider;
 		private readonly ISnippetFileReader _snippetFileReader;
 
-		public ConfigurationController(IConfiguration configuration, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, ISnippetFileReader snippetFileReader)
+		public ConfigurationController(IOptions<Settings> settings, ISharedVariablesProvider sharedVariablesProvider, IReservedVariableProvider reservedVariableProvider, ISnippetFileReader snippetFileReader)
 		{
-			_configuration = configuration;
+			_settings = settings.Value;
 			_sharedVariablesProvider = sharedVariablesProvider;
 			_reservedVariableProvider = reservedVariableProvider;
 			_snippetFileReader = snippetFileReader;
 		}
 
-		[Route("api/configuration/")]
+		[Route("api/settings/")]
 		[HttpGet]
-		public IConfiguration GetConfiguration()
+		public Settings GetSettings()
 		{
-			return _configuration;
+			return _settings;
 		}
 
 		[Route("api/configuration/systemvariables")]

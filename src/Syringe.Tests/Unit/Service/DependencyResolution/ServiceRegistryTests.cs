@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Moq;
 using StructureMap;
@@ -25,16 +27,21 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 {
 	public class ServiceRegistryTests
 	{
-		private IContainer GetContainer(IConfigurationStore store)
+		private IContainer GetContainer(Settings settings)
 		{
-			var registry = new ServiceRegistry(store);
+			var registry = new ServiceRegistry(settings);
+
 			var container = new Container(c =>
 			{
 				c.AddRegistry(registry);
+
+				// Startup.cs injects these before Structuremap
+				c.AddType(typeof(IOptions<Settings>), typeof(OptionsWrapper<Settings>));
+				c.AddType(typeof(IOptions<SharedVariables>), typeof(OptionsWrapper<SharedVariables>));
+				c.AddType(typeof(IOptions<Syringe.Core.Environment.Environment>), typeof(OptionsWrapper<Syringe.Core.Environment.Environment>));
 			});
 
 			//container.AssertConfigurationIsValid();
-
 			return container;
 		}
 
@@ -42,10 +49,12 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		{
 			// given
 			if (container == null)
-				container = GetContainer(new ConfigurationStoreMock());
+				container = GetContainer(new Settings() { EncryptionKey = "I was injected in the test" });
 
 			// when
+			var x = container.GetInstance<Settings>();
 			TParent instance = container.GetInstance<TParent>();
+			Console.WriteLine(instance.GetType());
 
 			// then
 			Assert.IsType<TConcrete>(instance);
@@ -54,65 +63,33 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		[Fact]
 		public void should_inject_default_types()
 		{
-			AssertDefaultType<IConfigurationStore, ConfigurationStoreMock>(); // ConfigurationStoreMock from this test
-			AssertDefaultType<IConfiguration, JsonConfiguration>();
 			AssertDefaultType<IVariableEncryptor, VariableEncryptor>();
-			AssertDefaultType<IOptions<SharedVariables>, OptionsWrapper<SharedVariables>>();
-
 			AssertDefaultType<ITestFileResultRepository, PostgresTestFileResultRepository>();
 			AssertDefaultType<ITestFileQueue, ParallelTestFileQueue>();
 			AssertDefaultType<ITestFileRunnerLogger, TestFileRunnerLogger>();
 		}
 
-		[Fact(DisplayName = "IOptions", Skip = "TODO")]
+		[Fact()]//DisplayName = "IOptions", Skip = "TODO")]
 		public void should_inject_ioptions()
 		{
-		}
+			var services = new ServiceCollection();
 
-		[Fact]
-		public void configurationstore_should_be_called()
-		{
-			// given
-			var configuration = new JsonConfiguration()
-			{
-				Settings = new Settings()
-				{
-					WebsiteUrl = "http://www.ee.i.eee.io"
-				}
-			};
+			var startup = new Startup(new HostingEnvironment());
+			var x = startup.ConfigureServices(services);
 
-			var configStoreMock = new Mock<IConfigurationStore>();
-			configStoreMock.Setup(x => x.Load())
-				.Returns(configuration)
-				.Verifiable("Load wasn't called");
-
-			IContainer container = GetContainer(configStoreMock.Object);
-
-			// when
-			var instance = container.GetInstance<IConfiguration>();
-
-			// then
-			configStoreMock.Verify(x => x.Load(), Times.AtLeastOnce);
-
-			Assert.NotNull(instance);
-			Assert.Equal(instance, configuration);
+			Console.WriteLine(x.GetService<Settings>().EncryptionKey);
 		}
 
 		[Fact]
 		public void should_inject_key_for_encryption()
 		{
 			// given
-			var configuration = new JsonConfiguration()
+			var settings = new Settings()
 			{
-				Settings = new Settings()
-				{
-					EncryptionKey = "my-password"
-				}
+				EncryptionKey = "my-password"
 			};
 
-			var configStore = new ConfigurationStoreMock();
-			configStore.Configuration = configuration;
-			IContainer container = GetContainer(configStore);
+			IContainer container = GetContainer(settings);
 
 			// when
 			var encryptionInstance = container.GetInstance<IEncryption>() as AesEncryption;
@@ -126,7 +103,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		public void should_inject_context_into_testfile_repository()
 		{
 			// given
-			IContainer container = GetContainer(new ConfigurationStoreMock());
+			IContainer container = GetContainer(new Settings());
 
 			// when
 			var instance = container.GetInstance<ITestFileResultRepositoryFactory>() as TestFileResultRepositoryFactory;
@@ -141,7 +118,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		public void itaskobserver_should_be_cast_to_itestfilequeue()
 		{
 			// given
-			IContainer container = GetContainer(new ConfigurationStoreMock());
+			IContainer container = GetContainer(new Settings());
 
 			// when
 			var instance = container.GetInstance<ITaskObserver>() as ITestFileQueue;
@@ -155,7 +132,7 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		public void reservedvariableprovider_should_have_placeholder_environment()
 		{
 			// given
-			IContainer container = GetContainer(new ConfigurationStoreMock());
+			IContainer container = GetContainer(new Settings());
 
 			// when
 			var instance = container.GetInstance<IReservedVariableProvider>() as ReservedVariableProvider;
@@ -178,21 +155,16 @@ namespace Syringe.Tests.Unit.Service.DependencyResolution
 		public void should_use_octopus_environment_provider_when_keys_exist()
 		{
 			// given
-			var config = new JsonConfiguration()
+			var settings = new Settings()
 			{
-				Settings = new Settings()
+				OctopusConfiguration = new OctopusConfiguration()
 				{
-					OctopusConfiguration = new OctopusConfiguration()
-					{
-						OctopusApiKey = "I've got the key",
-						OctopusUrl = "http://localhost"
-					}
+					OctopusApiKey = "I've got the key",
+					OctopusUrl = "http://localhost"
 				}
 			};
 
-			var configStoreMock = new ConfigurationStoreMock();
-			configStoreMock.Configuration = config;
-			IContainer container = GetContainer(configStoreMock);
+			IContainer container = GetContainer(settings);
 
 			// when + then
 			AssertDefaultType<IOctopusRepositoryFactory, OctopusRepositoryFactory>(container);

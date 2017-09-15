@@ -1,22 +1,33 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSwag.AspNetCore;
 using Serilog;
 using StructureMap;
 using Syringe.Core.Configuration;
+using Syringe.Core.Environment.Json;
+using Syringe.Core.Tests.Variables.SharedVariables;
 using Syringe.Service.DependencyResolution;
 
 namespace Syringe.Service
 {
 	public class Startup
 	{
+		public IConfigurationRoot Configuration { get; set; }
+
 		public Startup(IHostingEnvironment env)
 		{
-			// ConfigurationBuilder is in JsonConfigurationStore.
+			var builder = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+				.AddEnvironmentVariables();
+
+			Configuration = builder.Build();
 
 			// Setup Sirilog
 			Log.Logger = new LoggerConfiguration()
@@ -32,11 +43,17 @@ namespace Syringe.Service
 			services.AddMvc();
 			services.AddOptions();
 
+			services.Configure<Settings>(Configuration.GetSection("Settings"));
+			services.Configure<SharedVariables>(Configuration.GetSection("SharedVariables"));
+			services.Configure<Environments>(Configuration.GetSection("Environments"));
+
 			var container = new Container();
 			container.Configure(config =>
 			{
-				var jsonConfigurationStore = new JsonConfigurationStore();
-				config.AddRegistry(new ServiceRegistry(jsonConfigurationStore));
+				var settings = new Settings();
+				Configuration.GetSection("Settings").Bind(settings);
+
+				config.AddRegistry(new ServiceRegistry(settings));
 				config.Populate(services);
 			});
 

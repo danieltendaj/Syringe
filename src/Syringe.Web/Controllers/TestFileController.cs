@@ -20,14 +20,14 @@ namespace Syringe.Web.Controllers
 		private readonly ITestService _testsClient;
 		private readonly IEnvironmentsService _environmentsService;
 		internal const string DEFAULT_ENV_VAL = "--[[Default Environment]]--";
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 		private readonly ITestFileMapper _testFileMapper;
 
-		public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService, IConfiguration configuration, ITestFileMapper testFileMapper)
+		public TestFileController(ITestService testsClient, IEnvironmentsService environmentsService, Settings settings, ITestFileMapper testFileMapper)
 		{
 			_testsClient = testsClient;
 			_environmentsService = environmentsService;
-			_configuration = configuration;
+			_settings = settings;
 			_testFileMapper = testFileMapper;
 		}
 
@@ -87,7 +87,7 @@ namespace Syringe.Web.Controllers
 			};
 
 			string viewName = "View";
-			if (_configuration.Settings.ReadonlyMode)
+			if (_settings.ReadonlyMode)
 			{
 				viewName = "View-ReadonlyMode";
 			}

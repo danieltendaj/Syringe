@@ -4,16 +4,16 @@ namespace Syringe.Web.Models
 {
 	public class AuthenticationViewModel
 	{
-		public IConfiguration Configuration { get; set; }
+		public Settings Settings { get; set; }
 		public string ReturnUrl { get; set; }
 
 		public bool IsOAuthConfigEmpty
 		{
 			get
 			{
-				return string.IsNullOrEmpty(Configuration.Settings.OAuthConfiguration.MicrosoftAuthClientId) &&
-					   string.IsNullOrEmpty(Configuration.Settings.OAuthConfiguration.GoogleAuthClientId) &&
-					   string.IsNullOrEmpty(Configuration.Settings.OAuthConfiguration.GithubAuthClientId);
+				return string.IsNullOrEmpty(Settings.OAuthConfiguration.MicrosoftAuthClientId) &&
+					   string.IsNullOrEmpty(Settings.OAuthConfiguration.GoogleAuthClientId) &&
+					   string.IsNullOrEmpty(Settings.OAuthConfiguration.GithubAuthClientId);
 			}
 		}
 	}

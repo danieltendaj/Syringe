@@ -16,12 +16,12 @@ namespace Syringe.Client
 		{
 			ServiceUrl = serviceUrl;
 			var factory = new CustomHttpClientFactory(serviceUrl);
-			_wrapper = new FlurlWrapper(factory, "/api/configuration");
+			_wrapper = new FlurlWrapper(factory, "/api/settings");
 		}
 
-		public IConfiguration GetConfiguration()
+		public Settings GetSettings()
 		{
-			return _wrapper.Get<IConfiguration>("").Result;
+			return _wrapper.Get<Settings>("").Result;
 		}
 
 		public IEnumerable<IVariable> GetSystemVariables()

@@ -13,16 +13,16 @@ namespace Syringe.Core.Tests.Scripting
 	public class TestFileScriptEvaluator
 	{
 		private readonly ISnippetFileReader _snippetReader;
-		private readonly IConfiguration _configuration;
+		private readonly Settings _settings;
 
 		public RequestGlobals RequestGlobals { get; set; }
 
-		public TestFileScriptEvaluator(IConfiguration configuration, ISnippetFileReader snippetReader)
+		public TestFileScriptEvaluator(Settings settings, ISnippetFileReader snippetReader)
 		{
 			RequestGlobals = new RequestGlobals();
-			RequestGlobals.Configuration = configuration;
+			RequestGlobals.Settings = settings;
 
-			_configuration = configuration;
+			_settings = settings;
 			_snippetReader = snippetReader;
 		}
 
@@ -38,7 +38,7 @@ namespace Syringe.Core.Tests.Scripting
 			try
 			{
 				string typeName = ScriptSnippetType.BeforeExecute.ToString().ToLower();
-				string path = Path.Combine(_configuration.Settings.ScriptSnippetDirectory, typeName, test.ScriptSnippets.BeforeExecuteFilename);
+				string path = Path.Combine(_settings.ScriptSnippetDirectory, typeName, test.ScriptSnippets.BeforeExecuteFilename);
 				scriptContent = _snippetReader.ReadFile(path);
 			}
 			catch (IOException ex)

@@ -22,13 +22,12 @@ using Syringe.Core.Tests.Variables.Encryption;
 using Syringe.Core.Tests.Variables.ReservedVariables;
 using Syringe.Core.Tests.Variables.SharedVariables;
 using Syringe.Service.Parallel;
-using IConfiguration = Syringe.Core.Configuration.IConfiguration;
 
 namespace Syringe.Service.DependencyResolution
 {
 	public class ServiceRegistry : Registry
 	{
-		public ServiceRegistry(IConfigurationStore configurationStore)
+		public ServiceRegistry(Settings settings)
 		{
 			Scan(
 				scan =>
@@ -38,18 +37,15 @@ namespace Syringe.Service.DependencyResolution
 					scan.WithDefaultConventions();
 				});
 
-			For<IConfigurationStore>().Use(configurationStore).Singleton();
-			For<IConfiguration>().Use(x => x.GetInstance<IConfigurationStore>().Load()).Singleton();
+			// IOptions to just the class
+			For<Settings>().Use(settings);
 
 			For<HttpClient>().Use(new HttpClient()).Singleton();
 			For<IHttpClientAdapter>().Use(x => new HttpClientAdapter(x.GetInstance<HttpClient>()));
-
 			For<IEncryption>().Use("IEncryption", x =>
 			{
 				// Get the encryption key
-				var config = x.GetInstance<IConfiguration>();
-				string key = config.Settings.EncryptionKey;
-
+				string key = settings.EncryptionKey;
 				return new AesEncryption(key);
 			}).Singleton();
 
@@ -66,20 +62,18 @@ namespace Syringe.Service.DependencyResolution
 			For<IBatchManager>().Use<BatchManager>().Singleton();
 			For<IReservedVariableProvider>().Use(() => new ReservedVariableProvider("<environment here>"));
 
-			// TODO: how do we get IOptions from .NET?
-			For<IOptions<SharedVariables>>().Use(() => new OptionsWrapper<SharedVariables>(new SharedVariables()));
-
 			SetupTestFileFormat();
-			SetupEnvironmentSource(configurationStore.Load());
+
+			SetupEnvironmentSource(settings);
 
 			For<IMemoryCache>().Use(new MemoryCache(new MemoryCacheOptions()));
 		}
 
-		internal void SetupEnvironmentSource(IConfiguration configuration)
+		internal void SetupEnvironmentSource(Settings settings)
 		{
 			// Environments, use Octopus if keys exist
-			bool containsOctopusApiKey = !string.IsNullOrEmpty(configuration.Settings?.OctopusConfiguration?.OctopusApiKey);
-			bool containsOctopusUrl = !string.IsNullOrEmpty(configuration.Settings?.OctopusConfiguration?.OctopusUrl);
+			bool containsOctopusApiKey = !string.IsNullOrEmpty(settings.OctopusConfiguration?.OctopusApiKey);
+			bool containsOctopusUrl = !string.IsNullOrEmpty(settings.OctopusConfiguration?.OctopusUrl);
 
 			if (containsOctopusApiKey && containsOctopusUrl)
 			{

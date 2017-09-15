@@ -22,9 +22,11 @@ namespace Syringe.Web.Controllers
 		[HttpGet]
 		public ActionResult EncryptData()
 		{
+			string encryptionKey = _configurationClient.GetSettings().EncryptionKey;
+
 			var model = new EncryptedDataViewModel()
 			{
-				IsEnabled = !string.IsNullOrEmpty(_configurationClient.GetConfiguration().Settings.EncryptionKey)
+				IsEnabled = !string.IsNullOrEmpty(encryptionKey)
 			};
 
 			return View("EncryptData", model);

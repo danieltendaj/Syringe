@@ -5,14 +5,14 @@
 		public string ConnectionString { get; set; }
 		public string DatabaseName { get; set; }
 
-		public MongoDbConfiguration(IConfiguration configuration)
+		public MongoDbConfiguration(Settings settings)
 		{
 			ConnectionString = "mongodb://localhost:27017";
 			DatabaseName = "Syringe";
 
-			if (!string.IsNullOrEmpty(configuration.Settings.MongoDbDatabaseName))
+			if (!string.IsNullOrEmpty(settings.MongoDbDatabaseName))
 			{
-				DatabaseName = configuration.Settings.MongoDbDatabaseName;
+				DatabaseName = settings.MongoDbDatabaseName;
 			}
 		}
 	}
