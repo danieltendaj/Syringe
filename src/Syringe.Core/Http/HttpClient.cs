@@ -65,28 +65,31 @@ namespace Syringe.Core.Http
 			_restClient.BaseUrl = uri;
 			_restClient.CookieContainer = _cookieContainer;
 
-			//
-			// Make the request adding the content-type, body and headers
-			//
-			Method method = GetMethodEnum(httpMethod);
-			var request = new RestRequest(method);
-			if (method == Method.POST)
-			{
-				const string contentType = "application/x-www-form-urlencoded";
+            //
+            // Make the request adding the content-type, body and headers
+            //
+            
+            Method method = GetMethodEnum(httpMethod);
+            
+            var request = new RestRequest(method);
+            var contentType = "application/x-www-form-urlencoded";
 
-				// From the RestSharp docs:
-				// "The name of the parameter will be used as the Content-Type header for the request."
-				request.AddParameter(contentType, postBody, ParameterType.RequestBody);
-			}
-
-			if (headers != null)
+            if (headers != null)
+            {
+                headers = headers.ToList();
+                foreach (var keyValuePair in headers)
+                {
+                    request.AddHeader(keyValuePair.Key, keyValuePair.Value);
+                    if (String.Compare(keyValuePair.Key, "content-type", true) == 0)
+                    {
+                        contentType = keyValuePair.Value;
+                    }
+                }
+            }
+            if (method == Method.POST)
 			{
-				headers = headers.ToList();
-				foreach (var keyValuePair in headers)
-				{
-					request.AddHeader(keyValuePair.Key, keyValuePair.Value);
-				}
-			}
+                request.AddParameter(contentType, postBody, ParameterType.RequestBody);
+            }        
 
 			return request;
 		}

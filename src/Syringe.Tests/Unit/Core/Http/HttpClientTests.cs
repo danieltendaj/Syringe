@@ -188,6 +188,31 @@ namespace Syringe.Tests.Unit.Core.Http
 			Assert.That(response.ResponseTime, Is.GreaterThanOrEqualTo(TimeSpan.FromSeconds(1)));
 		}
 
+		[Test]
+        public async Task should_post_request_use_content_type_from_header()
+        {
+            // given
+            var httpLogWriter = GetHttpLogWriter();
+            HttpClient httpClient = CreateClient(new RestResponse());
+
+            string method = "post";
+            string url = "http://www.example.com";
+            string postBody = "keywords=foo&location=london";            
+            var headers = new List<HeaderItem>()
+            {
+                new HeaderItem("content-type", "application/json"),
+            };
+            var restRequest = httpClient.CreateRestRequest(method, url, postBody, headers);
+
+            // when
+            await httpClient.ExecuteRequestAsync(restRequest, httpLogWriter);
+
+            // then
+            Parameter parameter = _restClientMock.RestRequest.Parameters.First();
+            Assert.AreEqual("content-type", parameter.Name);
+            Assert.AreEqual("application/json", parameter.Value);
+        }
+		
 		private HttpClient CreateClient(IRestResponse restResponse)
 		{
 			_restClientMock = new RestClientMock();
